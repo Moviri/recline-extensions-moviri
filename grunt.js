@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
             lint: {
-                all: ['grunt.js', 'app/lib/**/*.js']
+                all: ['grunt.js', 'src/**/*.js']
         },
         jshint: {
             options: {
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
         },
         min: {
             dist: {
-                src: ['app/lib/**/*.js'],
+                src: ['src/**/*.js'],
                 dest: 'dist/recline-extensions-moviri.min.js'
             },
             vendor: {
