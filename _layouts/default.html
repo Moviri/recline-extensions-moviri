@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+    <title>{{ page.title }}</title>
+    {% include recline-deps.html  %}
+    {% include recline-extensions-deps.html  %}
+
+<body>
+
+
+<header class="navbar navbar-inverse navbar-fixed-top">
+    {% include modules/menu/top-menu.html  %}
+</header>
+
+<div class="container-fluid">
+            {{content}}
+</div>
+
+<footer>
+</footer>
+
+</body>
+</html>
