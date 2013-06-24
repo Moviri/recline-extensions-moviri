@@ -1,0 +1,5 @@
+<h4>Generic Filter - Range Calendar</h4>
+<p>
+This example shows how to use a control filter to apply actions to a model.
+The control type for this example is "range_calendar" and allows to select a start and a stop date with an apposite calendar that pops up when clicking on "from" or "to" textbox. 
+</p>

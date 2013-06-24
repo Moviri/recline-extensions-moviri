@@ -1,0 +1,29 @@
+#my_filter {
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
+.separated-item {
+	border-right:2px ridge #ddd;
+}
+
+#my_indicator1, #my_indicator2, #my_indicator3 {
+	max-width:300px;
+}
+
+.indicator .titlerow .title {
+	font-size:18px;
+	color: blue;
+}
+
+.indicator .descriptionrow .description {
+	font-style:italic;
+	color: #3030FF;
+}
+
+.indicator .value-cell .kpi_value {
+	font-size:24px;
+	font-weight: bold;
+	color: purple;
+	text-align:center;
+}

@@ -1,0 +1,9 @@
+<h4>Generic Filter - Listbox</h4>
+<p>
+This example shows how to use a multiple selection ("list" type) control filter to apply actions to a model.
+The data model simulates a network admin case in which the sysadmin wants to monitor the network bandwidth used by employees.<br>
+The control at the top left allows the selection of one or more employee. The indicators at the top show the total value figures for download, upload and accesses for selected employees.<br>
+The chart shows the downloads (the most important KPI) for the selected employee(s) in a month's period.<br>
+The table at the bottom shows the model data for the selected employee(s).<br>
+Whenever the user selects a different value in the control (and presses the "set" button), all other views update accordingly.
+</p>

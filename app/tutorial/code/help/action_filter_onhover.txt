@@ -1,0 +1,6 @@
+<h4>Filter Actions - onHover</h4>
+<p>
+This example shows a NVD3 horizontal barchart linked to a virtualmodel (necessary for computing region totals) and a Slickgrid table linked to a filtered model containing the daily details of the revenues.<br>
+<br>
+When you hover on the chart, the slickgrid is filtered by region and shows the day-by-day data pertaining the selected bar only.
+</p>

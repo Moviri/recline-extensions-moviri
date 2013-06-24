@@ -1,0 +1,7 @@
+<h4>Generic Filter - Toolbar Horizontal</h4>
+<p>
+This example shows how to create multiple filters in a single actions and embed them in a horizontal toolbar.<br>
+The example scenario is the same SMS/messenger trend as seen in hierarchic_radiobuttons example. Only that we added a further filter on years (field "Anno")<br>
+As you can see both filters have been created inside a single multiFilterCtlr object and attached to a single action that can trigger both filters to the same model.<br>
+Finally, we declared a horizontal layout and didn't hide the background to have a toolbar-like look & feel. 
+</p>

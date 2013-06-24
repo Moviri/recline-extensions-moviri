@@ -1,0 +1,10 @@
+.s-table div.s-td.slick-cell {
+	text-align: center;
+	border-right: 1px dotted grey;
+	border-bottom: 1px dotted grey;
+}
+
+#my_filter {
+	margin-top:5px;
+	max-width:150px;
+}

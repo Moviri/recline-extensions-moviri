@@ -1,0 +1,16 @@
+<h4>Generic Filter - View.MultiButtonDropdownFilter.js</h4>
+<p>
+This tutorial shows how to use a selection control filter called View.MultiButtonDropdownFilter to apply actions to a model.<br>
+The depicted scenario is the same as in "generic filter hierarchic_radiobuttons" (messaging trend in mobile communications from 2010 to 2013)<br>
+MultiButtonDropdownFilter is, again, a custom control that allows the selection of a set of hierarchically grouped values, but allows true multiselection, even on different contexts. You may, in fact, select mix together both Android smartphones and non java stupid-phones.   
+The only drawback is that the hierarchy is restricted to 2 levels only. 
+The code to instantiate the control is almost the same as in the previous example, as you can easily see: only the name of the class to instantiate is different, and it needs less params.<br> 
+The controls exhibits 2 types of button:<br>
+<ul>
+<li>Single buttons, which have no underlying hierarchy (like "Java only" or "Non java")</li>
+<li>Dropdown buttons which have a dropdown menu</li>
+</ul>
+Pressing on a single button selects/deselects the option.
+Pressing on the ARROW part (right part) of the dropdown buttons displays the option menu where you can separately select/deselect every single option as you wish. Clicking outside the menu closes the menu and the selected options are applied and appear in the button text.<br>
+Pressing on the BUTTON part (left part) of the dropdown buttons selects/deselects all underlying options. If only some options (not all of them) already were selected, the first click selects all options again, then the second click deselects all of them.<br>
+</p>

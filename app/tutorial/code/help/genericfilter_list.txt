@@ -1,0 +1,7 @@
+<h4>Generic Filter - List</h4>
+<p>
+This example shows how to use a multiple selection ("list" type) control filter to apply actions to a model.<br>
+This is the same example for "listbox", only using a slightly different version of the control, called "list".<br>
+The main differences are in look & feel and in the fact that you don't have to press the "set" button: setting new selection(s) automatically triggers actions.  
+Note that multiple selections can be performed by pressing CTRL key only (don't use SHIFT key).
+</p>

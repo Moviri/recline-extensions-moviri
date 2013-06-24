@@ -1,0 +1,25 @@
+<h4>Generic Filter - Hierarchic Radiobuttons</h4>
+<p>
+This tutorial shows how to use a selection control filter called "hierarchic_radiobuttons" to apply actions to a model.<br>
+The depicted scenario is the current messaging trend in mobile communications from 2010 to 2013: it lists the total number of SMS (short message system) sent in the whole year and the total number of free messages sent through the internet by using messenger systems like Google Talk, Whatsapp or similar pieces of software (values have been generated randomly).   
+"Hierarchic radiobuttons" is a custom control that allows the selection of a set of hierarchically grouped values.<br>  
+
+Suppose you have the following values for the field "Tipo" in your model:<br>
+<ul>
+<li>Android.smartphone.highres</li>
+<li>Android.smartphone.lowres</li>
+<li>Android.tablet</li>
+<li>IOS.smartphone</li>
+<li>IOS.tablet.highres</li>
+<li>IOS.tablet.lowres</li>
+<li>Java_only</li>
+<li>Non_java</li>
+</ul>
+You'd want the ability to select all Android devices, or all IOS tablets. The hierarchy separator is the dot (".") character.<br>
+You provide the separator and the control logic takes care of creating all necessary levels (no more than three, however).<br>
+When the page starts the control selects "All" button: no filtering is issued. Then if the user select "Android", for instance, "Android" button turns blue and a new button set shows up tp the right, listing all possible sub-values for "Android": there are "smartphone" or "tablet" and "All". Since you didn't perform any second-level selection yet, the "All" button is selected too.
+This will filter all "Android" devices.<br>When you want to filter the second level you just have to select (for instance) "smartphone". Then the chart/indicator data is updated to reflect the change in selection (now is "Android.smartphone.*") and the third-level buttonset shows up, listing "highres" and "lowres" (and obviously "All", which is implicitly selected). If you want to drill down to any of these sub-sub-filters by clicking on any of these third level options, the final filtering is issued.<br>
+<br> 
+Keep in mind that the control is intrinsically a single selection filter, but the resulting selections can be multiple, so "term" filter type cannot be used: it must be "list".
+For instance, if you select "Android" then "Smartphone" you have two actual selections filter values: "Android.Smartphone.lowres" and "Android.Smartphone.highres".
+</p>

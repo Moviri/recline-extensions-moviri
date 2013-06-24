@@ -1,0 +1,9 @@
+<h4>View.D3GravityBubble</h4>
+<p>
+This tutorial example creates a D3bubble view. It's a control that uses as much as 5 dimensions, so choose carefully your field models, or you will only get an unreadable chart.<br>
+What really matters here is X/Y position of the circles (where one of these dimensions usually is time) the size of circles (the bigger the circle, the greater the value) and their color (every set has the same color).<br>
+You, in fact, define a total of five dimensions for this chart type: X, Y, size (often regarded as Z axis), color and key.<br>
+In our example we generate random data for all five dimensions: three are numerical (X, Y and size) and the remaining two are string types (only "color" and "key" fields can be strng types).
+Notice that on the right there are two legends, one ("colorLegend") for "colorField" and one ("sizeLegend") for "sizeField".<br>Their sizes can be changed via dedicated parameters. In our case we decided to allocate a lof of space for color legend since we know the labels are rather long.
+Hovering on circles will display tooltips. Standard tooltips can eventually be overridden with custom tooltips. Refer to official doc for generating these. Anyway there's a very similar example for custom tooltips in D3GravityBubble that only needs minor adjustements to be adapted for this chart type (labels must have different names). 
+</p>

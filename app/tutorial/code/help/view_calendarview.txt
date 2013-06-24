@@ -1,0 +1,7 @@
+<h4>View.CalendarView</h4>
+<p>
+A calendar view is a tabular view that shows at a glance which days went good and which days went bad.
+By default it displays full years, depending on the data available. If more than a year is present on the model, more yearly views are generated.<br> 
+Hovering on a date will tell which date is it and the corresponding value. The colors red/yellow/green tell the status of each single day.<br>
+The option "cellSize" allows to set the width/height (it's a square) of the basic cell.
+<p>

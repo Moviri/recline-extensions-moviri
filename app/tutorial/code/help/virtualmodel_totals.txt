@@ -1,0 +1,16 @@
+<h4>Virtual model: totals and subtotals</h4>
+<p>
+This example uses a model (visible in the top table) and uses a virtual model to compute totals and subtotals for the given measures.<br>
+The virtual model has:<br>
+<ul>
+<li>Two aggregation dimensions ("country" and "gender", that is used by the "groupBy")</li>
+<li>One aggregation functions for virtualmodel rows ("sum", that will be applied to the measures)</li>
+<li>One aggregation measures ("visits", that will be computed with the functions above once grouped)</li>
+<li>One measure for totals ("visits_sum": the one created by the above aggregation)</li>
+<li>One aggregation function for totals ("sum": that will process the subtotals and compute the grand totals)</li>
+</ul>
+The resulting virtual model contents are visible in the bottom table (a "View.SlickGrid"), which has been supplied some specific option in order to display the extra data (totals and subtotals).<br>
+These options are "showPartitionedData" (to show subtotals at the end of each section) and "showTotals" (to show row with grand totals at the bottom).<br>
+Also some CSS styling has been used to center-align the cell contents to ensure readability. The options used is "fieldFormatters".<br> 
+For all these options see <a target="_blank" href="https://github.com/Moviri/recline/wiki/View.SlickGrid">slickGrid reference</a>  
+</p> 

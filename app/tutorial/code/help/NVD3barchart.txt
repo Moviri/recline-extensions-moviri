@@ -1,0 +1,7 @@
+<h4>NVD3 barchart</h4>
+<p>
+This example shows a barchart made with NVD3 framework.<br>
+Legend is in the top-right section. By clicking on the colored dots you can disable specific legend values and hide them from the chart (this will resize the others: try, for instance, to disable "Noleggi auto" which has the longest bars).
+Controls are in the top-lef section. You can change from "stacked" to "grouped" with a single click.
+Tooltips are used by default. Just hover on the chart with the mouse to read them.
+</p>

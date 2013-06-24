@@ -1,0 +1,5 @@
+<h4>Generic Filter - Radiobuttons</h4>
+<p>
+This example shows how to use a single selection control filter (named "radiobuttons") to apply actions to a model.<br>
+This almost the same example for "dropdown", only using a buttonset that has a radio button behaviour: pressing a button deselect the previously selected button<br>
+</p>

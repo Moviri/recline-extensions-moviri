@@ -1,0 +1,12 @@
+<h4>Model with JSONP backend</h4>
+<p>
+One of the preferred methods for loading dynamic data into a model is the use of a JSONP backend.
+<br><br>
+Typically a web service queries, when prompted, its database according to the provided parameters, and returns the requested data in JSONP format.
+<br><br>
+This data is actually structured into a JSON object and embedded in a callback so that the data can be remotely imported by the caller via code execution.
+<br><br>
+The dataset just needs to know the URL (of the web service, or, even simpler, even of a local JSONP file on the server) to query and the web service ID name.
+<br><br>
+All other parameters ("fieldsFormat" and "renderer") are used to force a standard and readable format for the date.   
+</p> 

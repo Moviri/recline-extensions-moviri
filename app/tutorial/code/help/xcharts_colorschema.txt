@@ -1,0 +1,9 @@
+<h4>xCharts color series</h4>
+<p>
+This example shows an xCharts timeline with a dedicated color schema and a legend.<br>
+In this simple example a color schema made of 2 colors is linked to a dataset field that has 3 values, so the missing color is interpolated.<br>
+<br>
+The dedicated legend is a DIV whose positioning and styling is entirely left to the user, as can be seen in the CSS code listed inside the CSS panel and that embedded in the HTML panel.
+<br><br>
+Please note that there MUST be a legend div in order to succesfully apply the color schema to the series inside the xCharts object. Otherwise, the standard xCharts colors are applied (see for instance "Using series by names" which uses default colors)
+</p>

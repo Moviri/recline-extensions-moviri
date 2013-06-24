@@ -1,0 +1,14 @@
+<h4>Color Schema</h4>
+<p>
+This example introduces the concept of color schema linked to a model.<br>
+In this simple example a color schema made of 3 colors is linked to a dataset field that has exactly 3 values<br>
+so a 1:1 mapping is ensured between the colors and the values.<br>
+If the values (as usually happens) had been more than the supplied colors, then the supplied colors would have been scaled accordingly.<br>
+The important thing to note in this page is that we have one dataset with a color schema and three separate controls<br>
+<ul>
+<li>an Xcharts timeline (with a dedicated legend)</li>
+<li>an NVD3 barchart (with its own legend)</li>
+<li>a separate color legend made with a View.GenericFilter</li>
+</ul>
+bound to the same dataset and that inherit these colors, thus using the same color for any single field value.
+</p>

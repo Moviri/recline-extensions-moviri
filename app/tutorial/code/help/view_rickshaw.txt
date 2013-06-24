@@ -1,0 +1,10 @@
+<h4>View.RickShaw</h4>
+<p>
+RickShaw is a chart type similar to stacked area charts, whose purpose is to draw timelines: X-axis must be a date.<br>
+It also has native support for legend, tooltips and user annotations (like in xCharts).<br>
+Annotations should be provided by a dedicated model which should have a start and end date and an event description field. The annotations will be drawn inside the DIV selector you provided in initialization code (look out for option "div" inside "events").<br>
+You will then be able to view them by clicking on the dots inside the annotation DIV element (it's a line with some dots, usually placed below the chart but can well be above if you switch the lines in the HTML code). When you click on the dots you will then see both a tooltip and a grayed out area indicating start and end of the current annotation period. 
+<br> 
+That said, the most important thing to note in order to create a meaningful chart, is to provide it with a color schema, like in this example, or all your chart data will be black.<br>
+Finally, data can also be unstacked programmatically by setting "unstack" to true inside "state" segment. Feel free to uncomment the provided line and see the result.
+</p>

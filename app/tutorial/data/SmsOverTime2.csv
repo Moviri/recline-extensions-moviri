@@ -1,0 +1,33 @@
+Anno,Tipo,Telefoni,SMS,Messengers
+2010,Android.smartphone_highres,0,0,0
+2011,Android.smartphone_highres,952,1604482,414594
+2012,Android.smartphone_highres,2924,2146285,2515878
+2013,Android.smartphone_highres,4594,1833553,8209114
+2010,Android.smartphone_lowres,928,3377148,174442
+2011,Android.smartphone_lowres,2970,4742378,1126740
+2012,Android.smartphone_lowres,4889,4553670,4721023
+2013,Android.smartphone_lowres,3826,1523827,5704026
+2010,Android.tablet,0,0,0
+2011,Android.tablet,490,856578,239428
+2012,Android.tablet,935,932230,901964
+2013,Android.tablet,3907,1927455,7115288
+2010,IOS.smartphone,761,2495116,167492
+2011,IOS.smartphone,2187,3393948,961350
+2012,IOS.smartphone,3923,3657852,3604536
+2013,IOS.smartphone,3034,1231342,4836940
+2010,IOS.tablet_highres,0,0,0
+2011,IOS.tablet_highres,0,0,0
+2012,IOS.tablet_highres,0,0,0
+2013,IOS.tablet_highres,958,380462,1399596
+2010,IOS.tablet_lowres,0,0,0
+2011,IOS.tablet_lowres,376,612388,137175
+2012,IOS.tablet_lowres,743,555595,703579
+2013,IOS.tablet_lowres,2904,1115614,4477908
+2010,"Java only",4861,19010088,86440
+2011,"Java only",2960,4345466,121478
+2012,"Java only",917,712343,76331
+2013,"Java only",457,160401,69529
+2010,"Non java",3939,14461948,0
+2011,"Non java",1893,2737440,0
+2012,"Non java",471,467255,0
+2013,"Non java",98,36426,0

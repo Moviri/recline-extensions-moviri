@@ -1,0 +1,15 @@
+<h4>View.SlickGridGraph inner chart</h4>
+<p>
+This example shows how to create a SlickGrid from a model and populate some fields with custom HTML content.<br>
+By using option "customHtmlFormatters" we redefine the rendering function for the fields with the listed IDs.<br>
+The function passed to every customHtmlFormatter is defined as follows:<br>
+<pre>
+formula: function (record) {
+...
+	return htmlContent
+}
+</pre>
+Variable "record" contains all value attributes of the current row, so the final HTML content can be use combination of values on the same row.  
+For example the field "Delta Perc" is actually showing the value of the field "Media" (hidden in this example, because it's shown in field "Delta Perc") and a little barchart built from a couple of colored DIVs, whose size depend on "Delta Perc" percentual value. 
+Field "Sesso", instead, adds an icon to the field depending on field value.
+</p>

@@ -1,0 +1,4 @@
+<h4>View.SlickGridGraph basic usage</h4>
+<p>
+This example shows how to create a SlickGrid from a model. By default all model field will populate the table.
+</p>

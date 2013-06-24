@@ -1,0 +1,7 @@
+<h4>View.D3Sparkline</h4>
+<p>
+A sparkline is a very basic line chart: no axes, no ticks, no values, no tooltip, just a thin line possibly very small in total size.<br>
+The initialization is rather straighforward and closely resembles any other chart type: Field name, width, height, optionally a color and that's it.
+In this example there are 2 separate sparklines for two separate fields of the model: "Stimato" and "Effettivo". They have been enclosed with a lightgray background to make them stand out. But usually a sparkline has no decoration whatsoever.<br>
+Finally, a word of warning: when feeding the model data to the sparkline, make sure the model has at least some data rows. If there's only one row, you will not see anything: there's no line to draw... 
+<p>

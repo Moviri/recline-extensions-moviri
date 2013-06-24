@@ -1,0 +1,6 @@
+<h4>Generic Filter - Dropdown Date Range</h4>
+<p>
+This example shows how to use a control filter to apply actions to a model.
+The control type for this example is "dropdown_date_range" which lists the most common date ranges like "past week" or "this month" in a dropdown list. Selecting an item activates the corresponding date range.<br>
+There are also three custom date ranges at the end: they have been embedded in the initialization code (see section "userFields" to show how to add extra date ranges). 
+</p>

@@ -1,0 +1,34 @@
+.s-table div.s-td.slick-cell {
+	border-right: 1px dotted grey;
+	border-bottom: 1px dotted grey;
+}
+
+.percent-complete-bar {
+	background-color: blue;
+}
+
+.percent-complete-bar-background {
+  background-color: lightgrey;
+}
+
+.s-table div.s-td.slick-cell div.split-top {
+	width:100%;
+	height:50%;
+	text-align:center;
+	border-bottom:1px solid lightgrey;
+	margin-top:-7px;
+	padding-bottom:2px;
+}
+
+.s-table div.s-td.slick-cell div.split-bottom {
+	width:100%;
+	height:50%;
+	text-align:center;
+	background-color:#dff;
+	padding-bottom:2px;
+}
+
+.freelance {
+	text-align:center !important;
+	background-color: #F8F8F8
+}

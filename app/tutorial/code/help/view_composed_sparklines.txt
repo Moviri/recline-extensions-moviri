@@ -1,0 +1,8 @@
+<h4>View.Composed (D3Sparkline)</h4>
+<p>
+This example shows how to use the "composed view", with a different internal view: D3Sparkline.
+As usual, we supply parameter "view: 'D3Sparkline'" and in "props" we supply all needed parameters to instantiate View.D3Sparkline controls ("width", "height", "field", "color").<br>
+As you can see the result is a matrix of three KPIs (Dowloads/Uploads/Accessi) and 7 userIDs, plus a final row for totals.<br>
+Notice that the user can change the date range with the datepicker in order to update the D3Bullet charts.<br>
+Again: there' only one month of data, so stay within january 2013.
+</p>

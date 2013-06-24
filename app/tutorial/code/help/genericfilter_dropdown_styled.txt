@@ -1,0 +1,11 @@
+<h4>Generic Filter - Dropdown styled</h4>
+<p>
+This example shows how to use a single selection ("term" type) control filter to apply actions to a model.
+The data model simulates a network admin case in which the sysadmin wants to monitor the network bandwidth used by employees.<br>
+The control at the top left allows the selection of an employee. The indicators at the top show the total value figures for download, upload and accesses.<br>
+The chart shows the downloads (the most important KPI) for the selected employee(s) in a month's period.<br>The table at the bottom shows the model data for the selected employee(s).<br>
+Whenever the user selects a different value in the control, all other views update accordingly.<br>
+<br>
+This example is almost identical to "dropdown" example. Only the word "_styled" has been added when creating the control (see clause "controlType").<br>
+The output is a cooler version of the dropdown control, with an embedded "x" button to deselect the previous selection.
+</p>

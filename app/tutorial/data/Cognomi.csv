@@ -1,0 +1,99 @@
+Cognome1,Cognome2,Incontri
+Costa,Russo,37
+Russo,Ferrari,18
+Verdi,Bianchi,42
+Colombo,Costa,95
+Bianchi,Costa,75
+Verdi,Russo,81
+Ferrari,Fontana,63
+Ferrari,Bianchi,24
+Bianchi,Colombo,83
+Costa,Fontana,81
+Colombo,Bianchi,86
+Bruno,Verdi,41
+Bruno,Rossi,47
+Rossi,Verdi,75
+Costa,Fontana,80
+Ferrari,Costa,13
+Colombo,Bianchi,82
+Ferrari,Russo,74
+Russo,Rossi,74
+Russo,Bianchi,23
+Colombo,Rossi,45
+Russo,Ferrari,37
+Rossi,Russo,69
+Bianchi,Verdi,91
+Bianchi,Costa,17
+Ferrari,Russo,73
+Fontana,Bruno,56
+Costa,Fontana,80
+Ferrari,Rossi,43
+Costa,Ferrari,63
+Ricci,Esposito,76
+De Luca,Romano,85
+Greco,Ricci,93
+Ricci,De Luca,26
+Greco,Romano,23
+Greco,Romano,82
+De Luca,Esposito,51
+Esposito,De Luca,92
+De Luca,Greco,89
+De Luca,Esposito,80
+Ricci,De Luca,20
+Romano,Esposito,69
+Greco,Esposito,56
+Greco,De Luca,43
+Romano,Lombardi,69
+De Luca,Lombardi,45
+Romano,Greco,39
+Greco,Ricci,12
+Lombardi,Esposito,92
+Russo,Costa,37
+Ferrari,Russo,18
+Bianchi,Verdi,42
+Costa,Colombo,95
+Costa,Bianchi,75
+Russo,Verdi,81
+Fontana,Ferrari,63
+Bianchi,Ferrari,24
+Colombo,Bianchi,83
+Fontana,Costa,81
+Bianchi,Colombo,86
+Verdi,Bruno,41
+Rossi,Bruno,47
+Verdi,Rossi,75
+Fontana,Costa,80
+Costa,Ferrari,13
+Bianchi,Colombo,82
+Russo,Ferrari,74
+Rossi,Russo,74
+Bianchi,Russo,23
+Rossi,Colombo,45
+Ferrari,Russo,37
+Russo,Rossi,69
+Verdi,Bianchi,91
+Costa,Bianchi,17
+Russo,Ferrari,73
+Bruno,Fontana,56
+Fontana,Costa,80
+Rossi,Ferrari,43
+Ferrari,Costa,63
+Esposito,Ricci,76
+Romano,De Luca,85
+Ricci,Greco,93
+De Luca,Ricci,26
+Romano,Greco,23
+Romano,Greco,82
+Esposito,De Luca,51
+De Luca,Esposito,92
+Greco,De Luca,89
+Esposito,De Luca,80
+De Luca,Ricci,20
+Esposito,Romano,69
+Esposito,Greco,56
+De Luca,Greco,43
+Lombardi,Romano,69
+Lombardi,De Luca,45
+Greco,Romano,39
+Ricci,Greco,12
+Esposito,Lombardi,92

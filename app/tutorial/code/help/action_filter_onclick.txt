@@ -1,0 +1,41 @@
+<h4>Filter Actions - onClick</h4>
+<p>
+This example is very similar to "Filter and Sort Conditions" example.<br>
+The main difference is in model data binding: we use an action, instead of jQuery binding.<br>
+<br>
+This action has type "filter" (type can be "filter" and/or "selection"), affects the model filteredDataset (but multiple models could be affected if needed)
+with two separate filters ("filter_country" and "filter_gender"), each linked to a specific field (respectively, "country" and "gender").<br>
+Filters details in "filters" section are defined according to specs in <a href="https://github.com/Moviri/recline/wiki/Filters" target="_blank">official filters reference</a><br>
+Here's the code that defines the action, with some extra comments for the sake of understanding:<br>
+<pre>
+var myAction = new recline.Action({
+	// this section defines the details of all applicable filters, regardless of the model involved. 
+    filters:{
+        filter_country: {type:"term", field:"country", fieldType:"string"},
+    	filter_gender: {type:"term", field:"gender", fieldType:"string"}
+    },
+    // this section lists all models that are eventually affected 
+    // by the action, along with their model-specific filters 
+    // (they must match the names given in the "filters" section)
+    models: [{
+        model: filteredDataset,
+        filters:["filter_country", "filter_gender"]
+        }],
+    // filter type
+    type:["filter"]
+});
+</pre>
+So far we defined what happens if some control triggers the action. The next step is to actually assign an action to an action-capable control (most of these controls are in "Controls" sub-tree).
+We, in fact, create a View.GenericFilter control and set its action to the one instantiated above (myAction). Then we say that is action is triggered by a "selection" event on this control. 
+By "selection event" we mean any operation that changes the selected items in the control. The item is a dropdown list, so a "selection" event is simply triggered by changing the selected value of the control.  
+Then there's the mapping section, that tells which field value is passed to the action filter. The source field is the name of the field of this widget model (it may be different from the action model).
+This value will be applied to the named filter (in this case: "filter_country") that must be present in the named action.   
+The code that accomplishes this is the code below:<br>
+<pre>
+    actions: [{
+            action: myAction, 
+            mapping:[ {srcField:"country", filter:"filter_country"} ], 
+            event:["selection"]
+    }],
+</pre>
+</p>

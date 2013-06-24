@@ -1,0 +1,5 @@
+<h4>Selection Actions - onClick</h4>
+<p>
+This example shows a NVD3 horizontal barchart and a Slickgrid table, both linked to the same model.
+When you hover on the chart, the slickgrid automatically selects the same records.
+</p>

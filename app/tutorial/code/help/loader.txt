@@ -1,0 +1,12 @@
+<h4>AJAX Loader</h4>
+<p>
+This example shows how to instantiate a loader to display a "loading" icon when dataset are updated with queries and/or charts are redrawn.<br>
+This can be done in two ways:<br>
+<ol>
+<li>either you create all model and charts, then create a loader with all models as constructor arguments. Then you call dataset fetching and chart rendering</li>
+<li>or you create a loader (almost without constructor arguments) without passing models, then create models and charts, then bind models to the loader with "bindDataset/bindDatasets" methods. Possibly before rendering charts and fetching models.</li>
+In any case, if you call dataset fetching and chart rendering before assigning a loader, the loader may still show up automatically on the next model/chart update.
+In our example we load a big amount of data via JSONP then filter it to generate a chart. The loading will take some time and you will see the loading icon. After loading you may force a refresh either by using the refresh button in the top left corner, or by clicking on any column in the table and force a column reorder (another time consuming task with big data)<br>
+Anyway, keep in mind that the loader best works when loading data from web services via JSONP since it's inherently asynchronous.<br>
+For the sake of completeness, the loader can also bind to charts via "bindChart/bindCharts" methods. However, in order to obtain the best results, it's better bind the loader to the models only (those that populate the charts).       
+</p>

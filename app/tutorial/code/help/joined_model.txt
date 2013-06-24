@@ -1,0 +1,5 @@
+<h4>Joined model</h4>
+<p>
+This example uses two static models and builds a left-joined model using a common field ("country").
+This should be rather familiar to DB users which join two tables by using SQL modifier "[LEFT|INNER] JOIN" 
+</p>

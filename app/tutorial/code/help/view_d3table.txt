@@ -1,0 +1,8 @@
+<h4>View.D3table</h4>
+<p>
+This example creates a D3 table. It's a custom table, drawn graphically on the SVG, with following features:<br>
+<ul>
+<li>the row height can be set as desired, within reasonable bounds (not too small or text inside will not be readable)</li>
+<li>it can render a twin barchart inside any column: such a column will display two percentage values into one single cell.</li>
+</ul> 
+</p>

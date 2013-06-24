@@ -1,0 +1,8 @@
+<h4>Using series by value</h4>
+<p>In this example you can see how series for charts (xCharts or NVD3 charts) can be created from the data model.</p>
+<p>This example focuses on series by partition, which is only applicable on a partitioned virtual model.</p>
+<p>In this case you have a series of measure fields partitioned by all possible values of a field.</p>
+<p>Note that we decided to use NVD3 charts, instead of xCharts, to show that the series are chart independent.</p>
+<p>Note also that the grid shows the starting model and not the virtual model for simplicity. You may freely change this example to show the virtualmodel contents, but you should also list all desired fields with "visibleColumns" options, since there are a lot of them (partitioning by "Regione" multiplied the original column count by a factor 15)  
+<br>
+<p>See also <a target="_blank" href="https://github.com/Moviri/recline/wiki/View.xCharts#series-object">this reference page</a></p> 

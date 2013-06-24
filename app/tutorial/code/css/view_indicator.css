@@ -1,0 +1,71 @@
+#chart1 {
+	margin-left: -50px;
+}
+
+#chart2 {
+	margin-left: -50px;
+}
+
+#my_indicator1, #my_indicator2, #my_indicator3 {
+	width:150px;
+	float:left;
+	margin-left:5px;
+}
+
+#datepicker {
+	float:right;
+}
+
+.indicator .titlerow .title {
+	font-size:18px;
+	color: darkblue;
+}
+
+.indicator .descriptionrow .description {
+	font-style:italic;
+	color: #3030FF;
+}
+
+.indicator .value-cell .kpi_value {
+	font-size:20px;
+	font-weight: bold;
+	color: purple;
+	text-align:center;
+}
+
+.indicator .kpi_compare_shape_msg {
+	text-align:center;
+	font-style:italic;
+	color: gray;
+}
+
+.indicator .shape {
+	float:left;
+}
+
+.indicator .kpi_compare_shape_shape {
+	width:16px;
+	height: 16px;
+	float:left;
+}
+
+#legend {
+	border: 1px solid black;
+	box-shadow: 5px 5px 3px #888888;	
+}
+
+.legend_item {
+	margin-left:15px;
+	font-size:90%;
+	float:left;		
+	cursor:pointer;
+}
+.legend_item_value {
+	height: 6px;
+	width: 6px;
+	border: 1px solid;
+	float: left;
+	margin-top: 5px;
+	margin-right: 3px;
+	border-radius: 10px;
+}

@@ -1,0 +1,12 @@
+<h4>View.D3CooccurrenceMatrix</h4>
+<p>
+D3CooccurrenceMatrix is a matrix view which displays the co-occurrence between data rows. Think of it as a correlation between data.<br>
+The tutorial shows a list of persons and the total times they met each other during a reference period.<br>
+This matrix type in this example is simmetrical by construction. This isn't mandatory but is strongly suggested in order to better identify clusters<br>
+The control has three distinct option for ordering data (achieved by passing "orderMode" at init time, or setting it then forcing a redraw):<br>
+<ul>
+<li>by cluster: the computation logic attempts to group the data by common chunks called clusters</li>
+<li>by value: biggest values should appear first</li>
+<li>by name: simple alphabetical ordering</li>
+</ul> 
+<p>

@@ -1,0 +1,9 @@
+<h4>View.D3Chord</h4>
+<p>
+This tutorial example creates a D3Chord view. It's a custom view that shows relations between entities. These entities are placed in the outer ring, and the relation between them are marked by filled+curved paths that connect two entities. Self-relations are possible, too.<br> 
+Since the chart can possibly become not very readable for high entities numbers, hovering on the outer ring hides all relations except for the ones regarding the currently selected entity, and shows a tooltip regarding the totals of this entity.<br>
+Hovering in the internal section, instead, shows a tooltip regarding the curved path and the two entities that are connected by this path.<br>
+To instantiate this control three model fields are needed: one for source entity (usually a string, but can also be an index number), one for target entity (idem) and one for the numerical value.<br>
+The parameter names are, respectively, "startField", "endField" and "valueField", as can easily be seen by the code.<br>
+An optional parameter ("numberFormat") can be added to set the number format for the values displayed inside the tooltips.
+</p>

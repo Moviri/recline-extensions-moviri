@@ -1,0 +1,107 @@
+.composedview_table {
+	margin-top:10px;
+	 width:100%;
+	 height:100%;
+	line-height:22px;
+}
+.composedview_table .cell {
+	 padding: 5px 5px;
+	 vertical-align: middle;
+	 font-size: 14px;
+}
+.composedview_table .cell .title {
+	font-weight:bold;
+	color:blue;
+	font-size: 17px;
+}
+.composedview_table .c_header .cell .title {
+	color:darkblue;
+}
+
+.composedview_table .cell .subtitle {
+	font-style: italic;
+	color: #444
+}
+.composedview_table .cell_name {
+}
+.composedview_table .cell_graph {
+}
+.composedview_table .cell_title {
+	max-width: 280px;
+}
+.composedview_table .kpi_value {
+	font-size:16px;
+	color:purple;
+}
+.composedview_table .c_row {
+	min-height:50px;
+}
+.composedview_table .c_row.c_totals {
+	font-weight:bold;
+}
+.composedview_table .c_group {
+}
+.composedview_table .c_header {
+}
+.composedview_table .c_body {
+}
+.composedview_table .c_footer {
+}
+
+.composedview_table .rawhtml {
+	width:24px;
+	height: 24px;
+}
+
+.indicator .kpi_compare_shape_shape {
+	width:16px;
+	height: 16px;
+	float:left;
+}
+
+#datepicker {
+	float:right;
+}
+
+.bullet {
+    font: 10px sans-serif;
+}
+
+.bullet .marker {
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+.bullet .tick line {
+    stroke: #666;
+    stroke-width: .5px;
+}
+
+.bullet .range.s0 {
+    fill: #ccc;
+}
+
+.bullet .range.s1 {
+    fill: #bbb;
+}
+
+.bullet .range.s2 {
+    fill: #aaa;
+}
+
+.bullet .measure.s0 {
+    fill: lightsteelblue;
+}
+
+.bullet .measure.s1 {
+    fill: steelblue;
+}
+
+.bullet .measure.s2 {
+    fill: darkblue;
+}
+
+.bullet .title {
+    font-size: 14px;
+    font-weight: bold;
+}

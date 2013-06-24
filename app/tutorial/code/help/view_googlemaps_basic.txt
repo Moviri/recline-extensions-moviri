@@ -1,0 +1,26 @@
+<h4>View.GoogleMaps (basic)</h4>
+<p>
+This tutorial example shows how to instantiate a GoogleMaps view in your page and populate it with markers showing data take from your model.<br>
+This is an almost real-case example where we have a set of markets that generated revenues in several market sectors over a reference period. The shopping carts show the amount of money spent by customers in that address.<br>  
+We then instantiate a model with all market data and then a virtual model to compute sums for all data in the same coordinates (think about a big mall that holds stores that sell different things, from clothing to food).<br> 
+In order to achieve this, here's the most important code needed in "state" section of your View.GoogleMaps instatiation:<br>
+<pre>
+state: {
+        valueField: "TOT_EURO_sum",
+        latField: "LAT",
+        longField: "LONG",
+        markerIcon: "shoppingcart",
+        markerSize: 24,
+        showValue: true,
+        mapCenter: [45.484844, 9.19805],
+        mapType: "ROADMAP",
+        googleOptions: { zoom: 11, minZoom: 6, scaleControl: true },
+        greenThreshold: "(max-min)*3/4+min",
+        redThreshold: "(max-min)/10+min"
+}
+</pre>
+We set the "valueField" to be used for displaying values on all map markers ("TOT_EURO_sum") and their coordinates are specified in "LAT" and "LONG" fields.<br>
+Also we use the icon "shoppingcart" (see https://developers.google.com/chart/image/docs/gallery/dynamic_icons#icon_list for other valid icons) with a size of 24 pixels and so on.
+The important thing to remark here is how colors are calculated: we supply two math functions for calculating thresholds: "greenThreshold" and "redThreshold". Here you can assign static values or a simple function that calculates the limits by using min and max values of your markers. You can freely use them like we did: in our case, in fact, everything above 3/4 of the total value range will be green and everything below or equal to 1/10 of the total value range will be red. <br>
+Or you could calculate your thresholds by exploiting virtualmodel "min", "max" or other aggregations and pass them as static values. It's up to you.
+</p>

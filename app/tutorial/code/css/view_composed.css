@@ -1,0 +1,69 @@
+.composedview_table {
+	margin-top:10px;
+	 width:100%;
+	 height:100%;
+	line-height:22px;
+}
+.composedview_table .cell {
+	 padding: 5px 5px;
+	 vertical-align: middle;
+	 font-size: 14px;
+	 border-bottom: 1px dotted #EEE;
+	 border-right: 1px dotted #EEE;
+}
+.composedview_table .cell .title {
+	font-weight:bold;
+	color:blue;
+	font-size: 17px;
+}
+.composedview_table .c_header .cell .title {
+	color:darkblue;
+}
+
+.composedview_table .cell .subtitle {
+	font-style: italic;
+	color: #444
+}
+.composedview_table .cell_name {
+}
+.composedview_table .cell_graph {
+}
+.composedview_table .cell_title {
+	max-width: 280px;
+}
+.composedview_table .kpi_value {
+	font-size:16px;
+	color:purple;
+}
+.composedview_table .c_row {
+	min-height:50px;
+}
+.composedview_table .c_row.c_totals {
+	font-weight:bold;
+}
+.composedview_table .c_group {
+}
+.composedview_table .c_header {
+}
+.composedview_table .c_body {
+}
+.composedview_table .c_footer {
+}
+
+.composedview_table .rawhtml {
+	width:24px;
+	height: 24px;
+}
+
+.indicator .kpi_compare_shape_shape {
+	width:16px;
+	height: 16px;
+	float:left;
+}
+
+#datepicker {
+	float:right;
+}
+
+
+

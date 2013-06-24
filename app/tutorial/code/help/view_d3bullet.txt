@@ -1,0 +1,32 @@
+<h4>View.D3Bullet</h4>
+<p>
+This example describes how to create and use a View.D3Bullet to generate a bullet chart and it's legend. 
+A bullet chart usually displays up to 7 separate measure values in a compact way. It's a task that was previously done with a combination of two thermometers/gauges without the disavantage of occupying that much space.<br>
+Usually there's an outer scale that displays the expected thresholds of value acceptance (something like "red", "yellow" green"), an inner scale that displays the actual value (or a combination of min/max/avg) and a vertical marker that displays the same value (usually the avg only) of the previous period.<br>
+In this example we have a data model that simulates estimated and real expenses. A virtual model is used to compute min, max and average for both measures: "Stimato" (estimated) and "Effettivo" (real). The virtual model is also used to partition the model by time period, so that we can also have the average value for the previous period (period 1).<br>
+As a result we have three "Stimato" measures, three "Effettivo" measures for Period 2 (current period) and an avg measure for period 1 (previous).<br>
+<ul>
+<li>"Stimato" measures are assigned to the acceptance thresolds of the chart (parameter "fieldRanges")</li>
+<li>"Effettivo" measures are assigned to the actual chart measures (parameter "fieldMeasures")</li>
+<li>"Effettivo" average for period 1 is assigned to the chart vertical marker (parameter "fieldMarkers")</li>
+</ul>
+<br>
+The values for all measures involved are shown in the bottom grid.<br>
+<br>
+To explain it better, we also provided a separate legend (build in exactly the same way but also adding the parameter "customTicks" to change the tick labels) which shows the 6 measures involved. 
+<ul>
+<li>MinS = "Stimato min"</li>
+<li>AvgS = "Stimato avg"</li>
+<li>MaxS = "Stimato max"</li>
+<li>MinE = "Effettivo min period 2"</li>
+<li>Curr = "Effettivo avg period 2"</li>
+<li>MaxE = "Effettivo max period 2"</li>
+<li>Prev = "Effettivo avg period 1"</li>
+</li>
+<br>
+
+You can even choose to display as less as 3 measures only, one for parameter "fieldRanges", one for parameter "fieldMeasures" and one for "fieldMarkers".<br>
+Or any possible combination with up to 3 "fieldRanges" and 3 "fieldMeasures".<br>
+<br>
+Note that there should be only one row in the model supplied to the chart. In the case there are more rows, each one will generate a different bullet chart.
+</p>

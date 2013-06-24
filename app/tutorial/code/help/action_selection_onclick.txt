@@ -1,0 +1,6 @@
+<h4>Selection Actions - onHover</h4>
+<p>
+This example uses two models, each with different data but a common field.<br>
+Then there's a dropdown list that is populated with the common field, and two slickgrids each populated with a different model.<br>
+Whenever the user selects an item from the dropdown list, the slickgrids react accordingly, selecting the matching rows. 
+</p>

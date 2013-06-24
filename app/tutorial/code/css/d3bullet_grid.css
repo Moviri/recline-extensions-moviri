@@ -1,0 +1,48 @@
+.s-table div.s-td.slick-cell {
+	text-align: center;
+	border-right: 1px dotted grey;
+	border-bottom: 1px dotted grey;
+}
+
+.bullet {
+    font: 10px sans-serif;
+}
+
+.bullet .marker {
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+.bullet .tick line {
+    stroke: #666;
+    stroke-width: .5px;
+}
+
+.bullet .range.s0 {
+    fill: green;
+}
+
+.bullet .range.s1 {
+    fill: #FFCC33;
+}
+
+.bullet .range.s2 {
+    fill: #FF6666;
+}
+
+.bullet .measure.s0 {
+    fill: lightsteelblue;
+}
+
+.bullet .measure.s1 {
+    fill: steelblue;
+}
+
+.bullet .measure.s2 {
+    fill: #111;
+}
+
+.bullet .title {
+    font-size: 14px;
+    font-weight: bold;
+}

@@ -1,0 +1,7 @@
+<h4>Generic Filter - Multibutton</h4>
+<p>
+This example shows how to use a multiple selection control filter (named "multibutton") to apply actions to a model.<br>
+This roughly the same example for "radiobuttons", only using its multi-selection counterpart.<br>
+Here you may select and deselect options by pressing the desired buttons<br>
+The color for the buttons may be changed via the option "selectedClassName" (and we did), but by default the "radiobuttons" control uses "btn-primary" (selected buttons are blue) while "multibutton" control uses "btn-info" (selected buttons are cyan). 
+</p>

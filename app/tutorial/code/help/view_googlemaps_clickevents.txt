@@ -1,0 +1,16 @@
+<h4>View.GoogleMaps (assigning click events)</h4>
+<p>
+This tutorial example shows how to assign extra click events to a Google Maps view. They can be used to perform extra tasks that can't be achieved with Action class.<br>
+For example, in this example we assign, by using this code:<br>
+<pre>
+    events: {
+    	mapClick: resetMarkerFilter, 
+    	markerRightClick: selectMarkerRectangle,
+    }
+</pre>
+the mapClick event (triggered when the user clicks on an empty spot in the map) and the markerRightClick (triggered when the user right clicks on a marker) respectively to a function called "resetMarkerFilter" and another called "selectMarkerRectangle".
+You will recall from the previous example that clicking on a marker would show in the slickgrid table all data on subsector and sector for the selected coordinates only.<br>
+Well: now clicking on an empty spot on the map, thanks to the function "resetMarkerFilter", will remove the filter on the model and show back all marker data back again, exactly like when the page started.<br>
+Function "selectMarkerRectangle", instead, sets the coordinate filter on a slightly wider rectangle area so that some more rows may be shown on the slickgrid table when right-clicking on a marker: not only the data on marker clicked will be shown, but also data on all markers within +-0.02 in latitude/longitude. <br>
+Other valid events that could be assigned are "mapDblClick", "mapRightClick", "markerClick" and "markerDblClick", whose behavior is rather self-explanatory: they are left as an exercise.
+</p>

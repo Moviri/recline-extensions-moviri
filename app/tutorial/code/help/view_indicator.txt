@@ -1,0 +1,11 @@
+<h4>View.Indicator</h4>
+<p>
+This example shows how to use "indicator" views that show the difference between a reference date range and a comparison date range<br>
+For this reason we also use the "datepicker" view, since it has native support for two models: reference model and comparison model.
+The datepicker in the top-right sections allows, in fact, to select two different weeks: a reference week (blue) and a comparison week (green). Upon changin the date ranges and pressing apply, the charts and the indicators update accordingly.<br>
+As can be seen in the inizialization code for the three indicators, we are passing a compareModel (which is filtered on a different date) and using "compareWith" option which, among other things, passes three image icons for the three possible comparison cases.<br> 
+Specifying a compare model is optional. If not specified, the same model is used, but either a different field or a different grouping type (e.g. "filtered" or "unfiltered" or "totals" or "totals_unfiltered") must be specified or the comparison will not make sense.<br>
+Also keep in mind that only one record should be present in the model(s) supplied to the indicator. If more than a record is present, only the first one is used for the calculations and the rendering.
+This is why we created the virtual models "virtualReference" and "compareVirtual" with the "totals" options. In fact the original record data in the unfiltered model has seven users and a full month of data each, so two aggregations must be performed to calculate real totals: the first aggregations calculates the sum for all users. The second aggregation ("totals" clause) calculates the sum of all dates. To see the original model data, please refer to tutorial "generic filter: multibutton".<br> 
+Remark: this example has only one month of data: january 2013. Thus selecting other months will yield no useful result.
+</p>

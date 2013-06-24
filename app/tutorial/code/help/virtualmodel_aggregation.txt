@@ -1,0 +1,12 @@
+<h4>Virtual model: aggregation</h4>
+<p>
+This example uses a model (visible in the top table) and manipulates it with a virtual model, providing sum/average and groupBy facilities.<br>
+The virtual model has:<br>
+<ul>
+<li>Two aggregation dimensions ("country" and "gender", that are used by the "groupBy")</li>
+<li>Two aggregation functions ("sum" and "avg", that will be applied to the measures)</li>
+<li>Two aggregation measures ("age" and "visits", that will be computed with the functions above once grouped)</li>
+</ul>
+The resulting virtual model contents are visible in the bottom table:<br>
+"age" and "visits" (measures) have generated respectively "age_avg", "age_sum" and "visits_avg", "visits_sum" (using all supplied aggregation functions) 
+</p> 

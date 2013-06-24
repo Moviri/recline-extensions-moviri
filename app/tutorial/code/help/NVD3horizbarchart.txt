@@ -1,0 +1,7 @@
+<h4>NVD3 Horizontal barchart</h4>
+<p>
+This example shows an horizontal barchart made with NVD3 framework.<br>
+It's much the same as the previous example, only rotated by 90 degress.
+Tolltips, Legend and Controls considerations are the same. Note that you can enable/disable any one of them in the initialization options.
+You can as well start with an already "stacked" chart by adding "stacked: true" to the options, if you wish. 
+</p>

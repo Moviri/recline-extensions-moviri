@@ -1,0 +1,11 @@
+<h4>View.SlickGridGraph: setting column options</h4>
+<p>
+This example shows how to create a SlickGrid from a data model and set some options on the columns.
+More in detail we set options:<br>
+<ul>
+<li>showLineNumbers: shows the row number in the first column</li>
+<li>visibleColumns: shows only the listed columns</li>
+<li>columnsOrder: specify a list of column IDs with a different ordering. All unlisted fields will be put at the end</li>
+<li>fieldLabels: to specify a different header column label for the desired fields</li>
+<li>fieldFormatters: to specify a different CSS class for any desired column. Keep in mind that some formatting may have to be overridden with "!important" clause like in our example</li>
+</p>

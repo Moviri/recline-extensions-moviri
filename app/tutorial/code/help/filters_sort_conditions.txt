@@ -1,0 +1,12 @@
+<h4>Filters and sort conditions</h4>
+<p>
+This tutorial shows a table that can be filtered by country or by gender by choosing the value from the provided list-boxes.<br>
+The table can also be ordered by choosing one of the fields in the third listbox named "sort by".<br>
+<br>
+The bindings on the controls have been done straight with jQuery for simplicity.<br>
+This is not the preferred method, however: in later tutorial examples you will be told about actions, which are more versatile and powerful.<br>
+However, nothing stops you from using the easy way (simple jQuery bindings) to achieve your goal.<br>
+<br>
+Also note that the SlickGrid table can be ordered also by clicking on the column name. But this has been done like this to prove that you can
+easily order data before feeding it to any control.
+</p>

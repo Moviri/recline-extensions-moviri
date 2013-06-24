@@ -1,0 +1,46 @@
+#chart1 {
+	margin-left: -50px;
+}
+
+div.recline-filter-editor {
+	height: 90%
+}
+
+div.label.label-info {
+	margin-bottom:10px;
+}
+
+fieldset legend {
+	font-size:14px;
+	line-height: 20px;
+	border:none;
+}
+
+#my_filter {
+	max-width:250px;
+}
+
+#my_filter select {
+	width: 140px;
+}
+
+#my_indicator1, #my_indicator2, #my_indicator3 {
+	max-width:300px;
+}
+
+.indicator .titlerow .title {
+	font-size:18px;
+	color: blue;
+}
+
+.indicator .descriptionrow .description {
+	font-style:italic;
+	color: #3030FF;
+}
+
+.indicator .value-cell .kpi_value {
+	font-size:24px;
+	font-weight: bold;
+	color: purple;
+	text-align:center;
+}

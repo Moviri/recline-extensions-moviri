@@ -1,0 +1,8 @@
+<h4>View.Composed (D3Bullet)</h4>
+<p>
+This example shows how to use the "composed view", with a different internal view: D3Bullet.
+As usual, we supply parameter "view: 'D3Bullet'" and in "props" we supply all needed parameters to instantiate View.D3Bullet controls ("fieldRanges", "fieldMeasures", "fieldMarkers", etc).<br>
+We don't use dimensions this time, only measures. This means the resulting view is a matrix with only one column (dimension) and three rows (measures).<br>
+Notice that the user can change the date range with the datepicker in order to update the D3Bullet charts.<br>
+Again: there' only one month of data, so stay within january 2013.
+</p>

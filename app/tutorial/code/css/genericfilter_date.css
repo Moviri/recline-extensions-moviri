@@ -1,0 +1,72 @@
+#my_filter {
+	margin-top:5px;
+	max-width:300px;
+}
+
+#my_filter label {
+	margin: 0px 0px 1px 0px;
+	font-size: 12px;
+	line-height:14px;
+}
+
+#my_filter input {
+	margin: 0px 0px 1px 0px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-size: 12px;
+	height:16px;
+}
+
+#my_filter input[type="button"] {
+	height:20px;
+}
+
+#my_indicator1 {
+	max-width:250px;
+}
+
+.indicator .titlerow .title {
+	font-size:18px;
+	color: blue;
+}
+
+.indicator .descriptionrow .description {
+	font-style:italic;
+	color: #3030FF;
+}
+
+.indicator .value-cell .kpi_value {
+	font-size:24px;
+	font-weight: bold;
+	color: purple;
+	text-align:center;
+}
+
+#chart1 {
+	margin-left: -50px;
+}
+
+#chart2 {
+	margin-left: -50px;
+}
+
+#legend {
+	border: 1px solid black;
+	box-shadow: 5px 5px 3px #888888;	
+}
+
+.legend_item {
+	margin-left:15px;
+	font-size:90%;
+	float:left;		
+	cursor:pointer;
+}
+.legend_item_value {
+	height: 6px;
+	width: 6px;
+	border: 1px solid;
+	float: left;
+	margin-top: 5px;
+	margin-right: 3px;
+	border-radius: 10px;
+}

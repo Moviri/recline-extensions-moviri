@@ -1,0 +1,39 @@
+.even .regione-cell {
+	text-align: left !important;
+	background-color: salmon !important; 
+}
+.odd .regione-cell {
+	text-align: left !important;
+	background-color: yellow !important; 
+}
+.freelance-cell {
+	color: blue; 
+	font-style: italic;
+	text-align: center !important;
+}
+.dirigenti-cell {
+	color: orange; 
+	font-size: 22px;
+	text-align: center !important;
+	border: 2px inset lightgrey !important;
+}
+.quadri-cell {
+	color: purple;
+	font-weight:bold;
+	text-align: center !important;
+}
+.impiegati-cell {
+	color:green;
+	text-align: center !important;
+}
+.operai-cell { 
+	color:red;
+	font-size:14;
+	text-align: center !important;
+}
+.sesso-cell {
+	color: lightgray; 
+	text-align: right !important;
+	border-left: 1px dotted grey !important;
+	border-top: 1px dotted grey !important;
+}

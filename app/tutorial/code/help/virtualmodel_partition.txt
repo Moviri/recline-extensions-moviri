@@ -1,0 +1,15 @@
+<h4>Virtual model: partition</h4>
+<p>
+This example uses a model (visible in the top table) and manipulates it with a virtual model, providing horizontal field expansion based on a field's contents.<br>
+The virtual model has:<br>
+<ul>
+<li>One aggregation dimensions ("country", that is used by the "groupBy")</li>
+<li>Two aggregation functions ("sum" and "avg", that will be applied to the measures)</li>
+<li>Two aggregation measures ("age" and "visits", that will be computed with the functions above once grouped)</li>
+<li>One partition ("gender", that will create extra columns for all measures based on all available "gender" values)</li>
+</ul>
+The resulting virtual model contents are visible in the bottom table:<br>
+"gender" field has 2 values ("male" and "female"), so all measures have to be partitioned into "_by_gender_male" and "_by_gender_female" and grouped by the only aggregation function supplied ("sum").
+Thus the resulting fields for measure "age" are: "age_by_gender_male_sum" and "age_by_gender_female_sum".<br>  
+Similarly, the resulting fields for measure "visits" are: "visits_by_gender_male_sum" and "visits_by_gender_female_sum".
+</p> 

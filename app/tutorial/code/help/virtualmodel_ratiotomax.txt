@@ -1,0 +1,18 @@
+<h4>Virtual model: Ratio to report</h4>
+<p>
+This example uses a model (visible in the top table) and manipulates it with a virtual model, providing sum/average and groupBy facilities.<br>
+It also has calculation of "totals" in order to compute ratios for each row.
+The virtual model has:<br>
+<ul>
+<li>Two aggregation dimensions ("country" and "gender", that are used by the "groupBy")</li>
+<li>Two aggregation functions ("sum" and "ratioToReport", that will be applied to the measures)</li>
+<li>One aggregation measures ("visits", that will be computed with the functions above once grouped)</li>
+<li>One "totals" measure ("visits_sum", that will be use to compute the ratios)</li>
+<li>One "totals" aggregation functions ("max", that will store the max value for the measured totals)</li>
+</ul>
+The resulting virtual model contents are visible in the bottom table:<br>
+"visits" (measure) generated "visits_sum", "visits_ratioToMax".<br>
+The contents of "visits_ratioToMax" are the ratio between the value of "visits_sum" in the current row and the highest value in the same column.
+For instance in the first row we have ratioToMax = 1: 157 is the highest value already.
+In the second row we have 11 "visits_sum" which, divided by the calculated max (157) give 0.007006 
+</p> 

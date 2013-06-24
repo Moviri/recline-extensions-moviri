@@ -1,0 +1,9 @@
+<h4>View.D3GravityBubble</h4>
+<p>
+This tutorial example creates a D3GravityBubble view. It's a control that doesn't use coordinates so the placement of data can look somewhat random.<br>
+What really matters here is the size of circles (the bigger the circle, the greater the value) and their color (every set has the same color).<br>
+On the right there are two legends, one ("colorLegend") for "colorField" and one ("sizeLegend") for "sizeField". You, in fact, define three dimensions for this chart type: key, size, color.
+Since we have 5 possible market segments in this data model ("Agricoltura", "Industria", "Produzione", "Servizi" and "Turismo") but the chart can only display one, we supplied a listbox where you can change the currently viewed market segment.<br> 
+<br>
+To experiment with this chart type, we suggest swapping "Regione" and "Periodo" between "keyField" and "colorField".
+</p>

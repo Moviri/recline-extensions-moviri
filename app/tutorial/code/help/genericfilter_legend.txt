@@ -1,0 +1,9 @@
+<h4>Generic Filter - Legend</h4>
+<p>
+This example shows how to use a multiple selection ("list" type) control filter to apply selection actions to a model.<br>
+This tutorial covers the "legend" filter control, which is rather similar to "list" filter control, only with some more styling, possibly including schema colors.<br>
+The idea is to have a completely separate legend that can filter a model regardless of the fact it's attached to a chart or a table or anything else.<br>
+We used a simple CSV data source with a country field, a value field (KPI) and a time field ("giorno"). The data matrix is purposely incomplete, with some country missing on some days. This to show the row counter embedded inside the legend (please notice the brackets in the right sections of the legend)<br>
+When you press on the checkbox or on the country label, the country is selected/deselect, provided at least a selection remains (complete deselection isn't allowed: there must at least one value)<br>
+This selection/deselection process affects the attached model via a filter action, thus removing the unselected countries from the model and, consequently, from the chart and the grid).
+</p>

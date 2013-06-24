@@ -1,0 +1,12 @@
+#my_filter {
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.percent-complete-bar {
+	background-color: blue;
+}
+
+.percent-complete-bar-background {
+  background-color: lightgrey;
+}

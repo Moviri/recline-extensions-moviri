@@ -1,0 +1,7 @@
+<h4>Using series by value</h4>
+<p>In this example you can see how series for charts (xCharts or NVD3 charts) can be created from the data model.</p>
+<p>This example focuses on series by value, which is applicable also when series names aren't known in advance, so they can't be hard-coded in chart initialization parameters.</p>
+<p>In this case you must provide the field name holding series names and the field name holding current serie values.</p>
+<p>Note that the resulting chart is the same as in the previous example.</p>
+<br>
+<p>See also <a target="_blank" href="https://github.com/Moviri/recline/wiki/View.xCharts#series-object">this reference page</a></p> 

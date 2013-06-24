@@ -1,0 +1,31 @@
+<h4>View.GoogleMaps (clustering markers)</h4>
+<p>
+This tutorial example shows how to cluster markers. Extra initialization is necessary to provide the icons that will be used for clustering as well as the sizes and anchor points and similar options.<br>
+Look at the variable "mcOptions" which is passed via parameter "clustererOptions". It contains some behavioral options like "zoomOnClick" (which enables zooming when clicking on a cluster marker) and "showSum" (which shows the totals for the field specified as "valueField" for all markers inside the cluster; diversely, the default behavior only shows marker count) and the option "styles", which sets the cluster icon display options.
+Options "styles" MUST be an array of three separate icon settings, one for each color (green, yellow, red) which must be in this exact order. The total code is then:<br>
+<pre>
+var mcOptions = {
+    gridSize: 40,
+    zoomOnClick:true,
+    ignoreHidden:true,
+    averageCenter:true,
+    showSum: true,
+    styles: [
+             {
+                url: '../images/cluster/green-shopping-cart-icon.png',
+                height: 48, width: 48, anchor: [24, 70], zIndex: 1100, 
+                textSize: 18, textColor: 'black', textShadow: '2px 2px white'
+            }, {
+                url:  '../images/cluster/yellow-shopping-cart-icon.png',
+                height: 48, width: 48, anchor: [24, 70], zIndex: 1100,
+                textSize: 18, textColor: 'black', textShadow: '2px 2px white'
+            }, {
+                url: '../images/cluster/red-shopping-cart-icon.png',
+                height: 48, width: 48, anchor: [24, 70], zIndex: 1100,
+                textSize: 18, textColor: 'yellow', textShadow: '2px 2px black'
+            }, 
+        ]
+};
+</pre>
+This tutorial also shows how to use an infowindow by providing an infowindow template. It's important to remark here that, for infowindow to work correctly, bootstrap.css must first be disabled. This cannot be done on this tutorial (since the main page itself relies on bootstrap) but should be done by copying and pasting code in a new page and testing it. To do so remove the row that loads bootstrap.css in the HEAD section then enable the "infoWindowTemplate" line that's currently commented out. 
+</p>

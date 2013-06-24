@@ -1,0 +1,8 @@
+<h4>View.DatePicker</h4>
+<p>
+This example shows how to filter by date two xCharts with a datepicker control<br>
+For the example to work, the models attached to the datepicker control must be already filtered by date (filter type must be "range"), since the datepicker retrieves the date ranges from the model(s).<br>
+The datepicker in the top-right sections allows to select two different weeks: a reference week and a comparison week. Upon changin the date ranges and pressing apply, the two charts update accordingly.<br>
+The datepicker may also work in monthlyMode or in custom mode (it's the default value: you can select a date range of any size). This option must be set via an init parameter<br>
+Also you can change the content of the "compare to:" dropdown and set it to "previous period". In this case the comparison period will always be a date range of the same length as the reference period and immediately before.
+</p>

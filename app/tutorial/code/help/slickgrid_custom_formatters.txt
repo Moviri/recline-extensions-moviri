@@ -1,0 +1,14 @@
+<h4>View.SlickGridGraph custom formatters</h4>
+<p>
+This example shows how to create a SlickGrid from a model and use custom HTML formatters to populate cells a little differently.<br>
+The goal is to show:<br>
+<ul>
+<li>an icon + text inside "Sesso" field</li>
+<li>Two values in the same "Operai" cells, showing "Operai" value above and "Impiegati" value below</li>   
+<li>Two values in the same "Quadri" cells, showing "Quadri" value above and "Dirigenti" value below</li>
+<li>Both a value for "Media" and a simple DIV barchart for "Delta Perc" inside all "Media" cells</li>   
+</ul>
+<br>
+All of this is accomplished by using option "customHtmlFormatters" to redefine the cell contents for IDs, then hiding cells "Impiegati", "Dirigenti" and "Delta Perc" by using "visibleColumns", and, finally, by redefining the header labels for the double-content fields.
+Please note that, in order to fit two cell values verically into one we removed the condensed style that we use thoroughly in almost all examples, in order to gain some vertical space. This because the cell height in slickgrid is fixed and depends only condensed style being on or off.      
+</p>

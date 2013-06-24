@@ -1,0 +1,5 @@
+<h4>NVD3 Pie chart</h4>
+<p>
+This example shows a piechart made with NVD3 framework.<br>
+Legend and Controls are now disabled since they will be of no use here and will only steal precious pixels from the chart.
+</p>

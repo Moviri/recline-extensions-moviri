@@ -1,0 +1,6 @@
+<h4>Generic Filter - Range Slider</h4>
+<p>
+This example shows how to use a control filter to apply actions to a model.
+The control type for this example is a "range_slider", which has two separate sliders. When you press the "set" button, the action is triggered and the data on the table are selected.<br>
+Also, the two indicators shows the average age and the total number of visits for the selected ID ranges.<br>
+</p>

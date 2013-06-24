@@ -1,0 +1,54 @@
+.s-table div.s-td.slick-cell {
+	text-align: center;
+	border-right: 1px dotted grey;
+	border-bottom: 1px dotted grey;
+}
+
+#my_filter {
+	margin-top:5px;
+	max-width:300px;
+}
+
+#my_filter legend {
+	font-size: 14px;
+	line-height:16px;
+}
+
+#my_filter label {
+	margin: 0px 0px 1px 0px;
+	font-size: 12px;
+	line-height:14px;
+}
+
+#my_filter input {
+	margin: 0px 0px 1px 0px;
+	padding-top:1px;
+	padding-bottom:1px;
+	font-size: 12px;
+	height:16px;
+}
+
+#my_filter input[type="button"] {
+	height:20px;
+}
+
+#my_indicator1, #my_indicator2 {
+	max-width:250px;
+}
+
+.indicator .titlerow .title {
+	font-size:18px;
+	color: blue;
+}
+
+.indicator .descriptionrow .description {
+	font-style:italic;
+	color: #3030FF;
+}
+
+.indicator .value-cell .kpi_value {
+	font-size:24px;
+	font-weight: bold;
+	color: purple;
+	text-align:center;
+}

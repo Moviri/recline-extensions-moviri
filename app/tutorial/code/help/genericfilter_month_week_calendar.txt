@@ -1,0 +1,10 @@
+<h4>Generic Filter - Month Week Calendar</h4>
+<p>
+This example shows how to use a control filter to apply actions to a model.
+The control type for this example is "month_week_calendar" which lists all months or all weeks of the selected year.<br>
+"Year" dropdown list allows the user to select a different year (from 2010 onwards).<br>
+"Type" dropdown list allows the user to switch between months and weeks.<br>
+Selecting an item activates the corresponding date range.<br>
+If the date range is missing from the data model, "No data available is displayed".<br>
+Please note that this data model includes only a full year of random data, ranging from 365 days ago to today. 
+</p>

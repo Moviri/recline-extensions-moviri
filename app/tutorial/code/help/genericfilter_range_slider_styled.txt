@@ -1,0 +1,6 @@
+<h4>Generic Filter - Range Slider Styled</h4>
+<p>
+This example shows how to use a control filter to apply actions to a model.
+The control type for this example is a "range_slider_styled", which has two separate sliders and no "set" button: the action is triggered on every change.<br>
+The rest is identical to the previous example.<br>
+</p>

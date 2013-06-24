@@ -1,0 +1,9 @@
+<h4>This is just a demo page</h4>
+<p>
+Feel free to experiment with HTML, Javascript and CSS panels
+When you're done press the Run button in bottom-right panel
+and your example will be launched.
+</p> 
+<p>
+Or simply select an example from the tree in the left section "Tutorial List"
+</p>

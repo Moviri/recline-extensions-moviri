@@ -1,0 +1,7 @@
+<h4>View.D3Cloud</h4>
+<p>
+This tutorial example creates a D3Cloud view. It's a custom view that doesn't use any kind of coordinates. The placement of data (usually strings) is, by definition, random and its only purpose is to instantly give a fast perception of what are the big names of the moment.<br>
+The instantiation of this view type is rather straightforward: the most important pre-requisite is a model with some names and their "importance"). Then just supply the view with the name of the field holding names ("wordField") and the name of the field holding "importance" ("dimensionField").<br>
+In our example we have four possible measures for italian regions (population, area, density and districts) and you may select any of them by the provided dropdown list.<br>   
+Optionally you can experiment with rotations by changing the optional parameters "angle_start", "angle_end" and "orientations" (the total numbers of angles used).
+</p>

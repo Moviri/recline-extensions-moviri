@@ -1,0 +1,8 @@
+<h4>Generic Filter - Listbox styled</h4>
+<p>
+This example shows how to use a multiple selection ("list" type) control filter to apply actions to a model.<br>
+This is the same example for "listbox", only using a slightly different version of the control, called "listbox styled".<br>
+The main differences are in the interface: the control is a mixture between a dropdown list and a list. When you click on it, a list pops up and you may choose a new item to add to the list. Previous selections are retained so the list keeps building up.<br>
+If you want to remove a selection, just press the "x" button next to its name.
+ Also you don't have to press the "set" button: setting new selection(s) automatically triggers actions.  
+</p>

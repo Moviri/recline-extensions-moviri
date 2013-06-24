@@ -1,0 +1,6 @@
+<h4>xCharts custom tooltips</h4>
+<p>
+This example shows an xCharts timeline which uses a legend and also custom tooltips.<br>
+Since xCharts doesn't provide any native support for tooltips, we embed our own tooltips by creating them with a NVD3 method and binding them to the correct events.
+Complete HTML code is supplied via variable tooltipHtmlTemplate. Also note that we enlarged the radius of the standard xChart dot size or hovering on the circle to read the tooltips will not be of practical use.
+</p>

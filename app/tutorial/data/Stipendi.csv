@@ -1,0 +1,29 @@
+Regione,Sesso,Operai,Impiegati,Quadri,Dirigenti,Freelance
+Lombardia,Maschio,864,1649,2475,3920,1960
+Veneto,Maschio,765,1513,2250,3440,1800
+Piemonte,Maschio,837,1530,2325,3720,1900
+Lazio,Maschio,819,1530,2275,3720,1900
+Toscana,Maschio,774,1496,2200,3560,1780
+Campania,Maschio,504,986,1475,2400,1120
+Abruzzo,Maschio,477,918,1375,2040,1060
+Marche,Maschio,621,1139,1675,2800,1320
+Basilicata,Maschio,387,697,1125,1760,880
+Sicilia,Maschio,495,1020,1500,2280,1180
+Calabria,Maschio,477,935,1350,2080,1000
+Sardegna,Maschio,387,714,1100,1600,800
+Emilia Romagna,Maschio,720,1411,2050,3200,1680
+Val d'Aosta,Maschio,693,1360,1975,3160,1540
+Lombardia,Femmina,765,1513,2200,3600,1720
+Veneto,Femmina,702,1326,1975,3040,1620
+Piemonte,Femmina,765,1394,2125,3280,1680
+Lazio,Femmina,738,1428,2125,3320,1660
+Toscana,Femmina,684,1326,1975,3160,1600
+Campania,Femmina,486,867,1300,2120,1080
+Abruzzo,Femmina,414,816,1175,1920,980
+Marche,Femmina,567,1037,1475,2400,1240
+Basilicata,Femmina,360,663,975,1520,780
+Sicilia,Femmina,450,918,1350,2080,1020
+Calabria,Femmina,423,799,1175,1840,980
+Sardegna,Femmina,360,663,900,1480,740
+Emilia Romagna,Femmina,675,1275,1875,2960,1500
+Val d'Aosta,Femmina,639,1190,1725,2760,1440

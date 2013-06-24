@@ -1,0 +1,8 @@
+<h4>xCharts annotations</h4>
+<p>
+This example shows an xCharts timeline which uses extra annotations on the chart.<br>
+These annotations can be possibly used to identify/understand the trends of the chart. It's completely up to the publisher to supply annotations that make sense and "affect" the chart accordingly.<br>  
+Annotations are passed via a (possibly) dedicated dataset (2 fields needed: a date and a textual description).<br>
+To read the annotations on the chart just hover on the letter "A" thru "H" with your mouse.<br>
+Note that annotation don't necessarily refer to a specific serie only because the square is placed on a series' line or another. Their placement is by default on the highest series' line for that specific timestamp.
+</p>

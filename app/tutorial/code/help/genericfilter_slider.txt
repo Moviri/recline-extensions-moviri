@@ -1,0 +1,11 @@
+<h4>Generic Filter - Slider</h4>
+<p>
+This example shows how to use a single selection ("term" type) control filter to apply selection actions to a model.<br>
+The starting point is the example for "virtual model - ratio to max". The idea is that we now want to highlight the table rows with a visits_toRatioMax value which is less than or equal to the value selected in the slider control at the top.<br>
+This is done by:<br>
+<ul>
+<li>creating an action with filter termAdvanced and operator "lte" (less than or equal)</li>
+<li>programmatically creating a model for the slider with a displayed value (percent) and an hidden value (ratio)</li>   
+</li>
+This way, when the user selects a different value in the slider, the action retrieves the value "ratio" (e.g: 0.3) matching the "percent" (e.g: 30) and passes it to the termAdvanced filter to select slickgrid table rows
+</p>

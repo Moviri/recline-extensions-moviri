@@ -1,0 +1,111 @@
+---
+layout: moviri-release
+title: Tutorial
+recline-deps: true
+root: ../../
+---
+
+<script src="/vendor/bootstrap.imagegallery/load-image.min.js"></script>
+<script src="/vendor/bootstrap.imagegallery/bootstrap-image-gallery.min.js"></script>
+
+<link rel="stylesheet" href="/vendor/bootstrap.imagegallery/bootstrap-image-gallery.min.css">
+
+
+
+<div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body">
+        <div class="modal-image"></div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-success tutorial" href="#">
+            <i class="icon-download"></i>
+            <span>Live Tutorial</span>
+        </a>
+        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+            <i class="icon-play icon-white"></i>
+            <span>Slideshow</span>
+        </a>
+        <a class="btn btn-info modal-prev">
+            <i class="icon-arrow-left icon-white"></i>
+            <span>Previous</span>
+        </a>
+        <a class="btn btn-primary modal-next">
+            <span>Next</span>
+            <i class="icon-arrow-right icon-white"></i>
+        </a>
+    </div>
+</div>
+
+
+<div>
+
+    <button id="start-slideshow" class="btn btn-large btn-success" data-slideshow="5000" data-target="#modal-gallery"
+            data-selector="#gallery a[rel=gallery]">Start Slideshow
+    </button>
+    <button id="toggle-fullscreen" class="btn btn-large btn-primary" data-toggle="button">Toggle Fullscreen</button>
+
+    <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+        <br>Tables<br>
+        <a data-gallery="gallery" href="img/tables/d3_table.png" title="D3 Table" data-page="index.html?q=view_d3table"><img width="200px" height="200px" src="img/tables/d3_table.png"></a>
+        <br>Graphs<br>
+        <a data-gallery="gallery" href="img/charts/nvd3_barchart.png" title="NVD3 Barchart" data-page="index.html?q=NVD3barchart"><img width="200px" height="200px" src="img/charts/nvd3_barchart.png" ></a>
+        <br>Models<br>
+        <a data-gallery="gallery" href="img/models/base.png" title="Basic Model" data-page="index.html?q=static_model"><img width="200px" height="200px" src="img/models/base.png" ></a>
+        <br>Colors<br>
+    </div>
+</div>
+
+<script>
+
+    $('#modal-gallery').on('load', function () {
+        var modalData = $(this).data('modal');
+        $('.tutorial').attr("href", modalData["$links"][modalData.options.index].attributes[3].nodeValue);
+        // modalData.$links is the list of (filtered) element nodes as jQuery object
+        // modalData.img is the img (or canvas) element for the loaded image
+        // modalData.options.index is the index of the current link
+    });
+
+
+
+    $('#start-slideshow').button().click(function () {
+        var options = $(this).data(),
+                modal = $(options.target),
+                data = modal.data('modal');
+        if (data) {
+            $.extend(data.options, options);
+        } else {
+            options = $.extend(modal.data(), options);
+        }
+        modal.find('.modal-slideshow').find('i')
+                .removeClass('icon-play')
+                .addClass('icon-pause');
+        modal.modal(options);
+    });
+
+    // Toggle fullscreen button:
+    $('#toggle-fullscreen').button().click(function () {
+        var button = $(this),
+                root = document.documentElement;
+        if (!button.hasClass('active')) {
+            $('#modal-gallery').addClass('modal-fullscreen');
+            if (root.webkitRequestFullScreen) {
+                root.webkitRequestFullScreen(
+                        window.Element.ALLOW_KEYBOARD_INPUT
+                );
+            } else if (root.mozRequestFullScreen) {
+                root.mozRequestFullScreen();
+            }
+        } else {
+            $('#modal-gallery').removeClass('modal-fullscreen');
+            (document.webkitCancelFullScreen ||
+                    document.mozCancelFullScreen ||
+                    $.noop).apply(document);
+        }
+    });
+
+</script>

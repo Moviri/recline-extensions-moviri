@@ -1,0 +1,6 @@
+<h4>NVD3 custom tooltips</h4>
+<p>
+This example shows the same NVD3 charts as in example "NVD3 horizontal barchart", only with custom tooltips.<br>
+NVD3, in fact, provides tooltips by default but, should the user want to override them and use a different set of tooltips with custom content, this is the option for him: "customTooltips". Just pass an alternate (and valid) HTML template written in Mustache standard<br>
+Note that, in order for this to work, the default tooltip must be disabled with "tooltips: false"
+</p>

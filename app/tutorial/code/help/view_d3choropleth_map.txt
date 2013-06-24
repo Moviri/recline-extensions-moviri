@@ -1,0 +1,12 @@
+<h4>View.D3ChoroplethMap</h4>
+<p>
+This tutorial example shows Italy map, where region boundaries are colored using a color schema calculated on region density values.<br>
+Also a couple of actions have been instantiated:<br>
+<ol>
+<li>An action that selects the slickgrid rows when you select a region on the map</li>
+<li>An action that selects regions on the map when you select rows from the slick grid (multiple selections allowed)</li>
+</ol>
+Also when you hover on the map, a custom tooltip shows the Density value.<br>
+The initialization is rather straightforward: you have to supply a valid map JSON, the center of the map, scale and dimensions, plus some extra option.<br>
+The only thing to remark here is in the action mapped to map-clicking:  the "destLayer" must be supplied (in this case: "itaRegions") since a map may have multiple layers and only one of them contains the region names.
+<p>

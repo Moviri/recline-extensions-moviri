@@ -1,0 +1,30 @@
+<h4>View.Composed (Indicators)</h4>
+<p>
+This example shows how to use the "composed view", which is a tabular control that allows to embed other views in a matrix-like view. It's, in other word, a structured container for other views/controls</br> 
+One axis displays measures while the other axis displays dimensions. The Composed View has two layouts templates ("horizontal" and "vertical"), so you can easily transpose measures with dimensions.<br>
+The example scenario is the same scenario for View.Indicator and other examples (the same Downloads/Uploads/Accessi). Also the code is almost the same. The difference is in the extra code at the end that creates a composed view instead of the three indicators.
+Also we want to exploit the fact that the matrix has two axes so we use one axis for the UserIds and the other for the KPIs (Upload/Download/Accessi).<br>
+As can be seen in the View.Composed initialization, Indicators are created by passing:
+<pre>
+view: "Indicator"
+</pre>
+and the single view is instantiated by the Composed view by passing everything that's inside "props" to the internal view's constructor.<br>
+In our case:
+<pre>
+props: {
+    modelCompare: virtualCompare,
+    state: {
+        kpi: {field: k.fieldname},
+        compareWith: { 
+            field: k.fieldname, compareType: "percentageVariation", 
+            shapes: { decrease: DECREASE_ICON, increase: INCREASE_ICON, constant: CONSTANT_ICON }
+        }
+    }
+}
+</pre>
+In order to have different measures, we fill the measures needed with different values for each KPI using dedicated array "kpis", where "k" contains all needed data for the current KPI.<br>
+Notice that we passed a "modelCompare" to all Indicator views but no "model" yet. That's implicit: the model for all internal views is the same used by the composed view.<br> 
+Moreover, since the composed view has the option to display totals too, so we also pass the options "modelTotals", "measureTotals" and "titleTotals" to achieve our objective.<br>
+That said, the tutorial example closely resembles the dynamics of View.Indicator example: you may change the reference and comparison date in the datepicker in the top left section.<br>
+Finally: feel free to experiment horizontal and vertical layouts by changing the "template" value accordingly.
+</p>
