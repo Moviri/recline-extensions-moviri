@@ -1,9 +1,9 @@
 /*jshint multistr:true */
 
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
 
-(function ($, my) {
+define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.extensions.generic',
+    'jquery-ui.custom.slickgrid',  'jquery.event.drag-2.2', 'jquery-migrate-1.2.1',
+    'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/plugins/slick.rowselectionmodel'], function(Backbone, recline) {
 // ## SlickGrid Dataset View
 //
 // Provides a tabular view on a Dataset, based on SlickGrid.
@@ -13,6 +13,10 @@ this.recline.View = this.recline.View || {};
 // Initialize it with a `recline.Model.Dataset`.
 //
 // NB: you need an explicit height on the element for slickgrid to work
+
+    recline.View = this.recline.View || {};
+    my = recline.View;
+
     my.SlickGridGraph = Backbone.View.extend({
         initialize:function (modelEtc) {
             var self = this;
@@ -668,7 +672,8 @@ this.recline.View = this.recline.View || {};
         }
     });
 
-})(jQuery, recline.View);
+    return my.SlickGridGraph;
+});
 
 /*
  * Context menu for the column picker, adapted from

@@ -48,7 +48,7 @@ this.recline.Data = this.recline.Data || {};
 
     },
 
- 
+
         my.Filters._getDataParser = function (filter, fields) {
 
             var keyedFields = {};
@@ -79,20 +79,20 @@ this.recline.Data = this.recline.Data || {};
         },
 
         my.Filters._isNullFilter = {
-            term:function (filter) {
+            term: function (filter) {
                 return filter["term"] == null;
             },
 
-            range:function (filter) {
+            range: function (filter) {
                 return (filter["start"] == null || filter["stop"] == null);
 
             },
 
-            list:function (filter) {
+            list: function (filter) {
                 return filter["list"] == null;
 
             },
-            termAdvanced:function (filter) {
+            termAdvanced: function (filter) {
                 return filter["term"] == null;
             }
         },
@@ -102,24 +102,24 @@ this.recline.Data = this.recline.Data || {};
             var filters = queryObj.filters;
             // register filters
             var filterFunctions = {
-                term:term,
-                range:range,
-                geo_distance:geo_distance
+                term: term,
+                range: range,
+                geo_distance: geo_distance
             };
             var dataParsers = {
-                integer:function (e) {
+                integer: function (e) {
                     return parseFloat(e, 10);
                 },
-                'float':function (e) {
+                'float': function (e) {
                     return parseFloat(e, 10);
                 },
-                string:function (e) {
+                string: function (e) {
                     return e.toString()
                 },
-                date:function (e) {
+                date: function (e) {
                     return new Date(e).valueOf()
                 },
-                datetime:function (e) {
+                datetime: function (e) {
                     return new Date(e).valueOf()
                 }
             };
@@ -146,7 +146,7 @@ this.recline.Data = this.recline.Data || {};
         };
 
     my.Filters._filterFunctions = {
-        term:function (record, filter, fields) {
+        term: function (record, filter, fields) {
             var parse = recline.Data.Filters._getDataParser(filter, fields);
             var value = parse(record[filter.field]);
             var term = parse(filter.term);
@@ -154,7 +154,7 @@ this.recline.Data = this.recline.Data || {};
             return (value === term);
         },
 
-        range:function (record, filter, fields) {
+        range: function (record, filter, fields) {
             var startnull = (filter.start == null || filter.start === '');
             var stopnull = (filter.stop == null || filter.stop === '');
             var parse = recline.Data.Filters._getDataParser(filter, fields);
@@ -171,7 +171,7 @@ this.recline.Data = this.recline.Data || {};
 
         },
 
-        list:function (record, filter, fields) {
+        list: function (record, filter, fields) {
 
             var parse = recline.Data.Filters._getDataParser(filter, fields);
             var value = parse(record[filter.field]);
@@ -183,7 +183,7 @@ this.recline.Data = this.recline.Data || {};
             return (_.contains(list, value));
         },
 
-        termAdvanced:function (record, filter, fields) {
+        termAdvanced: function (record, filter, fields) {
             var parse = recline.Data.Filters._getDataParser(filter, fields);
             var value = parse(record[filter.field]);
             var term = parse(filter.term);
@@ -191,36 +191,36 @@ this.recline.Data = this.recline.Data || {};
             var operator = filter.operator;
 
             var operation = {
-                ne:function (value, term) {
+                ne: function (value, term) {
                     return value !== term
                 },
-                eq:function (value, term) {
+                eq: function (value, term) {
                     return value === term
                 },
-                lt:function (value, term) {
+                lt: function (value, term) {
                     return value < term
                 },
-                lte:function (value, term) {
+                lte: function (value, term) {
                     return value <= term
                 },
-                gt:function (value, term) {
+                gt: function (value, term) {
                     return value > term
                 },
-                gte:function (value, term) {
+                gte: function (value, term) {
                     return value >= term
                 },
-                bw:function (value, term) {
+                bw: function (value, term) {
                     return _.contains(term, value)
                 },
-                like:function (value, term) {
+                like: function (value, term) {
                     return value.indexOf(term) >= 0
                 },
-                rlike:function (value, term) {
+                rlike: function (value, term) {
                     return value.indexOf(term) == 0
                 },
-                llike:function (value, term) {
+                llike: function (value, term) {
                     return value.indexOf(term) > 0
-                },
+                }
             };
 
             return operation[operator](value, term);
@@ -228,22 +228,22 @@ this.recline.Data = this.recline.Data || {};
     },
 
         my.Filters._dataParsers = {
-            integer:function (e) {
+            integer: function (e) {
                 return parseFloat(e, 10);
             },
-            float:function (e) {
+            float: function (e) {
                 return parseFloat(e, 10);
             },
-            string:function (e) {
+            string: function (e) {
                 if (!e) return null; else return e.toString();
             },
-            date:function (e) {
+            date: function (e) {
                 return new Date(e).valueOf()
             },
-            datetime:function (e) {
+            datetime: function (e) {
                 return new Date(e).valueOf()
             },
-            number:function (e) {
+            number: function (e) {
                 return parseFloat(e, 10);
             }
         };

@@ -1,11 +1,10 @@
-// # Recline Backbone Models
-this.recline = this.recline || {};
-this.recline.Data = this.recline.Data || {};
-this.recline.Data.FieldsUtility = this.recline.Data.FieldsUtility || {};
+define(['underscore', 'recline-extensions-amd'], function (_, recline) {
 
-(function($, my) {
+    recline.Data = recline.Data || {};
+    recline.Data.FieldsUtility = recline.Data.FieldsUtility || {};
+    my = recline.Data.FieldsUtility;
 
-    my.setFieldsAttributes = function(fields, model, records) {
+    my.setFieldsAttributes = function (fields, model, records) {
 
 
         // if labels are declared in dataset properties merge it;
@@ -25,8 +24,7 @@ this.recline.Data.FieldsUtility = this.recline.Data.FieldsUtility || {};
         // if format is declared it is updated
         if (model.attributes.fieldsFormat) {
             // if format is declared in dataset properties merge it;
-        	if (model.attributes.fieldsFormat.length)
-    		{
+            if (model.attributes.fieldsFormat.length) {
                 _.each(model.attributes.fieldsFormat, function (d) {
                     var field = _.find(fields, function (f) {
                         return d.id === f.id
@@ -34,8 +32,8 @@ this.recline.Data.FieldsUtility = this.recline.Data.FieldsUtility || {};
                     if (field != null)
                         field.format = d.format;
                 })
-    		}
-        	else throw "Wrong fieldsFormat parameter. Must be an array, not a single object!"
+            }
+            else throw "Wrong fieldsFormat parameter. Must be an array, not a single object!"
         }
 
         // assignment of color schema to fields
@@ -62,5 +60,4 @@ this.recline.Data.FieldsUtility = this.recline.Data.FieldsUtility || {};
     }
 
 
-
-}(jQuery, this.recline.Data.FieldsUtility));
+});

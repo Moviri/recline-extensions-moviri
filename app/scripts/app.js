@@ -1,8 +1,9 @@
 /*global define */
 
     'use strict';
+  var __loadPanels;
+   require(['underscore', 'vendor/jshint-2.1.4'], function (_) {
 
-   require(['CodeMirror'], function (cm) {
 
         function __getQueryVariable(variable) {
             var query = window.location.search.substring(1);
@@ -61,8 +62,41 @@
         __cssCodeMirror.on("gutterClick", __foldFuncJS_CSS);
 
 
+       __loadPanels = function($this, htmlCodename, jsCodename, cssCodename, helpCodename) {
+           $("#__tutorial_tree__ a.selected").removeClass("selected") // deselect all previous tree nodes
+           if ($this) {
+               $this.addClass("selected") // select this tree node
+               var $parentInput = $this.parent().parent().prev().prev("input");
+               if ($parentInput)
+                   $parentInput.attr("checked", "checked") // also open parent folder
+           }
+           if (htmlCodename) {
+               __htmlCodeMirror.setValue(__IO("html", htmlCodename))
+               __enforceCodeFolding(__htmlCodeMirror, __foldFuncHtml)
+           }
+           else __htmlCodeMirror.setValue("")
 
-        function __assignDividerEvents($elem, $panel1, $panel2, horiz) {
+           if (jsCodename) {
+               __jsCodeMirror.setValue(__IO("js", jsCodename))
+               __enforceCodeFolding(__jsCodeMirror, __foldFuncJS_CSS)
+           }
+           else __jsCodeMirror.setValue("")
+
+           if (cssCodename)
+               __cssCodeMirror.setValue(__IO("css", cssCodename))
+           else __cssCodeMirror.setValue("")
+
+           if (helpCodename)
+               $("#__helpDialogContent").html(__IO("help", helpCodename))
+           else $("#__helpDialogContent").html("")
+
+           $("#__div_result").empty()
+
+           __runCode();
+       }
+
+
+       function __assignDividerEvents($elem, $panel1, $panel2, horiz) {
             $elem.data('dragMode', 0)
             //console.log($elem[0].id+ " DRAGMODE = "+$elem.data('dragMode'))
 
@@ -189,7 +223,7 @@
                 default :
                     ext = ".js";
             }
-            var pathname = "../code/" + path + "/" + filename + ext
+            var pathname = "tutorial/code/" + path + "/" + filename + ext
             var X = !window.XMLHttpRequest ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest;
             X.open("GET", pathname, false);
             X.send("");
@@ -208,38 +242,6 @@
             }
         }
 
-        function __loadPanels($this, htmlCodename, jsCodename, cssCodename, helpCodename) {
-            $("#__tutorial_tree__ a.selected").removeClass("selected") // deselect all previous tree nodes
-            if ($this) {
-                $this.addClass("selected") // select this tree node
-                var $parentInput = $this.parent().parent().prev().prev("input");
-                if ($parentInput)
-                    $parentInput.attr("checked", "checked") // also open parent folder
-            }
-            if (htmlCodename) {
-                __htmlCodeMirror.setValue(__IO("html", htmlCodename))
-                __enforceCodeFolding(__htmlCodeMirror, __foldFuncHtml)
-            }
-            else __htmlCodeMirror.setValue("")
-
-            if (jsCodename) {
-                __jsCodeMirror.setValue(__IO("js", jsCodename))
-                __enforceCodeFolding(__jsCodeMirror, __foldFuncJS_CSS)
-            }
-            else __jsCodeMirror.setValue("")
-
-            if (cssCodename)
-                __cssCodeMirror.setValue(__IO("css", cssCodename))
-            else __cssCodeMirror.setValue("")
-
-            if (helpCodename)
-                $("#__helpDialogContent").html(__IO("help", helpCodename))
-            else $("#__helpDialogContent").html("")
-
-            $("#__div_result").empty()
-
-            __runCode();
-        }
 
         var __MIN_HEIGHT = 80;
         var __MIN_WIDTH = 200;
@@ -281,7 +283,7 @@
                 $panel2.width(oldW2 - delta)
             }
         }
-
+        return "ciccio";
     });
 
 
