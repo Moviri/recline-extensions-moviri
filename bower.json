@@ -8,7 +8,8 @@
     "jquery": "~2.0.2",
     "backbone-amd": "1.0.0",
     "underscore-amd": "1.4.4",
-    "requirejs": "2.1.6"
+    "requirejs": "2.1.6",
+    "slickgrid-moviri": "2.1.0"
   },
   "devDependencies": {
    "codemirror": "3.13.0"
