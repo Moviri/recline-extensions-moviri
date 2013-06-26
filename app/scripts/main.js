@@ -12,7 +12,8 @@ require.config({
         CodeMirror: '../bower_components/codemirror/lib/codemirror',
         underscore: '../bower_components/underscore-amd/underscore',
         backbone: '../bower_components/backbone-amd/backbone',
-        "recline.dataset": 'vendor/recline/recline.dataset.min',
+        accounting: '../bower_components/accounting/accounting',
+        "recline.dataset": 'vendor/recline/recline.dataset',
         recline: 'vendor/recline/recline.min',
         "recline-extensions-amd": 'recline-extensions/recline-extensions-amd',
 

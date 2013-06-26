@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'backbone'], function(recline, SlickGridGraph, Backbone) {
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph'], function(recline, SlickGridGraph) {
     var dataset = new recline.Model.Dataset({
         records:[
             {id:0, country:'Italy', gender:"Female", age:25,  visits: 10},

@@ -1,22 +1,30 @@
-var dataset = new recline.Model.Dataset({
-    url:'../data/testDataDemo.jsonp',
-    backend:'jsonp',
-    id: 'myTestData',
-    fieldsFormat: [{id:"data", format: "localeTimeString"}],
-    renderer: recline.Data.Formatters.Renderers
-});
+require(['recline-extensions-amd', 'recline-extensions/data/data.formatters', 'recline-extensions/backend/backend.jsonp',
+    'recline-extensions/views/view.slickgrid_graph'
+], function (recline, SlickGridGraph, Backbone) {
 
-dataset.fetch();
+    var dataset = new recline.Model.Dataset({
+        url: 'tutorial/data/testDataDemo.jsonp',
+        backend: 'jsonp',
+        id: 'myTestData',
+        fieldsFormat: [
+            {id: "data", format: "localeTimeString"}
+        ],
+        renderer: recline.Data.Formatters.Renderers
+    });
 
-var $el = $('#grid1');
-var grid1 = new recline.View.SlickGridGraph({
-    model:dataset,
-    el:$el,
-    state:{  fitColumns:true,
-        useHoverStyle:true,
-        useStripedStyle:true,
-        useCondensedStyle:true
-    }
+    dataset.fetch();
+
+    var $el = $('#grid1');
+    var grid1 = new recline.View.SlickGridGraph({
+        model: dataset,
+        el: $el,
+        state: {  fitColumns: true,
+            useHoverStyle: true,
+            useStripedStyle: true,
+            useCondensedStyle: true
+        }
+    });
+    grid1.visible = true;
+    grid1.render();
+
 });
-grid1.visible = true;
-grid1.render();

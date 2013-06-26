@@ -1,10 +1,11 @@
-this.recline = this.recline || {};
-this.recline.Data = this.recline.Data || {};
+define(['recline-extensions-amd', 'accounting'], function(recline, accounting) {
 
-(function(my){
+    recline.Data = recline.Data || {};
+    recline.Data.Format = recline.Format || {};
+    recline.Data.Formatters = recline.Formatters || {};
 
-	my.Format = {};
-    my.Formatters = {};
+    var my = recline.Data;
+
 
     // formatters define how data is rapresented in internal dataset
     my.FormattersMoviri = {
@@ -255,4 +256,5 @@ this.recline.Data = this.recline.Data || {};
         return fieldLabel;
     }
 
-})(this.recline.Data);
+});
+

@@ -1,8 +1,9 @@
-this.recline = this.recline || {};
-this.recline.Backend = this.recline.Backend || {};
-this.recline.Backend.Jsonp = this.recline.Backend.Jsonp || {};
+define(['jquery', 'recline-extensions-amd'], function ($, my) {
+    recline.Backend = recline.Backend || {};
+    recline.Backend.Jsonp = recline.Backend.Jsonp || {};
 
-(function ($, my) {
+    var my = recline.Backend.Jsonp;
+
     my.__type__ = 'Jsonp';
     // Timeout for request (after this time if no response we error)
     // Needed because use JSONP so do not receive e.g. 500 errors
@@ -284,4 +285,4 @@ this.recline.Backend.Jsonp = this.recline.Backend.Jsonp || {};
     }
 
 
-}(jQuery, this.recline.Backend.Jsonp));
+});

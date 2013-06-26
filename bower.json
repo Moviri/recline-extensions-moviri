@@ -9,7 +9,8 @@
     "backbone-amd": "1.0.0",
     "underscore-amd": "1.4.4",
     "requirejs": "2.1.6",
-    "slickgrid-moviri": "2.1.0"
+    "slickgrid-moviri": "2.1.0",
+    "accounting": "0.3.2"
   },
   "devDependencies": {
    "codemirror": "3.13.0"
