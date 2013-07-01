@@ -1,9 +1,10 @@
-// # Recline Backbone Models
-this.recline = this.recline || {};
-this.recline.Data = this.recline.Data || {};
-this.recline.Data.ColorSchema = this.recline.Data.ColorSchema || {};
+define(['recline-extensions-amd', 'recline-extensions/model/model.extensions.colors'], function(recline) {
 
-(function ($, my) {
+    recline.Data = recline.Data || {};
+    recline.Data.Format = recline.Format || {};
+    recline.Data.ColorSchema = recline.ColorSchema || {};
+
+    var my = recline.Data;
 
     my.ColorSchema = Backbone.Model.extend({
         constructor: function ColorSchema() {
@@ -469,4 +470,6 @@ this.recline.Data.ColorSchema = this.recline.Data.ColorSchema || {};
             }
         });
     };
-}(jQuery, this.recline.Data));
+
+    return my.ColorSchema;
+});

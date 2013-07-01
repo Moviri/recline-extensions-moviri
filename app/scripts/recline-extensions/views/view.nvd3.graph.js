@@ -1,9 +1,8 @@
-/*jshint multistr:true */
+define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, recline, Mustache) {
 
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
 
-(function ($, my) {
+    recline.View = this.recline.View || {};
+    var my = recline.View;
 
 // ## Linegraph view for a Dataset using nvd3 graphing library.
 //
@@ -844,6 +843,7 @@ this.recline.View = this.recline.View || {};
         },
     });
 
+    return my.NVD3Graph;
 
-})(jQuery, recline.View);
+});
 

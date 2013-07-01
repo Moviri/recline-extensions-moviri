@@ -1,4 +1,6 @@
-var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph'], function(recline, SlickGridGraph) {
+
+    var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     records:[
         {id:0, country:'Italy', gender:"Female", age:25,  visits: 10},
         {id:1, country:'Italy', gender:"Female", age:35,  visits: 20},
@@ -58,7 +60,7 @@ $("#sortFieldSelect").on("change", function(e) {
 dataset.fetch();
 
 var $el = $('#grid1');
-var grid1 = new recline.View.SlickGridGraph({
+var grid1 = new SlickGridGraph({
     model:dataset,
     el:$el,
     state:{  fitColumns:true,
@@ -68,3 +70,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

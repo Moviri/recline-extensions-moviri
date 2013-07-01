@@ -1,7 +1,7 @@
-(function ($) {
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
     recline.Model.Dataset.prototype = $.extend(recline.Model.Dataset.prototype, {
-        setColorSchema:function () {
+        setColorSchema: function () {
             var self = this;
 
             _.each(self.attributes.colorSchema, function (d) {
@@ -15,14 +15,14 @@
         },
 
         // a color schema is linked to the dataset but colors are not recalculated upon data/field reset
-        addStaticColorSchema: function(colorSchema, field) {
+        addStaticColorSchema: function (colorSchema, field) {
             var self = this;
             if (!self.attributes["colorSchema"])
                 self.attributes["colorSchema"] = [];
 
-            self.attributes["colorSchema"].push({schema:colorSchema, field:field});
+            self.attributes["colorSchema"].push({schema: colorSchema, field: field});
 
-            if(self.fields.length > 0)
+            if (self.fields.length > 0)
                 self.setColorSchema();
 
             self.fields.bind('reset', function () {
@@ -37,7 +37,7 @@
 
         },
 
-        _handleQueryResult:function () {
+        _handleQueryResult: function () {
             var super_init = recline.Model.Dataset.prototype._handleQueryResult;
 
             return function (queryResult) {
@@ -61,7 +61,7 @@
 
 
     recline.Model.Record.prototype = $.extend(recline.Model.Record.prototype, {
-        getFieldColor:function (field) {
+        getFieldColor: function (field) {
             if (!field.attributes.colorSchema)
                 return null;
 
@@ -77,7 +77,7 @@
 
     recline.Model.Field.prototype = $.extend(recline.Model.Field.prototype, {
 
-        getColorForPartition:function () {
+        getColorForPartition: function () {
 
             if (!this.attributes.colorSchema)
                 return null;
@@ -90,4 +90,4 @@
     });
 
 
-}(jQuery));
+});

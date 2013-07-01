@@ -1,10 +1,12 @@
-this.recline = this.recline || {};
-this.recline.Data = this.recline.Data || {};
+define(['recline-extensions-amd', 'recline-extensions/model/model.extensions.colors'], function(recline) {
 
-(function(my) {
+    recline.Data = recline.Data || {};
+    recline.Data.Format = recline.Format || {};
+    recline.Data.Faceting = recline.Faceting || {};
+
+    var my = recline.Data;
 
 
-my.Faceting = {};
     my.Faceting.computeFacets = function (records_in, queryObj) {
         var self = this;
         var facetResults = {};
@@ -107,4 +109,4 @@ my.Faceting = {};
     };
 
 
-}(this.recline.Data))
+});

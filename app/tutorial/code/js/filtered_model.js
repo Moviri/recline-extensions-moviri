@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/model/filteredmodel'], function(recline, SlickGridGraph, FitleredDataset) {
+
 var dataset1 = new recline.Model.Dataset({ /*FOLD_ME*/
     records:[
         {id:0, country:'Italy', gender:"Female", age:25,  visits: 10},
@@ -47,7 +49,7 @@ $("#ageSelect").on("change", function(e) {
 	dataset1.query();
 });
 
-var dataset2 = new recline.Model.FilteredDataset( { dataset: dataset1 } );
+var dataset2 = new FitleredDataset( { dataset: dataset1 } );
 
 $("#countrySelect").on("change", function(e) {
 	var selection = $("#countrySelect").val();
@@ -98,3 +100,4 @@ var grid2 = new recline.View.SlickGridGraph({
 });
 grid2.visible = true;
 grid2.render();
+});

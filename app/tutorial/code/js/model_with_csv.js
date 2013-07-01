@@ -1,5 +1,10 @@
+require(['recline-extensions-amd', 'recline-extensions/data/data.formatters',
+    'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/backend/backend.extensions.csv'
+], function (recline, SlickGridGraph, Backbone) {
+
+
 var dataset = new recline.Model.Dataset({
-    url:'../data/Noleggi4.csv',
+    url:'tutorial/data/Noleggi4.csv',
     backend:'csv',
     id: 'model_noleggi',
 // press "?" button in run panel to read important
@@ -18,7 +23,7 @@ var dataset = new recline.Model.Dataset({
 dataset.fetch();
 
 var $el = $('#grid1');
-var grid1 = new recline.View.SlickGridGraph({
+var grid1 = new SlickGridGraph({
     model:dataset,
     el:$el,
     state:{  fitColumns:true,
@@ -29,3 +34,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

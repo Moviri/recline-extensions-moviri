@@ -13,6 +13,7 @@ require.config({
         underscore: '../bower_components/underscore-amd/underscore',
         backbone: '../bower_components/backbone-amd/backbone',
         accounting: '../bower_components/accounting/accounting',
+        mustache:   '../bower_components/mustache/mustache',
         "recline.dataset": 'vendor/recline/recline.dataset',
         recline: 'vendor/recline/recline.min',
         "recline-extensions-amd": 'recline-extensions/recline-extensions-amd',

@@ -15,7 +15,7 @@ require(['recline-extensions-amd', 'recline-extensions/data/data.formatters', 'r
     dataset.fetch();
 
     var $el = $('#grid1');
-    var grid1 = new recline.View.SlickGridGraph({
+    var grid1 = new SlickGridGraph({
         model: dataset,
         el: $el,
         state: {  fitColumns: true,

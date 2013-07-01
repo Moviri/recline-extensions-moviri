@@ -1,8 +1,10 @@
-this.recline = this.recline || {};
-this.recline.Backend = this.recline.Backend || {};
-this.recline.Backend.CSV = this.recline.Backend.CSV || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Backend = recline.Backend || {};
+    recline.Backend.CSV = recline.Backend.CSV || {};
 
-(function ($, my) {
+    var my = recline.Backend.CSV;
+
+
 	my.setFieldsAttributesCSV = function(fields, model, records) {
         // if type is declared and was unspecified (typical for CSV), it's updated 
         if (model.attributes.fieldsType) {
@@ -33,5 +35,5 @@ this.recline.Backend.CSV = this.recline.Backend.CSV || {};
         	else throw "Wrong fieldsType parameter. Must be an array, not a single object!"
         }
     }
-}(jQuery, this.recline.Backend.CSV));	
+});
 

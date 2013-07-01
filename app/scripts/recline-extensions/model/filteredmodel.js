@@ -1,10 +1,11 @@
-// # Recline Backbone Models
-this.recline = this.recline || {};
-this.recline.Model = this.recline.Model || {};
-this.recline.Model.FilteredDataset = this.recline.Model.FilteredDataset || {};
 
 
-(function ($, my) {
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Model = recline.Model || {};
+    recline.Model.FilteredDataset = recline.Model.FilteredDataset || {};
+
+    var my = recline.Model;
+
 
 // ## <a id="dataset">VirtualDataset</a>
     my.FilteredDataset = Backbone.Model.extend({
@@ -160,6 +161,6 @@ this.recline.Model.FilteredDataset = this.recline.Model.FilteredDataset || {};
 
     })
 
-
-}(jQuery, this.recline.Model));
+   return my.FilteredDataset;
+});
 

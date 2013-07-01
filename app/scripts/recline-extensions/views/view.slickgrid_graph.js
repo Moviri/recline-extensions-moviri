@@ -15,7 +15,7 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
 // NB: you need an explicit height on the element for slickgrid to work
 
     recline.View = this.recline.View || {};
-    my = recline.View;
+    var my = recline.View;
 
     my.SlickGridGraph = Backbone.View.extend({
         initialize:function (modelEtc) {

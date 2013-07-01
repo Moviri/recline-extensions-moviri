@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, my) {
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
     recline.Backend = recline.Backend || {};
     recline.Backend.Jsonp = recline.Backend.Jsonp || {};
 

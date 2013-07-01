@@ -1,10 +1,8 @@
-// # Recline Backbone Models
-this.recline = this.recline || {};
-this.recline.Model = this.recline.Model || {};
-this.recline.Model.JoinedDataset = this.recline.Model.JoinedDataset || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Model = recline.Model || {};
+    recline.Model.JoinedDataset = recline.Model.JoinedDataset || {};
 
-
-(function ($, my) {
+    var my = recline.Model;
 
 // ## <a id="dataset">VirtualDataset</a>
     my.JoinedDataset = Backbone.Model.extend({
@@ -253,6 +251,5 @@ this.recline.Model.JoinedDataset = this.recline.Model.JoinedDataset || {};
 
     })
 
-
-}(jQuery, this.recline.Model));
-
+    return my.JoinedDataset;
+});

@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/model/joinedmodel'], function(recline, SlickGridGraph, JoinedModel) {
+
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     records:[
         {id:0, country:'Italy', gender:"Female", age:25,  visits: 10},
@@ -42,7 +45,7 @@ var dataset2 = new recline.Model.Dataset({
         ]
 });
 
-var joined = new recline.Model.JoinedDataset({
+var joined = new JoinedModel({
     model: dataset,
     join: [{id: "country", model: dataset2, joinon: ["country"] }],
     joinType: "left"
@@ -52,7 +55,7 @@ dataset.fetch();
 dataset2.fetch();
 
 var $el = $('#grid1');
-var grid1 = new recline.View.SlickGridGraph({
+var grid1 = new SlickGridGraph({
     model:dataset,
     el:$el,
     state:{  fitColumns:true,
@@ -65,7 +68,7 @@ grid1.visible = true;
 grid1.render();
 
 var $elb = $('#grid1b');
-var grid1b = new recline.View.SlickGridGraph({
+var grid1b = new SlickGridGraph({
     model:dataset2,
     el:$elb,
     state:{  fitColumns:true,
@@ -78,7 +81,7 @@ grid1b.visible = true;
 grid1b.render();
 
 var $el2 = $('#grid2');
-var grid2 = new recline.View.SlickGridGraph({
+var grid2 = new SlickGridGraph({
     model:joined,
     el:$el2,
     state:{  fitColumns:true,
@@ -89,3 +92,5 @@ var grid2 = new recline.View.SlickGridGraph({
 });
 grid2.visible = true;
 grid2.render();
+
+});
