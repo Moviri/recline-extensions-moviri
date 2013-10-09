@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.virtualmodel'
+], function (recline, SlickGridGraph) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     records:[
         {id:0, country:'Italy', gender:"Female", age:25,  visits: 10},
@@ -43,7 +46,7 @@ var virtual = new recline.Model.VirtualDataset({
 dataset.fetch();
 
 var $el = $('#grid1');
-var grid1 = new recline.View.SlickGridGraph({
+var grid1 = new SlickGridGraph({
     model:dataset,
     el:$el,
     state:{  fitColumns:true,
@@ -56,7 +59,7 @@ grid1.visible = true;
 grid1.render();
 
 var $el2 = $('#grid2');
-var grid2 = new recline.View.SlickGridGraph({
+var grid2 = new SlickGridGraph({
     model:virtual,
     el:$el2,
     state:{  fitColumns:true,
@@ -67,3 +70,5 @@ var grid2 = new recline.View.SlickGridGraph({
 });
 grid2.visible = true;
 grid2.render();
+
+});

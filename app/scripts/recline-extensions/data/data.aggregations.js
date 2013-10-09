@@ -1,7 +1,7 @@
-this.recline = this.recline || {};
-this.recline.Data = this.recline.Data || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Data = recline.Data || {};
 
-(function(my){
+    var my = recline.Data;
 	
 	my.Aggregations = {};
 
@@ -197,4 +197,4 @@ this.recline.Data = this.recline.Data || {};
         ratioToMax: ["max"]
     };
 
-})(this.recline.Data);
+});

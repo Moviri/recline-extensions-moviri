@@ -1,8 +1,9 @@
-this.recline = this.recline || {};
-this.recline.Backend = this.recline.Backend || {};
-this.recline.Backend.SocketIO = this.recline.Backend.SocketIO || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Backend = recline.Backend || {};
+    recline.Backend.SocketIO = recline.Backend.SocketIO || {};
 
-(function ($, my) {
+    var my = recline.Backend.Jsonp;
+
     my.__type__ = 'SocketIO';
 
     my.fetch = function (dataset) {
@@ -271,4 +272,4 @@ this.recline.Backend.SocketIO = this.recline.Backend.SocketIO || {};
     }
 
 
-}(jQuery, this.recline.Backend.Jsonp));
+});

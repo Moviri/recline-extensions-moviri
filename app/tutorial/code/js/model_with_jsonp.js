@@ -1,6 +1,5 @@
-require(['recline-extensions-amd', 'recline-extensions/data/data.formatters', 'recline-extensions/backend/backend.jsonp',
-    'recline-extensions/views/view.slickgrid_graph'
-], function (recline, SlickGridGraph, Backbone) {
+require(['recline-extensions-amd','recline-extensions/views/view.slickgrid_graph', 'recline-extensions/backend/backend.jsonp']
+    , function (recline, SlickGridGraph) {
 
     var dataset = new recline.Model.Dataset({
         url: 'tutorial/data/testDataDemo.jsonp',

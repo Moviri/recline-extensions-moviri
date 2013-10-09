@@ -1,11 +1,8 @@
-// # Recline Backbone Models
-this.recline = this.recline || {};
-this.recline.Data = this.recline.Data || {};
-this.recline.Data.ShapeSchema = this.recline.Data.ShapeSchema || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Data = recline.Data || {};
+    recline.Data.ShapeSchema = recline.Data.ShapeSchema || {};
 
-(function($, my) {
-
-
+    var my = recline.Data;
 
     my.ShapeSchema = Backbone.Model.extend({
         constructor: function ShapeSchema() {
@@ -179,4 +176,4 @@ this.recline.Data.ShapeSchema = this.recline.Data.ShapeSchema || {};
         });
     };
 
-}(jQuery, this.recline.Data));
+});

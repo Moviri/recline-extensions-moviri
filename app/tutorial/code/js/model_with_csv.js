@@ -1,6 +1,5 @@
-require(['recline-extensions-amd', 'recline-extensions/data/data.formatters',
-    'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/backend/backend.extensions.csv'
-], function (recline, SlickGridGraph, Backbone) {
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/backend/backend.extensions.csv'
+], function (recline, SlickGridGraph) {
 
 
 var dataset = new recline.Model.Dataset({

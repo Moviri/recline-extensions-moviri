@@ -3,7 +3,10 @@
 
 define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.extensions.generic',
     'jquery-ui.custom.slickgrid',  'jquery.event.drag-2.2', 'jquery-migrate-1.2.1',
-    'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/plugins/slick.rowselectionmodel'], function(Backbone, recline) {
+    'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/slick.formatters', 
+    'slickgrid/slick.cellrangeselector', 'slickgrid/slick.cellselectionmodel', 'slickgrid/slick.rowselectionmodel',
+     'recline-extensions/data/data.formatters'], 
+     function(Backbone, recline) {
 // ## SlickGrid Dataset View
 //
 // Provides a tabular view on a Dataset, based on SlickGrid.

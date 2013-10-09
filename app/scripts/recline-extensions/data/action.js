@@ -1,6 +1,6 @@
-this.recline = this.recline || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
-(function ($, my) {
+    var my = recline;
 
     my.ActionUtility = {};
 
@@ -362,4 +362,4 @@ this.recline = this.recline || {};
         })
 
 
-}(jQuery, this.recline));
+});

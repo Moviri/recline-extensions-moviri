@@ -1,11 +1,10 @@
-// # Recline Backbone Models
-this.recline = this.recline || {};
-this.recline.Model = this.recline.Model || {};
-this.recline.Model.SocketDataset = this.recline.Model.SocketDataset || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+
+    recline.Model = recline.Model || {};
+    recline.Model.SocketDataset = recline.Model.SocketDataset || {};
 
 
-(function ($, my) {
-
+    var my = recline.Model;
 
     my.SocketDataset = Backbone.Model.extend({
         constructor: function SocketDataset() {
@@ -125,5 +124,5 @@ this.recline.Model.SocketDataset = this.recline.Model.SocketDataset || {};
     })
 
 
-}(jQuery, this.recline.Model));
+});
 

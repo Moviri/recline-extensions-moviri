@@ -1,12 +1,10 @@
-// # Recline Backbone Models
-this.recline = this.recline || {};
-this.recline.Model = this.recline.Model || {};
-this.recline.Model.UnionDataset = this.recline.Model.UnionDataset || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Model = recline.Model || {};
+    recline.Model.UnionDataset = recline.Model.UnionDataset || {};
 
 
-(function ($, my) {
+    var my = recline.Model;
 
-// ## <a id="dataset">VirtualDataset</a>
     my.UnionDataset = Backbone.Model.extend({
         constructor:function UnionDataset() {
             Backbone.Model.prototype.constructor.apply(this, arguments);
@@ -205,5 +203,5 @@ this.recline.Model.UnionDataset = this.recline.Model.UnionDataset || {};
     })
 
 
-}(jQuery, this.recline.Model));
+});
 

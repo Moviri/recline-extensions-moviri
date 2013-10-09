@@ -1,8 +1,8 @@
-this.recline = this.recline || {};
-this.recline.Backend = this.recline.Backend || {};
-this.recline.Backend.ParallelUnionBackend = this.recline.Backend.ParallelUnionBackend || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Backend = recline.Backend || {};
+    recline.Backend.ParallelUnionBackend = recline.Backend.ParallelUnionBackend || {};
 
-(function ($, my) {
+    var my = recline.Backend.ParallelUnionBackend;
     // Behaviour is used to choose the content of the query to be executed on relative backend
     // if behaviour is not specified all different orid will be executed on backend[1] in parallel
     // query item must must have a "orid" attributes
@@ -213,4 +213,4 @@ this.recline.Backend.ParallelUnionBackend = this.recline.Backend.ParallelUnionBa
     }
 
 
-}(jQuery, this.recline.Backend.ParallelUnionBackend));
+});

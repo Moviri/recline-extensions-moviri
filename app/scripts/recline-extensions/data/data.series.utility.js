@@ -1,6 +1,7 @@
-this.recline = this.recline || {};
-this.recline.Data = this.recline.Data || {};
-this.recline.Data.SeriesUtility = this.recline.Data.SeriesUtility || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+
+    recline.Data = recline.Data || {};
+    recline.Data.SeriesUtility = recline.Data.SeriesUtility || {};
 
 
 
@@ -21,7 +22,8 @@ this.recline.Data.SeriesUtility = this.recline.Data.SeriesUtility || {};
 
 
  */
-(function($, my) {
+    var my = recline.Data.SeriesUtility;
+
     my.createSeries = function (seriesAttr, unselectedColorValue, model, resultTypeValue, groupField, scaleTo100Perc, groupAllSmallSeries) {
         var series = [];
 
@@ -404,4 +406,4 @@ this.recline.Data.SeriesUtility = this.recline.Data.SeriesUtility || {};
     	}
     }
 
-}(jQuery, this.recline.Data.SeriesUtility));
+});

@@ -1,8 +1,8 @@
-this.recline = this.recline || {};
-this.recline.Template = this.recline.Template || {};
-this.recline.Template.Shapes = this.recline.Template.Shapes || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+  recline.Template = recline.Template || {};
+  recline.Template.Shapes = recline.Template.Shapes || {};
 
-(function($, my) {
+  var my = recline.Template;
 
    my.Shapes = {
         circle: function(color, isNode, isSVG) {
@@ -29,4 +29,4 @@ this.recline.Template.Shapes = this.recline.Template.Shapes || {};
             return res;
    }
 
-}(jQuery, this.recline.Template));
+});

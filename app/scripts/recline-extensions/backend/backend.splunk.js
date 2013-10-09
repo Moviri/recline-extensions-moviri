@@ -1,8 +1,10 @@
-this.recline = this.recline || {};
-this.recline.Backend = this.recline.Backend || {};
-this.recline.Backend.Splunk = this.recline.Backend.Splunk || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
-(function ($, my) {
+    recline.Backend = recline.Backend || {};
+    recline.Backend.Splunk = recline.Backend.Splunk || {};
+
+    va my = recline.Backend.Splunk;
+
     my.__type__ = 'Splunk';
     // Timeout for request (after this time if no response we error)
     // Needed because use JSONP so do not receive e.g. 500 errors
@@ -316,4 +318,4 @@ this.recline.Backend.Splunk = this.recline.Backend.Splunk || {};
     }
 
 
-}(jQuery, this.recline.Backend.Splunk));
+});

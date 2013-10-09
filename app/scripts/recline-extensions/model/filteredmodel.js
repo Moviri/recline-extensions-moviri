@@ -1,5 +1,3 @@
-
-
 define(['jquery', 'recline-extensions-amd'], function ($, recline) {
     recline.Model = recline.Model || {};
     recline.Model.FilteredDataset = recline.Model.FilteredDataset || {};

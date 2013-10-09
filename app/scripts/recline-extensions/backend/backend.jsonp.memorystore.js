@@ -1,8 +1,9 @@
-this.recline = this.recline || {};
-this.recline.Backend = this.recline.Backend || {};
-this.recline.Backend.JsonpMemoryStore = this.recline.Backend.JsonpMemoryStore || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Backend = recline.Backend || {};
+    recline.Backend.JsonpMemoryStore = recline.Backend.JsonpMemoryStore || {};
 
-(function ($, my) {
+    var my = recline.Backend.JsonpMemoryStore;
+
     my.__type__ = 'JsonpMemoryStore';
     // Timeout for request (after this time if no response we error)
     // Needed because use JSONP so do not receive e.g. 500 errors
@@ -277,4 +278,4 @@ this.recline.Backend.JsonpMemoryStore = this.recline.Backend.JsonpMemoryStore ||
     }
 
 
-}(jQuery, this.recline.Backend.JsonpMemoryStore));
+});

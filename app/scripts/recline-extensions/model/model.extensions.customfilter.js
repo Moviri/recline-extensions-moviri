@@ -1,4 +1,4 @@
-(function ($) {
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
     recline.Model.Dataset.prototype = $.extend(recline.Model.Dataset.prototype, {
             addCustomFilterLogic: function(f) {
@@ -10,4 +10,4 @@
     });
 
 
-}(jQuery));
+});

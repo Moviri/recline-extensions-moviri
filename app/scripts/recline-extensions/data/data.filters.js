@@ -1,8 +1,8 @@
-this.recline = this.recline || {};
-this.recline.Data = this.recline.Data || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+    recline.Data = recline.Data || {};
 
-(function (my) {
-// adapted from https://github.com/harthur/costco. heather rules
+    var my = recline.Data;
+    // adapted from https://github.com/harthur/costco. heather rules
 
     my.Filters = {};
 
@@ -247,4 +247,4 @@ this.recline.Data = this.recline.Data || {};
                 return parseFloat(e, 10);
             }
         };
-}(this.recline.Data))
+});
