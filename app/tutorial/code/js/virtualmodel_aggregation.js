@@ -46,7 +46,7 @@ var virtual = new recline.Model.VirtualDataset({
 dataset.fetch();
 
 var $el = $('#grid1');
-var grid1 = new SlickGridGraph({
+var grid1 = new recline.View.SlickGridGraph({
     model:dataset,
     el:$el,
     state:{  fitColumns:true,
@@ -59,7 +59,7 @@ grid1.visible = true;
 grid1.render();
 
 var $el2 = $('#grid2');
-var grid2 = new SlickGridGraph({
+var grid2 = new recline.View.SlickGridGraph({
     model:virtual,
     el:$el2,
     state:{  fitColumns:true,

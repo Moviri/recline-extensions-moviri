@@ -1,5 +1,5 @@
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'../data/Chord.csv',
+    url:'tutorial/data/Chord.csv',
     backend:'csv',
     id: 'model_chord',
     fieldsType: [

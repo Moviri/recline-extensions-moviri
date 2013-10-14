@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.filteredmodel', 'recline-extensions/views/widget.genericfilter'
+], function (recline) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     records:[
         {id:0, country:'Italy', gender:"Female", age:25,  visits: 10},
@@ -49,6 +52,8 @@ var myAction = new recline.Action({
 // unique values to the dropdown lists
 dataset.queryState.addFacetNoEvent("country");
 dataset.queryState.addFacetNoEvent("gender");
+//dataset.queryState.addFacet("country", {silent: true});
+//dataset.queryState.addFacet("gender", {silent: true});
 dataset.fetch();
 
 filteredDataset.query();
@@ -92,3 +97,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, recline, Mustache) {
+define(['backbone', 'recline-extensions-amd', 'mustache', 'chosen'], function (Backbone, recline, Mustache) {
 
 
     recline.View = this.recline.View || {};

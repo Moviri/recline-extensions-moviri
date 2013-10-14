@@ -4,8 +4,6 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
     var my = recline.Model;
 
-
-// ## <a id="dataset">VirtualDataset</a>
     my.FilteredDataset = Backbone.Model.extend({
         constructor:function FilteredDataset() {
             Backbone.Model.prototype.constructor.apply(this, arguments);

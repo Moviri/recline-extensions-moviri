@@ -1,5 +1,5 @@
 var dataset = new recline.Model.Dataset({
-    url:'../data/bigDataDemo.jsonp',
+    url:'tutorial/data/bigDataDemo.jsonp',
     backend:'jsonp',
     id: 'myTestData',
     fieldsFormat: [{id:"data", format: "localeTimeString"}],

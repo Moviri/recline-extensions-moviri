@@ -24,12 +24,12 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
         template:'<div class="recline-graph"> \
       <div class="panel nvd3graph_{{viewId}}"style="display: block;"> \
         <div id="nvd3chart_{{viewId}}"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" class="bstrap" width="{{width}}" height="{{height}}"> \
-        	  <defs> \
-		    	<marker id = "Circle" viewBox = "0 0 40 40" refX = "12" refY = "12" markerWidth = "6" markerHeight = "6" stroke = "white" stroke-width = "4" fill = "dodgerblue" orient = "auto"> \
-		    	<circle cx = "12" cy = "12" r = "12"/> \
-		    	</marker> \
-		      </defs> \
-        	</svg></div>\
+              <defs> \
+                <marker id = "Circle" viewBox = "0 0 40 40" refX = "12" refY = "12" markerWidth = "6" markerHeight = "6" stroke = "white" stroke-width = "4" fill = "dodgerblue" orient = "auto"> \
+                <circle cx = "12" cy = "12" r = "12"/> \
+                </marker> \
+              </defs> \
+            </svg></div>\
       </div> \
     </div> ',
 
@@ -45,12 +45,20 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             this.model.fields.bind('reset', this.render);
             this.model.fields.bind('add', this.render);
 
+            this.model.records.bind('add', this.redraw);
+            this.model.records.bind('reset', this.redraw);
+            this.model.records.bind('remove', this.redraw);
             this.model.bind('query:done', this.redraw);
             this.model.queryState.bind('selection:done', this.redraw);
             this.model.bind('dimensions:change', this.changeDimensions);
+            
+            if (this.model.recordCount) { 
+                this.render(); 
+                this.redraw(); 
+            }           
 
             if (this.options.state && this.options.state.loader)
-            	this.options.state.loader.bindChart(this);
+                this.options.state.loader.bindChart(this);
         },
 
         changeDimensions: function() {
@@ -77,10 +85,10 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             var tmplData = this.model.toTemplateJSON();
             tmplData["viewId"] = this.uid;
             if (this.state.attributes.width)
-            	tmplData.width = this.state.attributes.width;
+                tmplData.width = this.state.attributes.width;
 
             if (this.state.attributes.height)
-            	tmplData.height = this.state.attributes.height;
+                tmplData.height = this.state.attributes.height;
 
             delete this.chart;
             
@@ -125,40 +133,40 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                 return;
             }
             if ($("div.noData", this.el).length)
-				self.render(); // remove previous noData frame
-				
+                self.render(); // remove previous noData frame
+                
             var svgElem = this.el.find('#nvd3chart_' + self.uid+ ' svg') 
-        	svgElem.css("display", "block")
-        	// get computed dimensions
-        	var width = svgElem.width()
-        	var height = svgElem.height()
+            svgElem.css("display", "block")
+            // get computed dimensions
+            var width = svgElem.width()
+            var height = svgElem.height()
 
             var state = this.state;
             var seriesNVD3 = recline.Data.SeriesUtility.createSeries(this.state.attributes.series, 
-            														this.state.attributes.unselectedColor, 
-            														this.model, 
-            														this.options.resultType, 
-            														this.state.attributes.group, 
-            														this.options.state.scaleTo100Perc, 
-            														this.options.state.groupAllSmallSeries)
-            														
-        	var totalValues = 0;
+                                                                    this.state.attributes.unselectedColor, 
+                                                                    this.model, 
+                                                                    this.options.resultType, 
+                                                                    this.state.attributes.group, 
+                                                                    this.options.state.scaleTo100Perc, 
+                                                                    this.options.state.groupAllSmallSeries)
+                                                                    
+            var totalValues = 0;
             if (seriesNVD3)
-        	{
-            	_.each(seriesNVD3, function(s) {
-            		if (s.values)
-            			totalValues += s.values.length
-            	});
-        	}
+            {
+                _.each(seriesNVD3, function(s) {
+                    if (s.values)
+                        totalValues += s.values.length
+                });
+            }
             if (!totalValues)
-        	{
-            	// display noData message and exit
-            	svgElem.css("display", "none")
-            	this.el.find('#nvd3chart_' + self.uid).width(width).height(height).html("").append(new recline.View.NoDataMsg().create());
+            {
+                // display noData message and exit
+                svgElem.css("display", "none")
+                this.el.find('#nvd3chart_' + self.uid).width(width).height(height).html("").append(new recline.View.NoDataMsg().create());
                 self.trigger("chart:endDrawing")
-            	return null;
-        	}
-			self.series = seriesNVD3;
+                return null;
+            }
+            self.series = seriesNVD3;
             var graphType = this.state.get("graphType");
 
             var viewId = this.uid;
@@ -173,70 +181,87 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                 var svgElem = self.el.find('#nvd3chart_' + self.uid+ ' svg')
                 var graphModel = self.getGraphModel(self, graphType)
                 if (typeof graphModel == "undefined")
-                	throw "NVD3 Graph type "+graphType+" not found!"
+                    throw "NVD3 Graph type "+graphType+" not found!"
                 
                 if (self.options.state.options)
-            	{
-	                if (self.options.state.options.noTicksX)
-	                    self.chart.xAxis.tickFormat(function (d) { return ''; });
-	                else
-	            	{
-	                	var xField = self.model.fields.get(self.options.state.group)
-	                	if (xField.attributes.type == "date")
-	                		self.chart.xAxis.tickFormat(function (d) {
-	                			return d3.time.format("%d-%b")(new Date(d)); 
-	                		});
-	            	}
-	                if (self.options.state.options.noTicksY)
-	                    self.chart.yAxis.tickFormat(function (d) { return ''; });                	
-	                if (self.options.state.options.customTooltips)
-	            	{
-	                	var leftOffset = 10;
-	                	var topOffset = 0;
-	                    //console.log("Replacing original tooltips")
-	                    
-	                    var xfield = self.model.fields.get(self.state.attributes.group);
-	                    var yfield = self.model.fields.get(self.state.attributes.series);
-	                    
-	                    graphModel.dispatch.on('elementMouseover.tooltip', function(e) {
-	                    	var pos;
-	                    	if (e.e && e.e.pageY && e.e.pageX)
-	                    		pos = {top: e.e.pageY, left: e.e.pageX}
-	                    	else pos = {left: e.pos[0] + +svgElem.offset().left + 50, top: e.pos[1]+svgElem.offset().top}
-	                    	
-	                        var values;
-	                    	if (graphType.indexOf("Horizontal") >= 0)
-	                		{
-	                        	values = { 
-	                            		x: e.point.x,
-	                            		y: (yfield ? self.getFormatter(yfield.get('type'))(e.point.y) : e.point.y),
-	                            		y_orig: e.point.y_orig || e.point.y,
-	                    				yLabel: e.series.key,
-	                    				xLabel: (xfield ? xfield.get("label") : "") 
-	                    			}
-	                		}
-	                    	else
-	                		{
-	                        	values = { 
-	                            		x: (xfield ? self.getFormatter(xfield.get('type'))(e.point.x) : e.point.x),
-	                            		y: e.point.y,
-	                            		y_orig: e.point.y_orig || e.point.y,
-	                    				xLabel: e.series.key,
-	                    				yLabel: (yfield ? yfield.get("label") : "")
-	                    			}
-	                		}
-	                    	values["record"] = e.point.record.attributes;
-	                    		
-	                        var content = Mustache.render(self.options.state.options.customTooltips, values);
-	
-	                        nv.tooltip.show([pos.left+leftOffset, pos.top+topOffset], content, (pos.left < self.el[0].offsetLeft + self.el.width()/2 ? 'w' : 'e'), null, self.el[0]);
-	                      });
-	                    
-	                    graphModel.dispatch.on('elementMouseout.tooltip', function(e) {
-	                    	nv.tooltip.cleanup();
-	                    });
-	            	}
-            	}
+                {
+                    if (self.options.state.options.noTicksX)
+                        self.chart.xAxis.tickFormat(function (d) { return ''; });
+                    else
+                    {
+                        var xField = self.model.fields.get(self.options.state.group)
+                        if (xField.attributes.type == "date")
+                        {
+                            if (graphType.indexOf("Horizontal") < 0 && self.options.state.tickFormatX)
+                            {
+                                self.chart.xAxis.tickFormat(function (d) {
+                                    return self.options.state.tickFormatX(new Date(d)); 
+                                });
+                            }
+                            else if (graphType.indexOf("Horizontal") > 0 && self.options.state.tickFormatY)
+                            {
+                                self.chart.yAxis.tickFormat(function (d) {
+                                    return self.options.state.tickFormatY(new Date(d)); 
+                                });
+                            }
+                            else 
+                            {
+                                self.chart.xAxis.tickFormat(function (d) {
+                                    return d3.time.format("%d-%b")(new Date(d)); 
+                                });
+                            }
+                        }
+                    }
+                    if (self.options.state.options.noTicksY)
+                        self.chart.yAxis.tickFormat(function (d) { return ''; });                   
+                    if (self.options.state.options.customTooltips)
+                    {
+                        var leftOffset = 10;
+                        var topOffset = 0;
+                        //console.log("Replacing original tooltips")
+                        
+                        var xfield = self.model.fields.get(self.state.attributes.group);
+                        var yfield = self.model.fields.get(self.state.attributes.series);
+                        
+                        graphModel.dispatch.on('elementMouseover.tooltip', function(e) {
+                            var pos;
+                            if (e.e && e.e.pageY && e.e.pageX)
+                                pos = {top: e.e.pageY, left: e.e.pageX}
+                            else pos = {left: e.pos[0] + +svgElem.offset().left + 50, top: e.pos[1]+svgElem.offset().top}
+                            
+                            var values;
+                            if (graphType.indexOf("Horizontal") >= 0)
+                            {
+                                values = { 
+                                        x: e.point.x,
+                                        y: (yfield ? self.getFormatter(yfield.get('type'))(e.point.y) : e.point.y),
+                                        y_orig: e.point.y_orig || e.point.y,
+                                        yLabel: e.series.key,
+                                        xLabel: (xfield ? xfield.get("label") : "") 
+                                    }
+                            }
+                            else
+                            {
+                                values = { 
+                                        x: (xfield ? self.getFormatter(xfield.get('type'))(e.point.x) : e.point.x),
+                                        y: e.point.y,
+                                        y_orig: e.point.y_orig || e.point.y,
+                                        xLabel: e.series.key,
+                                        yLabel: (yfield ? yfield.get("label") : "")
+                                    }
+                            }
+                            values["record"] = e.point.record.attributes;
+                                
+                            var content = Mustache.render(self.options.state.options.customTooltips, values);
+    
+                            nv.tooltip.show([pos.left+leftOffset, pos.top+topOffset], content, (pos.left < self.el[0].offsetLeft + self.el.width()/2 ? 'w' : 'e'), null, self.el[0]);
+                          });
+                        
+                        graphModel.dispatch.on('elementMouseout.tooltip', function(e) {
+                            nv.tooltip.cleanup();
+                        });
+                    }
+                }
                 if (self.state.attributes.options) {
                     _.each(_.keys(self.state.attributes.options), function (d) {
                         try {
@@ -267,31 +292,34 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             var self = this;
             var viewId = this.uid;
 
+            if (!self.$el.is(":visible"))
+                return;         
+
             // this only works by previously setting the body height to a numeric pixel size (percentage size don't work)
             // so we assign the window height to the body height with the command below
             var container = self.el;
             while (!container.hasClass('container-fluid') && !container.hasClass('container') && container.length)
-            	container = container.parent();
+                container = container.parent();
             
             if (typeof container != "undefined" && container != null 
-            		&& (container.hasClass('container') || container.hasClass('container-fluid'))
-            		&& container[0].style && container[0].style.height
-            		&& container[0].style.height.indexOf("%") > 0) 
+                    && (container.hasClass('container') || container.hasClass('container-fluid'))
+                    && container[0].style && container[0].style.height
+                    && container[0].style.height.indexOf("%") > 0) 
             {
-	            $("body").height($(window).innerHeight() - 10);
-	
-	            var currAncestor = self.el;
-	            while (!currAncestor.hasClass('row-fluid') && !currAncestor.hasClass('row'))
-	                currAncestor = currAncestor.parent();
-	
-	            if (typeof currAncestor != "undefined" && currAncestor != null && (currAncestor.hasClass('row-fluid') || currAncestor.hasClass('row'))) {
-	                var newH = currAncestor.height();
-	                $('#nvd3chart_' + viewId).height(newH);
-	                $('#nvd3chart_' + viewId + '  svg').height(newH);
-	            }
+                $("body").height($(window).innerHeight() - 10);
+    
+                var currAncestor = self.el;
+                while (!currAncestor.hasClass('row-fluid') && !currAncestor.hasClass('row'))
+                    currAncestor = currAncestor.parent();
+    
+                if (typeof currAncestor != "undefined" && currAncestor != null && (currAncestor.hasClass('row-fluid') || currAncestor.hasClass('row'))) {
+                    var newH = currAncestor.height();
+                    $('#nvd3chart_' + viewId).height(newH);
+                    $('#nvd3chart_' + viewId + '  svg').height(newH);
+                }
             }
             if (self.chart && self.chart.update)
-            	self.chart.update(); // calls original 'update' function
+                self.chart.update(); // calls original 'update' function
         },
 
 
@@ -301,21 +329,21 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             var xLabel = self.state.get("xLabel");
 
             if (axis == "all" || axis == "x") {
-            	var xAxisFormat = function(str) {return str;}
-            	// axis are switched when using horizontal bar chart
-            	if (self.state.get("graphType").indexOf("Horizontal") < 0)
-        		{
+                var xAxisFormat = function(str) {return str;}
+                // axis are switched when using horizontal bar chart
+                if (self.state.get("graphType").indexOf("Horizontal") < 0)
+                {
                     var xfield = self.model.fields.get(self.state.attributes.group);
-            		xAxisFormat = self.state.get("tickFormatX") || self.getFormatter(xfield.get('type'));
-            		if (xLabel == null || xLabel == "" || typeof xLabel == 'undefined')
+                    xAxisFormat = self.state.get("tickFormatX") || self.getFormatter(xfield.get('type'));
+                    if (xLabel == null || xLabel == "" || typeof xLabel == 'undefined')
                         xLabel = xfield.get('label');
-        		}
-            	else
-        		{
-            		xLabel = self.state.get("yLabel");
-            		if (self.state.get("tickFormatY"))
-            			xAxisFormat = self.state.get("tickFormatY");
-        		}
+                }
+                else
+                {
+                    xLabel = self.state.get("yLabel");
+                    if (self.state.get("tickFormatY"))
+                        xAxisFormat = self.state.get("tickFormatY");
+                }
 
                 // set data format
                 chart.xAxis
@@ -327,22 +355,22 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                 var yLabel = self.state.get("yLabel");
 
                 var yAxisFormat = function(str) {return str;}
-            	// axis are switched when using horizontal bar chart
+                // axis are switched when using horizontal bar chart
                 if (self.state.get("graphType").indexOf("Horizontal") >= 0)
-            	{
-                	var yfield = self.model.fields.get(self.state.attributes.group);            	
-                	yAxisFormat = self.state.get("tickFormatX") || self.getFormatter(yfield.get('type'))
-            		yLabel = self.state.get("xLabel");
-            	}
+                {
+                    var yfield = self.model.fields.get(self.state.attributes.group);                
+                    yAxisFormat = self.state.get("tickFormatX") || self.getFormatter(yfield.get('type'))
+                    yLabel = self.state.get("xLabel");
+                }
                 else
-            	{
-                	if (self.state.get("tickFormatY"))
-                		yAxisFormat = self.state.get("tickFormatY");
+                {
+                    if (self.state.get("tickFormatY"))
+                        yAxisFormat = self.state.get("tickFormatY");
 
-                	if (yLabel == null || yLabel == "" || typeof yLabel == 'undefined')
+                    if (yLabel == null || yLabel == "" || typeof yLabel == 'undefined')
                         yLabel = self.state.attributes.seriesValues.join("/");
-            	}
-                	
+                }
+                    
                 chart.yAxis
                     .axisLabel(yLabel)
                     .tickFormat(yAxisFormat);
@@ -350,13 +378,13 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
         },
 
         getFormatter: function(type) {
-        	var self = this;
-        	switch(type)
-        	{
-        	case "string": return d3.format(',s');
-        	case "float": return d3.format(',r');
-        	case "integer": return d3.format(',r');
-        	case "date": return d3.time.format('%x');
+            var self = this;
+            switch(type)
+            {
+            case "string": return d3.format(',s');
+            case "float": return d3.format(',r');
+            case "integer": return d3.format(',r');
+            case "date": return d3.time.format('%x');
             }
         },
 
@@ -387,7 +415,7 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             },
             "showControls":function(chart, value) {
                 if (chart.showControls)
-					chart.showControls(value);
+                    chart.showControls(value);
             },
             "showMaxMin":function(chart, value) {
                 chart.showMaxMin(value);
@@ -398,10 +426,10 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             "customTooltips":function (chart, value) { 
             },
             "stacked":function(chart, value) {
-        		chart.stacked(value);
+                chart.stacked(value);
             },
             "grouped":function(chart, value) {
-        		chart.stacked(!value);
+                chart.stacked(!value);
             },
             "margin":function(chart, value) {
                 chart.margin(value);
@@ -418,18 +446,18 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                     chart = nv.models.multiBarChart();
 
                 view.setAxis(view.options.state.axisTitlePresent || "all", chart);
-            	var actions = view.getActionsForEvent("selection");
+                var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
                     chart.multibar.dispatch.on('elementClick', function (e) {
-                    	view.doActions(actions, [e.point.record]);
+                        view.doActions(actions, [e.point.record]);
                     });
-            	var actionsH = view.getActionsForEvent("hover");
+                var actionsH = view.getActionsForEvent("hover");
                 if (actionsH.length > 0)
-            	{
+                {
                     chart.multibar.dispatch.on('elementMouseover', function (e) {
-                    	view.doActions(actionsH, [e.point.record]);
+                        view.doActions(actionsH, [e.point.record]);
                     });
-            	}
+                }
                 return chart;
             },
             "lineChart":function (view) {
@@ -439,20 +467,20 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                 else
                     chart = nv.models.lineChart();
                 view.setAxis(view.options.state.axisTitlePresent || "all", chart);
-            	var actions = view.getActionsForEvent("selection");
+                var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
-            	{
+                {
                     chart.lines.dispatch.on('elementClick', function (e) {
-                    	view.doActions(actions, [e.point.record]);
+                        view.doActions(actions, [e.point.record]);
                     });
-            	}
-            	var actionsH = view.getActionsForEvent("hover");
+                }
+                var actionsH = view.getActionsForEvent("hover");
                 if (actionsH.length > 0)
-            	{
+                {
                     chart.lines.dispatch.on('elementMouseover', function (e) {
-                    	view.doActions(actionsH, [e.point.record]);
+                        view.doActions(actionsH, [e.point.record]);
                     });
-            	}
+                }
                 return chart;
             },
             "lineDottedChart":function (view) {
@@ -462,20 +490,20 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                 else
                     chart = nv.models.lineDottedChart();
                 view.setAxis(view.options.state.axisTitlePresent || "all", chart);
-            	var actions = view.getActionsForEvent("selection");
+                var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
-            	{
+                {
                     chart.lines.dispatch.on('elementClick', function (e) {
-                    	view.doActions(actions, [e.point.record]);
+                        view.doActions(actions, [e.point.record]);
                     });
-            	}
-            	var actionsH = view.getActionsForEvent("hover");
+                }
+                var actionsH = view.getActionsForEvent("hover");
                 if (actionsH.length > 0)
-            	{
+                {
                     chart.lines.dispatch.on('elementMouseover', function (e) {
-                    	view.doActions(actionsH, [e.point.record]);
+                        view.doActions(actionsH, [e.point.record]);
                     });
-            	}
+                }
                 return chart;
             },
             "lineWithFocusChart":function (view) {
@@ -486,20 +514,20 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                     chart = nv.models.lineWithFocusChart();
 
                 view.setAxis(view.options.state.axisTitlePresent || "all", chart);
-            	var actions = view.getActionsForEvent("selection");
+                var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
-            	{
+                {
                     chart.lines.dispatch.on('elementClick', function (e) {
-                    	view.doActions(actions, [e.point.record]);
+                        view.doActions(actions, [e.point.record]);
                     });
-            	}
-            	var actionsH = view.getActionsForEvent("hover");
+                }
+                var actionsH = view.getActionsForEvent("hover");
                 if (actionsH.length > 0)
-            	{
+                {
                     chart.lines.dispatch.on('elementMouseover', function (e) {
-                    	view.doActions(actionsH, [e.point.record]);
+                        view.doActions(actionsH, [e.point.record]);
                     });
-            	}                return chart;
+                }                return chart;
             },
             "indentedTree":function (view) {
                 var chart;
@@ -515,20 +543,20 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                 else
                     chart = nv.models.stackedAreaChart();
                 view.setAxis(view.options.state.axisTitlePresent || "all", chart);
-            	var actions = view.getActionsForEvent("selection");
+                var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
-            	{
+                {
                     chart.stacked.dispatch.on('elementClick', function (e) {
-                    	view.doActions(actions, [e.point.record]);
+                        view.doActions(actions, [e.point.record]);
                     });
-            	}
-            	var actionsH = view.getActionsForEvent("hover");
+                }
+                var actionsH = view.getActionsForEvent("hover");
                 if (actionsH.length > 0)
-            	{
+                {
                     chart.stacked.dispatch.on('elementMouseover', function (e) {
-                    	view.doActions(actionsH, [e.point.record]);
+                        view.doActions(actionsH, [e.point.record]);
                     });
-            	}
+                }
                 return chart;
             },
 
@@ -548,20 +576,20 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                     chart = nv.models.multiBarHorizontalChart();
                 view.setAxis(view.options.state.axisTitlePresent || "all", chart);
                 
-            	var actions = view.getActionsForEvent("selection");
+                var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
-            	{
+                {
                     chart.multibar.dispatch.on('elementClick', function (e) {
-                    	view.doActions(actions, [e.point.record]);
+                        view.doActions(actions, [e.point.record]);
                     });
-            	}
-            	var actionsH = view.getActionsForEvent("hover");
+                }
+                var actionsH = view.getActionsForEvent("hover");
                 if (actionsH.length > 0)
-            	{
+                {
                     chart.multibar.dispatch.on('elementMouseover', function (e) {
-                    	view.doActions(actionsH, [e.point.record]);
+                        view.doActions(actionsH, [e.point.record]);
                     });
-            	}
+                }
                 return chart;
             },
             "legend":function (view) {
@@ -641,20 +669,20 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                 chart.showDistX(true)
                     .showDistY(true);
                 view.setAxis(view.options.state.axisTitlePresent || "all", chart);
-            	var actions = view.getActionsForEvent("selection");
+                var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
-            	{
+                {
                     chart.scatter.dispatch.on('elementClick', function (e) {
-                    	view.doActions(actions, [e.point.record]);
+                        view.doActions(actions, [e.point.record]);
                     });
-            	}
-            	var actionsH = view.getActionsForEvent("hover");
+                }
+                var actionsH = view.getActionsForEvent("hover");
                 if (actionsH.length > 0)
-            	{
+                {
                     chart.scatter.dispatch.on('elementMouseover', function (e) {
-                    	view.doActions(actionsH, [e.point.record]);
+                        view.doActions(actionsH, [e.point.record]);
                     });
-            	}                
+                }                
                 return chart;
             },
             "discreteBarChart":function (view) {
@@ -770,51 +798,51 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                     });
                     return ret;
                 });
-            	var actions = view.getActionsForEvent("selection");
+                var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
-            	{
+                {
                     chart.pie.dispatch.on('elementClick', function (e) {
-                    	view.doActions(actions, [e.point.record]);
+                        view.doActions(actions, [e.point.record]);
                     });
-            	}
-            	var actionsH = view.getActionsForEvent("hover");
+                }
+                var actionsH = view.getActionsForEvent("hover");
                 if (actionsH.length > 0)
-            	{
+                {
                     chart.pie.dispatch.on('elementMouseover', function (e) {
-                    	view.doActions(actionsH, [e.point.record]);
+                        view.doActions(actionsH, [e.point.record]);
                     });
-            	}
+                }
 
                 return chart;
             }
 
         },
         getGraphModel: function(self, graphType) {
-        	switch(graphType) {
-        		
+            switch(graphType) {
+                
             case "historicalBar":
-        	case "multiBarChart": 
+            case "multiBarChart": 
             case "multiBarWithBrushChart":
             case "multiBarHorizontalChart":
-        		return self.chart.multibar;
+                return self.chart.multibar;
             case "lineChart":
             case "lineDottedChart":
             case "lineWithFocusChart":
             case "linePlusBarChart":
             case "cumulativeLineChart":
             case "lineWithBrushChart":
-        		return self.chart.lines;
+                return self.chart.lines;
             case "bulletChart":
-        		return self.chart.bullet;
+                return self.chart.bullet;
             case "scatterChart":
-        		return self.chart.scatter;
+                return self.chart.scatter;
             case "stackedAreaChart":
-            	return self.chart.stacked;
+                return self.chart.stacked;
             case "pieChart":
-        		return self.chart.pie;
+                return self.chart.pie;
             case "discreteBarChart":
-        		return self.chart.discretebar;
-        	}
+                return self.chart.discretebar;
+            }
         },
 
         doActions:function (actions, records) {
@@ -842,8 +870,4 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             return fieldLabel;
         },
     });
-
-    return my.NVD3Graph;
-
 });
-

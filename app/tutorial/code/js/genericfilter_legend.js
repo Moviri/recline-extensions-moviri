@@ -1,5 +1,5 @@
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'../data/Paesi1.csv',
+    url:'tutorial/data/Paesi1.csv',
     backend:'csv',
     fieldsType:[
         {id:'giorno', type: 'integer'},

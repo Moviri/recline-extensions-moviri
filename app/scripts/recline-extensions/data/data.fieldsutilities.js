@@ -1,8 +1,8 @@
-define(['underscore', 'recline-extensions-amd'], function (_, recline) {
+define(['underscore', 'recline'], function (_, recline) {
 
     recline.Data = recline.Data || {};
     recline.Data.FieldsUtility = recline.Data.FieldsUtility || {};
-    my = recline.Data.FieldsUtility;
+    var my = recline.Data.FieldsUtility;
 
     my.setFieldsAttributes = function (fields, model, records) {
 

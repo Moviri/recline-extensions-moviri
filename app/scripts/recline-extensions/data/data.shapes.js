@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
     recline.Data = recline.Data || {};
     recline.Data.ShapeSchema = recline.Data.ShapeSchema || {};
 

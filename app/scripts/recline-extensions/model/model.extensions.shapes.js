@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline'], function ($, recline) {
 
     recline.Model.Dataset.prototype = $.extend(recline.Model.Dataset.prototype, {
         setShapeSchema:function () {
@@ -65,5 +65,7 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
             return field.attributes.shapeSchema.getShapeFor(fieldValue, fieldColor, isSVG, isNode);
         }
     });
+
+    return recline;
 
 });

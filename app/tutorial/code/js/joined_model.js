@@ -55,7 +55,7 @@ dataset.fetch();
 dataset2.fetch();
 
 var $el = $('#grid1');
-var grid1 = new SlickGridGraph({
+var grid1 = new recline.View.SlickGridGraph({
     model:dataset,
     el:$el,
     state:{  fitColumns:true,
@@ -68,7 +68,7 @@ grid1.visible = true;
 grid1.render();
 
 var $elb = $('#grid1b');
-var grid1b = new SlickGridGraph({
+var grid1b = new recline.View.SlickGridGraph({
     model:dataset2,
     el:$elb,
     state:{  fitColumns:true,
@@ -81,7 +81,7 @@ grid1b.visible = true;
 grid1b.render();
 
 var $el2 = $('#grid2');
-var grid2 = new SlickGridGraph({
+var grid2 = new recline.View.SlickGridGraph({
     model:joined,
     el:$el2,
     state:{  fitColumns:true,

@@ -1,11 +1,10 @@
 /*jshint multistr:true */
 
-
-define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.extensions.generic',
+define(['backbone', 'recline-extensions-amd',
     'jquery-ui.custom.slickgrid',  'jquery.event.drag-2.2', 'jquery-migrate-1.2.1',
     'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/slick.formatters', 
     'slickgrid/slick.cellrangeselector', 'slickgrid/slick.cellselectionmodel', 'slickgrid/slick.rowselectionmodel',
-     'recline-extensions/data/data.formatters'], 
+     ],
      function(Backbone, recline) {
 // ## SlickGrid Dataset View
 //
@@ -17,7 +16,6 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
 //
 // NB: you need an explicit height on the element for slickgrid to work
 
-    recline.View = this.recline.View || {};
     var my = recline.View;
 
     my.SlickGridGraph = Backbone.View.extend({
@@ -60,11 +58,11 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
             
             function isTrue(val)
             {
-            	return isFinite(val) && val;
+                return isFinite(val) && val;
             }
             function isFalse(val)
             {
-            	return !isFinite(val) || val == false;
+                return !isFinite(val) || val == false;
             }
 
             var options = {
@@ -172,19 +170,19 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
             }
 
             _.each(self.model.getFields(self.resultType).toJSON(), function (field) {
-            	var currFormatter = formatter;
-            	if (options.customHtmlFormatters && !options.showPartitionedData)
-        		{
-            		var customFieldFormatInfo = _.find(options.customHtmlFormatters, function(customField) { return customField.id == field.id; });
-            		if (customFieldFormatInfo)
-            			currFormatter = (customFieldFormatInfo.formula ? Slick.Formatters.HtmlExtFormatter : Slick.Formatters.HtmlFormatter)
-        		}
-            	var cssClass = "";
-            	if (options.fieldFormatters){
-            		var info = _.find(options.fieldFormatters, function(customField) { return customField.id == field.id; });
-            		if (info)
-            			cssClass = info.cssClass;            		
-            	}
+                var currFormatter = formatter;
+                if (options.customHtmlFormatters && !options.showPartitionedData)
+                {
+                    var customFieldFormatInfo = _.find(options.customHtmlFormatters, function(customField) { return customField.id == field.id; });
+                    if (customFieldFormatInfo)
+                        currFormatter = (customFieldFormatInfo.formula ? Slick.Formatters.HtmlExtFormatter : Slick.Formatters.HtmlFormatter)
+                }
+                var cssClass = "";
+                if (options.fieldFormatters){
+                    var info = _.find(options.fieldFormatters, function(customField) { return customField.id == field.id; });
+                    if (info)
+                        cssClass = info.cssClass;                   
+                }
                 var column = {
                     id:field['id'],
                     name:field['label'],
@@ -257,17 +255,17 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
             // Order them if there is ordering info on the state
             if (columnsOrderToUse) {
                 visibleColumns = visibleColumns.sort(function (a, b) {
-                	var posA = _.indexOf(columnsOrderToUse, a.id);
-                	var posB = _.indexOf(columnsOrderToUse, b.id);
-                	if (posA >= 0 && posB >= 0)
-                		return (posA > posB ? 1 : -1);
-                	// innerChart must always be last
-                	// lineNumberField must always be first
-                	else if (a.id == 'innerChart'  || b.id == 'lineNumberField') 
-                		return 1
-                	else if (b.id == 'innerChart' || a.id == 'lineNumberField' )
-                		return -1
-                	else return (posA < posB ? 1 : -1)
+                    var posA = _.indexOf(columnsOrderToUse, a.id);
+                    var posB = _.indexOf(columnsOrderToUse, b.id);
+                    if (posA >= 0 && posB >= 0)
+                        return (posA > posB ? 1 : -1);
+                    // innerChart must always be last
+                    // lineNumberField must always be first
+                    else if (a.id == 'innerChart'  || b.id == 'lineNumberField') 
+                        return 1
+                    else if (b.id == 'innerChart' || a.id == 'lineNumberField' )
+                        return -1
+                    else return (posA < posB ? 1 : -1)
                 });
                 columns = columns.sort(function (a, b) {
                     return _.indexOf(columnsOrderToUse, a.id) > _.indexOf(columnsOrderToUse, b.id) ? 1 : -1;
@@ -313,7 +311,7 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
                     });
                 });
                 if (innerChartSerie2Name) // adjust max only for 2 series, not for 1
-                	max = adjustMax(max);
+                    max = adjustMax(max);
                 
                 options.innerChartMax = max;
             }
@@ -440,10 +438,10 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
                     }
                     if (options.customHtmlFormatters) {
                         _.each(options.customHtmlFormatters, function (customField) {
-                        	if (customField.formula)
-                        		row[customField.id] = [ doc, customField.formula ];
-                        	else row[customField.id] = [ doc.attributes, customField.template ];
-                        });                    	
+                            if (customField.formula)
+                                row[customField.id] = [ doc, customField.formula ];
+                            else row[customField.id] = [ doc.attributes, customField.template ];
+                        });                     
                     }
 
                     data.push(row);
@@ -461,7 +459,7 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
             if (options.showTotals && myRecords.length > 0) {
                 options.totals = {};
                 if (self.model.getField_byAggregationFunction) // virtual model
-            	{
+                {
                     var totalsRecord = self.model.getRecords("totals");
                     for (var f in options.showTotals) {
                         var currTotal = options.showTotals[f];
@@ -469,30 +467,30 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
                         if (typeof fieldObj != "undefined")
                             options.totals[currTotal.field] = totalsRecord[0].getFieldValueUnrendered(fieldObj);
                     }
-            	}
+                }
                 else
-            	{
-                	for (var f in options.showTotals) {
-                		var currTotal = options.showTotals[f];
-                		var currSum = 0;
-                		for (var jj in myRecords)
-                			currSum += myRecords[jj].attributes[currTotal.field];
-                		
-                		var fieldObj = self.model.fields.get(currTotal.field)
-                		var origValue = myRecords[0].attributes[currTotal.field]
-                		
-                		if (currTotal.aggregation == "sum")
-                			myRecords[0].attributes[currTotal.field] = currSum
-                		else if (currTotal.aggregation == "avg")
-                			myRecords[0].attributes[currTotal.field] = currSum/myRecords.length
-                		
-                		options.totals[currTotal.field] = myRecords[0].getFieldValue(fieldObj)
-                		if (currTotal.align)
-                			options.totals[currTotal.field] = "<div style='text-align:"+currTotal.align+"'>"+options.totals[currTotal.field]+"</div>"
-                			
-                		myRecords[0].attributes[currTotal.field] = origValue 
-                	}
-            	}
+                {
+                    for (var f in options.showTotals) {
+                        var currTotal = options.showTotals[f];
+                        var currSum = 0;
+                        for (var jj in myRecords)
+                            currSum += myRecords[jj].attributes[currTotal.field];
+                        
+                        var fieldObj = self.model.fields.get(currTotal.field)
+                        var origValue = myRecords[0].attributes[currTotal.field]
+                        
+                        if (currTotal.aggregation == "sum")
+                            myRecords[0].attributes[currTotal.field] = currSum
+                        else if (currTotal.aggregation == "avg")
+                            myRecords[0].attributes[currTotal.field] = currSum/myRecords.length
+                        
+                        options.totals[currTotal.field] = myRecords[0].getFieldValue(fieldObj)
+                        if (currTotal.align)
+                            options.totals[currTotal.field] = "<div style='text-align:"+currTotal.align+"'>"+options.totals[currTotal.field]+"</div>"
+                            
+                        myRecords[0].attributes[currTotal.field] = origValue 
+                    }
+                }
             }
 
             if (this.options.actions != null && typeof this.options.actions != "undefined") {
@@ -595,13 +593,14 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
             if (self.visible) {
                 self.grid.init();
                 self.rendered = true;
+                resizeSlickGrid();
             } else {
                 // Defer rendering until the view is visible
                 self.rendered = false;
             }
 
             function resizeSlickGrid() {
-                if (self.model.getRecords(self.resultType).length > 0) {
+                if (self.model.getRecords(self.resultType).length > 0 && self.el.is(":visible")) {
                     var container = self.el.parent();
                     if (typeof container != "undefined" && container != null &&
                         ((container[0].style && container[0].style.height && container[0].style.height.indexOf("%") > 0)
@@ -617,7 +616,6 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
                 }
             }
 
-            resizeSlickGrid();
             //nv.utils.windowResize(resizeSlickGrid);
             this.handleRequestOfRowSelection();
 
@@ -633,7 +631,7 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
                 if (myRecords[row].is_selected) {
                     rowsToSelect.push(row)
                     if (!selRow || row < selRow)
-                    	selRow = row
+                        selRow = row
                 }
 
             this.grid.getSelectionModel().setSelectedRows(rowsToSelect)
@@ -644,7 +642,7 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
             var self = this;
             var selectedRecords = [];
             _.each(rows, function (row) {
-            	var dataItem = self.grid.getDataItem(row);
+                var dataItem = self.grid.getDataItem(row);
                 selectedRecords.push(dataItem.__orig_record__);
                 dataItem.__orig_record__.is_selected = true;
             });
@@ -654,7 +652,7 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
                     currAction.action.doAction(selectedRecords, currAction.mapping);
                 });
             if (this.options.onSelection){
-            	this.options.onSelection();
+                this.options.onSelection();
             }
         },
         show:function () {
@@ -678,126 +676,127 @@ define(['backbone', 'recline-extensions-amd', 'recline-extensions/model/model.ex
     return my.SlickGridGraph;
 });
 
+
 /*
  * Context menu for the column picker, adapted from
  * http://mleibman.github.com/SlickGrid/examples/example-grouping
  *
  */
-(function ($) {
-    function SlickColumnPicker(columns, grid, options) {
-        var $menu;
-        var columnCheckboxes;
+// (function ($) {
+//     function SlickColumnPicker(columns, grid, options) {
+//         var $menu;
+//         var columnCheckboxes;
 
-        var defaults = {
-            fadeSpeed:250
-        };
+//         var defaults = {
+//             fadeSpeed:250
+//         };
 
-        function init() {
-            grid.onHeaderContextMenu.subscribe(handleHeaderContextMenu);
-            options = $.extend({}, defaults, options);
+//         function init() {
+//             grid.onHeaderContextMenu.subscribe(handleHeaderContextMenu);
+//             options = $.extend({}, defaults, options);
 
-            $menu = $('<ul class="dropdown-menu slick-contextmenu" style="display:none;position:absolute;z-index:20;" />').appendTo(document.body);
+//             $menu = $('<ul class="dropdown-menu slick-contextmenu" style="display:none;position:absolute;z-index:20;" />').appendTo(document.body);
 
-            $menu.bind('mouseleave', function (e) {
-                $(this).fadeOut(options.fadeSpeed)
-            });
-            $menu.bind('click', updateColumn);
+//             $menu.bind('mouseleave', function (e) {
+//                 $(this).fadeOut(options.fadeSpeed)
+//             });
+//             $menu.bind('click', updateColumn);
 
-        }
+//         }
 
-        function handleHeaderContextMenu(e, args) {
-            e.preventDefault();
-            $menu.empty();
-            columnCheckboxes = [];
+//         function handleHeaderContextMenu(e, args) {
+//             e.preventDefault();
+//             $menu.empty();
+//             columnCheckboxes = [];
 
-            var $li, $input;
-            for (var i = 0; i < columns.length; i++) {
-            	var colid = columns[i].id;
-            	if (colid.indexOf('ratioToReport') == -1 && colid.indexOf('ratioToMax') == -1 && colid.indexOf('dimension') == -1 && colid.indexOf('count') == -1){
-            		$li = $('<li />').appendTo($menu);
-                    $input = $('<input type="checkbox" />').data('column-id', columns[i].id).attr('id', 'slick-column-vis-' + columns[i].id).attr('style', 'float:left');
-                    columnCheckboxes.push($input);
-                    if (grid.getColumnIndex(columns[i].id) != null) {
-                        $input.attr('checked', 'checked');
-                    }
-                    $input.appendTo($li);
-                    $('<label />')
-                        .text(columns[i].name)
-                        .attr('for', 'slick-column-vis-' + columns[i].id)
-                        .attr('style', 'float:left;margin:0')
-                        .appendTo($li);
-                    $('<br/>').appendTo($li);               
-            	}
-            }
-            $('<li/>').addClass('divider').appendTo($menu);
-            $li = $('<li />').data('option', 'autoresize').appendTo($menu);
-            $input = $('<input type="checkbox" />').data('option', 'autoresize').attr('id', 'slick-option-autoresize').attr('style', 'float:left');;
-            $input.appendTo($li);
-            $('<label />')
-                .text('Force fit columns')
-                .attr('for', 'slick-option-autoresize')
-                .attr('style', 'float:left;margin:0')
-                .appendTo($li);
-            if (grid.getOptions().forceFitColumns) {
-                $input.attr('checked', 'checked');
-            }
+//             var $li, $input;
+//             for (var i = 0; i < columns.length; i++) {
+//             	var colid = columns[i].id;
+//             	if (colid.indexOf('ratioToReport') == -1 && colid.indexOf('ratioToMax') == -1 && colid.indexOf('dimension') == -1 && colid.indexOf('count') == -1){
+//             		$li = $('<li />').appendTo($menu);
+//                     $input = $('<input type="checkbox" />').data('column-id', columns[i].id).attr('id', 'slick-column-vis-' + columns[i].id).attr('style', 'float:left');
+//                     columnCheckboxes.push($input);
+//                     if (grid.getColumnIndex(columns[i].id) != null) {
+//                         $input.attr('checked', 'checked');
+//                     }
+//                     $input.appendTo($li);
+//                     $('<label />')
+//                         .text(columns[i].name)
+//                         .attr('for', 'slick-column-vis-' + columns[i].id)
+//                         .attr('style', 'float:left;margin:0')
+//                         .appendTo($li);
+//                     $('<br/>').appendTo($li);               
+//             	}
+//             }
+//             $('<li/>').addClass('divider').appendTo($menu);
+//             $li = $('<li />').data('option', 'autoresize').appendTo($menu);
+//             $input = $('<input type="checkbox" />').data('option', 'autoresize').attr('id', 'slick-option-autoresize').attr('style', 'float:left');;
+//             $input.appendTo($li);
+//             $('<label />')
+//                 .text('Force fit columns')
+//                 .attr('for', 'slick-option-autoresize')
+//                 .attr('style', 'float:left;margin:0')
+//                 .appendTo($li);
+//             if (grid.getOptions().forceFitColumns) {
+//                 $input.attr('checked', 'checked');
+//             }
 
-            $menu.css('top', e.pageY - 10)
-                .css('left', e.pageX - 10)
-                .fadeIn(options.fadeSpeed);
-        }
+//             $menu.css('top', e.pageY - 10)
+//                 .css('left', e.pageX - 10)
+//                 .fadeIn(options.fadeSpeed);
+//         }
 
-        function updateColumn(e) {
-            if ($(e.target).data('option') == 'autoresize') {
-                var checked;
-                if ($(e.target).is('li')) {
-                    var checkbox = $(e.target).find('input').first();
-                    checked = !checkbox.is(':checked');
-                    checkbox.attr('checked', checked);
-                } else {
-                    checked = e.target.checked;
-                }
+//         function updateColumn(e) {
+//             if ($(e.target).data('option') == 'autoresize') {
+//                 var checked;
+//                 if ($(e.target).is('li')) {
+//                     var checkbox = $(e.target).find('input').first();
+//                     checked = !checkbox.is(':checked');
+//                     checkbox.attr('checked', checked);
+//                 } else {
+//                     checked = e.target.checked;
+//                 }
 
-                if (checked) {
-                    grid.setOptions({forceFitColumns:true});
-                    grid.autosizeColumns();
-                } else {
-                    grid.setOptions({forceFitColumns:false});
-                }
-                options.state.set({fitColumns:checked});
-                return;
-            }
+//                 if (checked) {
+//                     grid.setOptions({forceFitColumns:true});
+//                     grid.autosizeColumns();
+//                 } else {
+//                     grid.setOptions({forceFitColumns:false});
+//                 }
+//                 options.state.set({fitColumns:checked});
+//                 return;
+//             }
 
-            if (($(e.target).is('li') && !$(e.target).hasClass('divider')) ||
-                $(e.target).is('input')) {
-                if ($(e.target).is('li')) {
-                    var checkbox = $(e.target).find('input').first();
-                    checkbox.attr('checked', !checkbox.is(':checked'));
-                }
-                var visibleColumns = [];
-                var hiddenColumnsIds = [];
-                $.each(columnCheckboxes, function (i, e) {
-                    if ($(this).is(':checked')) {
-                        visibleColumns.push(columns[i]);
-                    } else {
-                        hiddenColumnsIds.push(columns[i].id);
-                    }
-                });
+//             if (($(e.target).is('li') && !$(e.target).hasClass('divider')) ||
+//                 $(e.target).is('input')) {
+//                 if ($(e.target).is('li')) {
+//                     var checkbox = $(e.target).find('input').first();
+//                     checkbox.attr('checked', !checkbox.is(':checked'));
+//                 }
+//                 var visibleColumns = [];
+//                 var hiddenColumnsIds = [];
+//                 $.each(columnCheckboxes, function (i, e) {
+//                     if ($(this).is(':checked')) {
+//                         visibleColumns.push(columns[i]);
+//                     } else {
+//                         hiddenColumnsIds.push(columns[i].id);
+//                     }
+//                 });
 
 
-                if (!visibleColumns.length) {
-                    $(e.target).attr('checked', 'checked');
-                    return;
-                }
+//                 if (!visibleColumns.length) {
+//                     $(e.target).attr('checked', 'checked');
+//                     return;
+//                 }
 
-                grid.setColumns(visibleColumns);
-                options.state.set({hiddenColumns:hiddenColumnsIds});
-            }
-        }
+//                 grid.setColumns(visibleColumns);
+//                 options.state.set({hiddenColumns:hiddenColumnsIds});
+//             }
+//         }
 
-        init();
-    }
+//         init();
+//     }
 
-    // Slick.Controls.ColumnPicker
-    $.extend(true, window, { Slick:{ Controls:{ ColumnPicker:SlickColumnPicker }}});
-})(jQuery);
+//     // Slick.Controls.ColumnPicker
+//     $.extend(true, window, { Slick:{ Controls:{ ColumnPicker:SlickColumnPicker }}});
+// })(jQuery);

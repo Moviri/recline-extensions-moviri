@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        jquery: '../bower_components/jquery/jquery',
+        'jquery': '../bower_components/jquery/jquery',
         'jquery-ui': '../bower_components/jquery-ui/ui/jquery-ui',
         'jquery-ui.draggable':'../bower_components/jquery-ui/ui/jquery.ui.draggable',
         'jquery-ui.mouse':'../bower_components/jquery-ui/ui/jquery.ui.mouse',
@@ -8,36 +8,34 @@ require.config({
         'jquery-ui.sortable':'../bower_components/jquery-ui/ui/jquery.ui.sortable',
         'jquery-ui.position':'../bower_components/jquery-ui/ui/jquery.ui.position',
         'jquery-ui.custom.slickgrid': 'vendor/jquery-ui-1.8.23.custom.slickgrid',
-        bootstrap: 'vendor/bootstrap',
-        CodeMirror: '../bower_components/codemirror/lib/codemirror',
+        'bootstrap' : 'vendor/bootstrap',
+        'CodeMirror' : '../bower_components/codemirror/lib/codemirror',
         'CodeMirror-extensions' : '../bower_components/codemirror/addon/lint/lint',
-        underscore: '../bower_components/underscore-amd/underscore',
-        backbone: '../bower_components/backbone-amd/backbone',
-        accounting: '../bower_components/accounting/accounting',
-        mustache:   '../bower_components/mustache/mustache',
+        'underscore': '../bower_components/underscore-amd/underscore',
+        'backbone': '../bower_components/backbone-amd/backbone',
+        'accounting' : '../bower_components/accounting/accounting',
+        'mustache' :   '../bower_components/mustache/mustache',
         'recline.dataset': 'vendor/recline/recline.dataset',
-        recline: 'vendor/recline/recline.min',
+        'recline' : 'vendor/recline/recline.min',
+        'd3' : '../bower_components/d3/d3',
         'recline-extensions-amd': 'recline-extensions/recline-extensions-amd',
+        'chosen' : 'vendor/chosen/chosen.jquery' , //'../bower_components/chosen/coffee/lib/chosen.jquery',
 
+        'recline.model.extensions.all': 'recline-extensions/model/model.extensions.all',
 
-        'recline.model.extensions.generic' : 'recline-extensions/model/model.extensions.generic',
-        'recline.model.extensions.query': 'recline-extensions/model/model.extensions.query',
-        'recline.model.extensions.facets': 'recline-extensions/model/model.extensions.facets',
         'recline.model.extensions.filteredmodel': 'recline-extensions/model/filteredmodel',
         'recline.model.extensions.virtualmodel': 'recline-extensions/model/virtualmodel',
         'recline.model.extensions.joinedmodel': 'recline-extensions/model/joinedmodel',
         'recline.model.extensions.unionmodel': 'recline-extensions/model/unionmodel',
-        'recline.model.extensions.customfilter': 'recline-extensions/model/model.extensions.customfilter',
-        'recline.model.extensions.customformatter': 'recline-extensions/model/model.extensions.customformatter',
-        'recline.model.extensions.selection': 'recline-extensions/model/model.extensions.selection',
+
         'recline.data.extensions.aggregations' : 'recline-extensions/data/data.aggregations',
         'recline.data.extensions.colors' : 'recline-extensions/data/data.colors',
         'recline.data.extensions.faceting' : 'recline-extensions/data/data.faceting',
         'recline.data.extensions.filters' : 'recline-extensions/data/data.filters',
         'recline.data.extensions.actions' : 'recline-extensions/data/action',
         'recline.data.extensions.shapes' : 'recline-extensions/data/data.shapes',
-
-
+        'recline.data.extensions.formatters' : 'recline-extensions/data/data.formatters',
+        'recline.data.extensions.seriesutility' : 'recline-extensions/data/data.series.utility',
 
         'slickgrid/slick.core': '../bower_components/slickgrid-moviri/slick.core',
         'slickgrid/slick.grid': '../bower_components/slickgrid-moviri/slick.grid',
@@ -54,26 +52,53 @@ require.config({
         'crossfilter' : '../bower_components/crossfilter/crossfilter'
     },
     shim: {
-        bootstrap: {
-            deps: [ 'jquery' ],
-            exports: 'jquery'
+        'bootstrap': {
+            deps: [ 'jquery' ]
         },
-        recline: {
-            deps: [ 'backbone', 'bootstrap', 'mustache']
-        },
-        'recline-extensions-amd' : {
-            deps: [ 'recline'/*, 'recline.model.extensions.query', 'recline.model.extensions.facets', 'recline.model.extensions.generic'*/],
+        'recline': { 
+            deps: [ 'backbone', 'bootstrap', 'mustache'],
             exports: 'recline'
         },
-        'slickgrid/slick.grid' : {
-            deps: [ 'jquery.event.drag-2.2']
+        'recline.dataset': { 
+            deps: [ 'recline'],
+            exports: 'recline'
         },
+        'recline.model.extensions.all' : {
+            deps: ['recline.dataset'],
+            exports: 'recline'
+        },
+        'recline-extensions-amd' : {
+            deps: [ 'recline.model.extensions.all'],
+            exports: 'recline'
+        },
+        'mustache' : { exports: 'Mustache' },
+        'd3': { exports: 'd3' },
+        'chosen' : {
+            //deps: ['../bower_components/chosen/coffee/lib/chosen.proto', '../bower_components/chosen/coffee/lib/select-parser', '../bower_components/chosen/coffee/lib/abstarct-chosen' ],
+            exports: 'chosen'
+        },
+        'slickgrid/slick.grid' : { deps: [ 'jquery.event.drag-2.2', 'd3' ] },
         'recline.model.extensions.virtualmodel' : {
             deps: [ 'crossfilter', 'recline.data.extensions.aggregations' ]
         },
-        'CodeMirror' : {
-            exports: 'CodeMirror'
+        'recline.model.extensions.filteredmodel' : {
+            deps: [ 'recline-extensions/model/model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
         },
+
+        //'recline.data.extensions.formatters' : { deps: ['recline'], exports: 'recline' },
+
+        // 'recline.model.extensions.configuration' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.colors' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.customfilter' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.customformatter' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.facets' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.generic' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.query' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.selection' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.shapes' : { deps: ['recline'], exports: 'recline' },
+        // 'recline.model.extensions.statemanagement' : { deps: ['recline'], exports: 'recline' },
+
+        'CodeMirror' : { exports: 'CodeMirror' },
         '../bower_components/codemirror/addon/fold/foldcode': { deps: ['CodeMirror'] },
         '../bower_components/codemirror/addon/fold/brace-fold': { deps: ['CodeMirror'] },
         '../bower_components/codemirror/addon/fold/indent-fold': { deps: ['CodeMirror'] },

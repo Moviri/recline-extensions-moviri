@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline'], function ($, recline) {
 	recline.Model.Query.prototype = $.extend(recline.Model.Query.prototype, {
 	    defaults: function() {
 	        return {
@@ -10,4 +10,5 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 	        };
 	    }
 	});
+	return recline;
 });

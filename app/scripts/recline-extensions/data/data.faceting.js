@@ -1,4 +1,4 @@
-define(['recline-extensions-amd', 'recline-extensions/model/model.extensions.colors'], function(recline) {
+define(['recline.model.extensions.all'], function(recline) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};

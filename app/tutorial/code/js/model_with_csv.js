@@ -22,7 +22,7 @@ var dataset = new recline.Model.Dataset({
 dataset.fetch();
 
 var $el = $('#grid1');
-var grid1 = new SlickGridGraph({
+var grid1 = new recline.View.SlickGridGraph({
     model:dataset,
     el:$el,
     state:{  fitColumns:true,

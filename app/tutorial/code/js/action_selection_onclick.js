@@ -1,5 +1,7 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/widget.genericfilter'], function (recline) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'../data/Stipendi.csv',
+    url:'tutorial/data/Stipendi.csv',
     backend:'csv',
     id: 'model_stipendi',
     fieldsType: [
@@ -16,7 +18,7 @@ dataset.queryState.setSortCondition({field: "Regione", order:"asc"});
 dataset.fetch();
 
 var dataset2 = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'../data/Rendita Regioni.csv',
+    url:'tutorial/data/Rendita Regioni.csv',
     backend:'csv',
     id: 'model_rendita_regioni',
     fieldsType: [
@@ -87,3 +89,5 @@ var grid2 = new recline.View.SlickGridGraph({
 });
 grid2.visible = true;
 grid2.render();
+
+});

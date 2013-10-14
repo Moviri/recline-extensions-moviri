@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.table', 'recline.data.extensions.formatters'], function (recline) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     records:[
         {id:0, country:'Italy', gender:"Female", age:25,  visits: 10, efficiency: 95, efficiency2: 99},
@@ -90,3 +92,5 @@ var grid1 = new recline.View.D3table({
 grid1.visible = true;
 grid1.render();
 grid1.redraw();
+
+});

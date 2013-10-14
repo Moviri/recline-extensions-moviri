@@ -4,7 +4,6 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
     var my = recline.Model;
 
-// ## <a id="dataset">VirtualDataset</a>
     my.JoinedDataset = Backbone.Model.extend({
         constructor:function JoinedDataset() {
             Backbone.Model.prototype.constructor.apply(this, arguments);

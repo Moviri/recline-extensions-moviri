@@ -1,5 +1,7 @@
+require(['recline-extensions-amd', 'accounting', 'recline-extensions/views/view.slickgrid_graph' ], function (recline, accounting) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'../data/Stipendi2.csv',
+    url:'tutorial/data/Stipendi2.csv',
     backend:'csv',
     id: 'model_stipendi',
     fieldsType: [
@@ -21,8 +23,8 @@ var customHtmlFormatters = [
         formula: function (record) {
             var value = record.attributes.Sesso;
             if (value == "Maschio")
-                return "<img src='../images/male.png'></img>&nbsp;"+value;
-            else return "<img src='../images/female.png'></img>&nbsp;"+value;
+                return "<img src='tutorial/images/male.png'></img>&nbsp;"+value;
+            else return "<img src='tutorial/images/female.png'></img>&nbsp;"+value;
         }
     },
     {
@@ -76,3 +78,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

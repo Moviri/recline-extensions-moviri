@@ -2,7 +2,6 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
     recline.Model = recline.Model || {};
     recline.Model.UnionDataset = recline.Model.UnionDataset || {};
 
-
     var my = recline.Model;
 
     my.UnionDataset = Backbone.Model.extend({

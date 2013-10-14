@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline'], function ($, recline) {
 
     recline.Model.Dataset.prototype = $.extend(recline.Model.Dataset.prototype, {
         query: function (queryObj) {
@@ -131,5 +131,7 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
 
     });
+
+    return recline;
 
 });

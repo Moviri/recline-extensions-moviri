@@ -3,14 +3,13 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
     recline.Model = recline.Model || {};
     recline.Model.VirtualDataset = recline.Model.VirtualDataset || {};
 
-
     var my = recline.Model;
 
     my.VirtualDataset = Backbone.Model.extend({
+
         constructor:function VirtualDataset() {
             Backbone.Model.prototype.constructor.apply(this, arguments);
         },
-
 
         initialize:function () {
             _.bindAll(this, 'query', 'toFullJSON');
@@ -70,9 +69,9 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
                 return self.totals_unfiltered.records.models;
             } else {
-            	if(self.needsTableCalculation && self.totals == null)
+                if(self.needsTableCalculation && self.totals == null)
                     self.rebuildTotals();
-            	
+                
                 return self.vModel.getRecords(type);
             }
         },
@@ -185,7 +184,7 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
                     // for each aggregation function evaluate results
                     for (j = 0; j < aggregationFunctions.length; j++) {
-                        var currentAggregationFunction = this.recline.Data.Aggregations.aggregationFunctions[aggregationFunctions[j]];
+                        var currentAggregationFunction = recline.Data.Aggregations.aggregationFunctions[aggregationFunctions[j]];
 
                         p[aggregationFunctions[j]][aggregatedFields[i]] =
                             currentAggregationFunction(
@@ -209,7 +208,7 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
                                 if (partitionFields[aggregationFunctions[j]] == null)
                                     partitionFields[aggregationFunctions[j]] = {};
 
-                                var currentAggregationFunction = this.recline.Data.Aggregations.aggregationFunctions[aggregationFunctions[j]];
+                                var currentAggregationFunction = recline.Data.Aggregations.aggregationFunctions[aggregationFunctions[j]];
 
                                 if (p.partitions[aggregationFunctions[j]][fieldName] == null) {
                                     p.partitions[aggregationFunctions[j]][fieldName] = {
@@ -264,7 +263,7 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
                 for (j = 0; j < aggregationFunctions.length; j++) {
                     tmp[aggregationFunctions[j]] = {};
 
-                        this.recline.Data.Aggregations.initFunctions[aggregationFunctions[j]](tmp, aggregatedFields, partitions);
+                    recline.Data.Aggregations.initFunctions[aggregationFunctions[j]](tmp, aggregatedFields, partitions);
                 }
 
                 if (partitioning) {
@@ -788,9 +787,6 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
             return this.vModel.addCustomFilterLogic(f);
         }
 
-
     });
 
-
 });
-

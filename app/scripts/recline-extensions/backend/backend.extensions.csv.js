@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline'], function ($, recline) {
     recline.Backend = recline.Backend || {};
     recline.Backend.CSV = recline.Backend.CSV || {};
 

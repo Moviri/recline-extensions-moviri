@@ -1,9 +1,9 @@
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['jquery', 'recline-extensions-amd', 'd3', 'mustache', 'recline.data.extensions.aggregations'], function ($, recline, d3, Mustache) {
+  recline.View = this.recline.View || {};
 
-(function ($, view) {
-	
 	"use strict";	
+
+  var view = recline.View;
 
 	var fetchRecordValue = function(record, dimension){
 		var val = null;		
@@ -591,4 +591,4 @@ this.recline.View = this.recline.View || {};
         },
         onEvent: function (e) {}
     });
-})(jQuery, recline.View);
+});

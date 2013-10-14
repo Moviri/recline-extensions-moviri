@@ -1,5 +1,5 @@
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'../data/SmsOverTime.csv',
+    url:'tutorial/data/SmsOverTime.csv',
     backend:'csv',
     id: 'model_sms_over_time',
     fieldsType: [
