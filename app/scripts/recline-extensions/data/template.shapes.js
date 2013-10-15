@@ -1,4 +1,4 @@
-define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
+define(['jquery', 'recline-amd'], function ($, recline) {
   recline.Template = recline.Template || {};
   recline.Template.Shapes = recline.Template.Shapes || {};
 

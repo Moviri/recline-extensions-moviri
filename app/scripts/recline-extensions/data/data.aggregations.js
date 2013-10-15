@@ -1,4 +1,4 @@
-define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
+define(['jquery', 'recline-amd'], function ($, recline) {
     recline.Data = recline.Data || {};
 
     var my = recline.Data;
@@ -196,5 +196,7 @@ define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
         ratioToReport: ["sum"],
         ratioToMax: ["max"]
     };
+
+    return my.Aggregations;
 
 });

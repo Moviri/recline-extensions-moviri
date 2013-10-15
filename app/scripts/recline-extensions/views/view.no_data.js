@@ -1,7 +1,9 @@
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['jquery', 'recline-extensions-amd', 'd3'], function ($, recline, d3) {
 
-(function ($, view) {
+    recline.View = recline.View || {};
+
+    var view =  recline.View;
+
     "use strict";
 
     view.NoDataMsg = Backbone.View.extend({
@@ -26,4 +28,5 @@ this.recline.View = this.recline.View || {};
         	return this.template2P1+this._internalMsg+this.templateP2
         }
     });
-})(jQuery, recline.View);
+    return view.NoDataMsg;
+});

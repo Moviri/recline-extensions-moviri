@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline-amd', 'recline.data.extensions.formatters'], function ($, recline) {
 
     recline.Model = recline.Model || {};
     recline.Model.VirtualDataset = recline.Model.VirtualDataset || {};

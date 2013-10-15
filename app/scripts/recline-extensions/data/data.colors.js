@@ -1,4 +1,4 @@
-define(['recline.model.extensions.all'], function(recline) {
+define(['recline-amd'], function(recline) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};
@@ -448,13 +448,6 @@ define(['recline.model.extensions.all'], function(recline) {
                 };
             }()
         }
-
-
-
-
-
-
-
 
     });
 

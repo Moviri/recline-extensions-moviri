@@ -1,4 +1,4 @@
-define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
+define(['jquery', 'recline-amd'], function ($, recline) {
 
     var my = recline;
 
@@ -54,7 +54,6 @@ define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
             return activeFilters;
         },
 
-// ## <a id="dataset">Action</a>
         my.Action = Backbone.Model.extend({
             constructor:function Action() {
                 Backbone.Model.prototype.constructor.apply(this, arguments);
@@ -359,7 +358,9 @@ define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
 
 
 
-        })
-
+        });
+    
+    return my.Action;
+    
 
 });

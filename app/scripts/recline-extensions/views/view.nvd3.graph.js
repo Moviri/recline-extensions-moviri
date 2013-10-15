@@ -1,5 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, recline, Mustache) {
-
+define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.extensions.seriesutility'], function (Backbone, recline, Mustache) {
 
     recline.View = this.recline.View || {};
     var my = recline.View;
@@ -868,6 +867,7 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             }
 
             return fieldLabel;
-        },
+        }
     });
+    return my.NVD3Graph;
 });

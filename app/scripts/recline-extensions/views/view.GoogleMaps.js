@@ -159,4 +159,6 @@ define(['jquery', 'recline-extensions-amd'], function ($, recline) {
             this.infowindow.close();            
         }
     });
+
+    return my.GoogleMaps;
 });

@@ -1,4 +1,4 @@
-define(['underscore', 'recline'], function (_, recline) {
+define(['underscore', 'recline-amd'], function (_, recline) {
 
     recline.Data = recline.Data || {};
     recline.Data.FieldsUtility = recline.Data.FieldsUtility || {};
@@ -58,6 +58,8 @@ define(['underscore', 'recline'], function (_, recline) {
             })
         }
     }
+
+    return my;
 
 
 });

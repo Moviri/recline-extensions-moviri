@@ -19,6 +19,8 @@ require.config({
         'recline' : 'vendor/recline/recline.min',
         'd3' : '../bower_components/d3/d3',
         'recline-extensions-amd': 'recline-extensions/recline-extensions-amd',
+        'recline-amd': 'recline-extensions/recline-amd',
+        
         'chosen' : 'vendor/chosen/chosen.jquery' , //'../bower_components/chosen/coffee/lib/chosen.jquery',
 
         'recline.model.extensions.all': 'recline-extensions/model/model.extensions.all',
@@ -49,23 +51,26 @@ require.config({
         'jquery.event.drag-2.2': 'vendor/jquery.event.drag-2.2',
         'jquery-migrate-1.2.1': 'vendor/jquery-migrate-1.2.1.min', //needed for compatibility of slickgrid moviri and jquery 1.9
 
-        'crossfilter' : '../bower_components/crossfilter/crossfilter'
+        'crossfilter' : '../bower_components/crossfilter/crossfilter',
+
+        'd3v2' : 'vendor/d3/v2/d3.v2.custom.min',
+        'nvd3' : 'vendor/nvd3/0.0.1/nv.d3.min',
+        
+        // 'd3v2' : '../bower_components/nvd3-gianlucaguarini/lib/d3.v2',   // manca lineDottedChart!!!!
+        // 'nvd3' : '../bower_components/nvd3-gianlucaguarini/nv.d3'
     },
     shim: {
         'bootstrap': {
             deps: [ 'jquery' ]
         },
-        'recline': { 
-            deps: [ 'backbone', 'bootstrap', 'mustache'],
-            exports: 'recline'
+        'recline': {
+            deps: ['backbone', 'underscore', 'bootstrap', 'mustache']
         },
-        'recline.dataset': { 
-            deps: [ 'recline'],
-            exports: 'recline'
+        'recline-amd': {
+            deps: ['backbone', 'underscore', 'bootstrap', 'mustache']
         },
         'recline.model.extensions.all' : {
-            deps: ['recline.dataset'],
-            exports: 'recline'
+            deps: ['recline-amd', 'backbone', 'underscore', 'bootstrap', 'mustache']
         },
         'recline-extensions-amd' : {
             deps: [ 'recline.model.extensions.all'],
@@ -73,6 +78,7 @@ require.config({
         },
         'mustache' : { exports: 'Mustache' },
         'd3': { exports: 'd3' },
+        'd3v2': { exports: 'd3' },
         'chosen' : {
             //deps: ['../bower_components/chosen/coffee/lib/chosen.proto', '../bower_components/chosen/coffee/lib/select-parser', '../bower_components/chosen/coffee/lib/abstarct-chosen' ],
             exports: 'chosen'
@@ -84,19 +90,7 @@ require.config({
         'recline.model.extensions.filteredmodel' : {
             deps: [ 'recline-extensions/model/model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
         },
-
-        //'recline.data.extensions.formatters' : { deps: ['recline'], exports: 'recline' },
-
-        // 'recline.model.extensions.configuration' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.colors' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.customfilter' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.customformatter' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.facets' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.generic' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.query' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.selection' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.shapes' : { deps: ['recline'], exports: 'recline' },
-        // 'recline.model.extensions.statemanagement' : { deps: ['recline'], exports: 'recline' },
+        'nvd3' : { deps: [ 'd3v2' ] , exports: 'nv'},
 
         'CodeMirror' : { exports: 'CodeMirror' },
         '../bower_components/codemirror/addon/fold/foldcode': { deps: ['CodeMirror'] },

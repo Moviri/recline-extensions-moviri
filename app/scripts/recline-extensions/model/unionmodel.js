@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline-amd'], function ($, recline) {
     recline.Model = recline.Model || {};
     recline.Model.UnionDataset = recline.Model.UnionDataset || {};
 

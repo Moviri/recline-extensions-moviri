@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline-amd'], function ($, recline) {
     recline.Backend = recline.Backend || {};
     recline.Backend.ParallelUnionBackend = recline.Backend.ParallelUnionBackend || {};
 

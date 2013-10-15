@@ -1,7 +1,9 @@
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
-(function ($, view) {
+    recline.View = recline.View || {};
+
+    var view = recline.View;
+
     "use strict";
 
     view.Loader = Backbone.View.extend({
@@ -90,4 +92,7 @@ this.recline.View = this.recline.View || {};
     		chart.bind('chart:endDrawing', this.decLoaderCount);
     	}    
     });
-})(jQuery, recline.View);
+
+    return view.Loader;
+
+});

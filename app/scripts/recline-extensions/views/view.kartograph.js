@@ -1,9 +1,8 @@
-/*jshint multistr:true */
+define(['jquery', 'recline-extensions-amd'], function ($, recline) {
 
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+    recline.View = recline.View || {};
 
-(function ($, my) {
+    var my = recline.View;
 
 
     my.KartoGraph = Backbone.View.extend({

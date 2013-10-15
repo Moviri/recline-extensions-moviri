@@ -1,4 +1,4 @@
-define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
+define(['jquery', 'recline-amd'], function ($, recline) {
 
     recline.Data = recline.Data || {};
     recline.Data.SeriesUtility = recline.Data.SeriesUtility || {};
@@ -404,6 +404,8 @@ define(['jquery', 'recline.model.extensions.all'], function ($, recline) {
     			serie.annotations = _.filter(annotations, function(ann) { return ann.serie == sIndex }) 
     		})
     	}
-    }
+    };
+
+    return my;
 
 });

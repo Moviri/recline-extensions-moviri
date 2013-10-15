@@ -1,7 +1,8 @@
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['jquery', 'recline-extensions-amd', 'd3'], function ($, recline, d3) {
 
-(function ($, view) {
+    recline.View = recline.View || {};
+
+    var view = recline.View;
 
     "use strict";
 
@@ -341,5 +342,7 @@ this.recline.View = this.recline.View || {};
 
     });
 
+    return view.D3Chord;
 
-})(jQuery, recline.View);
+
+});

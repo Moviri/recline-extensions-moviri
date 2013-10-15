@@ -1,4 +1,4 @@
-define(['recline.model.extensions.all', 'accounting'], function(recline, accounting) {
+define(['recline-amd', 'accounting'], function(recline, accounting) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};
