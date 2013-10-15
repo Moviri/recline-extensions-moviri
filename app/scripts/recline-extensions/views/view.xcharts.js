@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, recline, Mustache) {
+define(['backbone', 'recline-extensions-amd', 'mustache', 'd3v2', 'xcharts'], function (Backbone, recline, Mustache, d3, xChart) {
 
 
     recline.View = this.recline.View || {};
@@ -257,7 +257,8 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
             var i =0;
             
             
-            $("<script>" +
+            $("<style>.noFillLegendBullet { background: transparent !important; }</style>" +
+                "<script>" +
                 "function changeSeriesVisibility(i){"+
                     "var isVisible = $('g .color'+i).attr('display');"+
                     " if (isVisible === 'none') {isVisible = false;} else {isVisible = true;}"+

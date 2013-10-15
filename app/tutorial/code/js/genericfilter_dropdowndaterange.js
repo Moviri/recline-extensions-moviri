@@ -1,3 +1,7 @@
+require(['recline-extensions-amd', 'datejs', 
+'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.filteredmodel', 'recline.model.extensions.virtualmodel',
+    'recline-extensions/views/widget.genericfilter', 'recline-extensions/views/view.xcharts', 'recline-extensions/views/view.indicator'], function (recline) {
+
 var recs = [];
 
 //we build one year of random data starting from today
@@ -117,3 +121,5 @@ var indicator1 = new recline.View.Indicator({
 });
 $("#my_indicator1").append(indicator1.el);
 indicator1.render();
+
+});

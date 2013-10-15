@@ -1,7 +1,8 @@
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['jquery', 'recline-extensions-amd', 'mustache', 'rickshaw'], function ($, recline, Mustache, Rickshaw) {
 
-(function ($, view) {
+    recline.View = recline.View || {};
+
+    var view = recline.View;
 
     "use strict";
 
@@ -429,4 +430,6 @@ this.recline.View = this.recline.View || {};
 
 
     });
-})(jQuery, recline.View);
+
+    return view.Rickshaw;
+});

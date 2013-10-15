@@ -1,8 +1,8 @@
-/*jshint multistr:true */
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, recline, Mustache,) {
 
-(function ($, my) {
+    recline.View = recline.View || {};
+
+    var my = recline.View;
 
     my.CurrentFilter = Backbone.View.extend({
         template:'\
@@ -100,5 +100,6 @@ this.recline.View = this.recline.View || {};
 
 
     });
+    return my.CurrentFilter;
 
-})(jQuery, recline.View);
+});

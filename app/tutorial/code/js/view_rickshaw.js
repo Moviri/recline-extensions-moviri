@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.rickshaw'], function (recline) {
+
 var colorSchema = new recline.Data.ColorSchema({
     colors:["#0000FF", "#8084FF", "#0084FF"],
     fields: ["Noleggi auto", "Noleggi bici", "Noleggi moto"]
@@ -69,3 +71,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

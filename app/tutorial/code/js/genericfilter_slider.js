@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph',
+    'recline.model.extensions.virtualmodel', 'recline-extensions/views/widget.genericfilter'], function (recline) {
+
 var percRecords = [];
 var STEP = 5;
 for (var j = 0; j <= 100; j += 5)
@@ -107,3 +110,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

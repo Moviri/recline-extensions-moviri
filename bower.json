@@ -16,7 +16,11 @@
     "d3": "~3.3.6",
     "nvd3-gianlucaguarini":"~1.1.10-beta",
     "bower-xcharts":"~0.1.3",
-    //"chosen":"~1.0.0"
+    "datejs":"",
+    "chroma-js":"~0.5.3",
+    "rickshaw":"~1.4.4",
+    "d3cloud":"~1.0.1",
+    "chosen":"~1.0.0"
   },
   "devDependencies": {
    "codemirror": "3.13.0"

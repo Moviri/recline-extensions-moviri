@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.cloud'], function (recline) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Regioni.csv',
     backend:'csv',
@@ -32,4 +34,6 @@ $("#settore").bind("change", function() {
     cloud.options.state.dimensionField = $("#settore").val();
     cloud.render();
     cloud.redraw();
+});
+
 });

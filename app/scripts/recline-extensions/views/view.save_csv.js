@@ -1,7 +1,8 @@
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['jquery', 'recline-extensions-amd', 'mustache'], function ($, recline, Mustache) {
 
-(function($, view) {
+	recline.View = recline.View || {};
+
+	var view = recline.View;
 
 	view.SaveCSV = Backbone.View.extend({
 		template:'<a id="{{uid}}" style="text-decoration: none;cursor: pointer;"><i class="icon-download" title="Download as csv file"></i></a>',
@@ -95,4 +96,5 @@ this.recline.View = this.recline.View || {};
 		},
 
 	});
-})(jQuery, recline.View);
+	return view.SaveCSV;
+});

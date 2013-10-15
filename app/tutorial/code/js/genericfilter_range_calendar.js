@@ -1,3 +1,8 @@
+require(['recline-extensions-amd', 'd3',
+'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.filteredmodel', 'recline.model.extensions.virtualmodel',
+    'recline-extensions/views/widget.genericfilter', 'recline-extensions/views/view.xcharts', 'recline-extensions/views/view.indicator'], function (recline, d3) {
+
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Spese1.csv',
     backend:'csv',
@@ -101,3 +106,5 @@ var indicator1 = new recline.View.Indicator({
 });
 $("#my_indicator1").append(indicator1.el);
 indicator1.render();
+
+});

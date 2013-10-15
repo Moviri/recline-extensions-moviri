@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/d3/view.d3.sparkline'], function (recline) {
+
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Bullet1.csv',
     backend:'csv',
@@ -47,4 +50,4 @@ var grid1 = new recline.View.SlickGridGraph({
 grid1.visible = true;
 grid1.render();
 
-
+});

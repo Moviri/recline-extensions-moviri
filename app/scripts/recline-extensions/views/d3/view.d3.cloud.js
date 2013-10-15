@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd', 'd3'], function ($, recline, d3) {
+define(['jquery', 'recline-extensions-amd', 'd3', 'mustache', 'd3cloud'], function ($, recline, d3, Mustache) {
 
     recline.View = recline.View || {};
 
@@ -8,11 +8,11 @@ define(['jquery', 'recline-extensions-amd', 'd3'], function ($, recline, d3) {
 
     view.D3Cloud = Backbone.View.extend({
         template: '<div id="{{uid}}" style="width: {{width}}px; height: {{height}}px;"></div>',
-		defaultfontRange: [20, 100],
+		defaultFontRange: [20, 100],
         initialize: function (options) {
 
             this.el = $(this.el);
-            _.bindAll(this, 'render', 'redraw');
+            _.bindAll(this, 'render', 'redraw', 'drawD3');
 
             this.model.bind('change', this.render);
             this.model.fields.bind('reset', this.render);
@@ -92,8 +92,8 @@ define(['jquery', 'recline-extensions-amd', 'd3'], function ($, recline, d3) {
         drawD3: function (data) {
 
             var self=this;
-            var state = self.options.state;
-            var fontSize = d3.scale.log().domain(self.domain).range(state.fontRange || self.defaultFontRange);
+            var state = this.options.state;
+            var fontSize = d3.scale.log().domain(this.domain).range(state.fontRange || this.defaultFontRange);
             var font = "Impact";
 
             if(state.font)

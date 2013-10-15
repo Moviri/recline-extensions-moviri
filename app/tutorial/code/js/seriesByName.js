@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.nvd3.graph', 'recline-extensions/backend/backend.extensions.csv'
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv'
 ], function (recline, SlickGridGraph) {
 
 var dataset = new recline.Model.Dataset({

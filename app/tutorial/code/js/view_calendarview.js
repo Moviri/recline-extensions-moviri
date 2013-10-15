@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.calendarview', 'datejs'], function(recline) {
+
 var recs = [];
 
 //we build three years of random data ending today
@@ -29,3 +31,5 @@ var calendarView =  new recline.View.D3CalendarView({
     cellSize: 15
 });
 calendarView.render();
+
+});

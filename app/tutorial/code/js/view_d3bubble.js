@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.bubble'], function (recline) {
+
 var SETTORI = { /*FOLD_ME*/
 		"Commercio dettaglio": [	"Alimentari", "Arredamento, articoli per la casa", "Grande distribuzione", "Ristoranti, bar", "Rivenditori veicoli e stazioni servizio", "Varie"],
 		"Commercio ingrosso": [	"Commercio ingrosso beni durevoli" ],
@@ -75,3 +77,4 @@ bubble.visible = true;
 bubble.redraw();
 
 
+});

@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.virtualmodel'
+], function (recline, SlickGridGraph) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     records:[
         {id:0, country:'Italy', gender:"Female", age:25,  visits: 10},
@@ -77,3 +80,5 @@ var grid2 = new recline.View.SlickGridGraph({
 });
 grid2.visible = true;
 grid2.render();
+
+});

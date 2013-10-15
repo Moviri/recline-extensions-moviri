@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.chord'], function (recline) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Chord.csv',
     backend:'csv',
@@ -23,3 +25,5 @@ var chord = new recline.View.D3Chord({
 });
 chord.render();
 chord.visible = true;
+
+});

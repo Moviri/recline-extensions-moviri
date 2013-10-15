@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.gravitybubble'], function (recline) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Rendita Regioni.csv',
     backend:'csv',
@@ -71,4 +73,6 @@ $("#settore").bind("change", function() {
 	bubble.options.state.sizeField.field = $("#settore").val();
 	bubble.render();
 	bubble.redraw();
+});
+
 });

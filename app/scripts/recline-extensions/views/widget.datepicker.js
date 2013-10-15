@@ -1,7 +1,8 @@
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['backbone', 'recline-extensions-amd', 'mustache', 'datepicker'], function (Backbone, recline, Mustache) {
 
-(function ($, view) {
+    recline.View = recline.View || {};
+
+    var view = recline.View;
 
     "use strict";
 
@@ -501,4 +502,5 @@ this.recline.View = this.recline.View || {};
 
 
     });
-})(jQuery, recline.View);
+    return view.DatePicker;
+});

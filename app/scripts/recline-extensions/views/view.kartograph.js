@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd'], function ($, recline) {
+define(['jquery', 'recline-extensions-amd', 'mustache', 'kartograph'], function ($, recline, Mustache) {
 
     recline.View = recline.View || {};
 

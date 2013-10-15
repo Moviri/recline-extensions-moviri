@@ -1,4 +1,4 @@
-define(['jquery', 'recline-amd'], function ($, recline) {
+define(['jquery', 'recline-amd', 'mustache'], function ($, recline, Mustache) {
   recline.Template = recline.Template || {};
   recline.Template.Shapes = recline.Template.Shapes || {};
 

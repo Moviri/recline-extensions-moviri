@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.nvd3.graph', 'recline-extensions/backend/backend.extensions.csv'
+], function (recline, SlickGridGraph) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Noleggi3.csv',
     backend:'csv',
@@ -29,3 +32,5 @@ var graphNoleggi = new recline.View.NVD3Graph({
 });
 $el.append(graphNoleggi.el); // this command is mandatory for NVD3
 graphNoleggi.render();
+
+});

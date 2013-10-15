@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv'
+], function (recline) {
+
 var dataset = new recline.Model.Dataset({/*FOLD_ME*/
     url:'tutorial/data/Noleggi2.csv',
     backend:'csv',
@@ -32,6 +35,7 @@ var graphNoleggi = new recline.View.xCharts({
 		},
         type: 'line-dotted',
         interpolation:'linear',
+        dotRadius: 4,
         xScale: 'time',
         yScale: 'linear',
         legend: $('#legend'),
@@ -45,3 +49,4 @@ var graphNoleggi = new recline.View.xCharts({
     }
 });
 graphNoleggi.render();
+});

@@ -1,3 +1,8 @@
+require(['recline-extensions-amd', 'd3', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.virtualmodel',
+    'recline-extensions/views/widget.genericfilter', 'recline-extensions/views/view.xcharts', 'recline-extensions/views/view.indicator',
+    'recline-extensions/views/widget.datepicker'
+], function (recline, d3) {
+
 var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/UserNetworkUsage.csv',
     backend:'csv',
@@ -205,4 +210,4 @@ var graph2 = new recline.View.xCharts({
 });
 graph2.render();
 
-
+});

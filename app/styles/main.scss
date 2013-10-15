@@ -16,8 +16,17 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 @import '../tutorial/pages/treeview.css';
 
 @import '../scripts/vendor/chosen/chosen.css';
+@import '../scripts/vendor/jquery-slider/css/jquery.slider.min.css';
+
 
 @import '../scripts/vendor/nvd3/0.0.1/nv.d3.css';
+
+@import '../bower_components/bower-xcharts/xcharts.css';
+
+@import '../bower_components/rickshaw/rickshaw.css';
+
+@import '../scripts/vendor/datepicker/1.0.0/css/datepicker/base.css';
+@import '../scripts/vendor/datepicker/1.0.0/css/DateRangesWidget/base.css';
 
 .hero-unit {
     margin: 50px auto 0 auto;

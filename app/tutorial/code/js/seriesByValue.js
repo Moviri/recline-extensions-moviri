@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv'
+], function (recline, SlickGridGraph) {
+
 var dataset = new recline.Model.Dataset({
     url:'tutorial/data/Noleggi2.csv',
     backend:'csv',
@@ -50,3 +53,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

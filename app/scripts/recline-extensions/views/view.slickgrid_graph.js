@@ -1,5 +1,3 @@
-/*jshint multistr:true */
-
 define(['backbone', 'recline-extensions-amd',
     'jquery-ui.custom.slickgrid',  'jquery.event.drag-2.2', 'jquery-migrate-1.2.1',
     'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/slick.formatters', 

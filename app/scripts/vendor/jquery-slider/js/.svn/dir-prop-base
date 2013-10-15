@@ -1,0 +1,21 @@
+K 10
+svn:ignore
+V 164
+.project
+.classpath
+target
+.cproject
+.deployment
+.settings
+.metadata
+resources
+temp
+numerics
+repository
+task
+bin
+META-INF
+ContentWiseETLmodule
+_asset_bundler_cache
+
+END

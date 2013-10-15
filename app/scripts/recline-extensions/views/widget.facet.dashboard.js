@@ -1,7 +1,8 @@
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, recline, Mustache,) {
 
-(function ($, view) {
+    recline.View = recline.View || {};
+
+    var view = recline.View;
 
     "use strict";
 
@@ -93,4 +94,5 @@ this.recline.View = this.recline.View || {};
           var self=this;
         }
     });
-})(jQuery, recline.View);
+    return view.FacetDashboard;
+});

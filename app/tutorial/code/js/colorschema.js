@@ -1,8 +1,7 @@
 require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph',
-    'recline-extensions/data/data.colors',
     'recline-extensions/views/view.xcharts', 'recline-extensions/views/view.nvd3.graph',
     'recline-extensions/views/widget.genericfilter'
-], function (recline, SlickGridGraph, ColorSchema, xChart, NVD3Graph, GenericFilter) {
+], function (recline, SlickGridGraph, xCharts, NVD3Graph, GenericFilter) {
 
 
     var dataset = new recline.Model.Dataset({/*FOLD_ME*/
@@ -16,7 +15,7 @@ require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_grap
     })
 
 
-var mycolorschema = new ColorSchema({
+var mycolorschema = new recline.Data.ColorSchema({
     type: "scaleWithDistinctData",
     colors: ['#FF0000', '#00FF00', '#0000FF']
 });
@@ -28,7 +27,7 @@ dataset.fetch();
 
 var $el = $('#chart1');
 $el.addClass("recline-graph"); // this applies the same styles to NVD3 and xCharts
-var graphNoleggi = new xChart({ /*FOLD_ME*/
+var graphNoleggi = new xCharts({ /*FOLD_ME*/
     model: dataset,
     el: $el,
     state: {

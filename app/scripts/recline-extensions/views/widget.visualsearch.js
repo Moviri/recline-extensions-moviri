@@ -1,10 +1,8 @@
-/*jshint multistr:true */
+define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, recline, Mustache,) {
 
-this.recline = this.recline || {};
-this.recline.View = this.recline.View || {};
+    recline.View = recline.View || {};
 
-(function ($, my) {
-
+    var my = recline.View;
 
     my.VisualSearch = Backbone.View.extend({
 
@@ -196,6 +194,6 @@ this.recline.View = this.recline.View || {};
 
     });
 
-
-})(jQuery, recline.View);
+    return my.VisualSearch;
+});
 

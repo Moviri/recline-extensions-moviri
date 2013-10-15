@@ -1,4 +1,4 @@
-define(['recline-amd'], function(recline) {
+define(['recline-amd', 'chroma'], function(recline, chroma) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};

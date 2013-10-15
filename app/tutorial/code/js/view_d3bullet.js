@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.bullet', 'recline.model.extensions.virtualmodel', 'recline-extensions/views/view.slickgrid_graph'], function (recline) {
+
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Bullet1.csv',
     backend:'csv',
@@ -63,7 +66,7 @@ $('#bullet_legend').append(bulletLegend.el);
 bulletLegend.render();
 bulletLegend.redraw();
 
-var $el = $('#grid1');
+$el = $('#grid1');
 var grid1 = new recline.View.SlickGridGraph({
     model:virtual,
     el:$el,
@@ -87,3 +90,4 @@ var grid1 = new recline.View.SlickGridGraph({
 grid1.visible = true;
 grid1.render();
 
+});

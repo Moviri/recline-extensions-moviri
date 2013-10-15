@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'd3v2', 'mustache', 'nv.tooltips', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv'
+], function (recline, d3, Mustache) {
+
 var dataset = new recline.Model.Dataset({/*FOLD_ME*/
     url:'tutorial/data/Noleggi2.csv',
     backend:'csv',
@@ -91,3 +94,5 @@ var graphNoleggi = new recline.View.xCharts({
 });
 
 graphNoleggi.render();
+
+});

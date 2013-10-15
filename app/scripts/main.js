@@ -18,11 +18,10 @@ require.config({
         'recline.dataset': 'vendor/recline/recline.dataset',
         'recline' : 'vendor/recline/recline.min',
         'd3' : '../bower_components/d3/d3',
+        'datejs': '../bower_components/datejs/build/date',
         'recline-extensions-amd': 'recline-extensions/recline-extensions-amd',
         'recline-amd': 'recline-extensions/recline-amd',
         
-        'chosen' : 'vendor/chosen/chosen.jquery' , //'../bower_components/chosen/coffee/lib/chosen.jquery',
-
         'recline.model.extensions.all': 'recline-extensions/model/model.extensions.all',
 
         'recline.model.extensions.filteredmodel': 'recline-extensions/model/filteredmodel',
@@ -38,6 +37,7 @@ require.config({
         'recline.data.extensions.shapes' : 'recline-extensions/data/data.shapes',
         'recline.data.extensions.formatters' : 'recline-extensions/data/data.formatters',
         'recline.data.extensions.seriesutility' : 'recline-extensions/data/data.series.utility',
+        'recline.data.extensions.templateshapes' : 'recline-extensions/data/template.shapes',
 
         'slickgrid/slick.core': '../bower_components/slickgrid-moviri/slick.core',
         'slickgrid/slick.grid': '../bower_components/slickgrid-moviri/slick.grid',
@@ -53,11 +53,23 @@ require.config({
 
         'crossfilter' : '../bower_components/crossfilter/crossfilter',
 
+        'xcharts' : 'vendor/xcharts/xcharts',
+        //'xcharts' : '../bower_components/bower-xcharts/xcharts', MANCANO LE ANNOTATION!!!
+
+        'chroma' : 'vendor/chroma.js/chroma.min', // diverso!!! '../bower_components/chroma-js/chroma',
+        'chosen' : 'vendor/chosen/chosen.jquery' , //'../bower_components/chosen/coffee/lib/chosen.jquery',
+        'jslider' : 'vendor/jquery-slider/js/jquery.slider.min',
+        'datepicker' : 'vendor/datepicker/1.0.0/js/datepicker',
+        'rickshaw' : '../bower_components/rickshaw/rickshaw',
+        'd3cloud' : '../bower_components/d3cloud/d3.layout.cloud',
+
         'd3v2' : 'vendor/d3/v2/d3.v2.custom.min',
         'nvd3' : 'vendor/nvd3/0.0.1/nv.d3.min',
+        'nv.tooltips' : 'vendor/nvd3/0.0.1/tooltip',
         
         // 'd3v2' : '../bower_components/nvd3-gianlucaguarini/lib/d3.v2',   // manca lineDottedChart!!!!
         // 'nvd3' : '../bower_components/nvd3-gianlucaguarini/nv.d3'
+        // 'nv.tooltips' : '../bower_components/nvd3-gianlucaguarini/src/tooltip',
     },
     shim: {
         'bootstrap': {
@@ -83,6 +95,11 @@ require.config({
             //deps: ['../bower_components/chosen/coffee/lib/chosen.proto', '../bower_components/chosen/coffee/lib/select-parser', '../bower_components/chosen/coffee/lib/abstarct-chosen' ],
             exports: 'chosen'
         },
+        'rickshaw' : { exports: 'Rickshaw'},
+        'datepicker' : {
+            deps: ['vendor/datepicker/1.0.0/js/DateRange', 'vendor/datepicker/1.0.0/js/DateRangesWidget']
+        },
+        'd3cloud' : { deps: ["d3"]},
         'slickgrid/slick.grid' : { deps: [ 'jquery.event.drag-2.2', 'd3' ] },
         'recline.model.extensions.virtualmodel' : {
             deps: [ 'crossfilter', 'recline.data.extensions.aggregations' ]
@@ -91,6 +108,8 @@ require.config({
             deps: [ 'recline-extensions/model/model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
         },
         'nvd3' : { deps: [ 'd3v2' ] , exports: 'nv'},
+        'nv.tooltips' : { deps: ['nvd3'] },
+        'chroma' : { exports: 'chroma'},
 
         'CodeMirror' : { exports: 'CodeMirror' },
         '../bower_components/codemirror/addon/fold/foldcode': { deps: ['CodeMirror'] },
