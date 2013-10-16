@@ -9,11 +9,7 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 @import '../bower_components/codemirror/addon/hint/show-hint.css';
 @import '../bower_components/codemirror/addon/lint/lint.css';
 
-@import '../bower_components/jquery-ui/themes/base/jquery.ui.core.css';
-@import '../bower_components/jquery-ui/themes/base/jquery.ui.datepicker.css';
-@import '../bower_components/jquery-ui/themes/base/jquery.ui.slider.css';
-
-@import '../bower_components/jquery-ui-bootstrap/jquery.ui.theme.css';
+@import '../scripts/vendor/jquery-ui/jquery-ui-1.8.23.custom.slickgrid.css';
 
 @import '../scripts/vendor/bootstrap.extensions.css';
 

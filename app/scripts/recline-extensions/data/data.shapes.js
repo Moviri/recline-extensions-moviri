@@ -175,5 +175,5 @@ define(['jquery', 'recline-amd'], function ($, recline) {
             }
         });
     };
-
+    return my.ShapeSchema;
 });

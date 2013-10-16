@@ -79,7 +79,7 @@ var grid1 = new recline.View.D3table({
              name: "efficiency",  
              fields: [{id:"efficiency",color:"blue"},{id:"efficiency2", color: "#4040A0"}],  
              type: "barchart",  
-             scale: recline.Data.Format.scale({type: 'linear', invertEven: true, domain: ['efficiency','efficiency2']}),  
+             scale: recline.Data.Formatters.scale({type: 'linear', invertEven: true, domain: ['efficiency','efficiency2']}),  
              range: 1,  
              width: "25%",
              label: "Efficiency",

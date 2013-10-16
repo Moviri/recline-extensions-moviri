@@ -106,9 +106,9 @@ var filter_period_ctrl = new recline.View.DatePicker({
 $("#datepicker").append(filter_period_ctrl.el);
 filter_period_ctrl.render();
 
-var INCREASE_ICON = "<img src='../images/arrow-up.png'></img>";
-var DECREASE_ICON = "<img src='../images/arrow-down.png'></img>";
-var CONSTANT_ICON = "<img src='../images/arrow-constant.png'></img>";
+var INCREASE_ICON = "<img src='tutorial/images/arrow-up.png'></img>";
+var DECREASE_ICON = "<img src='tutorial/images/arrow-down.png'></img>";
+var CONSTANT_ICON = "<img src='tutorial/images/arrow-constant.png'></img>";
 
 var indicator1 = new recline.View.Indicator({
     model: virtualReference,

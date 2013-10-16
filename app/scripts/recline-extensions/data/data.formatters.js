@@ -19,7 +19,7 @@ define(['recline-amd', 'accounting'], function(recline, accounting) {
     
     //my.Format.decimal = d3.format(".00f");
 	
-	my.Format.scale = function(options) {
+	my.Formatters.scale = function(options) {
 		var calculateRange = function(rangePerc, dimwidth){			
 			return [0, rangePerc*dimwidth];
 		};
@@ -256,7 +256,7 @@ define(['recline-amd', 'accounting'], function(recline, accounting) {
         return fieldLabel;
     }
 
-    return recline;
+    return my;
 
 });
 
