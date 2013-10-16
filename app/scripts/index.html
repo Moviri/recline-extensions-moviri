@@ -1,0 +1,490 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="../styles/main.css">
+    
+    <script src="../bower_components/modernizr/modernizr.js"></script>
+
+    <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+    <script>
+      require(['app'], function (app) {
+           'use strict';
+           // load app.js!
+      });    
+    </script>    
+
+</head>
+
+
+<body>
+
+<div style="width:1920px;height:950px">
+<form style="width:98%;height:98%">
+<div class="w15 left h100 greyborder">
+<h4>Tutorial List<a class="btn btn-mini btn-info" href="tutorial/pages/gallery.html"
+                    style="margin-left:80px">Back&nbsp;<i class="icon-share-alt icon-white"></i><i
+        class="icon-picture icon-white"></i></a></h4>
+
+<div id="__tutorial_tree__" class="css-treeview" style="max-height:900px;overflow:auto">
+<ul>
+<li><input type="checkbox" id="item-0" checked="checked"/><label for="item-0">MODELS</label>
+    <ul>
+        <li><a value="#static_model"
+               onclick="loadPanels($(this), 'gridOnly', 'static_model', 'table-centered', 'static_model')">Static
+            Model</a></li>
+        <li><a value="#model_with_jsonp"
+               onclick="loadPanels($(this), 'gridOnly', 'model_with_jsonp', 'table-centered', 'model_with_jsonp')">Model
+            with JSONP Backend</a><a target="_blank"
+                                     href="https://github.com/Moviri/recline/wiki/Model-with-Backend.jsonp"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#model_with_csv"
+               onclick="loadPanels($(this), 'gridOnly', 'model_with_csv', 'table-centered', 'model_with_csv')">Model
+            with CSV Backend</a></li>
+        <li><a value="#model_socket"
+               onclick="loadPanels($(this), 'socket.io', 'model_socket', 'socket.io', 'model_socket')">Model
+            with socket.io</a></li>
+
+        <li><input type="checkbox" id="item-0-0"/><label for="item-0-0">Virtual Model<a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/VirtualModel"><i
+                class="icon-question-sign"></i></a></label>
+            <ul>
+                <li><a value="#virtualmodel_aggregation"
+                       onclick="loadPanels($(this), 'twoGrids', 'virtualmodel_aggregation', 'table-centered', 'virtualmodel_aggregation')">Aggregations</a>
+                </li>
+                <li><a value="#virtualmodel_ratiotoreport"
+                       onclick="loadPanels($(this), 'twoGrids', 'virtualmodel_ratiotoreport', 'table-centered', 'virtualmodel_ratiotoreport')">Ratio
+                    to report</a></li>
+                <li><a value="#virtualmodel_ratiotomax"
+                       onclick="loadPanels($(this), 'twoGrids', 'virtualmodel_ratiotomax', 'table-centered', 'virtualmodel_ratiotomax')">Ratio
+                    to max</a></li>
+                <li><a value="#virtualmodel_partition"
+                       onclick="loadPanels($(this), 'twoGrids', 'virtualmodel_partition', 'table-centered', 'virtualmodel_partition')">Partition
+                    By</a></li>
+                <li><a value="#virtualmodel_totals"
+                       onclick="loadPanels($(this), 'twoGrids', 'virtualmodel_totals', 'table', 'virtualmodel_totals')">Totals
+                    and subtotals</a></li>
+            </ul>
+        </li>
+        <li><a value="#joined_model"
+               onclick="loadPanels($(this), 'threeGrids', 'joined_model', 'table-centered', 'joined_model')">JoinedModel</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/JoinedModel"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#filters_sort_conditions"
+               onclick="loadPanels($(this), 'filters_sort_conditions', 'filters_sort_conditions', 'table-centered', 'filters_sort_conditions')">Filters
+            and SortConditions</a><a target="_blank"
+                                     href="https://github.com/Moviri/recline/wiki/Filters"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#filtered_model"
+               onclick="loadPanels($(this), 'filtered_model', 'filtered_model', 'filtered_model', 'filtered_model')">FilteredModel</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/FilteredModel"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#colorschema"
+               onclick="loadPanels($(this), 'colorschema', 'colorschema', 'xcharts', 'colorschema')">ColorSchemas</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/Colors"><i
+                class="icon-question-sign"></i></a></li>
+    </ul>
+</li>
+
+<li><input type="checkbox" id="item-5" checked="checked"/><label for="item-5">ACTIONS<a
+        target="_blank" href="https://github.com/Moviri/recline/wiki/Actions"><i
+        class="icon-question-sign"></i></a></label>
+    <ul>
+        <li><input type="checkbox" id="item-5-1"/><label for="item-5-1">Filter Actions</label>
+            <ul>
+                <li><a value="#action_filter_onclick"
+                       onclick="loadPanels($(this), 'action_filter_onclick', 'action_filter_onclick', 'action_filter_onclick', 'action_filter_onclick')">onClick</a>
+                </li>
+                <li><a value="#action_filter_onhover"
+                       onclick="loadPanels($(this), 'NVD3chart_grid', 'action_filter_onhover', 'table-centered', 'action_filter_onhover')">onHover</a>
+                </li>
+            </ul>
+        </li>
+        <li><input type="checkbox" id="item-5-0"/><label for="item-5-0">Selection Actions</label>
+            <ul>
+                <li><a value="#action_selection_onclick"
+                       onclick="loadPanels($(this), 'action_selection_onclick', 'action_selection_onclick', 'table-centered', 'action_selection_onclick')">onClick</a>
+                </li>
+                <li><a value="#action_selection_onhover"
+                       onclick="loadPanels($(this), 'NVD3chart_grid', 'action_selection_onhover', 'table-centered', 'action_selection_onhover')">onHover</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</li>
+
+<li><input type="checkbox" id="item-2" checked="checked"/><label for="item-2">TABLES</label>
+    <ul>
+        <li><a value="#view_d3table"
+               onclick="loadPanels($(this), 'gridOnly', 'view_d3table', '', 'view_d3table')">View.D3table</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.d3.table"><i
+                class="icon-question-sign"></i></a></li>
+        <li><input type="checkbox" id="item-2-0"/><label for="item-2-0">View.SlickGrid<a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.SlickGrid"><i
+                class="icon-question-sign"></i></a></label>
+            <ul>
+                <li><a value="#slickgrid_basic"
+                       onclick="loadPanels($(this), 'gridOnly', 'slickgrid_basic', 'table-centered', 'slickgrid_basic')">Basic
+                    Usage</a></li>
+                <li><a value="#slickgrid_column_options"
+                       onclick="loadPanels($(this), 'gridOnly', 'slickgrid_column_options', 'slickgrid_column_options', 'slickgrid_column_options')">Setting
+                    Column options</a></li>
+                <li><a value="#slickgrid_inner_chart"
+                       onclick="loadPanels($(this), 'gridOnly', 'slickgrid_inner_chart', 'slickgrid_inner_chart', 'slickgrid_inner_chart')">Using
+                    inner chart</a></li>
+                <li><a value="#slickgrid_custom_formatters"
+                       onclick="loadPanels($(this), 'gridOnly', 'slickgrid_custom_formatters', 'slickgrid_custom_formatters', 'slickgrid_custom_formatters')">Custom
+                    formatters</a></li>
+            </ul>
+        </li>
+    </ul>
+</li>
+
+<li><input type="checkbox" id="item-3" checked="checked"/><label for="item-3">CHARTS</label>
+    <ul>
+        <li><a value="#seriesByName"
+               onclick="loadPanels($(this), 'xcharts_grid', 'seriesByName', 'xcharts_grid', 'seriesByName')">Using
+            series by name</a></li>
+        <li><a value="#seriesByValue"
+               onclick="loadPanels($(this), 'xcharts_grid', 'seriesByValue', 'xcharts_grid', 'seriesByValue')">Using
+            series by value</a></li>
+        <li><a value="#seriesByPartition"
+               onclick="loadPanels($(this), 'NVD3chart_grid', 'seriesByPartition', '', 'seriesByPartition')">Using
+            series by partition</a></li>
+        <li><input type="checkbox" id="item-3-0"/><label for="item-3-0">Timelines with xCharts<a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.xCharts"><i
+                class="icon-question-sign"></i></a></label>
+            <ul>
+                <li><a value="#xcharts_colorschema"
+                       onclick="loadPanels($(this), 'xcharts_legend_grid', 'xcharts_colorschema', 'xcharts', 'xcharts_colorschema')">Color
+                    series</a></li>
+                <li><a value="#xcharts_customtooltips"
+                       onclick="loadPanels($(this), 'xcharts_legend_grid', 'xcharts_customtooltips', 'xcharts', 'xcharts_customtooltips')">Custom
+                    Tooltips</a></li>
+                <li><a value="#xcharts_annotations"
+                       onclick="loadPanels($(this), 'xcharts_legend_grid', 'xcharts_annotations', 'xcharts', 'xcharts_annotations')">Annotations</a>
+                </li>
+            </ul>
+        </li>
+        <li><input type="checkbox" id="item-3-1"/><label for="item-3-1">NVD3 charts<a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.NVD3Graph"><i
+                class="icon-question-sign"></i></a></label>
+            <ul>
+                <li><a value="#NVD3barchart"
+                       onclick="loadPanels($(this), 'NVD3chart', 'NVD3barchart', '', 'NVD3barchart')">Barchart</a>
+                </li>
+                <li><a value="#NVD3horizbarchart"
+                       onclick="loadPanels($(this), 'NVD3chart', 'NVD3horizbarchart', '', 'NVD3horizbarchart')">Horizontal
+                    Barchart</a></li>
+                <li><a value="#NVD3piechart"
+                       onclick="loadPanels($(this), 'NVD3chart', 'NVD3piechart', '', 'NVD3piechart')">Pie
+                    Chart</a></li>
+                <li><a value="#NVD3customtooltips"
+                       onclick="loadPanels($(this), 'NVD3chart', 'NVD3customtooltips', '', 'NVD3customtooltips')">Custom
+                    Tooltips</a></li>
+            </ul>
+        </li>
+        <li><a value="#view_d3bullet"
+               onclick="loadPanels($(this), 'd3bullet_grid', 'view_d3bullet', 'd3bullet_grid', 'view_d3bullet')">View.D3Bullet</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.d3.bullet"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#view_d3bubble"
+               onclick="loadPanels($(this), 'NVD3chart', 'view_d3bubble', '', 'view_d3bubble')">View.D3Bubble</a>
+        </li>
+        <li><a value="#view_d3gravitybubble"
+               onclick="loadPanels($(this), 'bubble', 'view_d3gravitybubble', '', 'view_d3gravitybubble')">View.D3GravityBubble</a>
+        </li>
+        <li><a value="#view_d3sparkline"
+               onclick="loadPanels($(this), 'view_d3sparkline', 'view_d3sparkline', 'table-centered', 'view_d3sparkline')">View.D3Sparkline</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.d3.sparkline"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#view_rickshaw"
+               onclick="loadPanels($(this), 'rickshaw', 'view_rickshaw', 'table-centered', 'view_rickshaw')">View.Rickshaw</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.RickShaw"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#view_d3cloud"
+               onclick="loadPanels($(this), 'cloud', 'view_d3cloud', '', 'view_d3cloud')">View.D3Cloud</a>
+        </li>
+        <li><a value="#view_d3chord"
+               onclick="loadPanels($(this), 'NVD3chart', 'view_d3chord', '', 'view_d3chord')">View.D3Chord</a>
+        </li>
+    </ul>
+</li>
+
+<li><input type="checkbox" id="item-1" checked="checked"/><label for="item-1">CONTROLS</label>
+    <ul>
+        <li><a value="#view_datepicker"
+               onclick="loadPanels($(this), 'xcharts_datepicker', 'view_datepicker', 'xcharts', 'view_datepicker')">View.DatePicker</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.DatePicker"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#facetDashboard"
+               onclick="loadPanels($(this), 'facetDashboard', 'facetDashboard', 'table', 'facetDashboard')">Facet
+            Dashboard</a></li>
+
+        <li><input type="checkbox" id="item-1-0"/><label for="item-1-0">View.GenericFilter<a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.GenericFilter"><i
+                class="icon-question-sign"></i></a></label>
+            <ul>
+                <li><a value="#genericfilter_range"
+                       onclick="loadPanels($(this), 'genericfilter', 'genericfilter_range', 'genericfilter', 'genericfilter_range')">range</a>
+                </li>
+                <li><a value="#genericfilter_range_calendar"
+                       onclick="loadPanels($(this), 'genericfilter_date', 'genericfilter_range_calendar', 'genericfilter_date', 'genericfilter_range_calendar')">range_calendar</a>
+                </li>
+                <li><a value="#genericfilter_month_week_calendar"
+                       onclick="loadPanels($(this), 'genericfilter_month_week_calendar', 'genericfilter_month_week_calendar', 'genericfilter_month_week_calendar', 'genericfilter_month_week_calendar')">month_week_calendar</a>
+                </li>
+                <li><a value="#genericfilter_dropdown"
+                       onclick="loadPanels($(this), 'genericfilter2', 'genericfilter_dropdown', 'genericfilter2', 'genericfilter_dropdown')">dropdown</a>
+                </li>
+                <li><a value="#genericfilter_dropdown_styled"
+                       onclick="loadPanels($(this), 'genericfilter2', 'genericfilter_dropdown_styled', 'genericfilter2', 'genericfilter_dropdown_styled')">dropdown_styled</a>
+                </li>
+                <li><a value="#genericfilter_dropdowndaterange"
+                       onclick="loadPanels($(this), 'genericfilter_date', 'genericfilter_dropdowndaterange', 'genericfilter_date', 'genericfilter_dropdowndaterange')">dropdown_date_range</a>
+                </li>
+                <li><a value="#genericfilter_listbox"
+                       onclick="loadPanels($(this), 'genericfilter2', 'genericfilter_listbox', 'genericfilter2', 'genericfilter_listbox')">listbox</a>
+                </li>
+                <li><a value="#genericfilter_listbox_styled"
+                       onclick="loadPanels($(this), 'genericfilter2', 'genericfilter_listbox_styled', 'genericfilter2', 'genericfilter_listbox_styled')">listbox_styled</a>
+                </li>
+                <li><a value="#genericfilter_list"
+                       onclick="loadPanels($(this), 'genericfilter2', 'genericfilter_list', 'genericfilter2', 'genericfilter_list')">list</a>
+                </li>
+                <li><a value="#genericfilter_legend"
+                       onclick="loadPanels($(this), 'genericfilter_legend', 'genericfilter_legend', 'genericfilter_legend', 'genericfilter_legend')">legend</a>
+                </li>
+                <li><a value="#genericfilter_slider"
+                       onclick="loadPanels($(this), 'genericfilter_slider', 'genericfilter_slider', 'genericfilter_slider', 'genericfilter_slider')">slider</a>
+                </li>
+                <li><a value="#genericfilter_slider_styled"
+                       onclick="loadPanels($(this), 'genericfilter_slider', 'genericfilter_slider_styled', 'genericfilter_slider', 'genericfilter_slider_styled')">slider_styled</a>
+                </li>
+                <li><a value="#genericfilter_range_slider"
+                       onclick="loadPanels($(this), 'genericfilter', 'genericfilter_range_slider', 'genericfilter', 'genericfilter_range_slider')">range_slider</a>
+                </li>
+                <li><a value="#genericfilter_range_slider_styled"
+                       onclick="loadPanels($(this), 'genericfilter', 'genericfilter_range_slider_styled', 'genericfilter', 'genericfilter_range_slider_styled')">range_slider_styled</a>
+                </li>
+                <li><a value="#genericfilter_multibutton"
+                       onclick="loadPanels($(this), 'genericfilter_buttonsets', 'genericfilter_multibutton', 'genericfilter_buttonsets', 'genericfilter_multibutton')">multibutton</a>
+                </li>
+                <li><a value="#genericfilter_radiobuttons"
+                       onclick="loadPanels($(this), 'genericfilter_buttonsets', 'genericfilter_radiobuttons', 'genericfilter_buttonsets', 'genericfilter_radiobuttons')">radiobuttons</a>
+                </li>
+                <li><a value="#genericfilter_hierarchic_radiobuttons"
+                       onclick="loadPanels($(this), 'genericfilter_buttonsets', 'genericfilter_hierarchic_radiobuttons', 'genericfilter_buttonsets2', 'genericfilter_hierarchic_radiobuttons')">hierarchic_radiobuttons</a>
+                </li>
+                <li><a value="#genericfilter_toolbar_horiz"
+                       onclick="loadPanels($(this), 'genericfilter_buttonsets', 'genericfilter_toolbar_horiz', 'genericfilter_toolbar_horiz', 'genericfilter_toolbar_horiz')">Multi-Control
+                    toolbar (horizontal)</a></li>
+                <li><a value="#genericfilter_toolbar_vert"
+                       onclick="loadPanels($(this), 'genericfilter_toolbar_vert', 'genericfilter_toolbar_vert', 'genericfilter_toolbar_vert', 'genericfilter_toolbar_vert')">Multi-Control
+                    toolbar (vertical)</a></li>
+                <li><a value="#"></a></li>
+            </ul>
+        </li>
+        <li><a value="#view_multibutton_dropdown_filter"
+               onclick="loadPanels($(this), 'view_multibutton_dropdown_filter', 'view_multibutton_dropdown_filter', 'genericfilter_buttonsets2', 'view_multibutton_dropdown_filter')">View.MultiButtonDropdownFilter</a><a
+                target="_blank"
+                href="https://github.com/Moviri/recline/wiki/View.MultiButtonDropdownFilter"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#view_indicator"
+               onclick="loadPanels($(this), 'view_indicator', 'view_indicator', 'view_indicator', 'view_indicator')">View.Indicator</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.Indicator"><i
+                class="icon-question-sign"></i></a></li>
+        <li><input type="checkbox" id="item-1-1"/><label for="item-1-1">View.Composed<a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.Composed"><i
+                class="icon-question-sign"></i></a></label>
+            <ul>
+                <li><a value="#view_composed_indicators"
+                       onclick="loadPanels($(this), 'view_composed', 'view_composed_indicators', 'view_composed', 'view_composed_indicators')">Indicators</a>
+                </li>
+                <li><a value="#view_composed_d3bullet"
+                       onclick="loadPanels($(this), 'view_composed', 'view_composed_d3bullet', 'view_composed_d3bullet', 'view_composed_d3bullet')">D3Bullets</a>
+                </li>
+                <li><a value="#view_composed_sparklines"
+                       onclick="loadPanels($(this), 'view_composed', 'view_composed_sparklines', 'view_composed', 'view_composed_sparklines')">Sparklines</a>
+                </li>
+            </ul>
+        </li>
+
+        <li><a value="#view_calendarview"
+               onclick="loadPanels($(this), 'gridOnly', 'view_calendarview', '', 'view_calendarview')">View.CalendarView</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.CalendarView"><i
+                class="icon-question-sign"></i></a></li>
+        <li><a value="#view_cooccurrence_matrix"
+               onclick="loadPanels($(this), 'view_cooccurrence_matrix', 'view_cooccurrence_matrix', 'view_cooccurrence_matrix', 'view_cooccurrence_matrix')">View.D3.Co-occurrenceMatrix</a><a
+                target="_blank"
+                href="https://github.com/Moviri/recline/wiki/View.D3.Co-occurrenceMatrix"><i
+                class="icon-question-sign"></i></a></li>
+    </ul>
+</li>
+
+<li><input type="checkbox" id="item-4" checked="checked"/><label for="item-4">MAPS</label>
+    <ul>
+        <li><a value="#view_d3choropleth_map"
+               onclick="loadPanels($(this), 'maps', 'view_d3choropleth_map', '', 'view_d3choropleth_map')">View.d3.ChoroplethMap</a><a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.d3.ChoroplethMap"><i
+                class="icon-question-sign"></i></a></li>
+        <li><input type="checkbox" id="item-4-0"/><label for="item-4-0">View.GoogleMaps<a
+                target="_blank" href="https://github.com/Moviri/recline/wiki/View.GoogleMaps"><i
+                class="icon-question-sign"></i></a></label>
+            <ul>
+                <li><a value="#view_googlemaps_basic"
+                       onclick="loadPanels($(this), 'maps', 'view_googlemaps_basic', 'maps', 'view_googlemaps_basic')">Basic
+                    usage</a></li>
+                <li><a value="#view_googlemaps_clickevents"
+                       onclick="loadPanels($(this), 'maps', 'view_googlemaps_clickevents', 'maps', 'view_googlemaps_clickevents')">Assigning
+                    click events</a></li>
+                <li><a value="#view_googlemaps_clusters"
+                       onclick="loadPanels($(this), 'maps', 'view_googlemaps_clusters', 'maps', 'view_googlemaps_clusters')">Clustering
+                    markers</a></li>
+            </ul>
+        </li>
+    </ul>
+</li>
+<li><input type="checkbox" id="item-6" checked="checked"/><label for="item-6">MISC</label>
+    <ul>
+        <li><a value="#loader"
+               onclick="loadPanels($(this), 'loader', 'loader', 'table-centered', 'loader')">AJAX
+            Loader Panel</a></li>
+    </ul>
+</li>
+
+</ul>
+</div>
+</div>
+<div class="w80 right h100">
+    <div id="__leftPanel" class="w40 left h100">
+        <div id="__htmlPanel" class="h30 greyborder">
+            <div class="w100 h100">
+                <span class="label label-info dimmed" style="position:relative;top:0px;right:0px">HTML</span>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="minimizePanel('__htmlPanel', '__jsPanel')"
+                        style="position:relative;top:0px;left:10px"><i class="icon-chevron-up icon-white"></i>
+                </button>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="maximizePanel('__htmlPanel', '__jsPanel')"
+                        style="position:relative;top:0px;left:5px"><i class="icon-chevron-down icon-white"></i>
+                </button>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="reducePanelsWidth('__leftPanel', '__rightPanel')"
+                        style="position:relative;top:0px;left:0px"><i class="icon-chevron-left icon-white"></i>
+                </button>
+                <textarea id="__areaHtml" class="w100 h100"></textarea>
+            </div>
+        </div>
+        <div id="__horizLeftDivider" class="w100 horiz-divider"></div>
+        <div id="__jsPanel" class="h70 greyborder">
+            <div class="w100  h100">
+                        <span class="label label-info dimmed"
+                              style="position:relative;top:0px;left:0px">Javascript</span>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="minimizePanel('__jsPanel', '__htmlPanel')"
+                        style="position:relative;top:0px;left:10px"><i class="icon-chevron-down icon-white"></i>
+                </button>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="maximizePanel('__jsPanel', '__htmlPanel')"
+                        style="position:relative;top:0px;left:5px"><i class="icon-chevron-up icon-white"></i>
+                </button>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="reducePanelsWidth('__leftPanel', '__rightPanel')"
+                        style="position:relative;top:0px;left:0px"><i class="icon-chevron-left icon-white"></i>
+                </button>
+                <textarea id="__areaJS" class="w100 h100"></textarea>
+            </div>
+        </div>
+    </div>
+    <div id="__verticalDivider" class="h100 left vertic-divider"></div>
+    <div id="__rightPanel" class="w58 right h100">
+        <div id="__cssPanel" class="h20 greyborder">
+            <div class="w100  h100">
+                <span class="label label-info dimmed" style="position:relative;top:0px;right:0px">CSS</span>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="minimizePanel('__cssPanel', '__resultPanel')"
+                        style="position:relative;top:0px;left:10px"><i class="icon-chevron-up icon-white"></i>
+                </button>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="maximizePanel('__cssPanel', '__resultPanel')"
+                        style="position:relative;top:0px;left:5px"><i class="icon-chevron-down icon-white"></i>
+                </button>
+                <button type="button" class="btn btn-info btn-mini dimmed"
+                        onclick="reducePanelsWidth('__rightPanel', '__leftPanel')"
+                        style="position:relative;top:0px;left:0px"><i class="icon-chevron-right icon-white"></i>
+                </button>
+                <textarea id="__areaCSS" class="w100 h100"></textarea>
+            </div>
+        </div>
+        <div id="__horizRightDivider" class="w100 horiz-divider"></div>
+        <div id="__resultPanel" class="h80 greyborder">
+            <button type="button" class="btn btn-primary btn-mini" onclick="runCode()"
+                    style="position:relative;top:0px;right:0px">RUN
+            </button>
+            <button type="button" class="btn btn-info btn-mini dimmed"
+                    onclick="minimizePanel('__resultPanel', '__cssPanel')"
+                    style="position:relative;top:0px;left:10px"><i class="icon-chevron-down icon-white"></i>
+            </button>
+            <button type="button" class="btn btn-info btn-mini dimmed"
+                    onclick="maximizePanel('__resultPanel', '__cssPanel')"
+                    style="position:relative;top:0px;left:5px"><i class="icon-chevron-up icon-white"></i>
+            </button>
+            <button type="button" class="btn btn-info btn-mini dimmed"
+                    onclick="reducePanelsWidth('__rightPanel', '__leftPanel')"
+                    style="position:relative;top:0px;left:0px"><i class="icon-chevron-right icon-white"></i>
+            </button>
+            <a href="#__helpModalDialog" role="button" class="btn btn-info btn-mini dimmed" data-toggle="modal"><i
+                    class="icon-question-sign icon-white"></i></a>
+
+            <div id="__div_result" class="w100 h100"></div>
+        </div>
+    </div>
+</div>
+</form>
+</div>
+
+<div id="__helpModalDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="__myModalLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="__myModalLabel">Tutorial Description</h3>
+    </div>
+    <div class="modal-body" id="__helpDialogContent"></div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+
+
+
+<script>
+    var _gaq = [
+        ['_setAccount', 'UA-XXXXX-X'],
+        ['_trackPageview']
+    ];
+    (function (d, t) {
+        var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        g.src = '//www.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g, s)
+    }(document, 'script'));
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -3,7 +3,7 @@ require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_grap
 
 
 var dataset = new recline.Model.Dataset({
-    url:'tutorial/data/Noleggi4.csv',
+    url:'../tutorial/data/Noleggi4.csv',
     backend:'csv',
     id: 'model_noleggi',
 // press "?" button in run panel to read important

@@ -3,7 +3,7 @@ require(['recline-extensions-amd', 'd3', 'recline.model.extensions.virtualmodel'
 ], function (recline, d3) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/SmsOverTime2.csv',
+    url:'../tutorial/data/SmsOverTime2.csv',
     backend:'csv',
     id: 'model_sms_over_time',
     fieldsType: [

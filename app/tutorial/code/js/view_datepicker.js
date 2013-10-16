@@ -1,7 +1,7 @@
 require(['recline-extensions-amd', 'recline-extensions/views/view.xcharts', 'recline-extensions/views/widget.datepicker'], function (recline) {
 
 var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Spese1.csv',
+    url:'../tutorial/data/Spese1.csv',
     backend:'csv',
     id: 'model_noleggi',
     fieldsType: [
@@ -11,7 +11,7 @@ var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
 });
 
 var compareDataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Spese1.csv',
+    url:'../tutorial/data/Spese1.csv',
     backend:'csv',
     id: 'model_noleggi',
     fieldsType: [

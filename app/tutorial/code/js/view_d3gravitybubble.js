@@ -1,7 +1,7 @@
 require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.gravitybubble'], function (recline) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Rendita Regioni.csv',
+    url:'../tutorial/data/Rendita Regioni.csv',
     backend:'csv',
     id: 'model_rendita_regioni',
     fieldsType: [

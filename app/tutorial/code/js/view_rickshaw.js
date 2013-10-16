@@ -6,7 +6,7 @@ var colorSchema = new recline.Data.ColorSchema({
 });
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Noleggi1.csv',
+    url:'../tutorial/data/Noleggi1.csv',
     backend:'csv',
     id: 'model_noleggi',
     fieldsType: [

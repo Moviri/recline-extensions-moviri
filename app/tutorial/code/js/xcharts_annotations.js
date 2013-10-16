@@ -2,7 +2,7 @@ require(['recline-extensions-amd', 'd3v2', 'mustache', 'recline-extensions/views
 ], function (recline, d3, Mustache) {
 
 var dataset = new recline.Model.Dataset({/*FOLD_ME*/
-    url:'tutorial/data/Noleggi2.csv',
+    url:'../tutorial/data/Noleggi2.csv',
     backend:'csv',
     id: 'model_noleggi',
     fieldsType: [

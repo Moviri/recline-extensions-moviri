@@ -2,7 +2,7 @@ require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_grap
     'recline.model.extensions.filteredmodel', 'recline.model.extensions.virtualmodel'], function (recline) {
 
 var datasetMappa = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/SpeseMappa.csv',
+    url:'../tutorial/data/SpeseMappa.csv',
     backend:'csv',
     id: 'model_mappa',
     fieldsType:[

@@ -2,7 +2,7 @@ require(['recline-extensions-amd', 'recline-extensions/views/view.xcharts', 'rec
 ], function (recline) {
 
 var dataset = new recline.Model.Dataset({/*FOLD_ME*/
-    url:'tutorial/data/Noleggi2.csv',
+    url:'../tutorial/data/Noleggi2.csv',
     backend:'csv',
     id: 'model_noleggi',
     fieldsType: [

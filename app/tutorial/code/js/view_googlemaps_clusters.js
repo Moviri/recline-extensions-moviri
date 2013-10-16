@@ -2,7 +2,7 @@ require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_grap
     'recline.model.extensions.filteredmodel', 'recline.model.extensions.virtualmodel'], function (recline) {
 
 var datasetMappa = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/SpeseMappa.csv',
+    url:'../tutorial/data/SpeseMappa.csv',
     backend:'csv',
     id: 'model_mappa',
     fieldsType:[
@@ -39,7 +39,7 @@ var mcOptions = {
     showSum: true,
     styles: [
              {
-                url: 'tutorial/images/cluster/green-shopping-cart-icon.png',
+                url: '../tutorial/images/cluster/green-shopping-cart-icon.png',
                 height: 48,
                 width: 48,
                 anchor: [24, 70],
@@ -48,7 +48,7 @@ var mcOptions = {
                 textColor: 'black',
                 textShadow: '2px 2px white'
             }, {
-                url:  'tutorial/images/cluster/yellow-shopping-cart-icon.png',
+                url:  '../tutorial/images/cluster/yellow-shopping-cart-icon.png',
                 height: 48,
                 width: 48,
                 anchor: [24, 70],
@@ -57,7 +57,7 @@ var mcOptions = {
                 textColor: 'black',
                 textShadow: '2px 2px white'
             }, {
-                url: 'tutorial/images/cluster/red-shopping-cart-icon.png',
+                url: '../tutorial/images/cluster/red-shopping-cart-icon.png',
                 height: 48,
                 width: 48,
                 anchor: [24, 70],

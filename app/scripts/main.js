@@ -139,7 +139,7 @@ require.config({
     }
 });
 
-require(['app', 'jquery', 'bootstrap', 'recline' ], function (app) {
-    'use strict';
-    // use app here
-});
+// require(['app', 'jquery', 'bootstrap' ], function (app, $) {
+//    'use strict';
+//    // load app.js!
+// });    

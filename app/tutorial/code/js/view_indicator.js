@@ -4,7 +4,7 @@ require(['recline-extensions-amd', 'd3', 'recline-extensions/views/view.slickgri
 ], function (recline, d3) {
 
 var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/UserNetworkUsage.csv',
+    url:'../tutorial/data/UserNetworkUsage.csv',
     backend:'csv',
     id: 'model_network_usage_ref',
     fieldsType: [
@@ -17,7 +17,7 @@ var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
 });
 
 var compareDataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/UserNetworkUsage.csv',
+    url:'../tutorial/data/UserNetworkUsage.csv',
     backend:'csv',
     id: 'model_network_usage_compare',
     fieldsType: [
@@ -106,9 +106,9 @@ var filter_period_ctrl = new recline.View.DatePicker({
 $("#datepicker").append(filter_period_ctrl.el);
 filter_period_ctrl.render();
 
-var INCREASE_ICON = "<img src='tutorial/images/arrow-up.png'></img>";
-var DECREASE_ICON = "<img src='tutorial/images/arrow-down.png'></img>";
-var CONSTANT_ICON = "<img src='tutorial/images/arrow-constant.png'></img>";
+var INCREASE_ICON = "<img src='../tutorial/images/arrow-up.png'></img>";
+var DECREASE_ICON = "<img src='../tutorial/images/arrow-down.png'></img>";
+var CONSTANT_ICON = "<img src='../tutorial/images/arrow-constant.png'></img>";
 
 var indicator1 = new recline.View.Indicator({
     model: virtualReference,

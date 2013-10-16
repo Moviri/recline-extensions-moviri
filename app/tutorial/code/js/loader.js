@@ -3,7 +3,7 @@ require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_grap
     ], function (recline) {
 
 var dataset = new recline.Model.Dataset({
-    url:'tutorial/data/bigDataDemo.jsonp',
+    url:'../tutorial/data/bigDataDemo.jsonp',
     backend:'jsonp',
     id: 'myTestData',
     fieldsFormat: [{id:"data", format: "localeTimeString"}],

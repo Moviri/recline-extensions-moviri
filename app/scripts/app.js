@@ -1,12 +1,12 @@
 'use strict';
 var loadPanels, runCode, minimizePanel, maximizePanel, reducePanelsWidth;
-require(['underscore', 'CodeMirror', 'vendor/jshint-2.1.4', '../bower_components/codemirror/addon/fold/foldcode', '../bower_components/codemirror/addon/fold/brace-fold',
+require(['jquery', 'underscore', 'CodeMirror', 'vendor/jshint-2.1.4', 'bootstrap', '../bower_components/codemirror/addon/fold/foldcode', '../bower_components/codemirror/addon/fold/brace-fold',
         '../bower_components/codemirror/addon/fold/indent-fold', '../bower_components/codemirror/addon/fold/xml-fold',
         '../bower_components/codemirror/addon/edit/closetag', '../bower_components/codemirror/addon/edit/closebrackets.js',
         '../bower_components/codemirror/addon/edit/matchbrackets', '../bower_components/codemirror/mode/javascript/javascript',
         '../bower_components/codemirror/mode/css/css', '../bower_components/codemirror/mode/xml/xml',
         '../bower_components/codemirror/mode/htmlmixed/htmlmixed',
-        '../bower_components/codemirror/addon/lint/javascript-lint', '../bower_components/codemirror/addon/lint/json-lint' ], function (_, CodeMirror, JSHINT) {
+        '../bower_components/codemirror/addon/lint/javascript-lint', '../bower_components/codemirror/addon/lint/json-lint' ], function ($, _, CodeMirror, JSHINT) {
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
@@ -232,7 +232,7 @@ require(['underscore', 'CodeMirror', 'vendor/jshint-2.1.4', '../bower_components
             default :
                 ext = '.js';
         }
-        var pathname = 'tutorial/code/' + path + '/' + filename + ext;
+        var pathname = '../tutorial/code/' + path + '/' + filename + ext;
         var X = (!window.XMLHttpRequest ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest());
         X.open('GET', pathname, false);
         X.send('');

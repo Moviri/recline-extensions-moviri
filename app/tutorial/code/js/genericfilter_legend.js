@@ -3,7 +3,7 @@ require(['recline-extensions-amd',
     'recline-extensions/views/widget.genericfilter', 'recline-extensions/views/view.nvd3.graph', 'recline-extensions/views/view.indicator'], function (recline) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Paesi1.csv',
+    url:'../tutorial/data/Paesi1.csv',
     backend:'csv',
     fieldsType:[
         {id:'giorno', type: 'integer'},

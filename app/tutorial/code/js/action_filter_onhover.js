@@ -2,7 +2,7 @@ require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_grap
 ], function (recline, SlickGridGraph) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Noleggi5.csv',
+    url:'../tutorial/data/Noleggi5.csv',
     backend:'csv',
     id: 'model_noleggi',
     fieldsType: [

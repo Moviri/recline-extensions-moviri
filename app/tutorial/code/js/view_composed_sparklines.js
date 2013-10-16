@@ -2,7 +2,7 @@ require(['recline-extensions-amd', 'd3', 'recline.model.extensions.virtualmodel'
     'recline-extensions/views/view.composed', 'recline-extensions/views/widget.datepicker' ], function (recline, d3) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/UserNetworkUsage.csv',
+    url:'../tutorial/data/UserNetworkUsage.csv',
     backend:'csv',
     id: 'model_network_usage',
     fieldsType: [
@@ -61,21 +61,21 @@ var kpis = {
             title:"DOWNLOADS",
             subtitle:"Download totali (byte)",
             fieldname:"Download",
-            shape:"<img src='../images/Downloads.png'></img>"
+            shape:"<img src='../tutorial/images/Downloads.png'></img>"
         },
         UPLOADS:{
             name:"Uploads",
             title:"UPLOADS",
             subtitle:"Upload totali (byte)",
             fieldname:"Upload",
-            shape:"<img src='../images/Uploads.png'></img>"
+            shape:"<img src='../tutorial/images/Uploads.png'></img>"
         },
         ACCESSI:{
             name:"Accessi",
             title:"ACCESSI",
             subtitle:"Num accesi totali",
             fieldname:"Accessi",
-            shape:"<img src='../images/Accessi.png'></img>"
+            shape:"<img src='../tutorial/images/Accessi.png'></img>"
         }
 };
 

@@ -2,7 +2,7 @@ require(['recline-extensions-amd','recline-extensions/views/view.slickgrid_graph
     , function (recline, SlickGridGraph) {
 
     var dataset = new recline.Model.Dataset({
-        url: 'tutorial/data/testDataDemo.jsonp',
+        url: '../tutorial/data/testDataDemo.jsonp',
         backend: 'jsonp',
         id: 'myTestData',
         fieldsFormat: [

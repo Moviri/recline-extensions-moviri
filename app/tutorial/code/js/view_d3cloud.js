@@ -1,7 +1,7 @@
 require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.cloud'], function (recline) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Regioni.csv',
+    url:'../tutorial/data/Regioni.csv',
     backend:'csv',
     id: 'model_regioni',
     fieldsType: [

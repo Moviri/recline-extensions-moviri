@@ -3,7 +3,7 @@ require(['recline-extensions-amd', 'd3', 'recline.model.extensions.virtualmodel'
     ], function (recline, d3) {
 
 var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/UserNetworkUsage.csv',
+    url:'../tutorial/data/UserNetworkUsage.csv',
     backend:'csv',
     id: 'model_network_usage_ref',
     fieldsType: [
@@ -16,7 +16,7 @@ var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
 });
 
 var compareDataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/UserNetworkUsage.csv',
+    url:'../tutorial/data/UserNetworkUsage.csv',
     backend:'csv',
     id: 'model_network_usage_compare',
     fieldsType: [
@@ -112,9 +112,9 @@ var filter_period_ctrl = new recline.View.DatePicker({
 $("#datepicker").append(filter_period_ctrl.el);
 filter_period_ctrl.render();
 
-var INCREASE_ICON = "<img src='../images/arrow-up.png'></img>";
-var DECREASE_ICON = "<img src='../images/arrow-down.png'></img>";
-var CONSTANT_ICON = "<img src='../images/arrow-constant.png'></img>";
+var INCREASE_ICON = "<img src='../tutorial/images/arrow-up.png'></img>";
+var DECREASE_ICON = "<img src='../tutorial/images/arrow-down.png'></img>";
+var CONSTANT_ICON = "<img src='../tutorial/images/arrow-constant.png'></img>";
 
 var kpis = {
         DOWNLOADS:{
@@ -122,21 +122,21 @@ var kpis = {
             title:"DOWNLOADS",
             subtitle:"Download totali (byte)",
             fieldname:"Download_sum",
-            shape:"<img src='../images/Downloads.png'></img>"
+            shape:"<img src='../tutorial/images/Downloads.png'></img>"
         },
         UPLOADS:{
             name:"Uploads",
             title:"UPLOADS",
             subtitle:"Upload totali (byte)",
             fieldname:"Upload_sum",
-            shape:"<img src='../images/Uploads.png'></img>"
+            shape:"<img src='../tutorial/images/Uploads.png'></img>"
         },
         ACCESSI:{
             name:"Accessi",
             title:"ACCESSI",
             subtitle:"Num accesi totali",
             fieldname:"Accessi_sum",
-            shape:"<img src='../images/Accessi.png'></img>"
+            shape:"<img src='../tutorial/images/Accessi.png'></img>"
         }
 };
 

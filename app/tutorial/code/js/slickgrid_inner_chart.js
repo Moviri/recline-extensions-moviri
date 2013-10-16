@@ -1,7 +1,7 @@
 require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.virtualmodel'], function (recline) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Stipendi2.csv',
+    url:'../tutorial/data/Stipendi2.csv',
     backend:'csv',
     id: 'model_stipendi',
     fieldsType: [

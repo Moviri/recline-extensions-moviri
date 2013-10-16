@@ -3,7 +3,7 @@ require(['recline-extensions-amd', 'd3', 'recline-extensions/views/view.slickgri
 ], function (recline, d3) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/UserNetworkUsage.csv',
+    url:'../tutorial/data/UserNetworkUsage.csv',
     backend:'csv',
     id: 'model_network_usage',
     fieldsType: [

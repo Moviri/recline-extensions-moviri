@@ -2,7 +2,7 @@ require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.bullet',
 
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
-    url:'tutorial/data/Bullet1.csv',
+    url:'../tutorial/data/Bullet1.csv',
     backend:'csv',
     fieldsType: [ 
             {id:'Data', type:'date'},
