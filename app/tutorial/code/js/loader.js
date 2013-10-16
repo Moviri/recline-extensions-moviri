@@ -1,3 +1,7 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.filteredmodel', 
+    'recline-extensions/backend/backend.jsonp', 'recline-extensions/views/view.nvd3.graph', 'recline-extensions/views/view.loader'
+    ], function (recline) {
+
 var dataset = new recline.Model.Dataset({
     url:'tutorial/data/bigDataDemo.jsonp',
     backend:'jsonp',
@@ -64,3 +68,5 @@ setRandomFilter();
 chart1.render();
 
 $("#refresh").click(setRandomFilter);
+
+});

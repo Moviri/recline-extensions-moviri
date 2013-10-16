@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.virtualmodel'], function (recline) {
+
 var dataset, virtual;
 
 initModels();
@@ -77,3 +79,4 @@ function initModels() { /*FOLD_ME*/
             }
         });
     }
+});

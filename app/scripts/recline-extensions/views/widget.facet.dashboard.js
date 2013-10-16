@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, recline, Mustache,) {
+define(['backbone', 'recline-extensions-amd', 'mustache', 'recline-extensions/views/view.slickgrid_graph'], function (Backbone, recline, Mustache) {
 
     recline.View = recline.View || {};
 
@@ -71,7 +71,7 @@ define(['backbone', 'recline-extensions-amd', 'mustache'], function (Backbone, r
                 filters:{
                     filter_facet: {type:"list", field:name}
                 },
-                models: [{ model: dataset, filters:["filter_facet"]  }],
+                models: [{ model: model, filters:["filter_facet"]  }],
                 type:["filter"]
             });
 

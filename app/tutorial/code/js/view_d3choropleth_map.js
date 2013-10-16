@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.choroplethmap', 'recline-extensions/views/view.slickgrid_graph'], function (recline) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Regioni.csv',
     backend:'csv',
@@ -84,9 +86,9 @@ var map =  new recline.View.D3ChoroplethMap({
     model: dataset,
     el: '#map',
     state: {
-        mapJson: 'ITA.json',
+        mapJson: 'tutorial/pages/ITA.json',
         layer: 'itaRegions',
-        scale: 12000,
+        scale: 2000,
         center: [12.5, 41.5],
         mapping: [{srcShapeField: "Regione", srcValueField: "Densita", destLayer: "itaRegions"}],
         unselectedColor: "#C0C0C0",
@@ -108,3 +110,4 @@ map.render();
 
 dataset.fetch();
 
+});

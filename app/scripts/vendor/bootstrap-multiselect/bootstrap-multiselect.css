@@ -1,0 +1,30 @@
+.btn-toolbar .btn-group{
+	display:inline;
+}
+.btn-group-multiselect > button.btn:first-child {
+	border-radius:0;
+	margin-left:-1px;
+}
+.btn-group-multiselect > button.btn {
+	border-radius:0;
+	margin-left:-1px;
+}
+.btn-group-multiselect > .dropdown-menu {
+	margin-top:15px;
+}
+button.dropdown-toggle.btn.btn-mini.btn-last {
+	-webkit-border-top-right-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	-moz-border-radius-bottomright: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+button.dropdown-toggle.btn.btn-mini.btn-first {
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}

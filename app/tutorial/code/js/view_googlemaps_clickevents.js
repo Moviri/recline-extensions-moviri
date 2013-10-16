@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.GoogleMaps',
+    'recline.model.extensions.filteredmodel', 'recline.model.extensions.virtualmodel'], function (recline) {
+
 var datasetMappa = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/SpeseMappa.csv',
     backend:'csv',
@@ -108,3 +111,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.xcharts', 'recline-extensions/views/widget.datepicker'], function (recline) {
+
 var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Spese1.csv',
     backend:'csv',
@@ -96,7 +98,7 @@ var graphSpese1 = new recline.View.xCharts({
 });
 graphSpese1.render();
 
-var $el = $('#chart2'); 
+$el = $('#chart2'); 
 $el.addClass("recline-graph"); // this applies the same styles to NVD3 and xCharts
 var graphSpese2 = new recline.View.xCharts({
     model: compareDataset,
@@ -122,3 +124,5 @@ var graphSpese2 = new recline.View.xCharts({
 	}
 });
 graphSpese2.render();
+
+});

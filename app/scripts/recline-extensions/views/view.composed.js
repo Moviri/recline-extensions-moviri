@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd', 'd3', 'mustache'], function ($, recline, d3, Mustache) {
+define(['jquery', 'recline-extensions-amd', 'd3', 'mustache', 'recline.model.extensions.filteredmodel'], function ($, recline, d3, Mustache) {
 
     recline.View = recline.View || {};
 

@@ -1,4 +1,5 @@
-define(['jquery', 'recline-extensions-amd', 'mustache'], function ($, recline, Mustache) {
+define(['jquery', 'recline-extensions-amd', 'mustache', 'async!https://maps.googleapis.com/maps/api/js?v=3&sensor=true', 'markerclusterer'
+        ], function ($, recline, Mustache) {
 
     recline.View = recline.View || {};
 
@@ -9,13 +10,14 @@ define(['jquery', 'recline-extensions-amd', 'mustache'], function ($, recline, M
         iconaMarker: 'https://chart.googleapis.com/chart?chst=d_simple_text_icon_above&chld={TEXT}|14|{TEXTCOLOR}|{MARKERICON}|{ICONSIZE}|{ICONCOLOR}|404040',
         initialize:function (options) {
             _.bindAll(this, 'render', 'redraw', 'clearAllMarkers', 'getMarkerColor', 'openInfoWindow');
-            this.model.bind('query:done', this.redraw);
             this.mapEl = document.getElementById(this.options.el);
-            this.render();
-            if (options.state.markerIcon == "simple")
+            if (options.state.markerIcon === 'simple') {
                 this.iconaMarker = this.iconaMarkerSimple;
-            else if (options.state.markerIconLongName)
+            }
+            else if (options.state.markerIconLongName) {
                 this.iconaMarker = options.state.markerIconLongName;
+            }
+            this.render();
         },
         clearAllMarkers: function() {
             _.each(this.markers, function (marker) {
@@ -41,7 +43,6 @@ define(['jquery', 'recline-extensions-amd', 'mustache'], function ($, recline, M
         },
         render:function() {
             var self = this;
-
             var googleOptions = {};
             if (this.options.state.googleOptions)
                 googleOptions = _.extend(googleOptions, this.options.state.googleOptions)
@@ -68,7 +69,10 @@ define(['jquery', 'recline-extensions-amd', 'mustache'], function ($, recline, M
                 this.infowindow = new google.maps.InfoWindow({ content: '' });
                 this.infowindow.close();
             }
-            this.redraw();
+            this.model.bind('query:done', this.redraw);
+            if (this.model.recordCount > 0 || this.model.records.length > 0) {
+                this.redraw();
+            }
         },
 
         redraw: function() {

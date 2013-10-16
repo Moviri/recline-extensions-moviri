@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.socketmodel'], function (recline) {
+
 var dataset = new recline.Model.SocketDataset({
     url: '192.168.200.130',
     port: 80,
@@ -95,3 +97,5 @@ grid1.render();
 
 
 dataset.attach();
+
+});

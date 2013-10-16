@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'd3', 'recline.model.extensions.virtualmodel', 'recline-extensions/views/d3/view.d3.bullet',
+     'recline-extensions/views/view.composed', 'recline-extensions/views/widget.datepicker'], function (recline, d3) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/UserNetworkUsage.csv',
     backend:'csv',
@@ -108,4 +111,4 @@ var composed = new recline.View.Composed({
 
 
 
-
+});

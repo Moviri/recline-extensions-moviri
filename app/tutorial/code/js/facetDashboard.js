@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/widget.facet.dashboard'], function (recline) {
+
+
 var dataset = new recline.Model.Dataset({
     records:[
         {id:0, country:'Italy', gender:"Female", age:25,  visits: 10},
@@ -54,3 +57,5 @@ var viewer = new recline.View.FacetDashboard({
 
 
 dataset.fetch();
+
+});

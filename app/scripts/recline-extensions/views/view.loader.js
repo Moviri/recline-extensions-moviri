@@ -47,10 +47,11 @@ define(['jquery', 'recline-extensions-amd', 'mustache'], function ($, recline, M
         },
 
     	incLoaderCount : function() {
+            var self = this;
     		this.loaderCount++;
     		//console.log("Start task - loaderCount = "+this.loaderCount)
 			setTimeout(function() {
-				this.divOver.show();
+				self.divOver.show();
 				$("#__loadingImage__").show();
 			}, 0);
     	},

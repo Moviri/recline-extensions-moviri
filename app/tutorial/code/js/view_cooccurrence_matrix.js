@@ -1,3 +1,5 @@
+require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.co-occurrencematrix'], function (recline) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/Cognomi.csv',
     backend:'csv',
@@ -29,3 +31,5 @@ var matrix = new recline.View.D3CooccurrenceMatrix({
 	}
 });
 matrix.render();
+
+});

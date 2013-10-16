@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd', 'd3', 'mustache'], function ($, recline, d3, Mustache) {
+define(['jquery', 'recline-extensions-amd', 'd3', 'mustache', 'topojson', 'toAscii', 'nv.tooltips'], function ($, recline, d3v3, Mustache, topojson) {
 
     recline.View = recline.View || {};
 

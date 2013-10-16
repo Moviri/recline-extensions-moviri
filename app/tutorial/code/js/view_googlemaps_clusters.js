@@ -1,3 +1,6 @@
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.GoogleMaps',
+    'recline.model.extensions.filteredmodel', 'recline.model.extensions.virtualmodel'], function (recline) {
+
 var datasetMappa = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/SpeseMappa.csv',
     backend:'csv',
@@ -36,7 +39,7 @@ var mcOptions = {
     showSum: true,
     styles: [
              {
-                url: '../images/cluster/green-shopping-cart-icon.png',
+                url: 'tutorial/images/cluster/green-shopping-cart-icon.png',
                 height: 48,
                 width: 48,
                 anchor: [24, 70],
@@ -45,7 +48,7 @@ var mcOptions = {
                 textColor: 'black',
                 textShadow: '2px 2px white'
             }, {
-                url:  '../images/cluster/yellow-shopping-cart-icon.png',
+                url:  'tutorial/images/cluster/yellow-shopping-cart-icon.png',
                 height: 48,
                 width: 48,
                 anchor: [24, 70],
@@ -54,7 +57,7 @@ var mcOptions = {
                 textColor: 'black',
                 textShadow: '2px 2px white'
             }, {
-                url: '../images/cluster/red-shopping-cart-icon.png',
+                url: 'tutorial/images/cluster/red-shopping-cart-icon.png',
                 height: 48,
                 width: 48,
                 anchor: [24, 70],
@@ -148,3 +151,5 @@ var grid1 = new recline.View.SlickGridGraph({
 });
 grid1.visible = true;
 grid1.render();
+
+});

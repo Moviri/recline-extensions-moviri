@@ -1,3 +1,7 @@
+require(['recline-extensions-amd', 'd3', 'recline.model.extensions.virtualmodel', 'recline.model.extensions.filteredmodel',
+    'recline-extensions/views/widget.multibutton_dropdown_filter', 'recline-extensions/views/view.nvd3.graph', 'recline-extensions/views/view.indicator'
+], function (recline, d3) {
+
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'tutorial/data/SmsOverTime2.csv',
     backend:'csv',
@@ -111,3 +115,4 @@ var indicator3 = new recline.View.Indicator({
 $("#my_indicator3").append(indicator3.el);
 indicator3.render();
 
+});

@@ -8,6 +8,11 @@ require.config({
         'jquery-ui.sortable':'../bower_components/jquery-ui/ui/jquery.ui.sortable',
         'jquery-ui.position':'../bower_components/jquery-ui/ui/jquery.ui.position',
         'jquery-ui.custom.slickgrid': 'vendor/jquery-ui-1.8.23.custom.slickgrid',
+        'jquery-ui.core' : '../bower_components/jquery-ui/ui/jquery.ui.core',
+        'jquery-ui.widget' : '../bower_components/jquery-ui/ui/jquery.ui.widget',
+        'jquery-ui.effect' : '../bower_components/jquery-ui/ui/jquery.ui.effect',
+        'jquery-ui.slider' : '../bower_components/jquery-ui/ui/jquery.ui.slider',
+        'jquery-ui.datepicker' : '../bower_components/jquery-ui/ui/jquery.ui.datepicker',
         'bootstrap' : 'vendor/bootstrap',
         'CodeMirror' : '../bower_components/codemirror/lib/codemirror',
         'CodeMirror-extensions' : '../bower_components/codemirror/addon/lint/lint',
@@ -28,6 +33,7 @@ require.config({
         'recline.model.extensions.virtualmodel': 'recline-extensions/model/virtualmodel',
         'recline.model.extensions.joinedmodel': 'recline-extensions/model/joinedmodel',
         'recline.model.extensions.unionmodel': 'recline-extensions/model/unionmodel',
+        'recline.model.extensions.socketmodel': 'recline-extensions/model/socket.model',
 
         'recline.data.extensions.aggregations' : 'recline-extensions/data/data.aggregations',
         'recline.data.extensions.colors' : 'recline-extensions/data/data.colors',
@@ -52,12 +58,16 @@ require.config({
         'jquery-migrate-1.2.1': 'vendor/jquery-migrate-1.2.1.min', //needed for compatibility of slickgrid moviri and jquery 1.9
 
         'crossfilter' : '../bower_components/crossfilter/crossfilter',
+        'bootstrap-multiselect': 'vendor/bootstrap-multiselect/bootstrap-multiselect',
+
+        'topojson' : 'vendor/topojson/topojson.v0.min',
+        'toAscii' : 'vendor/toAscii/toAscii',
 
         'xcharts' : 'vendor/xcharts/xcharts',
         //'xcharts' : '../bower_components/bower-xcharts/xcharts', MANCANO LE ANNOTATION!!!
 
         'chroma' : 'vendor/chroma.js/chroma.min', // diverso!!! '../bower_components/chroma-js/chroma',
-        'chosen' : 'vendor/chosen/chosen.jquery' , //'../bower_components/chosen/coffee/lib/chosen.jquery',
+        'chosen' : 'vendor/chosen/chosen.jquery', //'../bower_components/chosen/coffee/lib/chosen.jquery',
         'jslider' : 'vendor/jquery-slider/js/jquery.slider.min',
         'datepicker' : 'vendor/datepicker/1.0.0/js/datepicker',
         'rickshaw' : '../bower_components/rickshaw/rickshaw',
@@ -66,6 +76,9 @@ require.config({
         'd3v2' : 'vendor/d3/v2/d3.v2.custom.min',
         'nvd3' : 'vendor/nvd3/0.0.1/nv.d3.min',
         'nv.tooltips' : 'vendor/nvd3/0.0.1/tooltip',
+
+        'async' : '../bower_components/requirejs-plugins/src/async',
+        'markerclusterer' : 'vendor/google-maps/markerclusterer',
         
         // 'd3v2' : '../bower_components/nvd3-gianlucaguarini/lib/d3.v2',   // manca lineDottedChart!!!!
         // 'nvd3' : '../bower_components/nvd3-gianlucaguarini/nv.d3'
@@ -88,9 +101,14 @@ require.config({
             deps: [ 'recline.model.extensions.all'],
             exports: 'recline'
         },
+        'async!https://maps.googleapis.com/maps/api/js?v=3&sensor=true' : { deps: ['async'], exports : 'google'},
         'mustache' : { exports: 'Mustache' },
+        'jquery-ui' : { exports: '$'},
+        'jquery-ui.datepicker' : { deps: ['jquery-ui.core', 'jquery-ui.widget', 'jquery-ui.effect'], exports: '$'},
+        'jquery-ui.slider' : { deps: ['jquery-ui.core', 'jquery-ui.widget', 'jquery-ui.effect', 'jquery-ui.mouse'], exports: '$' },
         'd3': { exports: 'd3' },
         'd3v2': { exports: 'd3' },
+        'topojson': { exports: 'topojson' },
         'chosen' : {
             //deps: ['../bower_components/chosen/coffee/lib/chosen.proto', '../bower_components/chosen/coffee/lib/select-parser', '../bower_components/chosen/coffee/lib/abstarct-chosen' ],
             exports: 'chosen'
@@ -99,7 +117,7 @@ require.config({
         'datepicker' : {
             deps: ['vendor/datepicker/1.0.0/js/DateRange', 'vendor/datepicker/1.0.0/js/DateRangesWidget']
         },
-        'd3cloud' : { deps: ["d3"]},
+        'd3cloud' : { deps: ['d3']},
         'slickgrid/slick.grid' : { deps: [ 'jquery.event.drag-2.2', 'd3' ] },
         'recline.model.extensions.virtualmodel' : {
             deps: [ 'crossfilter', 'recline.data.extensions.aggregations' ]
@@ -110,6 +128,8 @@ require.config({
         'nvd3' : { deps: [ 'd3v2' ] , exports: 'nv'},
         'nv.tooltips' : { deps: ['nvd3'] },
         'chroma' : { exports: 'chroma'},
+
+        'recline-extensions/views/widget.genericfilter' : { deps: ['jquery-ui']},
 
         'CodeMirror' : { exports: 'CodeMirror' },
         '../bower_components/codemirror/addon/fold/foldcode': { deps: ['CodeMirror'] },

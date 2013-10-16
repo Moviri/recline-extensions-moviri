@@ -9,6 +9,12 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 @import '../bower_components/codemirror/addon/hint/show-hint.css';
 @import '../bower_components/codemirror/addon/lint/lint.css';
 
+@import '../bower_components/jquery-ui/themes/base/jquery.ui.core.css';
+@import '../bower_components/jquery-ui/themes/base/jquery.ui.datepicker.css';
+@import '../bower_components/jquery-ui/themes/base/jquery.ui.slider.css';
+
+@import '../bower_components/jquery-ui-bootstrap/jquery.ui.theme.css';
+
 @import '../scripts/vendor/bootstrap.extensions.css';
 
 @import '../tutorial/pages/style.css';
@@ -18,7 +24,6 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 @import '../scripts/vendor/chosen/chosen.css';
 @import '../scripts/vendor/jquery-slider/css/jquery.slider.min.css';
 
-
 @import '../scripts/vendor/nvd3/0.0.1/nv.d3.css';
 
 @import '../bower_components/bower-xcharts/xcharts.css';
@@ -27,6 +32,8 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
 @import '../scripts/vendor/datepicker/1.0.0/css/datepicker/base.css';
 @import '../scripts/vendor/datepicker/1.0.0/css/DateRangesWidget/base.css';
+
+@import '../scripts/vendor/bootstrap-multiselect/bootstrap-multiselect.css';
 
 .hero-unit {
     margin: 50px auto 0 auto;
