@@ -285,7 +285,7 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'chosen', 'jslider', '
     			<a class="js-remove-filter" href="#" title="Remove this filter">&times;</a> \
     		</div> \
 			<div style="max-height:500px;width:100%;border:1px solid grey;overflow:auto;"> \
-				<table class="table table-striped table-hover table-condensed" style="width:100%" data-filter-field="{{field}}" data-filter-id="{{id}}" data-filter-type="{{type}}" > \
+				<table class="table table-striped table-hover table-condensed" style="width:100%" data-filter-field="{{field}}" data-filter-id="{{id}}" data-filter-type="{{type}}" data-control-type="{{controlType}}"> \
 				<tbody>\
 				{{#values}} \
 				<tr class="{{selected}}"><td class="list-filter-item" >{{val}}</td><td style="text-align:right">{{count}}</td></tr> \
@@ -1858,14 +1858,12 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'chosen', 'jslider', '
             if (typeof $targetTD != "undefined") {
                 // user clicked on table
                 if (!ctrlKey) {
-                    $table.find('tr').each(function () {
-                        $(this).removeClass(this._selectedClassName);
-                    });
+                    $table.find('tr.'+this._selectedClassName).removeClass(this._selectedClassName);
                 }
                 $targetTD.parent().addClass(this._selectedClassName);
                 var listaValori = [];
                 if (type == "list") {
-                    $table.find('tr.' + this._selectedClassName + " td").each(function () {
+                    $table.find('tr.' + this._selectedClassName + " td.list-filter-item").each(function () {
                         listaValori.push($(this).text());
                     });
                 }
