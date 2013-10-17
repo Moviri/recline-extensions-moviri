@@ -8,5 +8,11 @@ This data is actually structured into a JSON object and embedded in a callback s
 <br><br>
 The dataset just needs to know the URL (of the web service, or, even simpler, even of a local JSONP file on the server) to query and the web service ID name.
 <br><br>
-All other parameters ("fieldsFormat" and "renderer") are used to force a standard and readable format for the date.   
+All other parameters ("fieldsFormat" and "renderer") are used to force a standard and readable format for the date.
+<br><br>
+Please note that, when using a remote file, you must include 'recline-extensions/backend/backend.jsonp' and use backend : 'jsonp' as model parameter.
+<br><br>
+Instead, if using a local file like in our example, you should use 'recline-extensions/backend/backend.jsonp.memorystore' and use backend : 'jsonpMemorystore' as model parameter.
+<br><br>
+Actually, when using a local file, both methods will work. But the sorting will only work with correct method (jsonpMemorystore if local, json if remote), since the sorting must handled on the correct place (local or remote).
 </p> 

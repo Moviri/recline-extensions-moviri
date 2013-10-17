@@ -7,7 +7,8 @@ var dataset = new recline.Model.Dataset({
     backend:'jsonp',
     id: 'myTestData',
     fieldsFormat: [{id:"data", format: "localeTimeString"}],
-    renderer: recline.Data.Formatters.Renderers
+    renderer: recline.Data.Formatters.Renderers,
+    useMemory: true
 });
 
 var filteredDatasetChart = new recline.Model.FilteredDataset({dataset: dataset });

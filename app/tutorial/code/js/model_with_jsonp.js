@@ -1,9 +1,9 @@
-require(['recline-extensions-amd','recline-extensions/views/view.slickgrid_graph', 'recline-extensions/backend/backend.jsonp']
+require(['recline-extensions-amd','recline-extensions/views/view.slickgrid_graph', 'recline-extensions/backend/backend.jsonp.memorystore']
     , function (recline, SlickGridGraph) {
 
     var dataset = new recline.Model.Dataset({
         url: '../tutorial/data/testDataDemo.jsonp',
-        backend: 'jsonp',
+        backend: 'jsonpMemorystore',
         id: 'myTestData',
         fieldsFormat: [
             {id: "data", format: "localeTimeString"}
