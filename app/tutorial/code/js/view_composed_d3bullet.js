@@ -63,21 +63,21 @@ var kpis = {
             title:"DOWNLOADS",
             subtitle:"Download totali (byte)",
             fieldname:"Download_sum",
-            shape:"<img src='../images/Downloads.png'></img>"
+            shape:"<img src='../tutorial/images/Downloads.png'></img>"
         },
         UPLOADS:{
             name:"Uploads",
             title:"UPLOADS",
             subtitle:"Upload totali (byte)",
             fieldname:"Upload_sum",
-            shape:"<img src='../images/Uploads.png'></img>"
+            shape:"<img src='../tutorial/images/Uploads.png'></img>"
         },
         ACCESSI:{
             name:"Accessi",
             title:"ACCESSI",
             subtitle:"Num accesi totali",
             fieldname:"Accessi_sum",
-            shape:"<img src='../images/Accessi.png'></img>"
+            shape:"<img src='../tutorial/images/Accessi.png'></img>"
         }
 };
 

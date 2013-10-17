@@ -74,6 +74,7 @@ require.config({
         // 'nv.tooltips' : '../bower_components/nvd3-gianlucaguarini/src/tooltip',
     },
     shim: {
+        'jquery' : { exports: "$" },
         'bootstrap': {
             deps: [ 'jquery' ]
         },
@@ -104,6 +105,7 @@ require.config({
             exports: 'chosen'
         },
         'rickshaw' : { exports: 'Rickshaw'},
+        'vendor/datepicker/1.0.0/js/DateRangesWidget' : { deps: [ "jquery" ] },
         'datepicker' : {
             deps: ['vendor/datepicker/1.0.0/js/DateRange', 'vendor/datepicker/1.0.0/js/DateRangesWidget']
         },
