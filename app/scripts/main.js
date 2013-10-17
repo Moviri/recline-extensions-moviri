@@ -74,12 +74,12 @@ require.config({
         // 'nv.tooltips' : '../bower_components/nvd3-gianlucaguarini/src/tooltip',
     },
     shim: {
-        'jquery' : { exports: "$" },
+        'jquery' : { exports: 'jQuery' },
         'bootstrap': {
             deps: [ 'jquery' ]
         },
         'recline': {
-            deps: ['backbone', 'underscore', 'bootstrap', 'mustache']
+            deps: ['jquery', 'backbone', 'underscore', 'bootstrap', 'mustache']
         },
         'recline-amd': {
             deps: ['backbone', 'underscore', 'bootstrap', 'mustache']
@@ -93,6 +93,7 @@ require.config({
         },
         'async!https://maps.googleapis.com/maps/api/js?v=3&sensor=true' : { deps: ['async'], exports : 'google'},
         'mustache' : { exports: 'Mustache' },
+        'xcharts' : { deps: ['mustache'] },
         //'jquery-ui' : { exports: '$'},
         //'jquery-ui.datepicker' : { deps: ['jquery-ui.core', 'jquery-ui.widget', 'jquery-ui.effect'], exports: '$'},
         //'jquery-ui.slider' : { deps: ['jquery-ui.core', 'jquery-ui.widget', 'jquery-ui.effect', 'jquery-ui.mouse'], exports: '$' },
@@ -110,16 +111,27 @@ require.config({
             deps: ['vendor/datepicker/1.0.0/js/DateRange', 'vendor/datepicker/1.0.0/js/DateRangesWidget']
         },
         'd3cloud' : { deps: ['d3']},
-        'slickgrid/slick.grid' : { deps: [ 'jquery.event.drag-2.2', 'd3' ] },
+        'jquery.event.drag-2.2' : { deps: [ 'jquery' ] },
+        'jquery-migrate-1.2.1' : { deps: [ 'jquery' ] },
+        'jquery-ui' : { deps: [ 'jquery' ] },
+        'slickgrid/slick.editors':  { deps: [ 'jquery' ] },
+        'slickgrid/slick.formatters':  { deps: [ 'jquery' ] },
+        'slickgrid/slick.rowselectionmodel' : { deps: [ 'jquery' ] },
+        'slickgrid/slick.cellrangeselector' : { deps: [ 'jquery' ] },
+        'slickgrid/slick.cellselectionmodel' : { deps: [ 'jquery' ] },
+
+        'slickgrid/slick.core' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'd3v2' ] },
+        'slickgrid/slick.grid' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'd3v2' ] },
         'recline.model.extensions.virtualmodel' : {
             deps: [ 'crossfilter', 'recline.data.extensions.aggregations' ]
         },
         'recline.model.extensions.filteredmodel' : {
             deps: [ 'recline-extensions/model/model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
         },
-        'nvd3' : { deps: [ 'd3v2' ] , exports: 'nv'},
+        'nvd3' : { deps: [ 'recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
         'nv.tooltips' : { deps: ['nvd3'] },
         'chroma' : { exports: 'chroma'},
+        'slickgrid/slick.formatters' : { deps: [ "jquery" ] },
 
         'recline-extensions/views/widget.genericfilter' : { deps: ['jquery-ui']},
 
