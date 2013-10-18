@@ -11,6 +11,7 @@
 }
 
 
+
 /********************
  * TOOLTIP CSS
  */
@@ -24,6 +25,7 @@
 
   font-family: Arial;
   font-size: 13px;
+
 
   transition: opacity 500ms linear;
   -moz-transition: opacity 500ms linear;
@@ -110,7 +112,7 @@ svg .title {
 
 .nvd3.nv-noData {
   font-size: 18px;
-  font-weight: bolf;
+  font-weight: bold;
 }
 
 
@@ -646,5 +648,7 @@ svg .title {
   cursor: s-resize;
   */
 }
+
+
 
 

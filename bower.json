@@ -14,7 +14,7 @@
     "mustache": "<0.7.0",
     "crossfilter": "~1.3.5",
     "d3": "~3.3.6",
-    "nvd3-gianlucaguarini":"~1.1.10-beta",
+    "nvd3-gianlucaguarini":"~1.1.0-beta",
     "bower-xcharts":"~0.1.3",
     "datejs":"",
     "chroma-js":"~0.5.3",

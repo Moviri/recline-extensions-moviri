@@ -11,7 +11,6 @@ var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
             {id:'Noleggi bici',   type:'integer'}
            ]
 });
-dataset.fetch();
 
 var $el = $('#chart1') ;
 var graphNoleggi = new recline.View.NVD3Graph({
@@ -26,11 +25,14 @@ var graphNoleggi = new recline.View.NVD3Graph({
         width: 850,
         height: 700,
         options: {
-            showLegend:false
+            //showLegend:false
         }
     }
 });
 $el.append(graphNoleggi.el); // this command is mandatory for NVD3
 graphNoleggi.render();
+
+dataset.fetch();
+
 
 });

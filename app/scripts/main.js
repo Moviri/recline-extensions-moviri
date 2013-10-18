@@ -53,7 +53,6 @@ require.config({
         'toAscii' : 'vendor/toAscii/toAscii',
 
         'xcharts' : 'vendor/xcharts/xcharts',
-        //'xcharts' : '../bower_components/bower-xcharts/xcharts', MANCANO LE ANNOTATION!!!
 
         'chroma' : 'vendor/chroma.js/chroma.min', // diverso!!! '../bower_components/chroma-js/chroma',
         'chosen' : 'vendor/chosen/chosen.jquery', //'../bower_components/chosen/coffee/lib/chosen.jquery',
@@ -62,16 +61,14 @@ require.config({
         'rickshaw' : '../bower_components/rickshaw/rickshaw',
         'd3cloud' : '../bower_components/d3cloud/d3.layout.cloud',
 
-        'd3v2' : 'vendor/d3/v2/d3.v2.custom.min',
-        'nvd3' : 'vendor/nvd3/0.0.1/nv.d3.min',
-        'nv.tooltips' : 'vendor/nvd3/0.0.1/tooltip',
-
         'async' : '../bower_components/requirejs-plugins/src/async',
         'markerclusterer' : 'vendor/google-maps/markerclusterer',
-        
-        // 'd3v2' : '../bower_components/nvd3-gianlucaguarini/lib/d3.v2',   // manca lineDottedChart!!!!
-        // 'nvd3' : '../bower_components/nvd3-gianlucaguarini/nv.d3'
-        // 'nv.tooltips' : '../bower_components/nvd3-gianlucaguarini/src/tooltip',
+
+        'd3v2' : 'vendor/d3/v2/d3.v2.custom.min',
+
+        'nvd3partial': '../bower_components/nvd3-gianlucaguarini/nv.d3',
+        'nvd3' : 'vendor/nvd3-extensions/nv.d3.lineDottedChart', // 'vendor/nvd3/0.0.1/nv.d3.min',
+        'nv.tooltips': '../bower_components/nvd3-gianlucaguarini/src/tooltip'
     },
     shim: {
         'jquery' : { exports: 'jQuery' },
@@ -94,9 +91,6 @@ require.config({
         'async!https://maps.googleapis.com/maps/api/js?v=3&sensor=true' : { deps: ['async'], exports : 'google'},
         'mustache' : { exports: 'Mustache' },
         'xcharts' : { deps: ['mustache'] },
-        //'jquery-ui' : { exports: '$'},
-        //'jquery-ui.datepicker' : { deps: ['jquery-ui.core', 'jquery-ui.widget', 'jquery-ui.effect'], exports: '$'},
-        //'jquery-ui.slider' : { deps: ['jquery-ui.core', 'jquery-ui.widget', 'jquery-ui.effect', 'jquery-ui.mouse'], exports: '$' },
 
         'd3': { exports: 'd3' },
         'd3v2': { exports: 'd3' },
@@ -128,7 +122,10 @@ require.config({
         'recline.model.extensions.filteredmodel' : {
             deps: [ 'recline-extensions/model/model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
         },
-        'nvd3' : { deps: [ 'recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
+        
+        'nvd3partial' : { deps: [ 'recline-extensions-amd', 'd3' ] , exports: 'nv'},
+        'nvd3' : { deps: [ 'nvd3partial' ] , exports: 'nv'}, // { deps: [ 'recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
+
         'nv.tooltips' : { deps: ['nvd3'] },
         'chroma' : { exports: 'chroma'},
         'slickgrid/slick.formatters' : { deps: [ "jquery" ] },

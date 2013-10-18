@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.extensions.seriesutility'], function (Backbone, recline, Mustache) {
+define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.extensions.seriesutility', 'recline-extensions/views/view.no_data'], function (Backbone, recline, Mustache) {
 
     recline.View = this.recline.View || {};
     var my = recline.View;
@@ -40,21 +40,18 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.
             _.bindAll(this, 'render', 'redraw', 'graphResize', 'changeDimensions', 'getFormatter');
 
 
-            this.model.bind('change', this.render);
-            this.model.fields.bind('reset', this.render);
-            this.model.fields.bind('add', this.render);
+            this.model.bind('change', this.redraw);
+            this.model.fields.bind('reset add', this.redraw);
 
-            this.model.records.bind('add', this.redraw);
-            this.model.records.bind('reset', this.redraw);
-            this.model.records.bind('remove', this.redraw);
+            this.model.records.bind('add reset remove', this.redraw);
             this.model.bind('query:done', this.redraw);
             this.model.queryState.bind('selection:done', this.redraw);
             this.model.bind('dimensions:change', this.changeDimensions);
             
-            if (this.model.recordCount) { 
-                this.render(); 
-                this.redraw(); 
-            }           
+            if (this.model.recordCount) {
+                this.render();
+                this.redraw();
+            }
 
             if (this.options.state && this.options.state.loader)
                 this.options.state.loader.bindChart(this);
@@ -270,11 +267,16 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.
                             console.log("view.nvd3.graph.js: cannot add options " + d + " for graph type " + graphType)
                         }
                     });
-                }
-                ;
-
+                };
+                var dataToUse = seriesNVD3;
+                if (graphType == "pieChart") {
+                    dataToUse = seriesNVD3[0].values;
+                    _.each(dataToUse, function(d) {
+                        d.record = d.record.toJSON(); // convert to a plain JSON or nvd3 crashes
+                    });
+                } 
                 d3.select('#nvd3chart_' + self.uid + '  svg')
-                    .datum(seriesNVD3)
+                    .datum(dataToUse)
                     .transition()
                     .duration(self.options.state.timing || 500)
                     .call(self.chart);
@@ -283,6 +285,7 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.
                 self.trigger("chart:endDrawing")
 
                 //self.graphResize()
+
                 return  self.chart;
             });
         },
@@ -787,16 +790,8 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.
                 var chart;
                 if (view.chart != null)
                     chart = view.chart;
-                else
-                    chart = nv.models.pieChart();
+                else chart = nv.models.pieChart().showLabels(true);
 
-                chart.values(function(d) {
-                    var ret=[];
-                    _.each(d.values, function(dd) {
-                        ret.push({x: dd.x, y:dd.y});
-                    });
-                    return ret;
-                });
                 var actions = view.getActionsForEvent("selection");
                 if (actions.length > 0)
                 {
@@ -811,7 +806,6 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.
                         view.doActions(actionsH, [e.point.record]);
                     });
                 }
-
                 return chart;
             }
 
