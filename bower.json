@@ -26,7 +26,10 @@
   "devDependencies": {
    "codemirror": "3.13.0"
   },
-  "comments": ["MUSTACHE 0.7.x non funziona bene con view composed"]
+  "comments": [
+    "MUSTACHE 0.7.x non funziona bene con view composed",
+    "non usare plugin jquery-ui-bootstrap perché fa casino con le nostre dipendenze e crea conflitti"
+  ]
 }
 
 
