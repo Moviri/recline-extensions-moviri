@@ -19,8 +19,7 @@
     "chroma-js":"~0.5.3",
     "rickshaw":"~1.4.4",
     "d3cloud":"~1.0.1",
-    "requirejs-plugins":"~1.0",
-    "chosen":"~1.0.0"
+    "requirejs-plugins":"~1.0"
   },
   "devDependencies": {
    "codemirror": "3.13.0"
