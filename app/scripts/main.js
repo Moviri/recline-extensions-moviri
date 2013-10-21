@@ -11,7 +11,7 @@ require.config({
         'mustache' :   '../bower_components/mustache/mustache',
         'recline.dataset': 'vendor/recline/recline.dataset',
         'recline' : 'vendor/recline/recline.min',
-        'd3' : '../bower_components/d3/d3',
+        'd3' : '../bower_components/d3/d3.min',
         'datejs': '../bower_components/datejs/build/date',
         'recline-extensions-amd': 'recline-extensions/recline-extensions-amd',
         'recline-amd': 'recline-extensions/recline-amd',
@@ -46,7 +46,7 @@ require.config({
         'jquery.event.drag-2.2': 'vendor/jquery.event.drag-2.2',
         'jquery-migrate-1.2.1': 'vendor/jquery-migrate-1.2.1.min', //needed for compatibility of slickgrid moviri and jquery 1.9
 
-        'crossfilter' : '../bower_components/crossfilter/crossfilter',
+        'crossfilter' : '../bower_components/crossfilter/crossfilter.min',
         'bootstrap-multiselect': 'vendor/bootstrap-multiselect/bootstrap-multiselect',
 
         'topojson' : 'vendor/topojson/topojson.v0.min',
@@ -55,7 +55,9 @@ require.config({
         'xcharts' : 'vendor/xcharts/xcharts',
 
         'chroma' : 'vendor/chroma.js/chroma.min', // diverso!!! '../bower_components/chroma-js/chroma',
-        'chosen' : 'vendor/chosen/chosen.jquery', //'../bower_components/chosen/coffee/lib/chosen.jquery',
+        //'chosen-selectParser' : '../compiled/chosen/coffee/lib/select-parser',
+        //'chosen-abstract' : '../compiled/chosen/coffee/lib/abstract-chosen',
+        'chosen' : '../compiled/chosen/chosen.jquery' , //'vendor/chosen/chosen.jquery',
         'jslider' : 'vendor/jquery-slider/js/jquery.slider.min',
         'datepicker' : 'vendor/datepicker/1.0.0/js/datepicker',
         'rickshaw' : '../bower_components/rickshaw/rickshaw',
@@ -95,12 +97,14 @@ require.config({
         'd3': { exports: 'd3' },
         'd3v2': { exports: 'd3' },
         'topojson': { exports: 'topojson' },
+        //'chosen-selectParser' : { exports: 'SelectParser'},
+        //'chosen-abstract' : { exports: 'AbstractChosen'},
         'chosen' : {
-            //deps: ['../bower_components/chosen/coffee/lib/chosen.proto', '../bower_components/chosen/coffee/lib/select-parser', '../bower_components/chosen/coffee/lib/abstarct-chosen' ],
-            exports: 'chosen'
+            //deps: ['chosen-abstract'],
+            exports: 'Chosen'
         },
         'rickshaw' : { exports: 'Rickshaw'},
-        'vendor/datepicker/1.0.0/js/DateRangesWidget' : { deps: [ "jquery" ] },
+        'vendor/datepicker/1.0.0/js/DateRangesWidget' : { deps: [ 'jquery' ] },
         'datepicker' : {
             deps: ['vendor/datepicker/1.0.0/js/DateRange', 'vendor/datepicker/1.0.0/js/DateRangesWidget']
         },
@@ -114,8 +118,8 @@ require.config({
         'slickgrid/slick.cellrangeselector' : { deps: [ 'jquery' ] },
         'slickgrid/slick.cellselectionmodel' : { deps: [ 'jquery' ] },
 
-        'slickgrid/slick.core' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'd3v2' ] },
-        'slickgrid/slick.grid' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'd3v2' ] },
+        'slickgrid/slick.core' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'd3' ] },
+        'slickgrid/slick.grid' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'd3' ] },
         'recline.model.extensions.virtualmodel' : {
             deps: [ 'crossfilter', 'recline.data.extensions.aggregations' ]
         },

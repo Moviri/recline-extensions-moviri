@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'd3v2', 'mustache', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv', 'nv.tooltips'
+require(['recline-extensions-amd', 'd3', 'mustache', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv', 'nv.tooltips'
 ], function (recline, d3, Mustache) {
 
 var dataset = new recline.Model.Dataset({/*FOLD_ME*/

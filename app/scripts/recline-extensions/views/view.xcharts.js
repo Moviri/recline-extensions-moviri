@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'd3', 'xcharts'], function (Backbone, recline, Mustache, d3, xChart) {
+define(['backbone', 'recline-extensions-amd', 'mustache', 'd3v2', 'xcharts'], function (Backbone, recline, Mustache, d3, xChart) {
 
 
     recline.View = this.recline.View || {};

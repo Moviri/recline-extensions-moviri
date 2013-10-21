@@ -30,7 +30,7 @@ module.exports = function (grunt) {
             },
             coffee: {
                 files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-                tasks: ['coffee:dist']
+                tasks: ['coffee:compile']
             },
             coffeeTest: {
                 files: ['test/spec/{,*/}*.coffee'],
@@ -127,6 +127,19 @@ module.exports = function (grunt) {
             }
         },
         coffee: {
+            compile: {
+                files: [
+                {
+                  '<%= yeoman.app %>/compiled/chosen/chosen.jquery.js': ['<%= yeoman.app %>/bower_components/chosen/coffee/lib/select-parser.coffee', '<%= yeoman.app %>/bower_components/chosen/coffee/lib/abstract-chosen.coffee' ,'<%= yeoman.app %>/bower_components/chosen/coffee/chosen.jquery.coffee'] // compile and concat into single file
+                },
+                {
+                  expand: true,
+                  cwd: '<%= yeoman.app %>/bower_components',
+                  src: ['**/*.coffee'],
+                  dest: '<%= yeoman.app %>/compiled',
+                  ext: '.js'
+                }]
+            },
             dist: {
                 files: [{
                     expand: true,
@@ -139,6 +152,7 @@ module.exports = function (grunt) {
             test: {
                 files: [{
                     expand: true,
+                    flatten: false,
                     cwd: 'test/spec',
                     src: '{,*/}*.coffee',
                     dest: '.tmp/spec',
@@ -294,7 +308,7 @@ module.exports = function (grunt) {
         concurrent: {
             server: [
                 'compass',
-                'coffee:dist'
+                'coffee:compile'
             ],
             test: [
                 'coffee'
@@ -316,6 +330,7 @@ module.exports = function (grunt) {
             }
         }
     });
+    grunt.loadNpmTasks('grunt-contrib-coffee');
 
     grunt.registerTask('server', function (target) {
         if (target === 'dist') {
