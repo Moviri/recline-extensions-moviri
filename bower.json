@@ -35,7 +35,7 @@
   "devDependencies": {
    "codemirror": "3.13.0"
   },
-  "private": true,
+  "private": false,
   "dev-comments": [
     "don't use MUSTACHE 0.7.x. It doesn't work with recline.view.ComposedView",
     "don't use plugin jquery-ui-bootstrap. It messes with other dependecies, creating confilcts"
