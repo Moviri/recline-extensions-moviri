@@ -1,6 +1,17 @@
 {
-  "name": "recline-ext-test",
-  "version": "0.0.0",
+  "name": "recline-extensions-moviri",
+  "version": "0.9.0-beta",
+  "main": "main",
+  "ignore": [
+    "docs",
+    "node_modules",
+    "test",
+    ".sass-cache",
+    ".tmp",
+    "app/bower_components",
+    "Gruntfile.js",
+    "**/.*",
+  ],
   "dependencies": {
     "sass-bootstrap": "~2.3.0",
     "requirejs": "~2.1.4",
@@ -24,10 +35,9 @@
   "devDependencies": {
    "codemirror": "3.13.0"
   },
-  "comments": [
-    "MUSTACHE 0.7.x non funziona bene con view composed",
-    "non usare plugin jquery-ui-bootstrap perché fa casino con le nostre dipendenze e crea conflitti"
+  "private": true,
+  "dev-comments": [
+    "don't use MUSTACHE 0.7.x. It doesn't work with recline.view.ComposedView",
+    "don't use plugin jquery-ui-bootstrap. It messes with other dependecies, creating confilcts"
   ]
 }
-
-
