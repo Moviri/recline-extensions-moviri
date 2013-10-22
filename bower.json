@@ -10,7 +10,7 @@
     ".tmp",
     "app/bower_components",
     "Gruntfile.js",
-    "**/.*",
+    "**/.*"
   ],
   "dependencies": {
     "sass-bootstrap": "~2.3.0",

@@ -15,7 +15,7 @@ require.config({
         'datejs': '../bower_components/datejs/build/date',
         'recline-extensions-amd': 'recline-extensions/recline-extensions-amd',
         'recline-amd': 'recline-extensions/recline-amd',
-        
+
         'recline.model.extensions.all': 'recline-extensions/model/model.extensions.all',
 
         'recline.model.extensions.filteredmodel': 'recline-extensions/model/filteredmodel',
@@ -126,13 +126,12 @@ require.config({
         'recline.model.extensions.filteredmodel' : {
             deps: [ 'recline-extensions/model/model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
         },
-        
+
         'nvd3partial' : { deps: [ 'recline-extensions-amd', 'd3' ] , exports: 'nv'},
         'nvd3' : { deps: [ 'nvd3partial' ] , exports: 'nv'}, // { deps: [ 'recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
 
         'nv.tooltips' : { deps: ['nvd3'] },
         'chroma' : { exports: 'chroma'},
-        'slickgrid/slick.formatters' : { deps: [ "jquery" ] },
 
         'recline-extensions/views/widget.genericfilter' : { deps: ['jquery-ui']},
 
