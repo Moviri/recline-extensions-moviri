@@ -217,7 +217,7 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'bootstrap-multiselect
             {
                 if (self.buttonsData[key].options)
                 {
-                    var multiselect = $('#dropdown'+this.uid+'_'+k).multiselect({
+                    var multiselect = self.$el.find('#dropdown' + self.uid + '_' + k).multiselect({
                                                                                     mainValue:key,
                                                                                     buttonClass:'btn btn-mini'+(key == lastKey ? ' btn-last' : ''),
                                                                                     buttonClassFirst:'btn btn-mini'+(key == firstKey ? ' btn-first' : ''),

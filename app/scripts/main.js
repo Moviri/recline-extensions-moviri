@@ -5,7 +5,7 @@ var conf =  {
     'backbone': '../bower_components/backbone-amd/backbone',
     'accounting' : '../bower_components/accounting/accounting',
     'mustache' :   '../bower_components/mustache/mustache',
-    'd3' : '../bower_components/d3/d3.min',
+    'd3' : '../bower_components/d3/d3',
     'datejs': '../bower_components/datejs/build/date',
 
     'slickgrid/slick.core': '../bower_components/slickgrid-moviri/slick.core',
