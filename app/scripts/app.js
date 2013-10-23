@@ -1,12 +1,6 @@
 'use strict';
 var loadPanels, runCode, minimizePanel, maximizePanel, reducePanelsWidth;
-require(['jquery', 'underscore', 'CodeMirror', 'vendor/jshint-2.1.4', 'bootstrap', '../bower_components/codemirror/addon/fold/foldcode', '../bower_components/codemirror/addon/fold/brace-fold',
-        '../bower_components/codemirror/addon/fold/indent-fold', '../bower_components/codemirror/addon/fold/xml-fold',
-        '../bower_components/codemirror/addon/edit/closetag', '../bower_components/codemirror/addon/edit/closebrackets.js',
-        '../bower_components/codemirror/addon/edit/matchbrackets', '../bower_components/codemirror/mode/javascript/javascript',
-        '../bower_components/codemirror/mode/css/css', '../bower_components/codemirror/mode/xml/xml',
-        '../bower_components/codemirror/mode/htmlmixed/htmlmixed',
-        '../bower_components/codemirror/addon/lint/javascript-lint', '../bower_components/codemirror/addon/lint/json-lint' ], function ($, _, CodeMirror, JSHINT) {
+require(['jquery', 'underscore', 'bootstrap' ], function ($, _) {
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);

@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.extensions.seriesutility', 'recline-extensions/views/view.no_data'], function (Backbone, recline, Mustache) {
+define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.extensions.seriesutility', 'recline.views.extensions.no_data'], function (Backbone, recline, Mustache) {
 
     recline.View = this.recline.View || {};
     var my = recline.View;

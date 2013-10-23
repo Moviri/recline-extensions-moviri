@@ -1,4 +1,4 @@
-define(['recline-amd', 'jquery', 'recline-extensions/data/data.fieldsutilities', 'recline-extensions/backend/backend.extensions.csv'], function(recline, $) {
+define(['recline-amd', 'jquery', 'recline.data.extensions.fieldsutilities', 'recline.backend.extensions.csv'], function(recline, $) {
 
 	recline.Model.Query.prototype = $.extend(recline.Model.Query.prototype, {
 	    defaults: function() {
