@@ -3,24 +3,16 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
 @import '../bower_components/sass-bootstrap/lib/bootstrap';
 
-@import '../bower_components/slickgrid-moviri/slick.grid.css';
-
 @import '../scripts/vendor/jquery-ui/jquery-ui-1.8.23.custom.slickgrid.css';
 
 @import '../scripts/vendor/bootstrap.extensions.css';
-
-@import '../tutorial/pages/style.css';
-
-@import '../tutorial/pages/treeview.css';
 
 @import '../scripts/vendor/chosen/chosen.css';
 @import '../scripts/vendor/jquery-slider/css/jquery.slider.min.css';
 
 @import '../scripts/vendor/nvd3-extensions/nv.d3.css';
 
-@import '../bower_components/bower-xcharts/xcharts.css';
-
-@import '../bower_components/rickshaw/rickshaw.css';
+@import '../scripts/vendor/xcharts/xcharts.css';
 
 @import '../scripts/vendor/datepicker/1.0.0/css/datepicker/base.css';
 @import '../scripts/vendor/datepicker/1.0.0/css/DateRangesWidget/base.css';
