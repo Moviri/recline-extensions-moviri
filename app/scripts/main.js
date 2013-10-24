@@ -71,7 +71,7 @@ shim: {
         deps: [ 'crossfilter', 'recline.data.extensions.aggregations' ]
     },
     'recline.model.extensions.filteredmodel' : {
-        deps: [ 'recline-extensions/model/model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
+        deps: [ 'recline.model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
     },
 
     'nvd3partial' : { deps: [ 'recline-extensions-amd', 'd3' ] , exports: 'nv'},
