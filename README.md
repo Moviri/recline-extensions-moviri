@@ -18,7 +18,7 @@ In order to use this package as an imported bower library you must perform the f
 1) include it as usual in your bower.json file
 
 2) in your main index.html you must include in the `<head>` section a `<meta>` line that tells where to find some vendor files that are in recline-extensions-movir hierarchy and must be made visible to your container application. This line should be something like this:     `<meta name="reclineVendorPath" content="../bower_components/recline-extensions-moviri/app/scripts/">`
-In other words, the relatibe path must point to the directory containing "vendor" folder inside recline-moviri-extensions
+In other words, the relative path must point to the directory containing "vendor" folder inside recline-moviri-extensions
 
 3) in the same `<head>` section you should also include, possibly at the end of the section a line that loads dependencies.js file. Something like this:
 `<script src="../bower_components/recline-extensions-moviri/app/scripts/dependencies.js"></script>`

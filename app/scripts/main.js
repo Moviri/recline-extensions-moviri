@@ -1,16 +1,6 @@
 var conf =  {
     paths: {
     'jquery': '../bower_components/jquery/jquery',
-/************************************************************************/    
-    //'jquery-ui':'../bower_components/jquery-ui/ui/jquery-ui',
-/************************************************************************/
-    // 'jquery-ui-core': '../bower_components/jquery-ui/ui/jquery.ui.core',
-    // 'jquery-ui-widget': '../bower_components/jquery-ui/ui/jquery.ui.widget',
-    // 'jquery-ui-sortable': '../bower_components/jquery-ui/ui/jquery.ui.sortable',
-    // 'jquery-ui-mouse': '../bower_components/jquery-ui/ui/jquery.ui.mouse',
-    // 'jquery-ui-datepicker': '../bower_components/jquery-ui/ui/jquery.ui.datepicker',
-    // 'jquery-ui-slider': '../bower_components/jquery-ui/ui/jquery.ui.slider',
-/************************************************************************/
     'jquery-ui': '../bower_components/jquery-ui-amd/jquery-ui-1.10.0/jqueryui',
 
     'underscore': '../bower_components/underscore-amd/underscore',
@@ -41,19 +31,7 @@ var conf =  {
 },
 shim: {
     'jquery' : { exports: 'jQuery' },
-/************************************************************************/
-    //'jquery-ui': {deps: ['jquery']},
-/************************************************************************/
-    // 'jquery-ui-core': {deps: ['jquery']},
-    // 'jquery-ui-widget': {deps: ['jquery', 'jquery-ui-core']},
-    // 'jquery-ui-sortable': {deps: ['jquery', 'jquery-ui-core', 'jquery-ui-mouse', 'jquery-ui-widget']},
-    // 'jquery-ui-mouse': {deps: ['jquery', 'jquery-ui-core', 'jquery-ui-widget']},
-    // 'jquery-ui-datepicker': {deps: ['jquery', 'jquery-ui-core', 'jquery-ui-widget']},
-    // 'jquery-ui-slider': {deps: ['jquery', 'jquery-ui-core', 'jquery-ui-widget']},
-    //'jslider' : { deps: ['jquery-ui-core', 'jquery-ui-widget']},
-/************************************************************************/
     'jslider' : { deps: ['jquery-ui/widget']},
-
     'bootstrap': {
         deps: [ 'jquery' ]
     },
