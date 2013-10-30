@@ -1,5 +1,5 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv'
-], function (recline, SlickGridGraph) {
+require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'd3', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv'
+], function (recline, SlickGridGraph, d3) {
 
 var dataset = new recline.Model.Dataset({
     url:'../tutorial/data/Noleggi1.csv',

@@ -2,7 +2,7 @@
 <p>
 This example shows how to create multiple filters in a single actions and embed them in a verical toolbar.<br>
 The example scenario is the same download/upload example as seen in other generic filter examples. Only that we added a further filter on weeks (field "Data") by using a dropdown_date_range with custom dates<br>
-As you can see both filters have been created inside a single multiFilterCtlr object and attached to a single action that can trigger both filters to the same model.<br>
-Finally, we didn't declared the layout (vertical is the default) and didn't hide the background to have a vertical toolbar-like look & feel.<br>
+As you can see both filters have been created inside a single multiFilterCtlr object and attached to two sepratae actions that can trigger the needed filters to the same model. In order to make sure that a change in date doesn't set a new filter on userId (and, similarly, that a change in userId doesn't set a new filter on date), we used the extra mapping parameter "srcCtrlField", so that each action filter knows its inked control.<br>
+Finally, we didn't declare the layout (vertical is the default) and didn't hide the background to have a vertical toolbar-like look & feel.<br>
 Notice that this time we also used a title and a description on the toolbar.  
 </p>

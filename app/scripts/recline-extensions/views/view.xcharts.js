@@ -1,7 +1,7 @@
 define(['backbone', 'recline-extensions-amd', 'mustache', 'd3v2', 'xcharts', 'recline.views.extensions.no_data'], function (Backbone, recline, Mustache, d3, xChart) {
 
 
-    recline.View = this.recline.View || {};
+    recline.View = recline.View || {};
     var my = recline.View;
 
     "use strict";

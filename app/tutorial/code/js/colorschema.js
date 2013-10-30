@@ -1,7 +1,7 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph',
+require(['recline-extensions-amd', 'd3v2', 'recline-extensions/views/view.slickgrid_graph',
     'recline-extensions/views/view.xcharts', 'recline-extensions/views/view.nvd3.graph',
     'recline-extensions/views/widget.genericfilter'
-], function (recline, SlickGridGraph, xCharts, NVD3Graph, GenericFilter) {
+], function (recline, d3, SlickGridGraph, xCharts, NVD3Graph, GenericFilter) {
 
 
     var dataset = new recline.Model.Dataset({/*FOLD_ME*/

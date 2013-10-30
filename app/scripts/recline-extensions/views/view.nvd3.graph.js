@@ -1,6 +1,8 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.extensions.seriesutility', 'recline.views.extensions.no_data'], function (Backbone, recline, Mustache) {
+define(['backbone', 'recline-extensions-amd', 'mustache', 'd3v2', 'nvd3', 
+    'recline.data.extensions.seriesutility', 'recline.views.extensions.no_data'
+    ], function (Backbone, recline, Mustache, d3) {
 
-    recline.View = this.recline.View || {};
+    recline.View = recline.View || {};
     var my = recline.View;
 
 // ## Linegraph view for a Dataset using nvd3 graphing library.
@@ -383,7 +385,7 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'nvd3', 'recline.data.
             var self = this;
             switch(type)
             {
-            case "string": return d3.format(',s');
+            case "string": return function(s) {return s;}; // returns input string. IMPORTANT for multiBarHorizontalChart, since d3.format assumes inputs are numbers and throws exceptions
             case "float": return d3.format(',r');
             case "integer": return d3.format(',r');
             case "date": return d3.time.format('%x');

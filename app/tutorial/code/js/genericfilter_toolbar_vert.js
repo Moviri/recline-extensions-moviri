@@ -28,14 +28,23 @@ var virtual = new recline.Model.VirtualDataset({
 dataset.queryState.addFacetNoEvent("UserId");
 dataset.fetch();
 
-var myAction = new recline.Action({
+var myActionUserId = new recline.Action({
      filters:{
-         filter_userId: {type:"list", field:"UserId", fieldType:"string"},
+         filter_userId: {type:"list", field:"UserId", fieldType:"string"}
+     },
+     models: [{
+         model: filteredDataset,
+         filters:["filter_userId"]
+         }],
+     type:["filter"]
+});
+var myActionData = new recline.Action({
+     filters:{
          filter_data: {type:"range", field:"Data", fieldType:"date"}
      },
      models: [{
          model: filteredDataset,
-         filters:["filter_userId", "filter_data"]
+         filters:["filter_data"]
          }],
      type:["filter"]
 });
@@ -58,13 +67,15 @@ var multiFilterCtrl = new recline.View.GenericFilter({
                 {field:"UserId", controlType:'list', fieldType:"string", labelPosition:"top" }
                 ],
  actions: [{
-             action: myAction,
-             mapping:[ 
-                       {srcField:"UserId", filter:"filter_userId"}, 
-                       {srcField:"Data", filter:"filter_data"}
-                       ],
+             action: myActionUserId,
+             mapping:[ {srcField:"UserId", filter:"filter_userId", srcCtrlField:"UserId"} ],
              event:["selection"]
-         }            
+         },
+         {
+             action: myActionData,
+             mapping:[ {srcField:"Data", filter:"filter_data", srcCtrlField: "Data"} ],
+             event:["selection"]
+         }          
  ]
 });
 $('#my_filter').append(multiFilterCtrl.el);

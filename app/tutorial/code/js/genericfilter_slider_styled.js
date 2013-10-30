@@ -9,7 +9,8 @@ for (var j = 0; j <= 100; j += 5)
 var percentModel = new recline.Model.Dataset({ 
     records: percRecords,
 	fields:[
-        {id:'percent', type:'integer' }
+        {id:'percent', type:'integer' },
+        {id:'ratio', type:'float' }
         ]
 });
 percentModel.queryState.addFacetNoEvent("percent");

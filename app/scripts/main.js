@@ -1,11 +1,24 @@
 var conf =  {
     paths: {
     'jquery': '../bower_components/jquery/jquery',
+/************************************************************************/    
+    //'jquery-ui':'../bower_components/jquery-ui/ui/jquery-ui',
+/************************************************************************/
+    // 'jquery-ui-core': '../bower_components/jquery-ui/ui/jquery.ui.core',
+    // 'jquery-ui-widget': '../bower_components/jquery-ui/ui/jquery.ui.widget',
+    // 'jquery-ui-sortable': '../bower_components/jquery-ui/ui/jquery.ui.sortable',
+    // 'jquery-ui-mouse': '../bower_components/jquery-ui/ui/jquery.ui.mouse',
+    // 'jquery-ui-datepicker': '../bower_components/jquery-ui/ui/jquery.ui.datepicker',
+    // 'jquery-ui-slider': '../bower_components/jquery-ui/ui/jquery.ui.slider',
+/************************************************************************/
+    'jquery-ui': '../bower_components/jquery-ui-amd/jquery-ui-1.10.0/jqueryui',
+
     'underscore': '../bower_components/underscore-amd/underscore',
     'backbone': '../bower_components/backbone-amd/backbone',
     'accounting' : '../bower_components/accounting/accounting',
     'mustache' :   '../bower_components/mustache/mustache',
     'd3' : '../bower_components/d3/d3',
+    'd3v2' : '../bower_components/d3amd/d3amd.v2',
     'datejs': '../bower_components/datejs/build/date',
 
     'slickgrid/slick.core': '../bower_components/slickgrid-moviri/slick.core',
@@ -28,6 +41,19 @@ var conf =  {
 },
 shim: {
     'jquery' : { exports: 'jQuery' },
+/************************************************************************/
+    //'jquery-ui': {deps: ['jquery']},
+/************************************************************************/
+    // 'jquery-ui-core': {deps: ['jquery']},
+    // 'jquery-ui-widget': {deps: ['jquery', 'jquery-ui-core']},
+    // 'jquery-ui-sortable': {deps: ['jquery', 'jquery-ui-core', 'jquery-ui-mouse', 'jquery-ui-widget']},
+    // 'jquery-ui-mouse': {deps: ['jquery', 'jquery-ui-core', 'jquery-ui-widget']},
+    // 'jquery-ui-datepicker': {deps: ['jquery', 'jquery-ui-core', 'jquery-ui-widget']},
+    // 'jquery-ui-slider': {deps: ['jquery', 'jquery-ui-core', 'jquery-ui-widget']},
+    //'jslider' : { deps: ['jquery-ui-core', 'jquery-ui-widget']},
+/************************************************************************/
+    'jslider' : { deps: ['jquery-ui/widget']},
+
     'bootstrap': {
         deps: [ 'jquery' ]
     },
@@ -46,16 +72,14 @@ shim: {
     },
     'async!https://maps.googleapis.com/maps/api/js?v=3&sensor=true' : { deps: ['async'], exports : 'google'},
     'mustache' : { exports: 'Mustache' },
-    'xcharts' : { deps: ['mustache'] },
+    'xcharts' : { deps: ['mustache', 'd3v2'] },
 
     'd3': { exports: 'd3' },
     'd3v2': { exports: 'd3' },
     'topojson': { exports: 'topojson' },
-    'chosen' : {
-        exports: 'Chosen'
-    },
+    'chosen' : { exports: 'Chosen' },
     'rickshaw' : { exports: 'Rickshaw'},
-    'd3cloud' : { deps: ['d3']},
+    'd3cloud' : { deps: ['d3v2']},
     'jquery.event.drag-2.2' : { deps: [ 'jquery' ] },
     'jquery-migrate-1.2.1' : { deps: [ 'jquery' ] },
     'jquery-ui' : { deps: [ 'jquery' ] },
@@ -65,8 +89,9 @@ shim: {
     'slickgrid/slick.cellrangeselector' : { deps: [ 'jquery' ] },
     'slickgrid/slick.cellselectionmodel' : { deps: [ 'jquery' ] },
 
-    'slickgrid/slick.core' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'd3' ] },
-    'slickgrid/slick.grid' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'd3' ] },
+    'slickgrid/slick.core' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'jquery-ui/sortable'] },
+    'slickgrid/slick.grid' : { deps: [ 'recline-extensions-amd', 'jquery.event.drag-2.2', 'jquery-ui/sortable'] },
+    //'jquery-ui-sortable': { deps: ['jquery-ui-mouse']},
     'recline.model.extensions.virtualmodel' : {
         deps: [ 'crossfilter', 'recline.data.extensions.aggregations' ]
     },
@@ -74,8 +99,8 @@ shim: {
         deps: [ 'recline.model.extensions.facets', 'recline.data.extensions.filters', 'recline.data.extensions.faceting' ]
     },
 
-    'nvd3partial' : { deps: [ 'recline-extensions-amd', 'd3' ] , exports: 'nv'},
-    'nvd3' : { deps: [ 'nvd3partial' ] , exports: 'nv'}, // { deps: [ 'recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
+    'nvd3partial' : { deps: [ 'recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
+    'nvd3' : { deps: [ 'nvd3partial', 'd3v2' ] , exports: 'nv'},
 
     'nv.tooltips' : { deps: ['nvd3'] },
     'chroma' : { exports: 'chroma'},

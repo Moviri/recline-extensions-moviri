@@ -80,22 +80,25 @@ define(['jquery', 'recline-amd'], function ($, recline) {
             doActionWithFacets:function (facetTerms, valueList, mapping, filterFieldName) {
                 var params = [];
                 mapping.forEach(function (mapp) {
-                    var values = [];
-                    facetTerms.forEach(function (obj) {
-                    	obj.records.forEach(function(row) {
-                    		var filterFieldValue = row[filterFieldName]
-                    		valueList.forEach(function(currSelValue) {
-                    			if (currSelValue == filterFieldValue || (currSelValue && filterFieldValue && currSelValue.valueOf() == filterFieldValue.valueOf()))
-                    				if (!_.contains(values, row[mapp.srcField]))
-                            			values.push(row[mapp.srcField]);
-                    		})
-                    	});
-                    });
-                    params.push({
-                        filter:mapp.filter,
-                        value:values,
-                        origValueList: valueList
-                    });
+                    if (typeof mapp.srcCtrlField == "undefined" || mapp.srcCtrlField == filterFieldName) 
+                    {
+                        var values = [];
+                        facetTerms.forEach(function (obj) {
+                            obj.records.forEach(function(row) {
+                                var filterFieldValue = row[filterFieldName]
+                                valueList.forEach(function(currSelValue) {
+                                    if (currSelValue == filterFieldValue || (currSelValue && filterFieldValue && currSelValue.valueOf() == filterFieldValue.valueOf()))
+                                        if (!_.contains(values, row[mapp.srcField]))
+                                            values.push(row[mapp.srcField]);
+                                })
+                            });
+                        });                        
+                        params.push({
+                            filter:mapp.filter,
+                            value:values,
+                            origValueList: valueList
+                        });
+                    }
                 });
                 this._internalDoAction(params);
             },

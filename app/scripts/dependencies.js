@@ -1,12 +1,11 @@
 function relativizeDependencies(path) {
     var pathsShim = {
         paths: {
-            'jquery-ui': path +  'vendor/jquery-ui/jquery-ui-1.8.23.custom.slickgrid',
             'bootstrap' : path +  'vendor/bootstrap',
             'recline.dataset': path +  'vendor/recline/recline.dataset',
             'recline' : path +  'vendor/recline/recline.min',
             'recline-extensions-amd': path +  'recline-extensions/recline-extensions-amd',
-            'recline-amd': path +  'recline-extensions/recline-amd',
+            'recline-amd': path + 'recline-extensions/recline-amd',
 
             'recline.model.extensions.all': path +  'recline-extensions/model/model.extensions.all',
 
@@ -80,9 +79,7 @@ function relativizeDependencies(path) {
             'datepicker' : path +  'vendor/datepicker/1.0.0/js/datepicker',
             'markerclusterer' : path +  'vendor/google-maps/markerclusterer',
 
-            'd3v2' : path +  'vendor/d3/v2/d3.v2.custom.min',
-
-            'nvd3' : path +  'vendor/nvd3-extensions/nv.d3.lineDottedChart',
+            'nvd3' : path +  'recline-extensions/nvd3-extensions/nv.d3.lineDottedChart',
 
             'DateRangesWidget' : path + 'vendor/datepicker/1.0.0/js/DateRangesWidget',
 

@@ -1,6 +1,6 @@
 define(['backbone', 'recline-extensions-amd', 'mustache', 'bootstrap-multiselect'], function (Backbone, recline, Mustache) {
     
-    this.recline.View = this.recline.View || {};
+    recline.View = recline.View || {};
 
     var my = recline.View;
 

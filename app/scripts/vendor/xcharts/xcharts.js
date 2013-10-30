@@ -2,8 +2,8 @@
 xCharts v0.1.3 Copyright (c) 2012, tenXer, Inc. All Rights Reserved.
 @license MIT license. http://github.com/tenXer/xcharts for details
 */
+define(['d3v2'], function(d3) {
 
-(function () {
 
 var xChart,
   _vis = {},
@@ -1288,13 +1288,7 @@ _.defaults(xChart.prototype, {
     }
   }
 });
-if (typeof define === 'function' && define.amd && typeof define.amd === 'object') {
-  define(function () {
-    return xChart;
-  });
-  return;
-}
 
-window.xChart = xChart;
+return xChart;
 
-}());
+});

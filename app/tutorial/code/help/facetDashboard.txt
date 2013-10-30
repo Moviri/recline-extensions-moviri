@@ -1,0 +1,4 @@
+<h4>Facet Dashboard</h4>
+<p>
+In this example facet contents are shown by using a set of slickgrids
+</p>

@@ -1,6 +1,6 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'chosen', 'jslider', 'datejs', 'jquery-ui'], function (Backbone, recline, Mustache) {
+define(['backbone', 'recline-extensions-amd', 'mustache', 'chosen', 'jslider', 'datejs', 'jquery-ui/datepicker', 'jquery-ui/slider'], function (Backbone, recline, Mustache) {
 
-    recline.View = this.recline.View || {};
+    recline.View = recline.View || {};
     var my = recline.View;
 
     my.GenericFilter = Backbone.View.extend({

@@ -1,4 +1,4 @@
-define(['recline-amd', 'accounting'], function(recline, accounting) {
+define(['recline-amd', 'accounting', 'd3'], function(recline, accounting, d3) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};

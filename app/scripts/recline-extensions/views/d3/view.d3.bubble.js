@@ -1,6 +1,6 @@
 define(['jquery', 'recline-extensions-amd', 'd3', 'mustache'], function ($, recline, d3, Mustache) {
 
-    recline.View = this.recline.View || {};
+    recline.View = recline.View || {};
 
     var view = recline.View;
 
