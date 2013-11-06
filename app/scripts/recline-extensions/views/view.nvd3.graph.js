@@ -176,6 +176,30 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'd3v2', 'nvd3',
 
             nv.addGraph(function () {
                 self.chart = self.getGraph[graphType](self);
+                
+                // The IF section below fixes a bug in NVD3-AMD from GianlucaGuarini: previously, when deselecting all series on legend controls, it didn't
+                // re-select all series, thus causing an exception later in the code. Now, we put an extra handler on legend "stateChange", which is called
+                // BEFORE original handler (since the original handler hasn't yet been assigned) and ensures that, when the user deselects all series, they
+                // get automatically reselected before updating the chart. Our secondary handler is called 'stateChange.moviri' (while the original is simply
+                // called 'stateChange') in order to ensure coexistence of both handlers (otherwise the last handler defined would erase an already existing handler)
+                if (self.chart.legend) {
+                    self.chart.legend.dispatch.on('stateChange.moviri', function(newState) { 
+                        var selection = d3.select('#nvd3chart_' + self.uid + '  svg');
+                        var currSelectionData = selection[0][0].__data__;
+                        if (currSelectionData) {
+                          //console.log(currSelectionData.map(function(d) { return !!d.disabled; }));
+                           if (currSelectionData.every(function(series) { return series.disabled})) {
+                               //the default behavior of NVD3 legends is, if every single series
+                               // is disabled, turn all series' back on.
+                               currSelectionData.forEach(function(series) { series.disabled = false});
+                           }
+                          //console.log(currSelectionData.map(function(d) { return !!d.disabled; }));
+                        }
+                        //else console.log("FALSE,FALSE,FALSE");
+
+                    });
+                }
+                
                 var svgElem = self.el.find('#nvd3chart_' + self.uid+ ' svg')
                 var graphModel = self.getGraphModel(self, graphType)
                 if (typeof graphModel == "undefined")
@@ -288,7 +312,7 @@ define(['backbone', 'recline-extensions-amd', 'mustache', 'd3v2', 'nvd3',
 
                 //self.graphResize()
 
-                return  self.chart;
+                return self.chart;
             });
         },
 
