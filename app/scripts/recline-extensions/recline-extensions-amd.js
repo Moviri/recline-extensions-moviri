@@ -1,3 +1,5 @@
+/* global define */
+'use strict';
 define([
             'recline.model.extensions.all',
             // 'recline.model.extensions.configuration',
@@ -19,6 +21,6 @@ define([
             'recline.data.extensions.shapes',
             'recline.data.extensions.templateshapes'
             ], function(recline) {
-			    return recline;
+                  return recline;
 });
 

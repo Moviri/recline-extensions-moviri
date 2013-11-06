@@ -1,3 +1,4 @@
+/* global relativizeDependencies */
 var conf =  {
     paths: {
     'jquery': '../bower_components/jquery/jquery',
@@ -19,7 +20,7 @@ var conf =  {
     'slickgrid/slick.rowselectionmodel': '../bower_components/slickgrid-moviri/plugins/slick.rowselectionmodel',
     'slickgrid/slick.cellrangeselector': '../bower_components/slickgrid-moviri/plugins/slick.cellrangeselector',
     'slickgrid/slick.cellselectionmodel': '../bower_components/slickgrid-moviri/plugins/slick.cellselectionmodel',
-    
+
     'crossfilter' : '../bower_components/crossfilter/crossfilter.min',
     'rickshaw' : '../bower_components/rickshaw/rickshaw',
     'd3cloud' : '../bower_components/d3cloud/d3.layout.cloud',
@@ -81,19 +82,20 @@ shim: {
     'nvd3' : { deps: [ 'nvd3partial', 'd3v2' ] , exports: 'nv'},
 
     'nv.tooltips' : { deps: ['nvd3'] },
-    'chroma' : { exports: 'chroma'},
+    'chroma' : { exports: 'chroma'}
 }};
-var reclineVendorPath = "";
-var metaObjs = document.getElementsByName("reclineVendorPath");
-if (metaObjs.length && metaObjs.length == 1 && metaObjs[0].content)
+var reclineVendorPath = '';
+var metaObjs = document.getElementsByName('reclineVendorPath');
+if (metaObjs.length && metaObjs.length === 1 && metaObjs[0].content) {
     reclineVendorPath = metaObjs[0].content;
-
+}
 var newConf = relativizeDependencies(reclineVendorPath);
 
 function mergeLevel(old, new_) {
+    'use strict';
     var merged = new_;
     for (var key in old) {
-        if (typeof merged[key] === "undefined") {
+        if (typeof merged[key] === 'undefined') {
             merged[key] = old[key];
         }
     }
@@ -102,6 +104,6 @@ function mergeLevel(old, new_) {
 var mergedConf = {
     paths: mergeLevel(conf.paths, newConf.paths),
     shim: mergeLevel(conf.shim, newConf.shim)
-}
+};
 console.log(mergedConf);
 require.config(mergedConf);

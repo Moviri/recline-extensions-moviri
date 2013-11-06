@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'd3v2', 'nvd3', 
+define(['backbone', 'recline-extensions-amd', 'mustache', 'd3', 'nvd3', 
     'recline.data.extensions.seriesutility', 'recline.views.extensions.no_data'
     ], function (Backbone, recline, Mustache, d3) {
 

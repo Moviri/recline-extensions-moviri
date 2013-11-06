@@ -1,3 +1,5 @@
+/* jshint unused:false */
+'use strict';
 function relativizeDependencies(path) {
     var pathsShim = {
         paths: {
@@ -81,8 +83,7 @@ function relativizeDependencies(path) {
 
             'nvd3' : path +  'recline-extensions/nvd3-extensions/nv.d3.lineDottedChart',
 
-            'DateRangesWidget' : path + 'vendor/datepicker/1.0.0/js/DateRangesWidget',
-
+            'DateRangesWidget' : path + 'vendor/datepicker/1.0.0/js/DateRangesWidget'
         },
         shim: {
             'DateRangesWidget' : { deps: [ 'jquery' ] },
