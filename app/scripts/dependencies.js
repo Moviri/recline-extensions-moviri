@@ -88,11 +88,9 @@ function relativizeDependencies(path) {
             'DateRangesWidget' : { deps: [ 'jquery' ] },
             'datepicker' : {
                 deps: [ path + 'vendor/datepicker/1.0.0/js/DateRange', path + 'vendor/datepicker/1.0.0/js/DateRangesWidget']
-            },
-
-            'recline.views.extensions.widget_genericfilter' : { deps: ['jquery-ui']},
+            }
         }
-    }
+    };
 
     return pathsShim;
 }

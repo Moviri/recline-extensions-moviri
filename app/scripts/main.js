@@ -1,7 +1,7 @@
 var conf =  {
     paths: {
     'jquery': '../bower_components/jquery/jquery',
-    'jquery-ui': '../bower_components/jquery-ui-amd/jquery-ui-1.10.0/jqueryui',
+    //'jquery-ui': '../bower_components/jquery-ui-amd/jquery-ui-1.10.0/jqueryui/',
 
     'underscore': '../bower_components/underscore-amd/underscore',
     'backbone': '../bower_components/backbone-amd/backbone',
