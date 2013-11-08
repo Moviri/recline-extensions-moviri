@@ -1,5 +1,5 @@
-//define(['underscore', 'recline-extensions-amd'], function (_, recline) {
-define(['underscore', 'recline-amd', 'recline.data.extensions.fieldsutilities'], function (_, recline) {
+//define(['underscore', 'REM/recline-extensions/recline-extensions-amd'], function (_, recline) {
+define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/recline-extensions/data/data.fieldsutilities'], function (_, recline) {
 
     recline.Model.Dataset.prototype = $.extend(recline.Model.Dataset.prototype, {
 

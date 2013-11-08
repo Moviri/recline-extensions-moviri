@@ -1,4 +1,5 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.virtualmodel', 'recline.model.extensions.filteredmodel', 'recline-extensions/views/view.nvd3.graph', 'recline-extensions/backend/backend.extensions.csv'
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/model/virtualmodel', 
+    'REM/recline-extensions/backend/backend.jsonp', 'REM/recline-extensions/views/view.nvd3.graph', 'REM/recline-extensions/backend/backend.extensions.csv', 'REM/recline-extensions/model/filteredmodel'
 ], function (recline, SlickGridGraph) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/

@@ -1,6 +1,6 @@
-require(['recline-extensions-amd', 'd3v2', 'recline-extensions/views/view.slickgrid_graph',
-    'recline-extensions/views/view.xcharts', 'recline-extensions/views/view.nvd3.graph',
-    'recline-extensions/views/widget.genericfilter'
+require(['REM/recline-extensions/recline-extensions-amd', 'd3v2', 'REM/recline-extensions/views/view.slickgrid_graph',
+    'REM/recline-extensions/views/view.xcharts', 'REM/recline-extensions/views/view.nvd3.graph',
+    'REM/recline-extensions/views/widget.genericfilter'
 ], function (recline, d3, SlickGridGraph, xCharts, NVD3Graph, GenericFilter) {
 
 

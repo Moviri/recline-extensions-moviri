@@ -1,5 +1,5 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.GoogleMaps',
-    'recline.model.extensions.filteredmodel', 'recline.model.extensions.virtualmodel'], function (recline) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/views/view.GoogleMaps',
+    'REM/recline-extensions/backend/backend.jsonp', 'REM/recline-extensions/model/virtualmodel', 'REM/recline-extensions/model/filteredmodel'], function (recline) {
 
 var datasetMappa = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'../tutorial/data/SpeseMappa.csv',

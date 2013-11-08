@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'd3v2', 'xcharts', 'recline.views.extensions.no_data'], function (Backbone, recline, Mustache, d3, xChart) {
+define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'd3v2', 'REM/vendor/xcharts/xcharts', 'REM/recline-extensions/views/view.no_data'], function (Backbone, recline, Mustache, d3, xChart) {
 
 
     recline.View = recline.View || {};

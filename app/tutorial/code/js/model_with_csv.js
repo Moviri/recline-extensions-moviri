@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/backend/backend.extensions.csv'
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/backend/backend.extensions.csv'
 ], function (recline, SlickGridGraph) {
 
 

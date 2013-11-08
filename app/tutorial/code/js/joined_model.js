@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/model/joinedmodel'], function(recline, SlickGridGraph, JoinedModel) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/model/joinedmodel'], function(recline, SlickGridGraph, JoinedModel) {
 
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/

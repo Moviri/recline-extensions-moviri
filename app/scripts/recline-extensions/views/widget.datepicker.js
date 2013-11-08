@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'datepicker'], function (Backbone, recline, Mustache) {
+define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'REM/vendor/datepicker/1.0.0/js/datepicker'], function (Backbone, recline, Mustache) {
 
     recline.View = recline.View || {};
 

@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'accounting', 'recline-extensions/views/view.slickgrid_graph' ], function (recline, accounting) {
+require(['REM/recline-extensions/recline-extensions-amd', 'accounting', 'REM/recline-extensions/views/view.slickgrid_graph' ], function (recline, accounting) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'../tutorial/data/Stipendi2.csv',

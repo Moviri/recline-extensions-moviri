@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd', 'd3', 'mustache', 'd3cloud'], function ($, recline, d3, Mustache) {
+define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache', 'd3cloud'], function ($, recline, d3, Mustache) {
 
     recline.View = recline.View || {};
 

@@ -1,5 +1,5 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.filteredmodel', 'recline.model.extensions.virtualmodel',
-    'recline-extensions/views/widget.genericfilter', 'recline-extensions/views/view.xcharts', 'recline-extensions/views/view.indicator'
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/backend/backend.jsonp', 'REM/recline-extensions/model/virtualmodel',
+    'REM/recline-extensions/views/widget.genericfilter', 'REM/recline-extensions/views/view.xcharts', 'REM/recline-extensions/views/view.indicator', 'REM/recline-extensions/model/filteredmodel'
 ], function (recline) {
 
 

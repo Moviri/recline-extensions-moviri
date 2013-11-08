@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.table', 'recline.data.extensions.formatters'], function (recline) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/d3/view.d3.table', 'REM/recline-extensions/data/data.formatters'], function (recline) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     records:[

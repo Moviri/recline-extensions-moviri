@@ -1,7 +1,7 @@
 # RECLINE-EXTENSIONS-MOVIRI
 
 This package extends recline package with new models and views (charts and controls). For more info on all additions see wiki on https://github.com/Moviri/recline/wiki/_pages
-It uses slickgrid to generate tables and xCharts and NVD3 to generate charts.
+It uses slickgrid to generate tables and xCharts or NVD3 to generate charts.
 
 For a list of examples, see all tutorials.
 
@@ -17,17 +17,17 @@ In order to use this package as an imported bower library you must perform the f
 
 1) include it as usual in your bower.json file
 
-2) in your main index.html you must include in the `<head>` section a `<meta>` line that tells where to find some vendor files that are in recline-extensions-movir hierarchy and must be made visible to your container application. This line should be something like this:     `<meta name="reclineVendorPath" content="../bower_components/recline-extensions-moviri/app/scripts/">`
-In other words, the relative path must point to the directory containing "vendor" folder inside recline-moviri-extensions
+2) put the following line in your main.js file, just before your "require.config":
 
-3) in the same `<head>` section you should also include, possibly at the end of the section a line that loads dependencies.js file. Something like this:
-`<script src="../bower_components/recline-extensions-moviri/app/scripts/dependencies.js"></script>`
+require(['../bower_components/recline-extensions-moviri/app/scripts/main']);
 
-4) instead of calling the main.js as usual, you should wrap it in a requireJS "define", possibly just after the end of the `<head>` section. Something like this:
-`<script>
-    require(['../bower_components/recline-extensions-moviri/app/scripts/main']);
-</script>`
+Adjust the paths if necessary
 
-5) include in your main.scss file (or whatever file you use to load CSS styles) the files listed in file styles/bower_components.css if you need to use them. Currently there are only two files for slickgrid and rickshaw. So, if you plan to use slickgrid, copy the relavant line:
+3) Add REM variable to your paths in your "require.config" block. It shpuld point to folder holding file "main.js" from "recline-extensions-moviri" library. And MUST have a prefix './' before the actual path (this is VERY IMPORTANT! It will not work without this prefix).
+In our case, the final variable declaration will be:
+
+'REM' : './../bower_components/recline-extensions-moviri/app/scripts'
+
+4) include in your main.scss file (or whatever file you use to load CSS styles) the files listed in file styles/bower_components.css if you need to use them. Currently there are only two files for slickgrid and rickshaw. So, if you plan to use slickgrid, copy the relavant line:
 `@import '../bower_components/slickgrid-moviri/slick.grid.css';`
 (and correct path if necessary) to your main style file.

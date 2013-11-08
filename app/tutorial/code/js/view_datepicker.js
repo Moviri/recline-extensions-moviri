@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.xcharts', 'recline-extensions/views/widget.datepicker'], function (recline) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.xcharts', 'REM/recline-extensions/views/widget.datepicker'], function (recline) {
 
 var referenceDataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'../tutorial/data/Spese1.csv',

@@ -1,4 +1,4 @@
-define(['jquery', 'recline-amd'], function ($, recline) {
+define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
     recline.Backend = recline.Backend || {};
     recline.Backend.SocketIO = recline.Backend.SocketIO || {};
 

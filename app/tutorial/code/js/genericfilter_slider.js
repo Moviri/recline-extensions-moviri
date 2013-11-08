@@ -1,5 +1,5 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph',
-    'recline.model.extensions.virtualmodel', 'recline-extensions/views/widget.genericfilter'], function (recline) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph',
+    'REM/recline-extensions/model/virtualmodel', 'REM/recline-extensions/views/widget.genericfilter'], function (recline) {
 
 var percRecords = [];
 var STEP = 5;

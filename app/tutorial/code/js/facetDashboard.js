@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/widget.facet.dashboard'], function (recline) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/widget.facet.dashboard'], function (recline) {
 
 
 var dataset = new recline.Model.Dataset({

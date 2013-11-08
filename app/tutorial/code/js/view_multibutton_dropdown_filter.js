@@ -1,5 +1,6 @@
-require(['recline-extensions-amd', 'd3', 'recline.model.extensions.virtualmodel', 'recline.model.extensions.filteredmodel',
-    'recline-extensions/views/widget.multibutton_dropdown_filter', 'recline-extensions/views/view.nvd3.graph', 'recline-extensions/views/view.indicator'
+require(['REM/recline-extensions/recline-extensions-amd', 'd3', 'REM/recline-extensions/model/virtualmodel', 'REM/recline-extensions/backend/backend.jsonp',
+    'REM/recline-extensions/views/widget.multibutton_dropdown_filter', 'REM/recline-extensions/views/view.nvd3.graph', 'REM/recline-extensions/views/view.indicator', 
+    'REM/recline-extensions/model/filteredmodel'
 ], function (recline, d3) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/

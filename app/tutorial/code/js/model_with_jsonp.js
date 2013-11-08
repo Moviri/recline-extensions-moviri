@@ -1,4 +1,4 @@
-require(['recline-extensions-amd','recline-extensions/views/view.slickgrid_graph', 'recline-extensions/backend/backend.jsonp.memorystore']
+require(['REM/recline-extensions/recline-extensions-amd','REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/backend/backend.jsonp.memorystore']
     , function (recline, SlickGridGraph) {
 
     var dataset = new recline.Model.Dataset({

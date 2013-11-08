@@ -1,4 +1,5 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline.model.extensions.filteredmodel', 'recline-extensions/views/widget.genericfilter'
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/backend/backend.jsonp', 
+    'REM/recline-extensions/views/widget.genericfilter', 'REM/recline-extensions/model/filteredmodel'
 ], function (recline) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/

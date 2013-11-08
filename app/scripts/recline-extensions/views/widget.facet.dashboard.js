@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'recline.views.extensions.slickgrid_graph'], function (Backbone, recline, Mustache) {
+define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'REM/recline-extensions/views/view.slickgrid_graph'], function (Backbone, recline, Mustache) {
 
     recline.View = recline.View || {};
 

@@ -1,5 +1,5 @@
-define(['backbone', 'recline-extensions-amd',
-    'jquery-ui/sortable',  'jquery.event.drag-2.2', 'jquery-migrate-1.2.1',
+define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
+    'jquery-ui/sortable',  'REM/vendor/jquery.event.drag-2.2', 'REM/vendor/jquery-migrate-1.2.1.min',
     'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/slick.formatters', 
     'slickgrid/slick.cellrangeselector', 'slickgrid/slick.cellselectionmodel', 'slickgrid/slick.rowselectionmodel',
      ],

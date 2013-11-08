@@ -1,7 +1,7 @@
 /* global CodeMirror, require, JSHINT, alert, ActiveXObject */
 'use strict';
 var loadPanels, runCode, minimizePanel, maximizePanel, reducePanelsWidth;
-require(['jquery', 'underscore', 'bootstrap' ], function ($, _) {
+require(['jquery', 'underscore', './vendor/bootstrap' ], function ($, _) {
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);

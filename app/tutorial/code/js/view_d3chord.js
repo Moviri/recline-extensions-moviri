@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/d3/view.d3.chord'], function (recline) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/d3/view.d3.chord'], function (recline) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'../tutorial/data/Chord.csv',

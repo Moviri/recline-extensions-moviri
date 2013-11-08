@@ -1,6 +1,6 @@
 /* global define, recline */
 'use strict';
-define(['recline', 'recline.dataset'], function() {
+define(['REM/vendor/recline/recline', 'REM/vendor/recline/recline.dataset'], function() {
 	return recline;
 });
 

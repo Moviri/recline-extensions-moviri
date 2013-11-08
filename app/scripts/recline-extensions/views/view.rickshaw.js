@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd', 'mustache', 'rickshaw'], function ($, recline, Mustache, Rickshaw) {
+define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'rickshaw'], function ($, recline, Mustache, Rickshaw) {
 
     recline.View = recline.View || {};
 

@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd', 'mustache', 'async!https://maps.googleapis.com/maps/api/js?v=3&sensor=true', 'markerclusterer'
+define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'async!https://maps.googleapis.com/maps/api/js?v=3&sensor=true', 'REM/vendor/google-maps/markerclusterer'
         ], function ($, recline, Mustache) {
 
     recline.View = recline.View || {};

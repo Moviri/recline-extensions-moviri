@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'chosen', 'jslider', 'datejs', 'jquery-ui/datepicker', 'jquery-ui/slider'], function (Backbone, recline, Mustache) {
+define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'REM/vendor/chosen/chosen.jquery', 'REM/vendor/jquery-slider/js/jquery.slider.min', 'datejs', 'jquery-ui/datepicker', 'jquery-ui/slider'], function (Backbone, recline, Mustache) {
 
     recline.View = recline.View || {};
     var my = recline.View;

@@ -1,5 +1,5 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'd3', 'nvd3', 
-    'recline.data.extensions.seriesutility', 'recline.views.extensions.no_data'
+define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'd3', 'REM/recline-extensions/nvd3', 
+    'REM/recline-extensions/data/data.series.utility', 'REM/recline-extensions/views/view.no_data'
     ], function (Backbone, recline, Mustache, d3) {
 
     recline.View = recline.View || {};

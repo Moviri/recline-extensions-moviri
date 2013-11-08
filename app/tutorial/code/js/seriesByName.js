@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'd3', 'recline-extensions/views/view.xcharts', 'recline-extensions/backend/backend.extensions.csv'
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'd3', 'REM/recline-extensions/views/view.xcharts', 'REM/recline-extensions/backend/backend.extensions.csv'
 ], function (recline, SlickGridGraph, d3) {
 
 var dataset = new recline.Model.Dataset({

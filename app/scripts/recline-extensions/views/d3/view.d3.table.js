@@ -1,4 +1,4 @@
-define(['jquery', 'recline-extensions-amd', 'd3v2', 'mustache', 'recline.data.extensions.aggregations'], function ($, recline, d3, Mustache) {
+define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3v2', 'mustache', 'REM/recline-extensions/data/data.aggregations'], function ($, recline, d3, Mustache) {
   recline.View = recline.View || {};
 
 	"use strict";	

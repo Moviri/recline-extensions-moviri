@@ -1,4 +1,4 @@
-define(['recline-amd'], function(recline) {
+define(['REM/recline-extensions/recline-amd'], function(recline) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};

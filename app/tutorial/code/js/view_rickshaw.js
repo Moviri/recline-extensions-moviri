@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/view.rickshaw'], function (recline) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/views/view.rickshaw'], function (recline) {
 
 var colorSchema = new recline.Data.ColorSchema({
     colors:["#0000FF", "#8084FF", "#0084FF"],

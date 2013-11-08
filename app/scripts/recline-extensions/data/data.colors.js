@@ -1,4 +1,4 @@
-define(['recline-amd', 'chroma'], function(recline, chroma) {
+define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min'], function(recline, chroma) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};

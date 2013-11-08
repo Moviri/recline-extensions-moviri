@@ -1,5 +1,5 @@
-require(['recline-extensions-amd', 'd3', 'recline.model.extensions.virtualmodel', 'recline-extensions/views/d3/view.d3.sparkline',
-    'recline-extensions/views/view.composed', 'recline-extensions/views/widget.datepicker' ], function (recline, d3) {
+require(['REM/recline-extensions/recline-extensions-amd', 'd3', 'REM/recline-extensions/model/virtualmodel', 'REM/recline-extensions/views/d3/view.d3.sparkline',
+    'REM/recline-extensions/views/view.composed', 'REM/recline-extensions/views/widget.datepicker' ], function (recline, d3) {
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/
     url:'../tutorial/data/UserNetworkUsage.csv',

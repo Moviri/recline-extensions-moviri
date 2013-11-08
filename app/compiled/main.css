@@ -1,8 +1,7 @@
-@import url(../bower_components/jquery-ui-amd/jquery-ui-1.10.0/themes/base/jquery-ui.css);
 @import url(../scripts/vendor/bootstrap.extensions.css);
 @import url(../scripts/vendor/chosen/chosen.css);
 @import url(../scripts/vendor/jquery-slider/css/jquery.slider.min.css);
-@import url(../scripts/recline-extensions/nvd3-extensions/nv.d3.css);
+@import url(../scripts/recline-extensions/nvd3.css);
 @import url(../scripts/vendor/xcharts/xcharts.css);
 @import url(../scripts/vendor/datepicker/1.0.0/css/datepicker/base.css);
 @import url(../scripts/vendor/datepicker/1.0.0/css/DateRangesWidget/base.css);
@@ -6812,7 +6811,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   box-sizing: border-box;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/c\:\/Users\/giorgio\.baldaccini\/workspace\/recline-extensions-moviri\/app\/styles\/main\.scss}line{font-family:\0000322}}
+@media -sass-debug-info{filename{font-family:file\:\/\/c\:\/Users\/giorgio\.baldaccini\/workspace\/recline-extensions-moviri\/app\/styles\/main\.scss}line{font-family:\0000320}}
 .hero-unit {
   margin: 50px auto 0 auto;
   width: 300px;

@@ -1,4 +1,4 @@
-define(['backbone', 'recline-extensions-amd', 'mustache', 'bootstrap-multiselect'], function (Backbone, recline, Mustache) {
+define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'REM/vendor/bootstrap-multiselect/bootstrap-multiselect'], function (Backbone, recline, Mustache) {
     
     recline.View = recline.View || {};
 

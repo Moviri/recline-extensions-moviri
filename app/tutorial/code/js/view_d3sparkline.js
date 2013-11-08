@@ -1,4 +1,4 @@
-require(['recline-extensions-amd', 'recline-extensions/views/view.slickgrid_graph', 'recline-extensions/views/d3/view.d3.sparkline'], function (recline) {
+require(['REM/recline-extensions/recline-extensions-amd', 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/views/d3/view.d3.sparkline'], function (recline) {
 
 
 var dataset = new recline.Model.Dataset({ /*FOLD_ME*/

@@ -27,7 +27,6 @@
 
     <script src="../bower_components/modernizr/modernizr.js"></script>
 
-    <script src="dependencies.js"></script> <!-- IMPORTANT -->
     <script data-main="main" src="../bower_components/requirejs/require.js"></script>
 
     <script src="vendor/jshint-2.1.4.js"></script>
@@ -46,13 +45,13 @@
     <script src="../bower_components/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="../bower_components/codemirror/addon/lint/javascript-lint.js"></script>
     <script src="../bower_components/codemirror/addon/lint/json-lint.js"></script>
-
-    <script>
-      require(['app'], function (app) {
-           'use strict';
-           // load app.js!
-      });    
-    </script>    
+<script>
+require.config({paths:{'REM':'.'}});
+require(['app'], function () {
+   'use strict';
+   // loads app.js!
+});
+</script>
 
 </head>
 
