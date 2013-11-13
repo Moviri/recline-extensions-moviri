@@ -101,6 +101,7 @@ module.exports = function (grunt) {
                     src: [
                         '.tmp',
                         '<%= yeoman.dist %>/*',
+                        '<%= yeoman.dist %>/**/*',
                         '!<%= yeoman.dist %>/.git*'
                     ]
                 }]
@@ -200,7 +201,10 @@ module.exports = function (grunt) {
                     // http://requirejs.org/docs/errors.html#sourcemapcomments
                     preserveLicenseComments: false,
                     useStrict: true,
-                    wrap: true
+                    wrap: true,
+                    name: 'main',
+                    out: '<%= yeoman.dist %>/scripts/main.js',
+                    mainConfigFile: '<%= yeoman.app %>/scripts/main.js'
                     //uglify2: {} // https://github.com/mishoo/UglifyJS2
                 }
             }
@@ -251,11 +255,18 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
-            dist: {
+              dist_old: {
+                expand: true,
+                cwd: '<%= yeoman.app %>/compiled/',
+                src: ['*.css', '!*.min.css'],
+                dest: '<%= yeoman.dist %>/styles/',
+                ext: '.css'
+              },
+              dist: {
                 files: {
                     '<%= yeoman.dist %>/styles/main.css': [
-                        '<%= yeoman.app %>/compiled/{,*/}*.css',
-                        '<%= yeoman.app %>/styles/{,*/}*.css'
+                        '<%= yeoman.app %>/compiled/{,*/}*.css'//,
+                        //'<%= yeoman.app %>/styles/{,*/}*.css'
                     ]
                 }
             }
@@ -284,7 +295,7 @@ module.exports = function (grunt) {
         // Put files not handled in other tasks here
         copy: {
             dist: {
-                files: [{
+                files: [/*{
                     expand: true,
                     dot: true,
                     cwd: '<%= yeoman.app %>',
@@ -292,7 +303,7 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,png,txt}',
                         '.htaccess',
-                        'images/{,*/}*.{webp,gif}',
+                        'images/{,*\/}*.{webp,gif}',
                         'styles/fonts/*'
                     ]
                 }, {
@@ -302,7 +313,16 @@ module.exports = function (grunt) {
                     src: [
                         'generated/*'
                     ]
-                }]
+                },*/
+				{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.dist %>/styles/',
+                    dest: '<%= yeoman.app %>/compiled/',
+                    src: '*.main.css',
+                    rename: function(dest) { return dest + '/recline-extensions-moviri.css';}
+                }
+				]
             }
         },
         concurrent: {
@@ -359,11 +379,11 @@ module.exports = function (grunt) {
         'concurrent:dist',
         'requirejs',
         'cssmin',
-        'concat',
-        'uglify',
-        'copy:dist',
+        //'concat',
+        //'uglify',
         'rev',
-        'usemin'
+        'usemin',
+        'copy:dist'
     ]);
 
     grunt.registerTask('default', [

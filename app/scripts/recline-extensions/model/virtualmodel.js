@@ -1,4 +1,4 @@
-define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recline-extensions/data/data.formatters'], function ($, recline, crossfilter) {
+define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recline-extensions/data/data.formatters', 'REM/recline-extensions/data/data.aggregations'], function ($, recline, crossfilter) {
 
     recline.Model = recline.Model || {};
     recline.Model.VirtualDataset = recline.Model.VirtualDataset || {};
