@@ -102,7 +102,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 {
                     if (self.separator && fullLevelValue.indexOf(self.separator) > 0)
                     {
-                        var levelValues = fullLevelValue.split(self.separator, 2);
+                        var levelValues = fullLevelValue.split(self.separator);
+                        // if more that 2 separators, join all the rest so that it's not lost
+                        if (levelValues.length > 2) {
+                            levelValues[1] = levelValues.slice(1).join(self.separator);
+						}
                         if (self.buttonsData[levelValues[0]] && self.buttonsData[levelValues[0]].options)
                             self.buttonsData[levelValues[0]].options.push({fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel})
                         else
