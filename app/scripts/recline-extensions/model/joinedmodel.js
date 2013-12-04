@@ -65,6 +65,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     if(!p.id)
                         throw "joinedmodel: a model without id has been used in join. Unable to apply joined model";
 
+                    //if (this.recordCount)
                     self.ds_fetched.push(p.id);
 
                     if (self.allDsFetched(self.ds_fetched))
@@ -164,25 +165,33 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
 
                 _.each(joinModel, function(p) {
-                    // retrieve records from secondary model
-                    _.each(p.joinon, function (f) {
-                        var field = p.model.fields.get(f);
-                        if(!field)
-                            throw "joinedmodel.js: unable to find field [" + f + "] on secondary model";
 
-                        filters.push({field:field.id, type:"term", term: r.getFieldValueUnrendered(field), fieldType:field.attributes.type });
-                    })
+                    if (!p.model.records.length) {
+                        //do not process empty compare models. Leave reference record as is
+                        recordMustBeAdded = true;
+                    }
+                    else {
+                        // retrieve records from secondary model
+                        _.each(p.joinon, function (f) {
+                            var field = p.model.fields.get(f);
+                            if(!field)
+                                throw "joinedmodel.js: unable to find field [" + f + "] on secondary model";
 
-                    var resultsFromDataset2 = recline.Data.Filters.applyFiltersOnData(filters, p.model.toFullJSON(), p.model.fields.toJSON());
-
-                    if(resultsFromDataset2.length == 0)
-                        recordMustBeAdded = false;
-
-                    _.each(resultsFromDataset2, function (res) {
-                        _.each(res, function (field_value, index) {
-                            record[p.id + "_" + index] = field_value;
+                            filters.push({field:field.id, type:"term", term: r.getFieldValueUnrendered(field), fieldType:field.attributes.type });
                         })
-                    })
+
+                        var resultsFromDataset2 = recline.Data.Filters.applyFiltersOnData(filters, p.model.toFullJSON(), p.model.fields.toJSON());
+
+                        if(resultsFromDataset2.length == 0)
+                            recordMustBeAdded = false;
+
+                        _.each(resultsFromDataset2, function (res) {
+                            _.each(res, function (field_value, index) {
+                                record[p.id + "_" + index] = field_value;
+                            })
+                        })
+
+                    }
 
                 });
 
