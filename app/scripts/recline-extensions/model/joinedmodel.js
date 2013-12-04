@@ -174,10 +174,14 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         // retrieve records from secondary model
                         _.each(p.joinon, function (f) {
                             var field = p.model.fields.get(f);
-                            if(!field)
-                                throw "joinedmodel.js: unable to find field [" + f + "] on secondary model";
-
-                            filters.push({field:field.id, type:"term", term: r.getFieldValueUnrendered(field), fieldType:field.attributes.type });
+                            if(field)
+                                filters.push({field:field.id, type:"term", term: r.getFieldValueUnrendered(field), fieldType:field.attributes.type });
+                            else {
+                                field = model.fields.get(f);
+                                if (field && r.get(f) && typeof p.model.records.models[0].get(f) != "undefined") // fallback to check if join model has the desired field, even if fields array hasn't been recreated
+                                    filters.push({field:field.id, type:"term", term: r.get(f), fieldType:field.attributes.type });
+                                else throw "joinedmodel.js: unable to find field [" + f + "] on secondary model";
+                            }
                         })
 
                         var resultsFromDataset2 = recline.Data.Filters.applyFiltersOnData(filters, p.model.toFullJSON(), p.model.fields.toJSON());

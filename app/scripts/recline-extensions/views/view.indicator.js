@@ -229,7 +229,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             if (self.options.state.compareWith) {
                 var compareWithRecord = self.modelCompare.getRecords(self.options.state.compareWith.type);
 
-                if(compareWithRecord.length > 0) {
+if(compareWithRecord.length > 0) {
                     var compareWithField;
 
                     if (self.options.state.kpi.aggr)
@@ -237,42 +237,48 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                     else
                         compareWithField = self.modelCompare.getFields(self.options.state.compareWith.type).get(self.options.state.compareWith.field);
 
-                    if (!compareWithField) {
-                    	if (self.modelCompare.attributes && self.modelCompare.attributes.dataset && self.modelCompare.attributes.dataset.recordCount)
-                    	   throw "View.Indicator: unable to find field [" + self.options.state.compareWith.field + "] on model"
-                    	else return; // parent model is empty. skip the rendering
-                    } 
-                	 tmplData["compareWithValue"] = compareWithRecord[0].getFieldValue(compareWithField);
-                     var compareWithValue = compareWithRecord[0].getFieldValueUnrendered(compareWithField);
-                     if (compareWithValue) {
-                         // if value is actually undefined/missing, no comparison should be shown
+                    // if (!compareWithField) {
+                        // if (self.modelCompare.attributes && self.modelCompare.attributes.dataset && self.modelCompare.attributes.dataset.recordCount)
+                           // throw "View.Indicator: unable to find field [" + self.options.state.compareWith.field + "] on model"
+                        // else return; // parent model is empty. skip the rendering
+                    // }
+                     var mustDisplayNA = false;
+                     if (compareWithField) {
+                        tmplData["compareWithValue"] = compareWithRecord[0].getFieldValue(compareWithField);
+                         var compareWithValue = compareWithRecord[0].getFieldValueUnrendered(compareWithField);
+                         if (compareWithValue) {
+                             // if value is actually undefined/missing, no comparison should be shown
 
-                         var compareValue = self.compareType[self.options.state.compareWith.compareType](kpiValue, compareWithValue, self.templates, self.options.state.condensed, self.options.state.shapeAfter);
-                         if(!compareValue){
-                        	   throw "View.Indicator: unable to find compareType [" + self.options.state.compareWith.compareType + "]";	 
+                             var compareValue = self.compareType[self.options.state.compareWith.compareType](kpiValue, compareWithValue, self.templates, self.options.state.condensed, self.options.state.shapeAfter);
+                             if(!compareValue){
+                                   throw "View.Indicator: unable to find compareType [" + self.options.state.compareWith.compareType + "]";  
+                             }
+                             tmplData["compareValue"] = compareValue.data;
+
+                             if(self.options.state.compareWith.shapes) {
+                                 if(compareValue.unrenderedValue == 0)
+                                     tmplData["compareShape"] = self.options.state.compareWith.shapes.constant;
+                                 else if(compareValue.unrenderedValue > 0)
+                                     tmplData["compareShape"] = self.options.state.compareWith.shapes.increase;
+                                 else if(compareValue.unrenderedValue < 0)
+                                     tmplData["compareShape"] = self.options.state.compareWith.shapes.decrease;
+                             }
+
+                             if(compareValue.template)
+                                 template = compareValue.template;   
                          }
-                    	 tmplData["compareValue"] = compareValue.data;
-
-                         if(self.options.state.compareWith.shapes) {
-                             if(compareValue.unrenderedValue == 0)
-                                 tmplData["compareShape"] = self.options.state.compareWith.shapes.constant;
-                             else if(compareValue.unrenderedValue > 0)
-                                 tmplData["compareShape"] = self.options.state.compareWith.shapes.increase;
-                             else if(compareValue.unrenderedValue < 0)
-                                 tmplData["compareShape"] = self.options.state.compareWith.shapes.decrease;
-                         }
-
-                         if(compareValue.template)
-                             template = compareValue.template;	 
+                         else mustDisplayNA = true;
                      }
-                     else {
-                        tmplData["compareValue"] = "N/A";
-                        tmplData["compareWithValue"] = "N/A";
+                     else mustDisplayNA = true;
+                     
+                     if (mustDisplayNA)
+                     {
+                         tmplData["compareValue"] = "N/A";
+                         tmplData["compareWithValue"] = "N/A";
                          var compareValue = self.compareType[self.options.state.compareWith.compareType](kpiValue, compareWithValue, self.templates, self.options.state.condensed, self.options.state.shapeAfter);
                          if(compareValue && compareValue.template)
                              template = compareValue.template;   
                      }
-                
                 }
             } else if (self.options.state.fillCompareSpace){
             	template = this.templates.templatePercentage;
