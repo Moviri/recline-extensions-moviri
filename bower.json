@@ -1,6 +1,6 @@
 {
   "name": "recline-extensions-moviri",
-  "version": "0.9.7-beta",
+  "version": "0.9.8-beta",
   "main": "main",
   "ignore": [
     "docs",
@@ -19,7 +19,7 @@
     "jquery": "~2.0.2",
     "jquery-ui-amd":"~0.0.3",
     "backbone-amd": "1.0.0",
-    "underscore-amd": "~1.4.4",
+    "underscore-amd": "~1.5.1",
     "requirejs": "~2.1.6",
     "slickgrid-moviri": "2.1.0",
     "accounting": "0.3.2",
