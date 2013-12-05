@@ -124,24 +124,23 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             self.redraw();
             self.redrawCompare();
-            if (self.options.weeklyMode) {
-                var options = $(".datepicker.selectableRange").data('datepicker')
-                if (options)
-                    options.weeklyMode = self.options.weeklyMode;
-                else $(".datepicker.selectableRange").data('datepicker', 'weeklyMode', self.options.weeklyMode)
+
+            var weeklyMode = (self.options.weeklyMode ? true : false);
+            var monthlyMode = (self.options.monthlyMode ? true : false);
+            var options = $(".datepicker.selectableRange").data('datepicker');
+            if (options) {
+                options.weeklyMode = weeklyMode;
+                options.monthlyMode = monthlyMode;
             }
-            else if (self.options.monthlyMode) {
-                var options = $(".datepicker.selectableRange").data('datepicker')
-                if (options)
-                    options.monthlyMode = self.options.monthlyMode;
-                else $(".datepicker.selectableRange").data('datepicker', 'monthlyMode', self.options.monthlyMode)
+            else {
+                $(".datepicker.selectableRange").data('datepicker', 'weeklyMode', weeklyMode);
+                $(".datepicker.selectableRange").data('datepicker', 'monthlyMode', monthlyMode);
             }
         },
 
         redraw:function () {
             //console.log("Widget.datepicker: redraw");
             // todo must use dateranges methods
-
             if (!this.model || this.model == "undefined")
                 return;
 
