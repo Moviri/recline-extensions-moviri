@@ -1614,10 +1614,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 //	  if (c1[2] >= 0.5)
 //		  return chroma.hsv(c1[0],c1[1],0);
 //	  else return chroma.hsv(c1[0],c1[1],1);
-            var c1 = c.rgb;
-            if (c1[0] + c1[1] + c1[2] < 255 * 3 / 2)
-                return "white";
-            else return "black";
+            if (c) {
+              var c1 = c.rgb;
+              if (c1[0] + c1[1] + c1[2] < 255 * 3 / 2)
+                  return "white";
+              else return "black";
+            }
+            return "black";
         },
         onButtonsetClicked: function (e) {
             e.preventDefault();
