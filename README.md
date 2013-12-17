@@ -28,6 +28,7 @@ In our case, the final variable declaration will be:
 
 'REM' : './../bower_components/recline-extensions-moviri/app/scripts'
 
-4) include in your main.scss file (or whatever file you use to load CSS styles) the files listed in file styles/bower_components.css if you need to use them. Currently there are only two files for slickgrid and rickshaw. So, if you plan to use slickgrid, copy the relavant line:
-`@import '../bower_components/slickgrid-moviri/slick.grid.css';`
-(and correct path if necessary) to your main style file.
+4) include in your main.scss file (or whatever file you use to load CSS styles) the files listed in 'styles/bower_components.css' if you need them. Make sure you also rename their extension from CSS to SCSS if you also plan to build (with 'grunt build') the distribution package of your application.
+Currently there are only two CSS files for slickgrid and rickshaw. So, if you plan to use slickgrid, make a copy of the slick.grid.css and rename it to slick.grid.scss, then copy the line:
+`@import '../bower_components/slickgrid-moviri/slick.grid.scss';`
+(and correct path if necessary) into your main style file.
