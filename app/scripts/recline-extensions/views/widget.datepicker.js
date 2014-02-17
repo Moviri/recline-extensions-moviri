@@ -127,6 +127,15 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             var weeklyMode = (self.options.weeklyMode ? true : false);
             var monthlyMode = (self.options.monthlyMode ? true : false);
+            if (weeklyMode || monthlyMode) {
+                $('#datepicker-dropdown .daterange-preset').attr("disabled", "disabled");
+                $('#datepicker-dropdown .comparison-preset').attr("disabled", "disabled");
+            }
+            else {
+                $('#datepicker-dropdown .daterange-preset', self.datepicker).removeAttr("disabled");
+                $('#datepicker-dropdown .comparison-preset', self.datepicker).removeAttr("disabled");
+            }
+
             var options = $(".datepicker.selectableRange").data('datepicker');
             if (options) {
                 options.weeklyMode = weeklyMode;
@@ -136,6 +145,18 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 $(".datepicker.selectableRange").data('datepicker', 'weeklyMode', weeklyMode);
                 $(".datepicker.selectableRange").data('datepicker', 'monthlyMode', monthlyMode);
             }
+
+            $("#datepicker-dropdown .enable-comparison").change(function(ev) {
+                $target = $(ev.target);
+                if ($target.is(":checked")) {
+                    $("#datepicker-dropdown .btn-group").css("margin-top", "0px");
+                    $("#datepicker-dropdown .comparison-daterange").show();
+                }
+                else {
+                    $("#datepicker-dropdown .comparison-daterange").hide();
+                    $("#datepicker-dropdown .btn-group").css("margin-top", "30px");
+                }
+            });
         },
 
         redraw:function () {
@@ -143,6 +164,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             // todo must use dateranges methods
             if (!this.model || this.model == "undefined")
                 return;
+
+            if (this.options.weeklyMode || this.options.monthlyMode) {
+                $('#datepicker-dropdown .daterange-preset').attr("disabled", "disabled");
+            }
+            else {
+                $('#datepicker-dropdown .daterange-preset').removeAttr("disabled");
+            }
 
             var self = this;
             var dates = $('.date-ranges-picker').DatePickerGetDate();
@@ -275,6 +303,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 	if (self.fullyInitialized && !values.comparisonEnabled)
             			return;   
 
+                    if (this.options.weeklyMode || this.options.monthlyMode) {
+                        $('#datepicker-dropdown .comparison-preset').attr("disabled", "disabled");
+                    }
+                    else {
+                        $('#datepicker-dropdown .comparison-preset').removeAttr("disabled");
+                    }
+
                     var f = self.options.compareModel.queryState.getFilterByFieldName(self.options.compareFields.date)
                     if (f && f.type == "range") {
                         period[2] = new Date(f.start);
@@ -397,7 +432,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     values.comparisonEnabled = false;
                     values.comparisonPreset = "previousperiod"
                     $('.comparison-preset').val("previousperiod")
-                    $('.comparison-preset').prop("disabled", true)
+                    $('.comparison-preset').attr("disabled", "disabled")
                     $('.enable-comparison').removeAttr("checked")
                     $('.enable-comparison').change()
                     $('.comparison-daterange').css('display', 'none')
