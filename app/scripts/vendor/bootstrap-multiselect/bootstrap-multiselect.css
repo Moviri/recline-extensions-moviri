@@ -28,3 +28,50 @@ button.dropdown-toggle.btn.btn-mini.btn-first {
 	border-top-left-radius: 4px;
 	border-bottom-left-radius: 4px;
 }
+
+ul.container-column {
+	margin: 0;
+}
+
+.li-level0 label {
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	color: darkblue;
+	font-size: 12px;
+}
+
+ul.container-column li.li-level1 {
+	margin-left: 26px;
+}
+
+.li-column {
+	float: left;
+	list-style-type: none;
+	padding: 0 10px 0 10px;
+	margin-left: 0 !important;
+	border-left: 1px solid #eee;
+}
+
+ul.dropdown-menu .li-column:first-child {
+	border-left: none;	
+}
+
+.li-column:hover {
+	background-color: transparent !important;
+}
+
+.li-column ul li {
+	list-style-type: none;
+}
+
+.li-column ul.container-column li label:hover {
+	color: white;
+}
+
+.btn-group.open .btn-primary.dropdown-toggle {
+	background-color: blue !important;
+}
+
+.btn-group.open .btn-info.dropdown-toggle {
+	background-color: lightblue !important;
+}
