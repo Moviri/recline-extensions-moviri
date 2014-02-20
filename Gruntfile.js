@@ -100,6 +100,7 @@ module.exports = function (grunt) {
                     dot: true,
                     src: [
                         '.tmp',
+                        '<%= yeoman.app %>/compiled',
                         '<%= yeoman.dist %>/*',
                         '<%= yeoman.dist %>/**/*',
                         '!<%= yeoman.dist %>/.git*'
@@ -173,7 +174,9 @@ module.exports = function (grunt) {
                 httpImagesPath: '/images',
                 httpGeneratedImagesPath: '/images/generated',
                 httpFontsPath: '/styles/fonts',
-                relativeAssets: false
+                relativeAssets: true,
+                lineNumbers: false,
+                noLineComments: true
             },
             dist: {},
             server: {
