@@ -226,10 +226,10 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             if (self.options.state.condensed == true)
             	template = self.templates.templateCondensed;            
 
-            if (self.options.state.compareWith) {
+            if (self.options.state.compareWith && !app.compareDisabled) {
                 var compareWithRecord = self.modelCompare.getRecords(self.options.state.compareWith.type);
 
-if(compareWithRecord.length > 0) {
+                if(compareWithRecord.length > 0) {
                     var compareWithField;
 
                     if (self.options.state.kpi.aggr)
@@ -295,7 +295,7 @@ if(compareWithRecord.length > 0) {
             if (this.options.state.description)
                 tmplData["description"] = this.options.state.description;
             
-            if (compareValue && compareValue.percentageMsg)
+            if (!app.compareDisabled && compareValue && compareValue.percentageMsg)
             	tmplData["percentageMsg"] = compareValue.percentageMsg; 
 
             var htmls = Mustache.render(template, tmplData);
