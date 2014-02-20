@@ -195,7 +195,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                             selectedItems.push($(opt).text());
                         });
                     }
-                    if (self.buttonTextMaxChars) {
+                    if (self.buttonTextMaxChars !== undefined) {
                         selected = selectedItems.join(", ");
                         if (selected.length > self.buttonTextMaxChars) {
                             selected = selected.substring(0, self.buttonTextMaxChars)+'...('+selectedItems.length+')';
