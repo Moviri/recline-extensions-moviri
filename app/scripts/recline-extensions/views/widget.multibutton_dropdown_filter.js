@@ -469,6 +469,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         _.each(multiselectContainer.find("button."+self._partlySelectedClassName), function(btn) { // multiselect
                             $(btn).removeClass(self._partlySelectedClassName); // multiselect
                         });
+                        $select.data('multiselect').deselectAllLevel0Options();
                         // erase all options strings left inside main dropdown button
                         $select.multiselect("refresh");
                     });
