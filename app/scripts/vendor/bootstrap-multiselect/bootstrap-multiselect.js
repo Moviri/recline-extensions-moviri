@@ -59,8 +59,8 @@
             .append('<button type="button" class="'+ this.options.buttonClassFirst +' select-all-button"></button><button type="button" class="dropdown-toggle ' + this.options.buttonClass + '" data-toggle="dropdown"><b class="caret"></b></button>')
             .append('<ul class="dropdown-menu"></ul>');
         
+        var columnWidth = this.options.columnWidth || 250;
         if (this.options.numColumns) {
-            var columnWidth = this.options.columnWidth || 250;
             $('ul', this.container).css({
                 'width': (columnWidth*this.options.numColumns)+'px',
                 'overflow': 'hidden',
@@ -142,9 +142,16 @@
             this.groupVals = groupVals;
 
             var $dropdownMenu = this.container.find("ul.dropdown-menu");
-            for (c = 0; c < this.options.numColumns; c++) {
+            for (c = 0; c < this.options.numColumns && c < columnIndexStartEnd.length; c++) {
                 $dropdownMenu.append("<li class='li-column'><ul class='container-column column"+c+"'></ul></li>");
                 this.buildDrowdown(select, this.options, columnIndexStartEnd[c].start, columnIndexStartEnd[c].end, this.container.find(".container-column.column"+c).parent(), groupVals);
+            }
+            // fix container width and offset if less than 2 columns
+            if (c < this.options.numColumns) {
+                $('ul', this.container).css('width', (columnWidth*c)+'px');
+                if (c === 1) {
+                    $('ul', this.container).css("left", "0px");
+                }
             }
         }
         else {
@@ -212,8 +219,11 @@
                         lastGroupIdx = currGroupIdx;
                     }
                 }
-
                 $('ul', container).append('<li class="li-level1"><a href="javascript:void(0);" style="padding:0;"><label style="margin:0;padding:0px 0px 0px 5px;width:100%;height:100%;cursor:pointer;"><input style="margin-bottom:5px;" type="checkbox" data-group="'+currGroup+'" value="' + $(element).val() + '" /> ' + currText + '</label</a></li>');
+                if (!currText.length) {
+                    // do not show level 1 items when there's no real level 1 (only one value in level 0)
+                    $('ul', container).find('li.li-level1 input[data-group="'+currGroup+'"]').hide(); 
+                }
 
                 var selected = $(element).prop('selected') || false;
                 var checkbox = $('ul li input[value="' + $(element).val() + '"]', container);

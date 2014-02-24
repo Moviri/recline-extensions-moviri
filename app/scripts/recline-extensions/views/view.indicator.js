@@ -1,3 +1,5 @@
+/* global define */
+/*jshint multistr: true */
 define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache'], function ($, recline, d3, Mustache) {
 
     recline.View = recline.View || {};
@@ -146,26 +148,39 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 	    </div> '
 	
         },
+        compareDisabled: false,
         initialize:function (options) {
             var self = this;
 
             this.el = $(this.el);
-            _.bindAll(this, 'render');
+            _.bindAll(this, 'render', 'disableCompare', 'enableCompare');
             this.uid = options.id || ("" + new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart
 
             this.model.bind('query:done', this.render);
-            
             if (this.options.modelCompare)
         	{
-            	this.modelCompare = this.options.modelCompare
+            	this.modelCompare = this.options.modelCompare;
             	this.modelCompare.bind('query:done', this.render);
         	}
             else this.modelCompare = this.model;
+        },
+        disableCompare: function() {
+            this.compareDisabled = true;
+            this.render();
+        },
+        enableCompare: function() {
+            this.compareDisabled = false;
+            this.render();
         },
         render:function () {
             //console.log("View.Indicator: render");
 
             var self = this;
+            
+            if (this.options.state && this.options.state.comparisonDisabled) {
+                this.compareDisabled = this.options.state.comparisonDisabled;
+            }
+
             var tmplData = {};
             tmplData["viewId"] = this.uid;
             tmplData.label = this.options.state && this.options.state["label"];
@@ -183,7 +198,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         		{
             		// virtual model has no valid fields since starting model has no record. Must only display N/A
         		}
-            	else throw "View.Indicator: unable to find field [" + self.options.state.kpi.field + "] on model"
+            	else throw "View.Indicator: unable to find field [" + self.options.state.kpi.field + "] on model";
             }     
                 
             var textField = null;
@@ -195,7 +210,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 	textField = self.model.getFields(self.options.state.kpi.type).get(self.options.state.kpi.textField);
 
                 if (!textField)
-                    throw "View.Indicator: unable to find field [" + self.options.state.kpi.textField + "] on model"
+                    throw "View.Indicator: unable to find field [" + self.options.state.kpi.textField + "] on model";
         	}
 
             var kpiValue;
@@ -226,7 +241,8 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             if (self.options.state.condensed == true)
             	template = self.templates.templateCondensed;            
 
-            if (self.options.state.compareWith && !app.compareDisabled) {
+            var compareValue;
+            if (self.options.state.compareWith && !self.compareDisabled) {
                 var compareWithRecord = self.modelCompare.getRecords(self.options.state.compareWith.type);
 
                 if(compareWithRecord.length > 0) {
@@ -243,13 +259,14 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                         // else return; // parent model is empty. skip the rendering
                     // }
                      var mustDisplayNA = false;
+                     var compareWithValue;
                      if (compareWithField) {
                         tmplData["compareWithValue"] = compareWithRecord[0].getFieldValue(compareWithField);
-                         var compareWithValue = compareWithRecord[0].getFieldValueUnrendered(compareWithField);
+                         compareWithValue = compareWithRecord[0].getFieldValueUnrendered(compareWithField);
                          if (compareWithValue) {
                              // if value is actually undefined/missing, no comparison should be shown
 
-                             var compareValue = self.compareType[self.options.state.compareWith.compareType](kpiValue, compareWithValue, self.templates, self.options.state.condensed, self.options.state.shapeAfter);
+                             compareValue = self.compareType[self.options.state.compareWith.compareType](kpiValue, compareWithValue, self.templates, self.options.state.condensed, self.options.state.shapeAfter);
                              if(!compareValue){
                                    throw "View.Indicator: unable to find compareType [" + self.options.state.compareWith.compareType + "]";  
                              }
@@ -275,35 +292,42 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                      {
                          tmplData["compareValue"] = "N/A";
                          tmplData["compareWithValue"] = "N/A";
-                         var compareValue = self.compareType[self.options.state.compareWith.compareType](kpiValue, compareWithValue, self.templates, self.options.state.condensed, self.options.state.shapeAfter);
+                         compareValue = self.compareType[self.options.state.compareWith.compareType](kpiValue, compareWithValue, self.templates, self.options.state.condensed, self.options.state.shapeAfter);
                          if(compareValue && compareValue.template)
                              template = compareValue.template;   
                      }
                 }
-            } else if (self.options.state.fillCompareSpace){
+            } else if (self.options.state.fillCompareSpace || self.compareDisabled){
             	template = this.templates.templatePercentage;
             }
-            if ((tmplData["shape"] == null || typeof tmplData["shape"] == "undefined") 
-            	&& (tmplData["compareShape"] == null || typeof tmplData["compareShape"] == "undefined"))
-            	tmplData["compareShape"] = " " // ensure the space is filled
+            if ((tmplData["shape"] == null || typeof tmplData["shape"] == "undefined") &&
+            	(tmplData["compareShape"] == null || typeof tmplData["compareShape"] == "undefined"))
+                	tmplData["compareShape"] = " "; // ensure the space is filled
 
             if (this.options.showPercentageBar){
-            	tmplData["afterShape"] = "<div class='indicator-percent-complete-bar-background' style='float:left;'>"
-                    + "<span class='indicator-percent-complete-bar' style='width:" + tmplData["value"] + "'></span></div>"
+            	tmplData["afterShape"] = "<div class='indicator-percent-complete-bar-background' style='float:left;'>" +
+                    "<span class='indicator-percent-complete-bar' style='width:" + tmplData["value"] + "'></span></div>";
             }
             
             if (this.options.state.description)
                 tmplData["description"] = this.options.state.description;
             
-            if (!app.compareDisabled && compareValue && compareValue.percentageMsg)
-            	tmplData["percentageMsg"] = compareValue.percentageMsg; 
+            if (!self.compareDisabled && compareValue && compareValue.percentageMsg)
+            	tmplData["percentageMsg"] = compareValue.percentageMsg;
+
+            if (self.compareDisabled) {
+                this.el.find('.kpi_compare_shape_container').addClass('empty');
+            } else {
+                this.el.find('.kpi_compare_shape_container').removeClass('empty');
+            }
 
             var htmls = Mustache.render(template, tmplData);
             $(this.el).html(htmls);
 
+            this.el.find('div.indicator').off('comparison_disabled').on('comparison_disabled', this.disableCompare);
+            this.el.find('div.indicator').off('comparison_enabled').on('comparison_enabled', this.enableCompare);
 
             //this.$graph = this.el.find('.panel.indicator_' + tmplData["viewId"]);
-
 
             return this;
         }

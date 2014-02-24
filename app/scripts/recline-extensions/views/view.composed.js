@@ -1,11 +1,13 @@
-define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache', 'REM/recline-extensions/backend/backend.jsonp', 'REM/recline-extensions/model/filteredmodel'
-    ], function ($, recline, d3, Mustache) {
+/* global define */
+define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache', 'underscore', 'backbone', 'REM/recline-extensions/backend/backend.jsonp', 'REM/recline-extensions/model/filteredmodel'
+    ], function ($, recline, d3, Mustache, _, Backbone) {
+
+    "use strict";
 
     recline.View = recline.View || {};
 
     var view = recline.View;
 
-    "use strict";
 
     view.Composed = Backbone.View.extend({
         templates: {
@@ -112,7 +114,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             this.model.fields.bind('add', this.render);
 
             this.model.bind('query:done', function () {
-                self.redrawSemaphore("model", self)
+                self.redrawSemaphore("model", self);
             });
 
 
@@ -122,7 +124,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 this.options.modelTotals.fields.bind('add', this.render);
 
                 this.options.modelTotals.bind('query:done', function () {
-                    self.redrawSemaphore("totals", self)
+                    self.redrawSemaphore("totals", self);
                 });
 
 
@@ -163,7 +165,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                     return f.measure_id == measureID;
                 });
                 return measure.viewid;
-            }
+            };
         },
 
         redraw: function () {
@@ -197,9 +199,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                         var term_rendered;
                         if (t.term)
                     	{
-                        	var validRec = _.find(self.model.getRecords(), function(rec) { return rec.attributes[self.options.groupBy] == t.term })
+                        	var validRec = _.find(self.model.getRecords(), function(rec) { return rec.attributes[self.options.groupBy] == t.term; });
                             if (validRec)
-                            	term_rendered = validRec.getFieldValue(field)
+                            	term_rendered = validRec.getFieldValue(field);
                     	}
                         	
                         var term_desc;
@@ -216,12 +218,12 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                                     return f.measure_id == measureID;
                                 });
                                 return measure.viewid;
-                            }
+                            };
                         };
 
                         self.dimensions.push(self.addFilteredMeasuresToDimension(dim, field));
                     }
-                })
+                });
 
 
 
@@ -237,7 +239,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 _.each(dim, function (f, index) {
                     f["getDimensionIDbyMeasureID"] = self.getViewFunction;
                     dim[index] = f;
-                })
+                });
 
                 self.dimensions = dim;
             }
@@ -276,7 +278,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                         });
                     	if (measure && j >= 0 && j < self.measures_totals.length)
                     		return self.measures_totals[j].viewid;
-                    }
+                    };
                 };
 
                 self.dimensions_totals = [dim];
@@ -295,6 +297,16 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
             this.attachViews();
 
+            // for use when indicators are present in composed view
+            var $indicatorsList = this.el.find('div.indicator');
+            if ($indicatorsList.length) {
+                $indicatorsList.on('comparison_disabled', function() {
+                    self.comparisonDisabled = true;
+                });
+                $indicatorsList.on('comparison_enabled', function() {
+                    self.comparisonDisabled = false;
+                });
+            }
             if (self.options.postRender){
             	self.options.postRender.call();
             }            
@@ -306,13 +318,19 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
         attachViews: function () {
             var self = this;
-            self.views = []
+            self.views = [];
 
             _.each(self.dimensions, function (dim) {
                 _.each(dim.measures, function (m) {
                     var $el = $('#' + m.viewid);
-                    m.props["el"] = $el;
-                    m.props["model"] = m.dataset;
+                    m.props.el = $el;
+                    m.props.model = m.dataset;
+                    if (!m.props.state) {
+                        m.props.state = {};
+                    }
+                    m.props.state.comparisonDisabled = self.comparisonDisabled;
+                    m.props.state.fillCompareSpace = self.comparisonDisabled;
+
                     var view = new recline.View[m.view](m.props);
                     self.views.push(view);
 
@@ -323,14 +341,19 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                         view.redraw();
                     }
 
-                })
-            })
+                });
+            });
 
             _.each(self.dimensions_totals, function (dim) {
                 _.each(dim.measures, function (m) {
                     var $el = $('#' + m.viewid);
-                    m.props["el"] = $el;
-                    m.props["model"] = m.dataset;
+                    m.props.el = $el;
+                    m.props.model = m.dataset;
+                    if (!m.props.state) {
+                        m.props.state = {};
+                    }
+                    m.props.state.comparisonDisabled = self.comparisonDisabled;
+                    m.props.state.fillCompareSpace = self.comparisonDisabled;
                     var view = new recline.View[m.view](m.props);
                     self.views.push(view);
 
@@ -341,8 +364,8 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                         view.redraw();
                     }
 
-                })
-            })
+                });
+            });
         },
 
         /*
