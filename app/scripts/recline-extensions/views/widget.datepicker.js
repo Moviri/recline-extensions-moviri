@@ -129,6 +129,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             var weeklyMode = (self.options.weeklyMode ? true : false);
             var monthlyMode = (self.options.monthlyMode ? true : false);
+            var persistentCompare = (self.options.persistentCompare ? true : false);
             if (weeklyMode || monthlyMode) {
                 $('#datepicker-dropdown .daterange-preset').attr("disabled", "disabled");
                 $('#datepicker-dropdown .comparison-preset').attr("disabled", "disabled");
@@ -142,10 +143,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             if (options) {
                 options.weeklyMode = weeklyMode;
                 options.monthlyMode = monthlyMode;
+                options.persistentCompare = persistentCompare;
             }
             else {
                 $(".datepicker.selectableRange").data('datepicker', 'weeklyMode', weeklyMode);
                 $(".datepicker.selectableRange").data('datepicker', 'monthlyMode', monthlyMode);
+                $(".datepicker.selectableRange").data('datepicker', 'persistentCompare', persistentCompare);
             }
 
             $("#datepicker-dropdown .enable-comparison").change(function(ev) {
@@ -302,7 +305,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 	// If the datepicker is already initialized and a redraw event is issued, 
                 	// we must not recreate the compare dates if they already were disabled
                 	if (self.fullyInitialized && !values.comparisonEnabled)
-            			return;   
+            			return;
+
+                    if (this.options.persistentCompare) {
+                        $('.enable-comparison').attr("disabled", "disabled");
+                        $('.enable-comparison').attr("checked", "checked");
+                    }   
 
                     if (this.options.weeklyMode || this.options.monthlyMode) {
                         $('#datepicker-dropdown .comparison-preset').attr("disabled", "disabled");
