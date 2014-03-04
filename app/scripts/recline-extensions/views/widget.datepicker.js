@@ -310,6 +310,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     if (this.options.persistentCompare) {
                         $('.enable-comparison').attr("disabled", "disabled");
                         $('.enable-comparison').attr("checked", "checked");
+                    }
+                    else {
+                        $('.enable-comparison').removeAttr("disabled");
                     }   
 
                     if (this.options.weeklyMode || this.options.monthlyMode) {
