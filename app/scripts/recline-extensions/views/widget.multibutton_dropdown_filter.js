@@ -118,7 +118,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         // if more that 2 separators, join all the rest so that it's not lost
                         if (levelValues.length > 2) {
                             levelValues[1] = levelValues.slice(1).join(self.separator);
-						}
+                        }
                         if (self.buttonsData[levelValues[0]] && self.buttonsData[levelValues[0]].options)
                             self.buttonsData[levelValues[0]].options.push({fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
                         else
@@ -126,7 +126,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     }
                     else
                     {
-                        self.buttonsData[valueUnrendered] = { value: fullLevelValue, valueUnrendered: valueUnrendered, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, valueUnrendered), self: self, index: indexLabel, descLabel: descLabel };
+                        // handle special case in which it exists both CALLER_PIPPO and CALLERPIPPO.SUB1 and they must be SEPARATE callers
+                        var valueUnrenderedToUse = valueUnrendered;
+                        if (self.buttonsData[valueUnrendered]) {
+                            valueUnrenderedToUse = valueUnrendered+"_$%_"; // forces a new and unique key
+                        }
+                        self.buttonsData[valueUnrenderedToUse] = { value: fullLevelValue, valueUnrendered: valueUnrendered, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, valueUnrendered), self: self, index: indexLabel, descLabel: descLabel };
                     }
                     alreadyInsertedValues.push(fullLevelValue);
                 }
@@ -339,7 +344,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             {
                 tmplData.numId = self.numId;
                 tmplData.uid = self.uid;
-                tmplData.options = buttonData.options;
+                tmplData.options = _.sortBy(buttonData.options, function(opt) {
+                    return opt.fullValue;
+                });
                 self.numId++;
                 return Mustache.render(self.dropdownTemplate, tmplData);
             }

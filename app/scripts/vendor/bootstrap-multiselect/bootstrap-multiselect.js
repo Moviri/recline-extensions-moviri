@@ -103,13 +103,19 @@
 
                 allOptions.each(function(i, element) {
                     var currText = $(element).text();
-                    var currGroup = "";
-                    if (currText.indexOf(self.options.separator)) {
+                    var currGroup = currText;
+                    var currGroupAdj = currGroup;
+                    if (currText.indexOf(self.options.separator) > 0) {
                         var nameParts = currText.split(".");
                         currGroup = nameParts[0];
+                        currGroupAdj = currGroup;
                         currText = nameParts.slice(1, nameParts.length).join(self.options.separator);
                     }
-                    if (lastGroup !== currGroup && lastGroup) {
+                    else {
+                        currText = "";
+                        currGroupAdj = currGroup + "_$%_";
+                    }
+                    if (lastGroup && lastGroup !== currGroupAdj) {
                         self.select.find("option[data-group='"+lastGroup+"']").attr("data-group-count", groupVals[groupIdx].length);
                         groupIdx++;
                         if (totItemsInColumn >= portionSize) {
@@ -121,10 +127,11 @@
                     addGroupValue(groupIdx, $(element).val());
 
                     $(element).attr("data-group", currGroup);
+                    $(element).attr("data-group-adj", currGroupAdj);
                     $(element).attr("data-group-index", groupIdx);
                     $(element).attr("data-text", currText);
                     totItemsInColumn++;
-                    lastGroup = currGroup;
+                    lastGroup = currGroupAdj;
                 });
                 if (columnIndexStartEnd.length < this.options.numColumns) {
                     columnIndexStartEnd.push({start: lastItemNum, end: allOptions.length});
@@ -207,6 +214,7 @@
                 }
                 var currText = $(element).text();
                 var currGroup = $(element).attr("data-group");
+                var currGroupAdj = $(element).attr("data-group-adj");
                 if (!lastGroup) {
                     lastGroup = currGroup;
                 }
@@ -215,11 +223,11 @@
                     currGroupIdx = $(element).attr("data-group-index");
                     if (currGroupIdx !== lastGroupIdx) {
                         newlevel0Created = true;
-                        $('ul', container).append('<li class="li-level0"><a href="javascript:void(0);" style="padding:0;"><label style="margin:0;padding:0px 0px 0px 5px;width:100%;height:100%;cursor:pointer"><input style="margin-bottom:5px;" type="checkbox" data-group="'+currGroup+'" value="' + groupVals[currGroupIdx] + '" /> ' + currGroup + '</label</a></li>');
+                        $('ul', container).append('<li class="li-level0"><a href="javascript:void(0);" style="padding:0;"><label style="margin:0;padding:0px 0px 0px 5px;width:100%;height:100%;cursor:pointer"><input style="margin-bottom:5px;" type="checkbox" data-group="'+currGroup+'" data-group-adj="'+currGroupAdj+'" value="' + groupVals[currGroupIdx] + '" /> ' + currGroup + '</label</a></li>');
                         lastGroupIdx = currGroupIdx;
                     }
                 }
-                $('ul', container).append('<li class="li-level1"><a href="javascript:void(0);" style="padding:0;"><label style="margin:0;padding:0px 0px 0px 5px;width:100%;height:100%;cursor:pointer;"><input style="margin-bottom:5px;" type="checkbox" data-group="'+currGroup+'" value="' + $(element).val() + '" /> ' + currText + '</label</a></li>');
+                $('ul', container).append('<li class="li-level1"><a href="javascript:void(0);" style="padding:0;"><label style="margin:0;padding:0px 0px 0px 5px;width:100%;height:100%;cursor:pointer;"><input style="margin-bottom:5px;" type="checkbox" data-group="'+currGroup+'" data-group-adj="'+currGroupAdj+'" value="' + $(element).val() + '" /> ' + currText + '</label</a></li>');
                 if (!currText.length) {
                     // do not show level 1 items when there's no real level 1 (only one value in level 0)
                     $('ul', container).find('li.li-level1 input[data-group="'+currGroup+'"]').hide(); 
@@ -268,8 +276,12 @@
             $('ul li.li-level1 input[type="checkbox"]', container).off().on('change', $.proxy(function(event) {
                 var $target = $(event.target);
                 var currGroup = $target.attr("data-group");
+                var currGroupAdj = $target.attr("data-group-adj");
                 var $targetContainer = $target.parents('ul.container-column');
                 var $targetLevel0Parent = $targetContainer.find('li.li-level0 input[data-group="'+currGroup+'"]');
+                if ($targetLevel0Parent.length > 1 && currGroupAdj) {
+                    $targetLevel0Parent = $targetContainer.find('li.li-level0 input[data-group-adj="'+currGroupAdj+'"]');
+                }
                 var checked = $target.prop('checked') || false;
 
                 if (checked) {
@@ -360,8 +372,8 @@
             $('button.select-all-button', this.container).html(this.options.buttonText($('option:selected', this.select)));
         },
 
-		rebuild: function() {
-			$('ul', this.container).html('');
+        rebuild: function() {
+            $('ul', this.container).html('');
             if (this.options.numColumns) {
                 var $dropdownMenu = this.container.find("ul.dropdown-menu");
                 for (var c = 0; c < this.options.numColumns; c++) {
@@ -374,7 +386,7 @@
                 var allOptions = this.select.find("option");
                 this.buildDrowdown(this.select, this.options, 0, allOptions.length);
             }
-		},
+        },
 
         // Get options by merging defaults and given options.
         getOptions: function(options) {
