@@ -28,6 +28,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             'click .grouped-button':'onButtonsetClicked',
             'click button.select-all-button' : 'onDropdownSelectAll' 
         },
+        DUPE_KEY_SUFFIX: '_$%_',
         _sourceDataset:null,
         _selectedClassName:"btn-primary", // use bootstrap ready-for-use classes to highlight list item selection (avail classes are success, warning, info & error)
         _partlySelectedClassName:"btn-info",
@@ -121,17 +122,18 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         }
                         if (self.buttonsData[levelValues[0]] && self.buttonsData[levelValues[0]].options)
                             self.buttonsData[levelValues[0]].options.push({fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
-                        else
+                        else {
+                            // handle special case in which it exists both CALLER_PIPPO and CALLER_PIPPO.SUB1 and they must be SEPARATE callers
+                            if (self.buttonsData[levelValues[0]] && !self.buttonsData[levelValues[0]].options) {
+                                // a BUTTON (not dropdown) already exists with this name. Move it to a different key
+                                self.buttonsData[levelValues[0]+self.DUPE_KEY_SUFFIX] = self.buttonsData[levelValues[0]];
+                            }
                             self.buttonsData[levelValues[0]] = { self: self, options: [{fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
+                        }
                     }
                     else
                     {
-                        // handle special case in which it exists both CALLER_PIPPO and CALLERPIPPO.SUB1 and they must be SEPARATE callers
-                        var valueUnrenderedToUse = valueUnrendered;
-                        if (self.buttonsData[valueUnrendered]) {
-                            valueUnrenderedToUse = valueUnrendered+"_$%_"; // forces a new and unique key
-                        }
-                        self.buttonsData[valueUnrenderedToUse] = { value: fullLevelValue, valueUnrendered: valueUnrendered, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, valueUnrendered), self: self, index: indexLabel, descLabel: descLabel };
+                        self.buttonsData[valueUnrendered] = { value: fullLevelValue, valueUnrendered: valueUnrendered, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, valueUnrendered), self: self, index: indexLabel, descLabel: descLabel };
                     }
                     alreadyInsertedValues.push(fullLevelValue);
                 }
@@ -589,8 +591,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         },
         getRecordByValue:function(val) {
             var self = this;
-            if (self.buttonsData[val])
+            if (self.buttonsData[val] && self.buttonsData[val].record)
                 return self.buttonsData[val].record;
+            if (self.buttonsData[val+self.DUPE_KEY_SUFFIX] && self.buttonsData[val+self.DUPE_KEY_SUFFIX].record)
+                return self.buttonsData[val+self.DUPE_KEY_SUFFIX].record;
             else if (self.separator)
             {
                 var levelValues = val.split(self.separator, 2);
