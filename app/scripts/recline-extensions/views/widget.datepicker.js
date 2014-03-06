@@ -307,6 +307,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 	if (self.fullyInitialized && !values.comparisonEnabled)
             			return;
 
+                    $('.enable-comparison').parent().show();
+
                     if (this.options.persistentCompare) {
                         $('.enable-comparison').attr("disabled", "disabled");
                         $('.enable-comparison').attr("checked", "checked");
@@ -447,8 +449,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     $('.comparison-preset').attr("disabled", "disabled");
                     $('.enable-comparison').removeAttr("checked");
                     $('.enable-comparison').change();
-                    $('.comparison-daterange').css('display', 'none');
-                    $('.enable-comparison').parent().css('display', 'none');
+                    $('.comparison-daterange').hide();
+                    $('.enable-comparison').parent().hide();
                     $('#datepicker-dropdown').css('min-height', "140px");
                 }
             }
