@@ -305,6 +305,7 @@
 									'<input type="number" class="daterange-preset-parameter1" />'+
 								'</span>'+
 							'</div>'+
+							'<div class="colorBox currentBox"></div>'+
 							'<input type="text" class="dr dr1 from" lastSel="0" /> - <input type="text" class="dr dr1 to" lastSel="1" />'+
                             '<input type="hidden" class="dr dr1 from_millis" lastSel="2" /><input type="hidden" class="dr dr1 to_millis" lastSel="3" />'+
 						'</div>'+
@@ -317,6 +318,7 @@
 							'</select>'+
 						'</div>'+
 						'<div class="comparison-daterange">'+
+							'<div class="colorBox comparisonBox"></div>'+
 							'<input type="text" class="dr dr2 from" lastSel="2" /> - <input type="text" class="dr dr2 to" lastSel="3" />'+
                             '<input type="hidden" class="dr dr2 from_millis" lastSel="2" /><input type="hidden" class="dr dr2 to_millis" lastSel="3" />'+
            			'</div>'+

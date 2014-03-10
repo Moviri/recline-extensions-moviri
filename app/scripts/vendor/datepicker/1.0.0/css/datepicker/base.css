@@ -68,9 +68,17 @@ div.datepicker tbody a {
 td.datepickerNotInMonth a {
   color: #666666;
 }
-tbody.datepickerDays td.datepickerSelected{
+tbody.datepickerDays td.datepickerSelected, .colorBox.currentBox {
   background: #136A9F;
 }
+.colorBox {
+  width:2px;
+  height: 19px;
+  float: left;
+  margin-right: 2px;
+  margin-left: -2px;
+}
+
 tbody.datepickerDays td.datepickerNotInMonth.datepickerSelected {
   background: #FFFFFF;
 }
@@ -81,7 +89,7 @@ tbody.datepickerMonths td.datepickerSelected{
 div.datepicker td.datepickerSelected a, div.datepicker td.datepickerSelected2 a {
   color:white;
 }
-tbody.datepickerDays td.datepickerSelected2 {
+tbody.datepickerDays td.datepickerSelected2, .colorBox.comparisonBox {
   background: #86BE2B;
 }
 tbody.datepickerDays td.datepickerSelected.datepickerSelected2 {
