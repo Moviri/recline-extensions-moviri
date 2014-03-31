@@ -240,13 +240,19 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
         if (fillEmptyValuesWith != null) {
             uniqueX = _.unique(uniqueX);
             _.each(series, function (s) {
+                // get a sample serie value with all fields already filled
+                var serieValue0 = {};
+                if (s.values && s.values.length) {
+                    serieValue0 = s.values[0];
+                }
+
                 // foreach series obtain the unique list of x
                 var tmpValues = _.unique(_.map(s.values, function (d) {
                     return d.x
                 }));
                 // foreach non present field set the value
                 _.each(_.difference(uniqueX, tmpValues), function (diff) {
-                    s.values.push({x:diff, y:fillEmptyValuesWith});
+                    s.values.push({x:diff, y:fillEmptyValuesWith, legendField: serieValue0.legendField, legendValue: serieValue0.legendValue });
                 });
 
             });
