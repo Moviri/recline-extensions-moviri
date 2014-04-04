@@ -68,11 +68,13 @@ var graphNoleggi2 = new NVD3Graph({ /*FOLD_ME*/
         graphType: 'multiBarChart',
         width: 850,
         height: 250,
+        tickFormatX: d3.time.format('%d'),
         //xLabel: 'Giorno',
         yLabel: 'Noleggi (euro)',
         options: {
             showControls: true,
-            showLegend: true
+            showLegend: true,
+            reduceXTicks: false
         }
     }
 });

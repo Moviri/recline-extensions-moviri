@@ -29,6 +29,7 @@ require.config({
     'nvd3partial': '../bower_components/nvd3-gianlucaguarini/nv.d3',
     'nv.tooltips': '../bower_components/nvd3-gianlucaguarini/src/tooltip',
     'file-saver': '../bower_components/file-saver/FileSaver'
+    //,'REM': '.'
 },
 shim: {
     'app' : { deps: [ 'jquery' ]},

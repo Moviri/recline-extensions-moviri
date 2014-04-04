@@ -67,7 +67,8 @@ var graph1 = new recline.View.NVD3Graph({
         options: {
             showControls:true,
             showLegend:false,
-            stacked:true
+            stacked:true,
+            reduceXTicks: false
         }
     }
 });

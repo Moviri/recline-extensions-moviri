@@ -462,6 +462,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             "margin":function(chart, value) {
                 chart.margin(value);
             },
+            "reduceXTicks":function(chart, value) {
+                chart.reduceXTicks(value);
+            }
         },
 
 

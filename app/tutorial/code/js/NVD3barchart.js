@@ -29,9 +29,11 @@ var graphNoleggi = new recline.View.NVD3Graph({
         height: 700,
         xLabel: 'Giorno',
         yLabel: 'Noleggi (euro)',
+        tickFormatX: d3.time.format('%d'),
         options: {
             showControls:true,
-            showLegend:true
+            showLegend:true,
+            reduceXTicks: false
         }
     }
 });
