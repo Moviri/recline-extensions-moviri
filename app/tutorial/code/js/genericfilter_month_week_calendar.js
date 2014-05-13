@@ -1,6 +1,7 @@
-require(['REM/recline-extensions/recline-extensions-amd', 'd3', 'datejs', 'REM/recline-extensions/model/filteredmodel',
+require(['REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache', 'REM/recline-extensions/nvd3', 'datejs', 'REM/recline-extensions/model/filteredmodel',
 'REM/recline-extensions/views/view.slickgrid_graph', 'REM/recline-extensions/backend/backend.jsonp', 'REM/recline-extensions/model/virtualmodel',
-    'REM/recline-extensions/views/widget.genericfilter', 'REM/recline-extensions/views/view.xcharts', 'REM/recline-extensions/views/view.indicator'], function (recline, d3) {
+    'REM/recline-extensions/views/widget.genericfilter', 'REM/recline-extensions/views/view.xcharts', 'REM/recline-extensions/views/view.indicator'
+    ], function (recline, d3, Mustache) {
 
 var recs = [];
 

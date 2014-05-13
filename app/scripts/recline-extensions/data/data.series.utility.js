@@ -186,6 +186,9 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                             var color;
 
                             var calculatedColor = doc.getFieldColor(yfield);
+                            if (!calculatedColor) {
+                            	calculatedColor = doc.getFieldColor(xfield); // fallback color if present
+                            }
 
                             if (selectionActive) {
                                 if (doc.isRecordSelected())

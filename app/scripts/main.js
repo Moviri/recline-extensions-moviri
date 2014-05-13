@@ -26,8 +26,8 @@ require.config({
 
     'async' : '../bower_components/requirejs-plugins/src/async',
 
-    'nvd3partial': '../bower_components/nvd3-gianlucaguarini/nv.d3',
-    'nv.tooltips': '../bower_components/nvd3-gianlucaguarini/src/tooltip',
+    'nvd3partial': '../bower_components/nvd3/nv.d3',
+    //'nv.tooltips': '../bower_components/nvd3/src/tooltip',
     'file-saver': '../bower_components/file-saver/FileSaver'
     //,'REM': '.'
 },
@@ -83,7 +83,7 @@ shim: {
     'nvd3partial' : { deps: [ 'REM/recline-extensions/recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
     'REM/recline-extensions/nvd3' : { deps: [ 'nvd3partial', 'd3v2' ] , exports: 'nv'},
 
-    'nv.tooltips' : { deps: ['REM/recline-extensions/nvd3'] },
+    //'nv.tooltips' : { deps: ['REM/recline-extensions/nvd3'] },
     'REM/vendor/chroma.js/chroma.min' : { exports: 'chroma'},
     'REM/vendor/datepicker/1.0.0/js/DateRangesWidget' : { deps: [ 'jquery' ] },
     'REM/vendor/datepicker/1.0.0/js/datepicker' : {

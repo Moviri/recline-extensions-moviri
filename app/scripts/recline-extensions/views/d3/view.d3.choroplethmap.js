@@ -1,4 +1,4 @@
-define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache', 'REM/vendor/topojson/topojson.v0.min', 'REM/vendor/toAscii/toAscii', 'nv.tooltips'], function ($, recline, d3v3, Mustache, topojson) {
+define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache', 'REM/vendor/topojson/topojson.v0.min', 'REM/vendor/toAscii/toAscii'/*, 'nv.tooltips'*/], function ($, recline, d3v3, Mustache, topojson) {
 
     recline.View = recline.View || {};
 
