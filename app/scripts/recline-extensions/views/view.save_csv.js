@@ -9,7 +9,6 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 		id : 'save',
 
 		initialize:function (options) {
-		
 		    this.el = $(this.el);
 		    _.bindAll(this, 'render');
 		
@@ -22,7 +21,6 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 			
 		    this.options = options;		    
 		},
-
 		updateState: function(options) {
 			this.options.visibleColumns = options.visibleColumns;
 		},
