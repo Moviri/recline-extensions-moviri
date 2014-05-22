@@ -500,6 +500,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
         initialize: function (args) {
             this.el = $(this.el);
+            this.options = args;
+            
             _.bindAll(this, 'render');
             _.bindAll(this, 'update');
             _.bindAll(this, 'getFieldType');

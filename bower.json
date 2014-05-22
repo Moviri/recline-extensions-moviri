@@ -18,9 +18,9 @@
     "requirejs": "2.1.11",
     "requirejs-plugins": "1.0.2",
     "modernizr": "2.6.3",
-    "jquery": "2.0.3",
+    "jquery": "2.1.1",
     "jquery-ui-amd": "0.0.3",
-    "backbone-amd": "1.0.0",
+    "backbone": "1.1.0",
     "underscore-amd": "1.5.2",
     "slickgrid-moviri": "2.1.0",
     "accounting": "0.3.2",
@@ -37,6 +37,9 @@
   },
   "devDependencies": {
     "codemirror": "3.13.0"
+  },
+  "resolutions": {
+    "jquery": "2.1.1"
   },
   "private": false
 }

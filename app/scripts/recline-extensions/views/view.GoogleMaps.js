@@ -9,6 +9,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
         iconaMarkerSimple: 'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1|0|{ICONCOLOR}|14|_|{TEXT}',
         iconaMarker: 'https://chart.googleapis.com/chart?chst=d_simple_text_icon_above&chld={TEXT}|14|{TEXTCOLOR}|{MARKERICON}|{ICONSIZE}|{ICONCOLOR}|404040',
         initialize:function (options) {
+            this.options = options;
             _.bindAll(this, 'render', 'redraw', 'clearAllMarkers', 'getMarkerColor', 'openInfoWindow');
             this.mapEl = document.getElementById(this.options.el);
             if (options.state.markerIcon === 'simple') {

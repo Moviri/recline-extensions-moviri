@@ -36,6 +36,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         documentClickAssigned: false,
         initialize:function (args) {
             this.el = $(this.el);
+            this.options = args;
             _.bindAll(this, 'render', 'update', 'onButtonsetClicked', 'getDropdownSelections', 'getAllSelections', 'getRecordByValue', 'handleChangedSelections', 'onDropdownSelectAll');
 
             this._sourceDataset = args.sourceDataset;

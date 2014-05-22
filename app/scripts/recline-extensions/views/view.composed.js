@@ -105,6 +105,8 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
         initialize: function (options) {
             var self = this;
+            this.options = options;
+            
             this.el = $(this.el);
             _.bindAll(this, 'render', 'redraw');
 
@@ -116,7 +118,6 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             this.model.bind('query:done', function () {
                 self.redrawSemaphore("model", self);
             });
-
 
             if (this.options.modelTotals) {
                 this.options.modelTotals.bind('change', this.render);

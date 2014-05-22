@@ -16,6 +16,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         comparedateFromChanged:false,
         comparedateToChanged:false,
         initialize:function (options) {
+            this.options = options;
             this.el = $(this.el);
             _.bindAll(this, 'render', 'redraw', 'redrawCompare', 'calculateMonday', 'calculateFirstDayOfMonth', 'calculateLastDayOfMonth');
 

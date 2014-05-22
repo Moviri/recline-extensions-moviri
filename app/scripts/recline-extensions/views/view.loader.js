@@ -24,6 +24,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache'], 
     			</div> \
     		</div>',
         initialize:function (args) {
+            this.options = args;
             _.bindAll(this, 'render', 'incLoaderCount', 'decLoaderCount', 'bindDatasets', 'bindDataset', 'bindCharts', 'bindChart');
         	this.divOver = $('<div id="__grayedOutBackground__"/>');
         	this.divOver.attr('style', args.style || this.defaultDivStyle);

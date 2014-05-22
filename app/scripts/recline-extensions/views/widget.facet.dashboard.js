@@ -20,6 +20,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
         initialize:function (options) {
             var self=this;
+            this.options = options;
             this.uid = ("facet_" + new Date().getTime() + Math.floor(Math.random() * 10000));
 
             this.el = $(this.el);

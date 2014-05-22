@@ -36,6 +36,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
         initialize:function (options) {
             var self = this;
+            this.options = options;
 
             this.uid = options.id || ("" + new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart
             this.el = $(this.el);

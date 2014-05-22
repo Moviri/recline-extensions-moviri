@@ -1,11 +1,11 @@
 require.config({
     paths: {
-    'jquery': '../bower_components/jquery/jquery',
+    'jquery': '../bower_components/jquery/dist/jquery',
     'jquery-ui': '../bower_components/jquery-ui-amd/jquery-ui-1.10.0/jqueryui/',
     'bootstrap': '../bower_components/bootstrap/docs/assets/js/bootstrap',
 
     'underscore': '../bower_components/underscore-amd/underscore',
-    'backbone': '../bower_components/backbone-amd/backbone',
+    'backbone': '../bower_components/backbone/backbone',
     'accounting' : '../bower_components/accounting/accounting',
     'mustache' :   '../bower_components/mustache/mustache',
     'd3' : '../bower_components/d3/d3',
@@ -34,6 +34,13 @@ require.config({
 shim: {
     'app' : { deps: [ 'jquery' ]},
     'jquery' : { exports: '$' },
+    'backbone': {
+        deps: [
+            'underscore',
+            'jquery'
+        ],
+        exports: 'Backbone'
+    },
     'REM/vendor/jquery-slider/js/jquery.slider.min' : { deps: ['jquery-ui/widget']},
     'bootstrap': {
         deps: [ 'jquery' ]
@@ -83,7 +90,6 @@ shim: {
     'nvd3partial' : { deps: [ 'REM/recline-extensions/recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
     'REM/recline-extensions/nvd3' : { deps: [ 'nvd3partial', 'd3v2' ] , exports: 'nv'},
 
-    //'nv.tooltips' : { deps: ['REM/recline-extensions/nvd3'] },
     'REM/vendor/chroma.js/chroma.min' : { exports: 'chroma'},
     'REM/vendor/datepicker/1.0.0/js/DateRangesWidget' : { deps: [ 'jquery' ] },
     'REM/vendor/datepicker/1.0.0/js/datepicker' : {
