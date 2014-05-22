@@ -18,7 +18,7 @@
     "requirejs": "2.1.11",
     "requirejs-plugins": "1.0.2",
     "modernizr": "2.6.3",
-    "jquery": "2.1.1",
+    "jquery": "2.0.3",
     "jquery-ui-amd": "0.0.3",
     "backbone": "1.1.0",
     "underscore-amd": "1.5.2",
@@ -39,7 +39,13 @@
     "codemirror": "3.13.0"
   },
   "resolutions": {
-    "jquery": "2.1.1"
+    "jquery": "2.0.3"
+  },
+  "generalNotesOnDependencies": {
+    "bootstrap": "versions >= 3.0 are a major change. Keeping 2.3.2",
+    "jquery": "bootstrap 2.3.2 requires jquery < 2.1.0. Keeping 2.0.3",
+    "mustache": "Version >=0.7.0 doesn't work with some templates with embedded functions. Keeping 0.6.0",
+    "backbone": "Versions > 1.1.0 are not compatible with backgrid 0.3.5 (ok, backgrid is not used here, but other projects do). Keeping 1.1.0"
   },
   "private": false
 }
