@@ -11,13 +11,10 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 		initialize:function (options) {
 		
 		    this.el = $(this.el);
-		    _.bindAll(this, 'render', 'redraw');
-		
+		    _.bindAll(this, 'render');
 		
 			this.model.bind('change', this.render);
-			this.model.fields.bind('reset', this.render);
-			this.model.fields.bind('add', this.render);
-			
+			this.model.fields.bind('reset add', this.render);
 			this.model.records.bind('reset', this.render);
 			this.model.queryState.bind('selection:done', this.render);
 			
@@ -25,14 +22,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 			
 		    this.options = options;		    
 		},
-	    
-		initialize : function(options) {
-			this.el = $(this.el);
-		},
 
 		updateState: function(options) {
-			var self = this;
-			self.options.visibleColumns = options.visibleColumns;
+			this.options.visibleColumns = options.visibleColumns;
 		},
 		render : function() {
 			 var self = this;
