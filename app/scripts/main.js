@@ -2,6 +2,7 @@ require.config({
     paths: {
     'jquery': '../bower_components/jquery/jquery',
     'jquery-ui': '../bower_components/jquery-ui-amd/jquery-ui-1.10.0/jqueryui/',
+    'bootstrap': '../bower_components/bootstrap/docs/assets/js/bootstrap',
 
     'underscore': '../bower_components/underscore-amd/underscore',
     'backbone': '../bower_components/backbone-amd/backbone',
@@ -27,25 +28,24 @@ require.config({
     'async' : '../bower_components/requirejs-plugins/src/async',
 
     'nvd3partial': '../bower_components/nvd3/nv.d3',
-    //'nv.tooltips': '../bower_components/nvd3/src/tooltip',
     'file-saver': '../bower_components/file-saver/FileSaver'
-    //,'REM': '.'
+    //,'REM': '.' // uncomment this line if you want to create a single html page copied from a tutorial example
 },
 shim: {
     'app' : { deps: [ 'jquery' ]},
     'jquery' : { exports: '$' },
     'REM/vendor/jquery-slider/js/jquery.slider.min' : { deps: ['jquery-ui/widget']},
-    'REM/vendor/bootstrap': {
+    'bootstrap': {
         deps: [ 'jquery' ]
     },
     'REM/vendor/recline/recline.min': {
-        deps: ['jquery', 'backbone', 'underscore', 'REM/vendor/bootstrap', 'mustache']
+        deps: ['jquery', 'backbone', 'underscore', 'bootstrap', 'mustache']
     },
     'REM/recline-extensions/recline-amd': {
-        deps: ['backbone', 'underscore', 'REM/vendor/bootstrap', 'mustache']
+        deps: ['backbone', 'underscore', 'bootstrap', 'mustache']
     },
     'REM/recline-extensions/model/model.extensions.all' : {
-        deps: ['REM/recline-extensions/recline-amd', 'backbone', 'underscore', 'REM/vendor/bootstrap', 'mustache']
+        deps: ['REM/recline-extensions/recline-amd', 'backbone', 'underscore', 'bootstrap', 'mustache']
     },
     'REM/recline-extensions/recline-extensions-amd' : {
         deps: [ 'REM/recline-extensions/model/model.extensions.all'],
