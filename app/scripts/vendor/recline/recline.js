@@ -4485,7 +4485,7 @@ my.SlickGrid = Backbone.View.extend({
       var $li, $input;
       for (var i = 0; i < columns.length; i++) {
         $li = $('<li />').appendTo($menu);
-        $input = $('<input type="checkbox" />').data('column-id', columns[i].id).attr('id','slick-column-vis-'+columns[i].id);
+        $input = $('<input type="checkbox" style="float:left"/>').data('column-id', columns[i].id).attr('id','slick-column-vis-'+columns[i].id);
         columnCheckboxes.push($input);
 
         if (grid.getColumnIndex(columns[i].id) !== null) {
@@ -4493,7 +4493,7 @@ my.SlickGrid = Backbone.View.extend({
         }
         $input.appendTo($li);
         $('<label />')
-            .text(columns[i].name)
+            .html(columns[i].name)
             .attr('for','slick-column-vis-'+columns[i].id)
             .appendTo($li);
       }
