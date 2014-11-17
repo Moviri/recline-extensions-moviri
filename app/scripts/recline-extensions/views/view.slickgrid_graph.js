@@ -617,6 +617,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
             //nv.utils.windowResize(resizeSlickGrid);
             this.handleRequestOfRowSelection();
 
+            self.trigger("slickgrid_graph:endRender");
+            
             return this;
         },
         handleRequestOfRowSelection:function () {
