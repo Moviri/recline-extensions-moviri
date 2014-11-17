@@ -76,10 +76,10 @@ this.recline.Backend.CSV = this.recline.Backend.CSV || {};
   // 
   // @param {String} s The string to convert
   // @param {Object} options Options for loading CSV including
-  // 	  @param {Boolean} [trim=false] If set to True leading and trailing
-  // 	    whitespace is stripped off of each non-quoted field as it is imported
-  //	  @param {String} [delimiter=','] A one-character string used to separate
-  //	    fields. It defaults to ','
+  //    @param {Boolean} [trim=false] If set to True leading and trailing
+  //      whitespace is stripped off of each non-quoted field as it is imported
+  //    @param {String} [delimiter=','] A one-character string used to separate
+  //      fields. It defaults to ','
   //    @param {String} [quotechar='"'] A one-character string used to quote
   //      fields containing special characters, such as the delimiter or
   //      quotechar, or which contain new-line characters. It defaults to '"'
@@ -1783,7 +1783,7 @@ my.Dataset = Backbone.Model.extend({
   // Resulting RecordList are used to reset this.records and are
   // also returned.
   query: function(queryObj) {
-	var self = this;
+  var self = this;
     var dfd = new Deferred();
     this.trigger('query:start');
 
@@ -1794,7 +1794,7 @@ my.Dataset = Backbone.Model.extend({
 
     this._store.query(actualQuery, this.toJSON())
       .done(function(queryResult) {
-    	self._handleQueryResult(queryResult);
+      self._handleQueryResult(queryResult);
         self.trigger('query:done');
         dfd.resolve(self.records);
       })
@@ -4485,7 +4485,7 @@ my.SlickGrid = Backbone.View.extend({
       var $li, $input;
       for (var i = 0; i < columns.length; i++) {
         $li = $('<li />').appendTo($menu);
-        $input = $('<input type="checkbox" style="float:left"/>').data('column-id', columns[i].id).attr('id','slick-column-vis-'+columns[i].id);
+        $input = $('<input type="checkbox" style="float:left" />').data('column-id', columns[i].id).attr('id','slick-column-vis-'+columns[i].id);
         columnCheckboxes.push($input);
 
         if (grid.getColumnIndex(columns[i].id) !== null) {
