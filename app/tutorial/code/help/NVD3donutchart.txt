@@ -1,0 +1,5 @@
+<h4>NVD3 Pie chart</h4>
+<p>
+This example shows a donut chart made with NVD3 framework.<br>
+It's very similar to pie chart example. The optional parameter donutRatio (valid decimale values are from 0 through 1) shrinks or enlarges the outer stripe.<br>
+</p>

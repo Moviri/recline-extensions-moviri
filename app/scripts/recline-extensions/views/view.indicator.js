@@ -151,7 +151,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         compareDisabled: false,
         initialize:function (options) {
             var self = this;
-
+            this.options = options;
             this.el = $(this.el);
             _.bindAll(this, 'render', 'disableCompare', 'enableCompare');
             this.uid = options.id || ("" + new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart

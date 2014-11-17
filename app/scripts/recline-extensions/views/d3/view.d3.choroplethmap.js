@@ -1,4 +1,4 @@
-define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache', 'REM/vendor/topojson/topojson.v0.min', 'REM/vendor/toAscii/toAscii', 'nv.tooltips'], function ($, recline, d3v3, Mustache, topojson) {
+define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustache', 'REM/vendor/topojson/topojson.v0.min', 'REM/vendor/toAscii/toAscii', 'REM/recline-extensions/nvd3'], function ($, recline, d3v3, Mustache, topojson) {
 
     recline.View = recline.View || {};
 
@@ -21,6 +21,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         },    			  
         initialize:function (options) {
             var self = this;
+            this.options = options;
 
             _.bindAll(this, 'render', 'redraw', 'getRecordByValue', 'getActionsForEvent', 'onZoomChanged', 'getLabelFor');
 

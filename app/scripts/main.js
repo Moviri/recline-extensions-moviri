@@ -2,9 +2,10 @@ require.config({
     paths: {
     'jquery': '../bower_components/jquery/jquery',
     'jquery-ui': '../bower_components/jquery-ui-amd/jquery-ui-1.10.0/jqueryui/',
+    'bootstrap': '../bower_components/bootstrap/docs/assets/js/bootstrap',
 
     'underscore': '../bower_components/underscore-amd/underscore',
-    'backbone': '../bower_components/backbone-amd/backbone',
+    'backbone': '../bower_components/backbone/backbone',
     'accounting' : '../bower_components/accounting/accounting',
     'mustache' :   '../bower_components/mustache/mustache',
     'd3' : '../bower_components/d3/d3',
@@ -26,26 +27,32 @@ require.config({
 
     'async' : '../bower_components/requirejs-plugins/src/async',
 
-    'nvd3partial': '../bower_components/nvd3-gianlucaguarini/nv.d3',
-    'nv.tooltips': '../bower_components/nvd3-gianlucaguarini/src/tooltip',
+    'nvd3partial': '../bower_components/nvd3/nv.d3',
     'file-saver': '../bower_components/file-saver/FileSaver'
-    //,'REM': '.'
+    //,'REM': '.' // uncomment this line if you want to create a single html page copied from a tutorial example
 },
 shim: {
     'app' : { deps: [ 'jquery' ]},
     'jquery' : { exports: '$' },
+    'backbone': {
+        deps: [
+            'underscore',
+            'jquery'
+        ],
+        exports: 'Backbone'
+    },
     'REM/vendor/jquery-slider/js/jquery.slider.min' : { deps: ['jquery-ui/widget']},
-    'REM/vendor/bootstrap': {
+    'bootstrap': {
         deps: [ 'jquery' ]
     },
     'REM/vendor/recline/recline.min': {
-        deps: ['jquery', 'backbone', 'underscore', 'REM/vendor/bootstrap', 'mustache']
+        deps: ['jquery', 'backbone', 'underscore', 'bootstrap', 'mustache']
     },
     'REM/recline-extensions/recline-amd': {
-        deps: ['backbone', 'underscore', 'REM/vendor/bootstrap', 'mustache']
+        deps: ['backbone', 'underscore', 'bootstrap', 'mustache']
     },
     'REM/recline-extensions/model/model.extensions.all' : {
-        deps: ['REM/recline-extensions/recline-amd', 'backbone', 'underscore', 'REM/vendor/bootstrap', 'mustache']
+        deps: ['REM/recline-extensions/recline-amd', 'backbone', 'underscore', 'bootstrap', 'mustache']
     },
     'REM/recline-extensions/recline-extensions-amd' : {
         deps: [ 'REM/recline-extensions/model/model.extensions.all'],
@@ -83,7 +90,6 @@ shim: {
     'nvd3partial' : { deps: [ 'REM/recline-extensions/recline-extensions-amd', 'd3v2' ] , exports: 'nv'},
     'REM/recline-extensions/nvd3' : { deps: [ 'nvd3partial', 'd3v2' ] , exports: 'nv'},
 
-    'nv.tooltips' : { deps: ['REM/recline-extensions/nvd3'] },
     'REM/vendor/chroma.js/chroma.min' : { exports: 'chroma'},
     'REM/vendor/datepicker/1.0.0/js/DateRangesWidget' : { deps: [ 'jquery' ] },
     'REM/vendor/datepicker/1.0.0/js/datepicker' : {

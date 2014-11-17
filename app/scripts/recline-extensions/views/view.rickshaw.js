@@ -10,7 +10,8 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
         template:'<div id="{{uid}}"> <div> ',
 
         initialize:function (options) {
-
+            this.options = options;
+            
             this.el = $(this.el);
             _.bindAll(this, 'render', 'redraw');
 
@@ -26,7 +27,6 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 
             this.uid = options.id || ("d3_" + new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart
 
-            this.options = options;
 
 
         },

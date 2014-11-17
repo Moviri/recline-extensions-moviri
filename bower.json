@@ -1,6 +1,6 @@
 {
   "name": "recline-extensions-moviri",
-  "version": "0.9.15-beta",
+  "version": "0.9.19",
   "main": "main",
   "ignore": [
     "docs",
@@ -13,30 +13,39 @@
     "**/.*"
   ],
   "dependencies": {
-    "sass-bootstrap": "~2.3.0",
-    "requirejs": "~2.1.4",
-    "modernizr": "~2.6.2",
-    "jquery": "~2.0.2",
-    "jquery-ui-amd":"~0.0.3",
-    "backbone-amd": "1.0.0",
-    "underscore-amd": "~1.5.1",
-    "requirejs": "~2.1.6",
+    "bootstrap": "2.3.2",
+    "sass-bootstrap": "2.3.2",
+    "requirejs": "2.1.11",
+    "requirejs-plugins": "1.0.2",
+    "modernizr": "2.6.3",
+    "jquery": "2.0.3",
+    "jquery-ui-amd": "0.0.3",
+    "backbone": "1.1.0",
+    "underscore-amd": "1.5.2",
     "slickgrid-moviri": "2.1.0",
     "accounting": "0.3.2",
-    "mustache": "<0.7.0",
-    "crossfilter": "~1.3.5",
-    "d3": "d3#~3.3.6",
+    "mustache": "0.6.0",
+    "crossfilter": "1.3.7",
+    "d3": "d3#3.3.13",
     "d3amd": "d3-amd#2.10.3-amd",
-    "nvd3-gianlucaguarini":"~1.1.0-beta",
-    "datejs":"",
-    "chroma-js":"~0.5.3",
-    "rickshaw":"~1.4.4",
-    "d3cloud":"~1.0.1",
-    "requirejs-plugins":"~1.0",
-    "file-saver":""
+    "nvd3": "1.1.15-beta",
+    "datejs": "",
+    "chroma-js": "0.5.6",
+    "rickshaw": "1.4.6",
+    "d3cloud": "1.0.1",
+    "file-saver": ""
   },
   "devDependencies": {
-   "codemirror": "3.13.0"
+    "codemirror": "3.13.0"
+  },
+  "resolutions": {
+    "jquery": "2.0.3"
+  },
+  "generalNotesOnDependencies": {
+    "bootstrap": "versions >= 3.0 are a major change. Keeping 2.3.2",
+    "jquery": "bootstrap 2.3.2 requires jquery < 2.1.0. Keeping 2.0.3",
+    "mustache": "Version >=0.7.0 doesn't work with some templates with embedded functions. Keeping 0.6.0",
+    "backbone": "Versions > 1.1.0 are not compatible with backgrid 0.3.5 (ok, backgrid is not used here, but other projects do). Keeping 1.1.0"
   },
   "private": false
 }

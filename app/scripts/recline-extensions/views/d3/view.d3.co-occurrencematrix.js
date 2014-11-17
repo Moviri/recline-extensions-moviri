@@ -21,6 +21,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         rendered:false,
         initialize:function (options) {
             var self = this;
+            this.options = options;
 
             _.bindAll(this, 'render', 'redraw', 'computeData');
 

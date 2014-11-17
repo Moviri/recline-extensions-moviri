@@ -220,6 +220,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3v2', 'must
             		});
             	});
             }           
+            this.options = options;
             
             this.clickActions = clickActions;
             this.hoverActions = hoverActions; 

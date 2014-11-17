@@ -10,6 +10,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache']
 
         initialize:function (options) {
             var self = this;
+            this.options = options;
 
             this.el = $(this.el);
             _.bindAll(this, 'render', 'redraw');

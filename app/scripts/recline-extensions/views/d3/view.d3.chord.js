@@ -12,6 +12,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         initialize: function (options) {
 
             this.el = $(this.el);
+            this.options = options;
             _.bindAll(this, 'render', 'redraw');
 
             this.model.bind('change', this.render);

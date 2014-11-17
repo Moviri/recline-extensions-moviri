@@ -1,6 +1,6 @@
 define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
     'jquery-ui/sortable',  'REM/vendor/jquery.event.drag-2.2', 'REM/vendor/jquery-migrate-1.2.1.min',
-    'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/slick.formatters', 
+    'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/slick.formatters',
     'slickgrid/slick.cellrangeselector', 'slickgrid/slick.cellselectionmodel', 'slickgrid/slick.rowselectionmodel',
      ],
      function(Backbone, recline) {
@@ -17,8 +17,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
     var my = recline.View;
 
     my.SlickGridGraph = Backbone.View.extend({
-        initialize:function (modelEtc) {
-            var self = this;
+        initialize:function (options) {
+            this.options = options;
             this.el = $(this.el);
             this.discardSelectionEvents = false;
             this.el.addClass('recline-slickgrid');
@@ -26,10 +26,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
             _.bindAll(this, 'onSelectionChanged');
             _.bindAll(this, 'handleRequestOfRowSelection');
 
-            this.resultType = "filtered";
-            if (self.options.resultType !== null)
-                this.resultType = self.options.resultType;
-
+            this.resultType = 'filtered';
+            if (this.options.resultType !== null) {
+                this.resultType = this.options.resultType;
+            }
 
             this.model.records.bind('add', this.render);
             this.model.records.bind('reset', this.render);
@@ -43,7 +43,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                     columnsSort:{},
                     columnsWidth:[],
                     fitColumns:false
-                }, modelEtc.state
+                }, options.state
             );
             this.state = new recline.Model.ObjectState(state);
         },

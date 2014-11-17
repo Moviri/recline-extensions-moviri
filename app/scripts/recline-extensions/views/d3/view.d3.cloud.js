@@ -10,6 +10,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         template: '<div id="{{uid}}" style="width: {{width}}px; height: {{height}}px;"></div>',
 		defaultFontRange: [20, 100],
         initialize: function (options) {
+            this.options = options;
 
             this.el = $(this.el);
             _.bindAll(this, 'render', 'redraw', 'drawD3');

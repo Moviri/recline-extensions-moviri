@@ -36,6 +36,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
         initialize:function (options) {
             var self = this;
+            this.options = options;
 
             this.uid = options.id || ("" + new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart
             this.el = $(this.el);
@@ -57,6 +58,24 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             if (this.options.state && this.options.state.loader)
                 this.options.state.loader.bindChart(this);
+
+            // change defaultColors() function inside nvd3 to ensure color schemas works also on pieCharts
+            if (nv && nv.utils) {
+            	nv.utils.defaultColor = function () {
+				    var colors = d3.scale.category20().range();
+				    return function(d, i) {
+				    	if (d.color) {
+				    		return d.color;
+				    	}
+				    	else if (d.data && d.data.color) {
+				    		return d.data.color;
+				    	}
+				    	else {
+				    		return colors[i % colors.length];
+				    	}
+				    };
+				} 
+            }
         },
 
         changeDimensions: function() {
@@ -295,7 +314,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     });
                 };
                 var dataToUse = seriesNVD3;
-                if (graphType == "pieChart") {
+                if (graphType == "pieChart" || graphType == "donutChart") {
                     dataToUse = seriesNVD3[0].values;
                     _.each(dataToUse, function(d) {
                         d.record = d.record.toJSON(); // convert to a plain JSON or nvd3 crashes
@@ -836,7 +855,35 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     });
                 }
                 return chart;
+            },
+            "donutChart":function (view) {
+                var chart;
+                var donutRatio = 0.5;
+            	if (view.state.attributes.donutRatio) {
+            		donutRatio = view.state.attributes.donutRatio;
+            	}
+
+                if (view.chart != null)
+                    chart = view.chart;
+                else chart = nv.models.pieChart().showLabels(true).donut(true).donutLabelsOutside(true).donutRatio(donutRatio);
+
+                var actions = view.getActionsForEvent("selection");
+                if (actions.length > 0)
+                {
+                    chart.pie.dispatch.on('elementClick', function (e) {
+                        view.doActions(actions, [e.point.record]);
+                    });
+                }
+                var actionsH = view.getActionsForEvent("hover");
+                if (actionsH.length > 0)
+                {
+                    chart.pie.dispatch.on('elementMouseover', function (e) {
+                        view.doActions(actionsH, [e.point.record]);
+                    });
+                }
+                return chart;
             }
+
 
         },
         getGraphModel: function(self, graphType) {
@@ -861,6 +908,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             case "stackedAreaChart":
                 return self.chart.stacked;
             case "pieChart":
+            case "donutChart":
                 return self.chart.pie;
             case "discreteBarChart":
                 return self.chart.discretebar;
