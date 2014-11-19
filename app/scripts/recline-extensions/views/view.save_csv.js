@@ -32,6 +32,8 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 
 				var records = self.model.records;
 
+				var formatters = self.options.formatters;
+
 				// parse records of dataset and fill the array
 				var header = []
 				_.each(self.options.visibleColumns,
@@ -57,7 +59,13 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 				_.each(records.models, function(record) {
 					var r = [];
 					_.each(self.options.visibleColumns, function(attribute) {
-						r.push(record.getFieldValueUnrendered(record.fields.get(attribute))); // str.replace(str.match('<[^>]*>'),'').replace(str.match('</[^>]*>'),'')
+						if (formatters && formatters[attribute]){
+							var formatter = formatters[attribute];
+							r.push(formatter(record.getFieldValueUnrendered(record.fields.get(attribute)))); 
+						} else {
+							r.push(record.getFieldValueUnrendered(record.fields.get(attribute))); // str.replace(str.match('<[^>]*>'),'').replace(str.match('</[^>]*>'),'')	
+						}
+						
 					});
 					res.push(r);
 				});
