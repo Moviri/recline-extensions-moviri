@@ -29,6 +29,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             'click button.select-all-button' : 'onDropdownSelectAll' 
         },
         DUPE_KEY_SUFFIX: '_$%_',
+        GENERIC_GROUP_NAME: "##GENERIC##",
+        GENERIC_GROUP_DROPDOWN_LABEL: "Others",
+        useExtraDropdownForGenericValues: false,
         _sourceDataset:null,
         _selectedClassName:"btn-primary", // use bootstrap ready-for-use classes to highlight list item selection (avail classes are success, warning, info & error)
         _partlySelectedClassName:"btn-info",
@@ -57,6 +60,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             this.tooltipValueSeparator = args.tooltipValueSeparator;
             this.tooltipButtonLabelField = args.tooltipButtonLabelField;
             this.tooltipButtonDescriptionField = args.tooltipButtonDescriptionField;
+            this.maxButtonsThreshold = args.maxButtonsThreshold || -1;
+            this.maxItemsInExtraDropDown = args.maxItemsInExtraDropDown || 1000000;
             if (this._sourceDataset) {
                 this._sourceDataset.bind('query:done', this.render);
                 this._sourceDataset.queryState.bind('selection:done', this.update);
@@ -85,18 +90,67 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     }
                 });
             }
-            
-            self.buttonsData = {};
             var records = self._sourceDataset.getRecords();
+
+            var field = this._sourceDataset.fields.get(this.sourceField.field);
+            var extraDropdownLabels = [];
+            if(field) {
+                var fieldId = field.get("id")
+
+                // sort all values or they will not be sorted in extraDropdowns
+                records = _.sortBy(records, function(obj) {
+                    return obj.get(fieldId);
+                });
+
+                if (this.maxButtonsThreshold > 0 && records.length > 0) {
+                    // perform prescan of all records to count total number of top-level buttons
+                    var grouped = _.groupBy(records, function(rec) {
+                        var value = rec.get(fieldId);
+                        if (value) {
+                            if (value.indexOf(self.separator) < 0) {
+                                return self.GENERIC_GROUP_NAME;
+                            }
+                            else {
+                                return value.split(self.separator)[0];
+                            }
+                        }
+                    });
+                    if (grouped && grouped[ self.GENERIC_GROUP_NAME] && grouped[ self.GENERIC_GROUP_NAME].length > this.maxButtonsThreshold) {
+                        this.useExtraDropdownForGenericValues = true;
+                        var allGroupedGenericValues = _.map(grouped[ self.GENERIC_GROUP_NAME], function(obj) {
+                            return obj.get(fieldId);
+                        });
+                        var totExtraDropdowns = Math.floor(allGroupedGenericValues.length / self.maxItemsInExtraDropDown) + 1;
+                        for (var idx = 0; idx < totExtraDropdowns; idx ++) {
+                            var firstLetter;
+                            var lastLetter;
+                            if (idx === 0) {
+                                firstLetter = "A";
+                            }
+                            else {
+                                firstLetter = records[idx * self.maxItemsInExtraDropDown].get(fieldId)[0];
+                            }
+                            if (idx === totExtraDropdowns - 1) {
+                                lastLetter = "Z";
+                            }
+                            else {
+                                lastLetter = records[(idx + 1) * self.maxItemsInExtraDropDown - 1].get(fieldId)[0];
+                            }
+                            extraDropdownLabels.push(self.GENERIC_GROUP_DROPDOWN_LABEL + " "+firstLetter+"-"+lastLetter);
+                        }
+                    }
+                }
+            }
+            else if (this._sourceDataset.fields.length) {
+                throw "widget.multibutton_dropdown_filter: unable to find field ["+this.sourceField.field+"] in dataset";
+            }
+
+            self.buttonsData = {};
             tmplData.allButtonSelected = (records && self.sourceField.list && records.length == self.sourceField.list.length && !self.noAllButton);
             
+            var totItemsInExtraDropdown = 0;
             var alreadyInsertedValues = [];
             _.each(records, function(record, index) {
-                var field = self._sourceDataset.fields.get(self.sourceField.field);
-                if(!field) {
-                    throw "widget.multibutton_dropdown_filter: unable to find field ["+self.sourceField.field+"] in dataset";
-                }
-
                 var fullLevelValue = record.getFieldValue(field);
                 var valueUnrendered = record.getFieldValueUnrendered(field);
                 
@@ -111,7 +165,6 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 if (self.tooltipButtonDescriptionField){
                     descLabel = record.getFieldValue(self._sourceDataset.fields.get(self.tooltipButtonDescriptionField));
                 } 
-                
                 if (!_.contains(alreadyInsertedValues, fullLevelValue))
                 {
                     if (self.separator && fullLevelValue.indexOf(self.separator) > 0)
@@ -132,6 +185,23 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                             self.buttonsData[levelValues[0]] = { self: self, options: [{fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
                         }
                     }
+                    else if (self.useExtraDropdownForGenericValues && valueUnrendered != self.exclusiveButtonValue) {
+                        // Must create dropdown "Others" or "Others 2" or "Others 3" (and so on) to ensure each extraDropdown has at most maxItemsInExtraDropDown items
+                        var currDropdownKey = self.GENERIC_GROUP_DROPDOWN_LABEL;
+                        var extraDropdownIndex = 1 + Math.floor(totItemsInExtraDropdown / self.maxItemsInExtraDropDown);
+                        if (extraDropdownIndex > 1) {
+                            currDropdownKey = currDropdownKey + " " + extraDropdownIndex;
+                        }
+                        if (self.buttonsData[currDropdownKey] && self.buttonsData[currDropdownKey].options) {
+                            self.buttonsData[currDropdownKey].options.push({fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
+                        }
+                        else {
+                            self.buttonsData[currDropdownKey] = { self: self, genericExtraGroup: extraDropdownIndex, options: [{fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
+                        }
+                        // contruct a button label like "Others A-Z", depending on contained items
+                        self.buttonsData[currDropdownKey]._buttonLabel = self.GENERIC_GROUP_DROPDOWN_LABEL + " " + self.buttonsData[currDropdownKey].options[0].fullValue[0] + "-" + self.buttonsData[currDropdownKey].options[totItemsInExtraDropdown % self.maxItemsInExtraDropDown].fullValue[0];
+                        totItemsInExtraDropdown++;
+                    }
                     else
                     {
                         self.buttonsData[valueUnrendered] = { value: fullLevelValue, valueUnrendered: valueUnrendered, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, valueUnrendered), self: self, index: indexLabel, descLabel: descLabel };
@@ -140,8 +210,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 }
             });
             self.allValues = alreadyInsertedValues;
-            
-            tmplData.buttonsData = _.map(self.buttonsData, function(obj, key){ return obj; }); // transform to array
+
+             // transform to array
+            tmplData.buttonsData = _.map(self.buttonsData, function(obj, key){
+                obj.__mainKey = key;
+                return obj; 
+            });
             
             _.each(tmplData.buttonsData, function(tbd) {
                 if (tbd.options) {
@@ -153,15 +227,26 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             
             // ensure buttons with multiple options are moved to the end of the control toolbar to safeguard look & feel  
             tmplData.buttonsData = _.sortBy(tmplData.buttonsData, function(obj) { 
-                if (obj.options) 
-                    return 1; 
+                if (obj.options) {
+                    if (obj.genericExtraGroup) {
+                        return 1+obj.genericExtraGroup;
+                    }
+                    else {
+                        return 1;
+                    }
+                }
                 else
                 {
                     if (self.exclusiveButtonValue && self.exclusiveButtonValue == obj.valueUnrendered) // if ALL button present, put to the extreme left
                         return -1;
                     else return 0;
                 }
-            }); 
+            });
+            // ensure self.buttonsData is aligned too!
+            _.each(tmplData.buttonsData, function(obj, index) {
+                self.buttonsData[obj.__mainKey].orderId = index;
+            })
+
             tmplData.buttonRender = self.buttonRender;
 
             var out = Mustache.render(this.template, tmplData);
@@ -265,18 +350,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 }
             };
 
-            var lastKey;
-            var firstKey = null;
+            var totButtonData = _.keys(self.buttonsData).length;
+            var lastObj = _.find(self.buttonsData, function(obj, key) { return obj.orderId === totButtonData - 1;});
+            var lastKey = (lastObj ? lastObj.__mainKey : undefined);
+            var firstObj = _.find(self.buttonsData, function(obj, key) { return obj.orderId === 0;});
+            var firstKey =  (firstObj ? firstObj.__mainKey : undefined);
             var key;
-            for (key in self.buttonsData) {
-                if (firstKey == null)
-                    firstKey = key;
-                
-                if (self.buttonsData[key].options)
-                    lastKey = key;
-            }
-            var k = 0;
-            var tot = 0;
+            
             self.multiSelects = [];
             var totMultiselect = 0;
             var totButtons = 0;
@@ -290,9 +370,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     totButtons++;
                 }
             }
-            for (key in self.buttonsData)
+            var k = 0; // index of current dropdown
+            var jj = 0; // index of current extra dropdown
+            for (var orderId = 0 ; orderId < totButtonData; orderId++)
             {
-                if (self.buttonsData[key].options)
+                var currObj = _.find(self.buttonsData, function(obj, key) { return obj.orderId === orderId;});
+                key = currObj.__mainKey;
+                if (self.buttonsData[key] && self.buttonsData[key].options)
                 {
                     var offset = 0;
                     if (self.columnWidth && self.numColumns) {
@@ -309,8 +393,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                             offset = - (self.multiSelects.length)/totMultiselect * max;
                         }
                     }
+                    var mainValue = key;
+                    if (self.useExtraDropdownForGenericValues && key.indexOf(self.GENERIC_GROUP_DROPDOWN_LABEL) == 0 && jj < extraDropdownLabels.length) {
+                        mainValue = extraDropdownLabels[jj];
+                        jj++;
+                    }
                     var multiselect = self.$el.find('#dropdown' + self.uid + '_' + k).multiselect({
-                                                                                    mainValue:key,
+                                                                                    mainValue: mainValue,
                                                                                     buttonClass:'btn btn-mini'+(key == lastKey ? ' btn-last' : ''),
                                                                                     buttonClassFirst:'btn btn-mini'+(key == firstKey ? ' btn-first' : ''),
                                                                                     buttonText:buttonText, 
@@ -335,7 +424,6 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     self.multiSelects.push(multiselect);
                     k++;
                 }
-                tot++;
             }
         },
         buttonRender: function() {
@@ -604,6 +692,23 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     var correctOpt = _.find(self.buttonsData[levelValues[0]].options, function (opt) { return opt.fullValue == val; }); 
                     if (correctOpt)
                         return correctOpt.record; 
+                }
+            }
+            if (self.useExtraDropdownForGenericValues) {
+                if (self.buttonsData[self.GENERIC_GROUP_DROPDOWN_LABEL]) {
+                    var correctOpt = _.find(self.buttonsData[self.GENERIC_GROUP_DROPDOWN_LABEL].options, function (opt) { return opt.fullValue == val; }); 
+                    if (correctOpt) {
+                        return correctOpt.record;
+                    }
+                }
+                for (var k = 0; k < 10; k++) {
+                    var currDropdownKey = self.GENERIC_GROUP_DROPDOWN_LABEL + " " + k;
+                    if (self.buttonsData[currDropdownKey]) {
+                        var correctOpt = _.find(self.buttonsData[currDropdownKey].options, function (opt) { return opt.fullValue == val; }); 
+                        if (correctOpt) {
+                            return correctOpt.record;
+                        }
+                    }
                 }
             }
             return null;
