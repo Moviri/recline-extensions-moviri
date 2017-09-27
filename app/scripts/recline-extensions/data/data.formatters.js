@@ -116,14 +116,25 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
         },
         integer: function(val, field, doc) {
             var format = field.get('format');
+            if (_.isFunction(format)) {
+                format = format();
+            }
             if(format === "currency_euro") {
-               // return "€ " + val;
             	return accounting.formatMoney(val, { symbol: "€",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }); // �4,999.99
+            }           
+            else if(format === "currency_southkorea") {
+                return accounting.formatMoney(val, { symbol: "₩",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }); // �4,999.99
+            }           
+            else if(format === "currency_southkorea1K") {
+                return accounting.formatMoney(val, { symbol: "k₩",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }); // �4,999.99
             }           
             return accounting.formatNumber(val, 0, ",");
         },
         date: function(val, field, doc) {
             var format = field.get('format');
+            if (_.isFunction(format)) {
+                format = format();
+            }
             if(format == null || format == "date"){
             	return val;
             } else if(format === "localeTimeString") {
@@ -138,6 +149,9 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
         },
         number: function(val, field, doc) {
             var format = field.get('format');
+            if (_.isFunction(format)) {
+                format = format();
+            }
             
             if (format === 'percentage') {
                 try {
@@ -161,18 +175,48 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
             } else if(format === "currency_euro") {
                 try {
                     return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">€</small>'; 
-                 
-                     
-            		
-                    // return "€ " + parseFloat(val.toFixed(2));
                 } catch(err) {
                     return "-";
                 }
             } else if(format === "currency_euro_decimal") {
                 try {
                 	return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">€</small>';
-                    
-                    // return "€ " + parseFloat(val.toFixed(2));
+                } catch(err) {
+                    return "-";
+                }
+            } else if(format === "currency_usd") {
+                try {
+                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">$</small>'; 
+                } catch(err) {
+                    return "-";
+                }
+            } else if(format === "currency_usd_decimal") {
+                try {
+                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">$</small>';
+                } catch(err) {
+                    return "-";
+                }
+            } else if(format === "currency_skw") {
+                try {
+                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">₩</small>'; 
+                } catch(err) {
+                    return "-";
+                }
+            } else if(format === "currency_skw_decimal") {
+                try {
+                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">₩</small>';
+                } catch(err) {
+                    return "-";
+                }
+            } else if(format === "currency_skw1k") {
+                try {
+                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">k₩</small>'; 
+                } catch(err) {
+                    return "-";
+                }
+            } else if(format === "currency_skw1k_decimal") {
+                try {
+                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">k₩</small>';
                 } catch(err) {
                     return "-";
                 }
@@ -208,6 +252,9 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
         },
         string: function(val, field, doc) {
             var format = field.get('format');
+            if (_.isFunction(format)) {
+                format = format();
+            }
             if (format === 'markdown') {
                 if (typeof Showdown !== 'undefined') {
                     var showdown = new Showdown.converter();
