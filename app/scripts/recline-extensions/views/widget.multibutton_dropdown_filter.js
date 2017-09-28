@@ -10,7 +10,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         template: '<div class="btn-toolbar"> \
                         <div class="btn-group data-control-id"> \
                         {{^noAllButton}} \
-                            <button type="button" class="btn btn-mini grouped-button AllButton {{allButtonSelected}}" val="All">All</button> \
+                            <button type="button" class="btn btn-mini grouped-button AllButton {{allButtonSelectedClass}}" val="All">All</button> \
                         {{/noAllButton}} \
                         {{#buttonsData}} \
                             {{{buttonRender}}} \
@@ -50,7 +50,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             this.nullSelectionNotAllowed = args.nullSelectionNotAllowed;
             this._actions = args.actions;
             this.noAllButton = args.sourceField.noAllButton || false;
-            this.exclusiveButtonValue = args.sourceField.exclusiveButtonValue || (!this.noAllButton ? "All" : undefined);
+            this.allButtonRemovesFilter = args.sourceField.allButtonRemovesFilter || false;
+            this.exclusiveButtonValue = args.sourceField.exclusiveButtonValue || (!this.noAllButton && !this.allButtonRemovesFilter ? "All" : undefined);
             this.separator = this.sourceField.separator;
             this.numColumns = args.numColumns;
             this.columnWidth = args.columnWidth;
@@ -146,7 +147,14 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             }
 
             self.buttonsData = {};
-            tmplData.allButtonSelected = (records && self.sourceField.list && records.length == self.sourceField.list.length && !self.noAllButton);
+            var allButtonSelected;
+            if (!this.allButtonRemovesFilter) {
+                allButtonSelected = (records && self.sourceField.list && records.length == self.sourceField.list.length && !self.noAllButton);
+            }
+            else {
+                allButtonSelected = (!self.sourceField.list || self.sourceField.list.length == 0 || (self.sourceField.list.length == 1 && self.sourceField.list[0] === "_ALL_") && !self.noAllButton);   
+            }
+            tmplData.allButtonSelectedClass = (allButtonSelected ? this._selectedClassName : "")
             
             var totItemsInExtraDropdown = 0;
             var alreadyInsertedValues = [];
@@ -175,14 +183,14 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                             levelValues[1] = levelValues.slice(1).join(self.separator);
                         }
                         if (self.buttonsData[levelValues[0]] && self.buttonsData[levelValues[0]].options)
-                            self.buttonsData[levelValues[0]].options.push({fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
+                            self.buttonsData[levelValues[0]].options.push({fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
                         else {
                             // handle special case in which it exists both CALLER_PIPPO and CALLER_PIPPO.SUB1 and they must be SEPARATE callers
                             if (self.buttonsData[levelValues[0]] && !self.buttonsData[levelValues[0]].options) {
                                 // a BUTTON (not dropdown) already exists with this name. Move it to a different key
                                 self.buttonsData[levelValues[0]+self.DUPE_KEY_SUFFIX] = self.buttonsData[levelValues[0]];
                             }
-                            self.buttonsData[levelValues[0]] = { self: self, options: [{fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
+                            self.buttonsData[levelValues[0]] = { self: self, options: [{fullValue: fullLevelValue, value: levelValues[1], record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
                         }
                     }
                     else if (self.useExtraDropdownForGenericValues && valueUnrendered != self.exclusiveButtonValue) {
@@ -193,10 +201,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                             currDropdownKey = currDropdownKey + " " + extraDropdownIndex;
                         }
                         if (self.buttonsData[currDropdownKey] && self.buttonsData[currDropdownKey].options) {
-                            self.buttonsData[currDropdownKey].options.push({fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
+                            self.buttonsData[currDropdownKey].options.push({fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
                         }
                         else {
-                            self.buttonsData[currDropdownKey] = { self: self, genericExtraGroup: extraDropdownIndex, options: [{fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
+                            self.buttonsData[currDropdownKey] = { self: self, genericExtraGroup: extraDropdownIndex, options: [{fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
                         }
                         // contruct a button label like "Others A-Z", depending on contained items
                         self.buttonsData[currDropdownKey]._buttonLabel = self.GENERIC_GROUP_DROPDOWN_LABEL + " " + self.buttonsData[currDropdownKey].options[0].fullValue[0] + "-" + self.buttonsData[currDropdownKey].options[totItemsInExtraDropdown % self.maxItemsInExtraDropDown].fullValue[0];
@@ -204,7 +212,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     }
                     else
                     {
-                        self.buttonsData[valueUnrendered] = { value: fullLevelValue, valueUnrendered: valueUnrendered, record: record, selected: !tmplData.allButtonSelected && _.contains(self.sourceField.list, valueUnrendered), self: self, index: indexLabel, descLabel: descLabel };
+                        self.buttonsData[valueUnrendered] = { value: fullLevelValue, valueUnrendered: valueUnrendered, record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, valueUnrendered), self: self, index: indexLabel, descLabel: descLabel };
                     }
                     alreadyInsertedValues.push(fullLevelValue);
                 }
@@ -401,7 +409,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     var multiselect = self.$el.find('#dropdown' + self.uid + '_' + k).multiselect({
                                                                                     mainValue: mainValue,
                                                                                     buttonClass:'btn btn-mini'+(key == lastKey ? ' btn-last' : ''),
-                                                                                    buttonClassFirst:'btn btn-mini'+(key == firstKey ? ' btn-first' : ''),
+                                                                                    buttonClassFirst:'btn btn-mini'+(key == firstKey && self.noAllButton ? ' btn-first' : ''),
                                                                                     buttonText:buttonText, 
                                                                                     onChange: onChange,
                                                                                     numColumns: self.numColumns,
@@ -490,10 +498,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var valueList = this.computeUserChoices(self.sourceField);
             
             var records = self._sourceDataset.getRecords();
-            if (records && self.sourceField.list && records.length == self.sourceField.list.length && !self.noAllButton)
+            if (records && self.sourceField.list && records.length == self.sourceField.list.length && !self.noAllButton && !self.allButtonRemovesFilter)
             {
                 // just select button "All"
                 self.el.find('div.btn-toolbar button.AllButton').addClass(self._selectedClassName);
+            }
+            else if (records && self.sourceField.list && records.length && self.allButtonRemovesFilter && self.sourceField.list.length == 0) {
+                // do nothing 
             }
             else
             {
@@ -516,12 +527,16 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 _.each(self.multiSelects, function ($select) {
                     var totOptions = $select.find("option");
                     _.each(totOptions, function(opt) {
-                        if (!_.contains(valueList, $(opt).val()))
+                        var currOptVal = $(opt).val();
+                        if (currOptVal == "All") {
+                            currOptVal = "_ALL_"
+                        }
+                        if (!_.contains(valueList, currOptVal))
                             $(opt).removeAttr("selected");
                         else 
                         {
                             $(opt).attr("selected", "selected");
-                            valueList = _.without(valueList, $(opt).val());
+                            valueList = _.without(valueList, currOptVal);
                         }
                         // update selection of drop-down buttons
                         var multiselectContainer = $select.data('multiselect').container;
@@ -553,9 +568,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var self = this;
             e.preventDefault();
             var $target = $(e.currentTarget);
-            if (!$target.hasClass(self._selectedClassName) && self.exclusiveButtonValue)
+            if (!$target.hasClass(self._selectedClassName) && (self.exclusiveButtonValue || self.allButtonRemovesFilter))
             {
-                if (self.exclusiveButtonValue == $target.attr("val"))
+                if (self.exclusiveButtonValue == $target.attr("val") ||
+                    self.allButtonRemovesFilter && $target.attr("val") == "All")
                 {
                     // pressed ALL button. Deselect everything else
                     // 1: deselect all non-dropdown buttons
@@ -590,7 +606,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             
             $target.toggleClass(self._selectedClassName);
             var listaValori = this.getAllSelections();
-            if (this.nullSelectionNotAllowed && !listaValori.length) {
+            if (this.nullSelectionNotAllowed && !this.allButtonRemovesFilter && !listaValori.length ) {
                 $target.toggleClass(self._selectedClassName);
             }
             else {
@@ -638,8 +654,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             // close all open menus
             $("div.btn-toolbar .btngroup-multiselect.open").removeClass("open");
             
-            if (deselectExclusiveButton)
+            if (deselectExclusiveButton) {
                 self.el.find("div.btn-toolbar button.grouped-button[val='"+self.exclusiveButtonValue+"']").removeClass(self._selectedClassName);
+                if (self.allButtonRemovesFilter) {
+                    self.el.find("div.btn-toolbar button.grouped-button[val='All']").removeClass(self._selectedClassName);
+                }
+            }
                         
             var listaValori = this.getAllSelections();
             
@@ -672,10 +692,17 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 if (!$(this).hasClass("dropdown-toggle"))
                     listaValori.push($(this).attr('val').valueOf()); // in case there's a date, convert it with valueOf
             });
-            if (listaValori.length == 1 && listaValori[0] == "All")
-                listaValori = this.allValues;
-            else listaValori = listaValori.concat(this.getDropdownSelections());
-            
+            var $allButton = this.el.find("div.btn-toolbar button.grouped-button[val='All']");
+            if (!this.allButtonRemovesFilter || !$allButton.hasClass(this._selectedClassName)) {
+                if (listaValori.length == 1 && listaValori[0] == "All")
+                    listaValori = this.allValues;
+                else 
+                    listaValori = listaValori.concat(this.getDropdownSelections());
+            }
+            else {
+                if (listaValori.length == 1 && listaValori[0] == "All")
+                    listaValori = [];
+            }          
             return listaValori;
         },
         getRecordByValue:function(val) {
