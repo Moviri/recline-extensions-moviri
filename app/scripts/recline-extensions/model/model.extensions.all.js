@@ -438,8 +438,8 @@ define(['REM/recline-extensions/recline-amd', 'jquery', 'REM/recline-extensions/
 
                 var modified = false;
                 // add possibility to modify filter externally before execution
-                _.each(self.attributes.customFilterLogic, function (f) {
-                    f(actualQuery);
+                _.each(self.attributes.customFilterLogic, function (f, obj) {
+                    f(actualQuery, self);
                     modified = true;
                 });
 

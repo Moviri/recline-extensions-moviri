@@ -57,8 +57,8 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
             var queryObj = this.queryState.toJSON();
 
-            _.each(self.attributes.customFilterLogic, function (f) {
-                f(queryObj);
+            _.each(self.attributes.customFilterLogic, function (f, ds) {
+                f(queryObj, self);
             });
 
 
