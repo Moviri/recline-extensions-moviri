@@ -83,6 +83,11 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
             if (defaultSelection && selections && selections.length === 0) {
                 selections = [defaultSelection];
             }
+            if (self.get("remove_ALL_fromSelection") === true && selections && selections.length) {
+                selections = _.filter(selections, function(currObj) {
+                    return !_.isEqual(currObj.list, ["_ALL_"]);
+                });
+            }
 
             filters = _.map(filters, function(f) {
                 return self.mappingField(f, field, self.attributes.mappingField); });
@@ -100,9 +105,16 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
         var resObj;
         if (res) {
             resObj = JSON.parse(res);
-            if (self.get("remove_ALL_fromSelection") === true && resObj.selections && resObj.selections.type == "list") {
-                resObj.selections.list = _.without(resObj.selections.list, "_ALL_");
+            if (self.get("remove_ALL_fromSelection") === true && resObj.selections && resObj.selections.length) {
+                resObj.selections = _.filter(resObj.selections, function(currObj) {
+                    return !_.isEqual(currObj.list, ["_ALL_"]);
+                });
             }
+            var defaultSelection = self.get("defaultSelectionIfNoSelection");
+            if (defaultSelection && resObj.selections && resObj.selections.length === 0) {
+                resObj.selections = [defaultSelection];
+            }
+
             return resObj;
         }
         else if (this.State.arguments && this.State.arguments.length && this.State.arguments[0].defaultValue)
