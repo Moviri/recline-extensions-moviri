@@ -606,12 +606,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             
             $target.toggleClass(self._selectedClassName);
             var listaValori = this.getAllSelections();
-            if (this.nullSelectionNotAllowed && !this.allButtonRemovesFilter && !listaValori.length ) {
-                $target.toggleClass(self._selectedClassName);
+            if (this.nullSelectionNotAllowed && !listaValori.length ) {
+                $target.addClass(self._selectedClassName);
             }
-            else {
-                this.handleChangedSelections();
-            }
+            this.handleChangedSelections();
         },
         
         onDropdownSelectAll: function(e) {
