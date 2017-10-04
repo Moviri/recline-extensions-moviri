@@ -29,7 +29,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
             if (this.attributes.defaultValue)
             	this.defaultValue = this.attributes.defaultValue;
 
-            var state = my.StateManagement.getState(self.attributes.stateName);
+            var state = my.StateManagement.getState(self);
 
             // if a state is present apply it to all models
             if (state) {
@@ -63,7 +63,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
         applySelectionToFilters: function (models) {
             var self = this;
-            var state = my.StateManagement.getState(self.attributes.stateName);
+            var state = my.StateManagement.getState(self);
             if (state) {
                 _.each(models, function (f) {
                     _.each(state.selections, function (s) {
@@ -79,23 +79,32 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
         setState: function (stateName, queryState, field, self) {
             var filters = _.filter(queryState.attributes.filters, function(f) { return f.field ==  field} )
             var selections = _.filter(queryState.attributes.selections, function(f) { return f.field ==  field} )
-
+            var defaultSelection = self.get("defaultSelectionIfNoSelection");
+            if (defaultSelection && selections && selections.length === 0) {
+                selections = [defaultSelection];
+            }
 
             filters = _.map(filters, function(f) {
                 return self.mappingField(f, field, self.attributes.mappingField); });
             selections = _.map(selections, function(f) {
                 return self.mappingField(f, field, self.attributes.mappingField); });
 
-
             $.cookie("recline.extensions.statemanagement." + stateName, JSON.stringify({filters: filters, selections: selections}), {  path: '/' });
         }
     });
 
 
-    my.StateManagement.getState = function (name) {
+    my.StateManagement.getState = function (self) {
+        var name = self.attributes.stateName
         var res = $.cookie("recline.extensions.statemanagement." + name);
-        if (res)
-            return JSON.parse(res);
+        var resObj;
+        if (res) {
+            resObj = JSON.parse(res);
+            if (self.get("remove_ALL_fromSelection") === true && resObj.selections && resObj.selections.type == "list") {
+                resObj.selections.list = _.without(resObj.selections.list, "_ALL_");
+            }
+            return resObj;
+        }
         else if (this.State.arguments && this.State.arguments.length && this.State.arguments[0].defaultValue)
         	return this.State.arguments[0].defaultValue;
         else return null;
