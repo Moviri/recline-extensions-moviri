@@ -930,11 +930,25 @@ _.defaults(xChart.prototype, {
     var self = this,
       c = self._container,
       options = self._options,
-      width = parseInt(c.style('width').replace('px', ''), 10),
-      height = parseInt(c.style('height').replace('px', ''), 10),
       svg,
       g,
+      width,
+      height,
       gScale;
+
+    if (c.style('width')) {
+      width = parseInt(c.style('width').replace('px', ''), 10);
+    }
+    else if (c.node().style.width) {
+      width = parseInt(c.node().style.width.replace('px', ''), 10);
+    }
+
+    if (c.style('height')) {
+      height = parseInt(c.style('height').replace('px', ''), 10);
+    }
+    else if (c.node().style.height) {
+      height = parseInt(c.node().style.height.replace('px', ''), 10);
+    }
 
     svg = c.selectAll('svg')
       .data(emptyData);
