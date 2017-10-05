@@ -92,6 +92,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 });
             }
             var records = self._sourceDataset.getRecords();
+            // filter out invalid fields with null values
+            if (records && records.length) {
+                records = _.filter(records, function(currRec) {
+                    return currRec.get(self.sourceField.field);
+                });
+            }
 
             var field = this._sourceDataset.fields.get(this.sourceField.field);
             var extraDropdownLabels = [];
@@ -498,6 +504,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var valueList = this.computeUserChoices(self.sourceField);
             
             var records = self._sourceDataset.getRecords();
+            // filter out invalid fields with null values
+            if (records && records.length) {
+                records = _.filter(records, function(currRec) {
+                    return currRec.get(self.sourceField.field);
+                });
+            }
+
             if (records && self.sourceField.list && records.length == self.sourceField.list.length && !self.noAllButton && !self.allButtonRemovesFilter)
             {
                 // just select button "All"
