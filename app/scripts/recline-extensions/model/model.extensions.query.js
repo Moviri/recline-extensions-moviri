@@ -72,8 +72,20 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 if (!found)
                     filters.push(filter);
             }
+            this.removeDuplicateFilters();
         },
 
+        removeDuplicateFilters: function() {
+            var filters = this.get('filters');
+            if (filters && filters.length) {
+                var uniqueFilters = _.unique(filters, false, function(f) {
+                    return JSON.stringify(f);
+                });
+                if (filters.length > uniqueFilters.length) {
+                    this.set({filters: uniqueFilters}, {silent: true});
+                }
+            }
+        },
 
         removeFilterByField: function (field) {
             var filters = this.get('filters');

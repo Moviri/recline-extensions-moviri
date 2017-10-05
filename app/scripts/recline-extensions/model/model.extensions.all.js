@@ -1,4 +1,4 @@
-define(['REM/recline-extensions/recline-amd', 'jquery', 'REM/recline-extensions/data/data.fieldsutilities', 'REM/recline-extensions/backend/backend.extensions.csv'], function(recline, $) {
+define(['REM/recline-extensions/recline-amd', 'jquery', 'underscore', 'REM/recline-extensions/data/data.fieldsutilities', 'REM/recline-extensions/backend/backend.extensions.csv'], function(recline, $, _) {
 
 	recline.Model.Query.prototype = $.extend(recline.Model.Query.prototype, {
 	    defaults: function() {
@@ -52,7 +52,6 @@ define(['REM/recline-extensions/recline-amd', 'jquery', 'REM/recline-extensions/
                 this.removeFilterByFieldNoEvent(filter.field);
                 delete filter["remove"];
             } else {
-
                 var filters = this.get('filters');
                 var found = false;
                 for (var j = 0; j < filters.length; j++) {
@@ -64,8 +63,20 @@ define(['REM/recline-extensions/recline-amd', 'jquery', 'REM/recline-extensions/
                 if (!found)
                     filters.push(filter);
             }
+            this.removeDuplicateFilters();
         },
 
+        removeDuplicateFilters: function() {
+            var filters = this.get('filters');
+            if (filters && filters.length) {
+                var uniqueFilters = _.unique(filters, false, function(f) {
+                    return JSON.stringify(f);
+                });
+                if (filters.length > uniqueFilters.length) {
+                    this.set({filters: uniqueFilters}, {silent: true});
+                }
+            }
+        },
 
         removeFilterByField: function (field) {
             var filters = this.get('filters');
