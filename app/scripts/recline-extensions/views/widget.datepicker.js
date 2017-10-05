@@ -194,8 +194,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
                 }
 
-                var values = self.datepicker.data("DateRangesWidget").options.values;
-
+                var values = {};
+                if (self.datepicker.data("DateRangesWidget") && self.datepicker.data("DateRangesWidget").options) {
+                    values = self.datepicker.data("DateRangesWidget").options.values;
+                }
 
                 if (!period[0] || !period[1]) {
                     values.dr1from = "N/A";
@@ -300,7 +302,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var dates = $('.date-ranges-picker').DatePickerGetDate();
             if (dates) {
                 var period = dates[0];
-                var values = self.datepicker.data("DateRangesWidget").options.values;
+                var values = {};
+                if (self.datepicker.data("DateRangesWidget") && self.datepicker.data("DateRangesWidget").options) {
+                    values = self.datepicker.data("DateRangesWidget").options.values;
+                }
                 if (this.options.compareModel) 
                 {
                 	// If the datepicker is already initialized and a redraw event is issued, 
@@ -497,9 +502,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             return d3.time.format("%d/%m/%Y")(d);
         },
         applyTextInputDateChange:function (d, currVal, self, isMain, isFrom) {
-            var options = self.datepicker.data("DateRangesWidget").options;
+            var values = {};
+            if (self.datepicker.data("DateRangesWidget") && self.datepicker.data("DateRangesWidget").options) {
+                values = self.datepicker.data("DateRangesWidget").options.values;
+            }
             var datepickerOptions = $(".datepicker.selectableRange").data('datepicker');
-            var values = options.values;
             if (isMain) {
                 if (isFrom) {
                     values.dr1from = currVal;
