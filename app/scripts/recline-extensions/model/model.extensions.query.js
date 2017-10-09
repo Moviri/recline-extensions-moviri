@@ -73,6 +73,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     filters.push(filter);
             }
             this.removeDuplicateFilters();
+            this.trigger('filters:change');
         },
 
         removeDuplicateFilters: function() {
@@ -107,6 +108,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     break;
                 }
             }
+            this.trigger('filters:change');
         },
 
         addSortCondition: function (field, order) {

@@ -64,6 +64,7 @@ define(['REM/recline-extensions/recline-amd', 'jquery', 'underscore', 'REM/recli
                     filters.push(filter);
             }
             this.removeDuplicateFilters();
+            this.trigger('filters:change');
         },
 
         removeDuplicateFilters: function() {
@@ -98,6 +99,7 @@ define(['REM/recline-extensions/recline-amd', 'jquery', 'underscore', 'REM/recli
                     break;
                 }
             }
+            this.trigger('filters:change');
         },
 
         addSortCondition: function (field, order) {

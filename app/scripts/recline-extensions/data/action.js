@@ -68,7 +68,9 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 mapping.forEach(function (mapp) {
                     var values = [];
                     records.forEach(function (row) {
-                        values.push(row.getFieldValueUnrendered({id:mapp.srcField}));
+                        if (row) {
+                            values.push(row.getFieldValueUnrendered({id:mapp.srcField}));
+                        }
                     });
                     params.push({
                         filter:mapp.filter,
@@ -77,6 +79,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 });
                 this._internalDoAction(params);
             },
+
             doActionWithFacets:function (facetTerms, valueList, mapping, filterFieldName) {
                 var params = [];
                 mapping.forEach(function (mapp) {

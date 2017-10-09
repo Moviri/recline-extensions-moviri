@@ -31,8 +31,10 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
 
         var data = buildRequestFromQuery(queryObj);
-        console.log("Querying splunk backend [" + (dataset.id ? dataset.id : dataset.url) + "] for ");
-        console.log(data);
+        if ($.cookie("debug_mode") === "DEBUG") {
+            console.log("Querying splunk backend [" + (dataset.id ? dataset.id : dataset.url) + "] for ");
+            console.log(data);
+        }
         return requestSplunk(dataset, data, queryObj);
 
     };

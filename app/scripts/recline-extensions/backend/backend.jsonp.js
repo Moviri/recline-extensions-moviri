@@ -20,20 +20,20 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'REM/recline-extensions/
 
     // todo has to be merged with query (part is in common)
     my.fetch = function (dataset) {
-
-        console.log("Fetching data structure " + dataset.url);
-
+        if ($.cookie("debug_mode") === "DEBUG") {
+            console.log("Fetching data structure " + dataset.url);
+        }
         var data = {onlydesc:"true"};
         return requestJson(dataset, data);
 
     };
 
     my.query = function (queryObj, dataset) {
-
-
         var data = buildRequestFromQuery(queryObj);
-        console.log("Querying jsonp backend [" + (dataset.id ? dataset.id : dataset.url) +"] for ");
-        console.log(data);
+        if ($.cookie("debug_mode") === "DEBUG") {
+            console.log("Querying jsonp backend [" + (dataset.id ? dataset.id : dataset.url) +"] for ");
+            console.log(data);
+        }
         return requestJson(dataset, data, queryObj);
 
     };
@@ -45,7 +45,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'REM/recline-extensions/
         var jqxhr = $.ajax({
             url:dataset.url,
             dataType:'jsonp',
-            jsonpCallback:dataset.id,
+            jsonpCallback:dataset.id + "_" + Math.floor(Math.random()* 10000), // ensure concurrent queries on the same dataset are not lost
             data:data,
             cache:true
         });

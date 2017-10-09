@@ -34,8 +34,10 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
 
         var data = buildRequestFromQuery(queryObj);
-        console.log("Querying JsonpMemoryStore backend for ");
-        console.log(data);
+        if ($.cookie("debug_mode") === "DEBUG") {
+            console.log("Querying JsonpMemoryStore backend for ");
+            console.log(data);
+        }
         return requestJson(dataset, "query", data, queryObj);
 
     };
