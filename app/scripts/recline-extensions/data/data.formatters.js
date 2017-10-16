@@ -198,25 +198,25 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
                 }
             } else if(format === "currency_skw") {
                 try {
-                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">₩</small>'; 
+                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">￦</small>'; 
                 } catch(err) {
                     return "-";
                 }
             } else if(format === "currency_skw_decimal") {
                 try {
-                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">₩</small>';
+                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">￦</small>';
                 } catch(err) {
                     return "-";
                 }
             } else if(format === "currency_skw1k") {
                 try {
-                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">k₩</small>'; 
+                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">k￦</small>'; 
                 } catch(err) {
                     return "-";
                 }
             } else if(format === "currency_skw1k_decimal") {
                 try {
-                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">k₩</small>';
+                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">k￦</small>';
                 } catch(err) {
                     return "-";
                 }
