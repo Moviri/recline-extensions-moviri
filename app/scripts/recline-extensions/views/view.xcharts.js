@@ -182,17 +182,17 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 //          this.model.queryState.off('selection:done', this.redraw);
 
             this.model.unbind();
-            
-            this.model = model;
 
-            this.model.bind('change', this.render);
-            this.model.fields.bind('reset', this.render);
-            this.model.fields.bind('add', this.render);
+            if (model) {
+                this.model = model;
 
-            this.model.bind('query:done', this.redraw);
-            this.model.queryState.bind('selection:done', this.redraw);
+                this.model.bind('change', this.render);
+                this.model.fields.bind('reset', this.render);
+                this.model.fields.bind('add', this.render);
 
-            
+                this.model.bind('query:done', this.redraw);
+                this.model.queryState.bind('selection:done', this.redraw);
+            }
         },
             
         renderGraph:function () {
