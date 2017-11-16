@@ -1,4 +1,5 @@
-define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'file-saver'], function ($, recline, Mustache) {
+/* global define */
+define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'underscore', 'backbone', 'file-saver'], function ($, recline, Mustache, _, Backbone) {
 
 	recline.View = recline.View || {};
 
@@ -35,7 +36,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 				var formatters = self.options.formatters;
 
 				// parse records of dataset and fill the array
-				var header = []
+				var header = [];
 				_.each(self.options.visibleColumns,
 						function(attribute) {
 							if (attribute.indexOf('_sum', attribute.length - '_sum'.length) !== -1) {
@@ -74,7 +75,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 				var str = '';
 				var line = '';
 				for ( var i = 0; i < res.length; i++) {
-					var line = '';
+					line = '';
 					for ( var index in res[i]) {
 						var value = res[i][index] + "";
 						line += '"' + value.replace(/"/g, '""') + '",';
@@ -89,9 +90,24 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 			
 			var out = Mustache.render(this.template, self);
 			this.el.off('click');
-			this.el.click(function (){ return saveDataset() });
+			this.el.click(function (){ return saveDataset(); });
 			this.el.html(out);
 		},
+		changeDataset : function(newModel) {
+			if (this.model !== newModel) {
+				this.model.unbind('change', this.render);
+				this.model.fields.unbind('reset add', this.render);
+				this.model.records.unbind('reset', this.render);
+				this.model.queryState.unbind('selection:done', this.render);
+
+				this.model = newModel;
+
+				this.model.bind('change', this.render);
+				this.model.fields.bind('reset add', this.render);
+				this.model.records.bind('reset', this.render);
+				this.model.queryState.bind('selection:done', this.render);
+			}
+		}
 
 	});
 	return view.SaveCSV;
