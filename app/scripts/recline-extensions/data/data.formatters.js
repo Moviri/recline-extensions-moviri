@@ -1,4 +1,5 @@
-define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recline, accounting, d3) {
+/* global define */
+define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3'], function(recline, _, accounting, d3) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};
@@ -6,6 +7,14 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
 
     var my = recline.Data;
 
+    function formatCurrency(value, symbol, small) {
+        var currencySymbol = symbol;
+        if (small) {
+            currencySymbol = "<small class='muted'>"+symbol+"</small>";
+        }
+        // replace Giga with Billions. T for Tera is ok also for Trillions and M for Mega is ok also for Millions
+        return d3.format(",.4s")(value).replace(".", ",").replace("G", "B") + currencySymbol; 
+    }
 
     // formatters define how data is rapresented in internal dataset
     my.FormattersMoviri = {
@@ -172,51 +181,21 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
                  } catch(err) {
                      return "-";
                  }
-            } else if(format === "currency_euro") {
+            } else if(format === "currency_euro" || format === "currency_euro_decimal") {
                 try {
-                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">€</small>'; 
+                    return formatCurrency(val, "€", true); 
                 } catch(err) {
                     return "-";
                 }
-            } else if(format === "currency_euro_decimal") {
+            } else if(format === "currency_usd" || format === "currency_usd_decimal") {
                 try {
-                	return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">€</small>';
+                    return formatCurrency(val, "$", true); 
                 } catch(err) {
                     return "-";
                 }
-            } else if(format === "currency_usd") {
+            } else if(format === "currency_skw" || format === "currency_skw_decimal" || format === "currency_skw1k" || format === "currency_skw1k_decimal") {
                 try {
-                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">$</small>'; 
-                } catch(err) {
-                    return "-";
-                }
-            } else if(format === "currency_usd_decimal") {
-                try {
-                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">$</small>';
-                } catch(err) {
-                    return "-";
-                }
-            } else if(format === "currency_skw") {
-                try {
-                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">￦</small>'; 
-                } catch(err) {
-                    return "-";
-                }
-            } else if(format === "currency_skw_decimal") {
-                try {
-                    return accounting.formatMoney(val, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">￦</small>';
-                } catch(err) {
-                    return "-";
-                }
-            } else if(format === "currency_skw1k") {
-                try {
-                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">K￦</small>'; 
-                } catch(err) {
-                    return "-";
-                }
-            } else if(format === "currency_skw1k_decimal") {
-                try {
-                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">K￦</small>';
+                    return formatCurrency(val, "￦", true);
                 } catch(err) {
                     return "-";
                 }
