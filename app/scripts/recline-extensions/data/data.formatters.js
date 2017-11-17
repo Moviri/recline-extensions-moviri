@@ -126,7 +126,7 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
                 return accounting.formatMoney(val, { symbol: "₩",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }); // �4,999.99
             }           
             else if(format === "currency_southkorea1K") {
-                return accounting.formatMoney(val, { symbol: "k₩",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }); // �4,999.99
+                return accounting.formatMoney(val, { symbol: "K₩",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }); // �4,999.99
             }           
             return accounting.formatNumber(val, 0, ",");
         },
@@ -210,13 +210,13 @@ define(['REM/recline-extensions/recline-amd', 'accounting', 'd3'], function(recl
                 }
             } else if(format === "currency_skw1k") {
                 try {
-                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">k￦</small>'; 
+                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }) + '<small class="muted">K￦</small>'; 
                 } catch(err) {
                     return "-";
                 }
             } else if(format === "currency_skw1k_decimal") {
                 try {
-                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">k￦</small>';
+                    return accounting.formatMoney(val/1000, { symbol: "",  format: "%v %s", decimal : ".", thousand: ",", precision : 2 }) + '<small class="muted">K￦</small>';
                 } catch(err) {
                     return "-";
                 }
