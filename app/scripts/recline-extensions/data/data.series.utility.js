@@ -28,7 +28,10 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
         var series = [];
 
         var fillEmptyValuesWith = seriesAttr.fillEmptyValuesWith;
-        var requiredXValues = seriesAttr.requiredXValues;
+        var requiredXValues = [];
+        if (seriesAttr.requiredXValues) {
+            requiredXValues = seriesAttr.requiredXValues.slice(); // WH-450: clone array so original array is not affected! 
+        }
         
         var unselectedColor = "#C0C0C0";
         if (unselectedColorValue)
