@@ -13,7 +13,7 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3'],
             currencySymbol = "<small class='muted'>"+symbol+"</small>";
         }
         // replace Giga with Billions. T for Tera is ok also for Trillions and M for Mega is ok also for Millions
-        return d3.format(",.4s")(value).replace(".", ",").replace("G", "B") + currencySymbol; 
+        return d3.format(",.4s")(value).replace("G", "B") + currencySymbol; 
     }
 
     // formatters define how data is rapresented in internal dataset
