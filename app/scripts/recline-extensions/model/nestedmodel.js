@@ -16,13 +16,13 @@ define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd'], function 
 
     it returns a dataset with the following records:
 
-        {"BIRTHYEAR":"2005"}
-        {"BIRTHYEAR":"1998"}
-        {"BIRTHYEAR":"1977"}
+        {"USER.BIRTHYEAR":"2005"}
+        {"USER.BIRTHYEAR":"1998"}
+        {"USER.BIRTHYEAR":"1977"}
 
     and the following field:
 
-        {"id":"BIRTHYEAR","label":"BirthYear","type":"STRING",is_derived_false,format:null}
+        {"id":"USER.BIRTHYEAR","label":"BirthYear","type":"STRING",is_derived_false,format:null}
 
 
     by using this configuration: {"sourceFieldForLabel": "field", "sourceFieldForValues": "values"}
@@ -111,6 +111,12 @@ define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd'], function 
                         var newValues = records[0].getFieldValueUnrendered({id: sourceFieldForValues});
                         if (newFieldLabel) {
                             newFields[0].label = newFieldLabel;
+                            var fieldPrefix = records[0].getFieldValueUnrendered({id: "type"}); // field type contains field prefix
+                            if (fieldPrefix) {
+                                newFieldName = fieldPrefix + "." + newFields[0].id; // set correct field name 
+                                newFields[0].id = newFieldName;
+                            }
+
                             if (self.attributes.addValue_ALL_) {
                                 results[0][newFieldName] = "_ALL_";
                             }
