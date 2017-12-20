@@ -22,7 +22,8 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3'],
         string  : function (e) { return (e ? e.toString() : null); }, 
         date    : function (e) { return new Date(parseInt(e)).valueOf() },
         float   : function (e) { return (isFinite(e) ? parseFloat(e, 10) : 0);},
-        number  : function (e) { return (isFinite(e) ? parseFloat(e, 10) : 0);}
+        number  : function (e) { return (isFinite(e) ? parseFloat(e, 10) : 0);},
+        list    : function (e) { return (e); }
     };
 
     

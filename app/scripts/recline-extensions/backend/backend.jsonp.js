@@ -271,7 +271,8 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'REM/recline-extensions/
             STRING:"string",
             DATE:"date",
             INTEGER:"integer",
-            DOUBLE:"number"
+            DOUBLE:"number",
+            LIST:"list"
         };
 
 

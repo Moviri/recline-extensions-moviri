@@ -8,11 +8,7 @@ define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd'], function 
     /* NestedDataset is a dataset that unrolls single record values of type array into multiple records of discrete type.
     For instance , given a source dataset with the following record:
 
-        {"type":"USER","field":"BirthYear","values":["2005","1998","1977"]}
-
-    and the following field:
-
-        {"id":"BIRTHYEAR","label":"BIRTHYEAR","type":"STRING",is_derived_false,format:null}
+        {"type":"USER","id": "BIRTHYEAR", "field":"BirthYear","values":["2005","1998","1977"]}
 
     it returns a dataset with the following records:
 
@@ -92,43 +88,36 @@ define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd'], function 
             var sourceFieldForLabel = this.attributes.sourceFieldForLabel;
             var sourceFieldForValues = this.attributes.sourceFieldForValues;
 
-            var newFields = _.map(this.queryDataset.fields.models, function(m) {
-                return {
-                    id: m.get("id"),
-                    label: m.get("label"),
-                    format: m.get("format"),
-                    is_derived: m.get("is_derived"),
-                    type: m.get("type")
-                };
-            });
 
-            if (this.queryDataset.fields && this.queryDataset.fields.length > 0) {
-                var newFieldName = this.queryDataset.fields.models[0].get("id");
-                if (newFieldName) {
-                    var records = this.queryDataset.records.models;
-                    if (records.length > 0) {
-                        var newFieldLabel = records[0].getFieldValueUnrendered({id:sourceFieldForLabel});
+
+            var records = this.queryDataset.records.models;
+            if (records.length > 0) {
+                var fieldId = records[0].getFieldValueUnrendered({id:'id'});
+                var fieldType = records[0].getFieldValueUnrendered({id: 'type'});
+                if (fieldId && fieldType) {
+                    var newFieldName = fieldType+"."+fieldId;
+                    var newFieldLabel = records[0].getFieldValueUnrendered({id:sourceFieldForLabel});
+                    if (newFieldLabel) {
+                        var newFields = [{
+                                id: newFieldName,
+                                label: newFieldLabel,
+                                format: null,
+                                is_derived: false,
+                                type: "string"
+                        }];                
+
                         var newValues = records[0].getFieldValueUnrendered({id: sourceFieldForValues});
-                        if (newFieldLabel) {
-                            newFields[0].label = newFieldLabel;
-                            var fieldPrefix = records[0].getFieldValueUnrendered({id: "type"}); // field type contains field prefix
-                            if (fieldPrefix) {
-                                newFieldName = fieldPrefix + "." + newFields[0].id; // set correct field name 
-                                newFields[0].id = newFieldName;
-                            }
-
-                            if (self.attributes.addValue_ALL_) {
-                                results[0][newFieldName] = "_ALL_";
-                            }
-                            if (newValues && newValues.length) {
-                                _.each(newValues, function(currVal, idx) {
-                                    if (idx + offset >= results.length) {
-                                        results.push({});
-                                    }
-                                    var record = results[idx + offset];
-                                    record[newFieldName] = currVal;
-                                });
-                            }
+                        if (self.attributes.addValue_ALL_) {
+                            results[0][newFieldName] = "_ALL_";
+                        }
+                        if (newValues && newValues.length) {
+                            _.each(newValues, function(currVal, idx) {
+                                if (idx + offset >= results.length) {
+                                    results.push({});
+                                }
+                                var record = results[idx + offset];
+                                record[newFieldName] = currVal;
+                            });
                         }
                     }
                 }
