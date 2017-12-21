@@ -236,6 +236,10 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'REM/recline-extensions/
         if (res.length > 0)
             outdata["orderby"] = res;
 
+        if (queryObj.groupBy) {
+            outdata["groupby"] = queryObj.groupBy;
+        }
+
         return outdata;
 
     }

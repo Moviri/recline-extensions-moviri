@@ -44,6 +44,15 @@ define(['REM/recline-extensions/recline-amd', 'jquery', 'underscore', 'REM/recli
 
         },
 
+        setGroupBy: function(fieldName) {
+            if (fieldName) {
+                this.attributes.groupBy = fieldName;
+            }
+        },
+
+        removeGroupBy: function() {
+            delete this.attributes.groupBy;
+        },
 
         // update or add the selected filter(s), a change event is not triggered after the update
 
