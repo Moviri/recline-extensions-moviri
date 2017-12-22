@@ -102,8 +102,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
     
                     self.graph.setType(state.type);
     
-                    if(state.legend)
+                    if(state.legend) {
                         self.createLegend();
+                    }
     
                 }
                 else
@@ -204,11 +205,6 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             {
                 self.updateSeries();
                 
-
-                if(state.legend)
-                    self.createLegend();
-
-
                 if (self.series.main && self.series.main.length && self.series.main[0].data && self.series.main[0].data.length)
                 {
                     self.el.find('figure div.noData').remove() // remove no data msg (if any) 
@@ -223,9 +219,14 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         state.opts.dotRadius = state.dotRadius;
 
                     self.graph = new xChart(state.type, self.series, '#' + self.uid, state.opts);
+                    var graphIdx = (state.graphIdx ? state.graphIdx : 0);
+                    $('#' + self.uid+' svg').attr("id", "svgxchart"+graphIdx);
+
+                    if(state.legend && state.legend.length)
+                        self.createLegend();
+
                     if (state.timing != null && typeof state.timing != "undefined")
                         self.graph._options.timing = state.timing;
-
 
                     self.updateOptions();
 
@@ -248,39 +249,46 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             }
             this.el.find('figure').html("");
             this.el.find('figure').append(new recline.View.NoDataMsg().create());
-            this.el.find('div.xCharts-title-x').html("")
+            this.el.find('div.xCharts-title-x').html("");
         },
 
         createLegend: function() {
             var self=this;
             var res = $("<div/>");
-            var i =0;
-            
+            var i = 0;
+            var graphIdx = (this.options.state.graphIdx ? this.options.state.graphIdx : 0); // graph index in case there's more than one chart on the same page
+            var legendId = self.options.state.legend[0].id;
             
             $("<style>.noFillLegendBullet { background: transparent !important; }</style>" +
                 "<script>" +
-                "function changeSeriesVisibility(i){"+
-                    "var isVisible = $('g .color'+i).attr('display');"+
+                "function changeSeriesVisibility(j,legendId,i){"+
+                    "if (j === undefined) {j=0};"+
+                    "var $svg = $('#svgxchart'+j);"+
+                    "var isVisible = $svg.find('g .color'+i).attr('display');"+
                     " if (isVisible === 'none') {isVisible = false;} else {isVisible = true;}"+
                     "if (isVisible){"+
-                    "   $('g .color'+i).attr('display', 'none');"+
-                    "   $('.legend_item_value.legendcolor'+i).addClass('noFillLegendBullet');"+
+                    "   $svg.find('g .color'+i).attr('display', 'none');"+
+                    "   $('#'+legendId+' .legend_item_value.legendcolor'+i).addClass('noFillLegendBullet');"+
                     "} else {"+
-                        "$('g .color'+i).attr('display', 'inline');"+
-                        "$('.legend_item_value.legendcolor'+i).removeClass('noFillLegendBullet');"+
+                        "$svg.find('g .color'+i).attr('display', 'inline');"+
+                        "$('#'+legendId+' .legend_item_value.legendcolor'+i).removeClass('noFillLegendBullet');"+
                     "}"+
                 "}"+
-            "</script>").appendTo("head");      
+            "</script>").appendTo("head"); 
+            var $svg = this.$el.find('#svgxchart'+graphIdx);
             _.each(self.series.main, function(d) {
                 if (d.color){
                     $("<style type='text/css'> " +
-                            ".color"+i+"{ color:rgb("+d.color.rgb+");} " +
-                            ".legendcolor"+i+"{ color:rgb("+d.color.rgb+"); background-color:rgb("+d.color.rgb+"); } " +
-                            ".xchart .color"+i+" .fill { fill:rgba("+d.color.rgb+",0.1);} " +
-                            ".xchart .color"+i+" .line { stroke:rgb("+d.color.rgb+");} " +    
-                            ".xchart .color"+i+" rect, .xchart .color"+i+" circle { fill:rgb("+d.color.rgb+");} " +
+                            "#"+legendId+" .legendcolor"+i+"{ color:rgb("+d.color.rgb+"); background-color:rgb("+d.color.rgb+"); } " +
+                            "#"+legendId+" .color"+i+"{ color:rgb("+d.color.rgb+");} " +
                         "</style>").appendTo("head");
-                    var legendItem = $('<div class="legend_item" onClick="changeSeriesVisibility('+i+')"/>');
+
+                    $svg.prepend("<style>" +
+                            ".xchart .color"+i+" .fill { fill:rgba("+d.color.rgb+",0.1) !important;} " +
+                            ".xchart .color"+i+" .line { stroke:rgb("+d.color.rgb+") !important;} " +    
+                            ".xchart .color"+i+" rect, .xchart .color"+i+" circle { fill:rgb("+d.color.rgb+") !important;} " +
+                        "</style>");
+                    var legendItem = $('<div class="legend_item" onClick="changeSeriesVisibility('+graphIdx+',\''+legendId+'\','+i+')"/>');
                     var name = $("<span/>");
                     name.html(d.label);
                     legendItem.append(name);
@@ -293,10 +301,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 }   
                 
                 i++;
-            })
+            });
 
             self.options.state.legend.html(res);
-
         },
 
         updateSeries: function() {
