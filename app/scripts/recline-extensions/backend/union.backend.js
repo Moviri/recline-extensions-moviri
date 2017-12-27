@@ -94,9 +94,13 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
         if(dataset.backendConfiguration.backendChoser) {
             var be = dataset.backendConfiguration.backendChoser(queryObj);
+            var groupBy = dataset.groupBy;
             _.each(be, function(b) {
                 var query = _.clone(queryObj);
                 query.filters = b.filters;
+                if (groupBy) {
+                    query.groupBy = groupBy;
+                }
                 b["instance"] = my._backendFromString(b.backend.backend);
                 var deferred = b.instance.query(query, b.backend["props"]);
                 deferred.done(function(res) {
