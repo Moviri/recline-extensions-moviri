@@ -1,4 +1,4 @@
-define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recline-extensions/data/data.formatters', 'REM/recline-extensions/data/data.aggregations'], function ($, recline, crossfilter) {
+define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recline-extensions/data/data.formatters', 'REM/recline-extensions/data/data.aggregations'], function ($, _, recline, crossfilter) {
 
     recline.Model = recline.Model || {};
     recline.Model.VirtualDataset = recline.Model.VirtualDataset || {};
@@ -37,7 +37,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
             this.attributes.dataset.bind('query:done', function () {
                 self.initializeCrossfilter();
-            })
+            });
 
             this.queryState.bind('change', function () {
                 self.query();
@@ -55,7 +55,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
             // TODO USE crossfilter as backend memory
         },
 
-            getRecords:function (type) {
+        getRecords:function (type) {
             var self = this;
 
             if (type === 'totals') {
@@ -108,6 +108,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
          //   console.log("initialize crossfilter");
             var aggregatedFields = this.attributes.aggregation.measures;
             var aggregationFunctions = this.attributes.aggregation.aggregationFunctions;
+            var derivedFields = this.attributes.derivedFields;
             var originalFields = this.attributes.dataset.fields;
             var dimensions =  this.attributes.aggregation.dimensions;
             var partitions =this.attributes.aggregation.partitions;
@@ -116,7 +117,8 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
             var group = this.createDimensions(crossfilterData, dimensions);
             var results = this.reduce(group,dimensions,aggregatedFields,aggregationFunctions,partitions);
 
-            this.updateStore(results, originalFields,dimensions,aggregationFunctions,aggregatedFields,partitions);
+            this.updateStore(results, originalFields,dimensions,aggregationFunctions,aggregatedFields,partitions, derivedFields);
+
             this.trigger('query:done');
         },
 
@@ -149,7 +151,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
             else {
                 var by_dimension = crossfilterData.dimension(function (d) {
                     var tmp = "";
-                    for (i = 0; i < dimensions.length; i++) {
+                    for (var i = 0; i < dimensions.length; i++) {
                         if (i > 0) {
                             tmp = tmp + "#";
                         }
@@ -180,10 +182,10 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
             function addFunction(p, v) {
                 p.count = p.count + 1;
-                for (i = 0; i < aggregatedFields.length; i++) {
+                for (var i = 0; i < aggregatedFields.length; i++) {
 
                     // for each aggregation function evaluate results
-                    for (j = 0; j < aggregationFunctions.length; j++) {
+                    for (var j = 0; j < aggregationFunctions.length; j++) {
                         var currentAggregationFunction = recline.Data.Aggregations.aggregationFunctions[aggregationFunctions[j]];
 
                         p[aggregationFunctions[j]][aggregatedFields[i]] =
@@ -195,7 +197,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
                     if (partitioning) {
                         // for each partition need to verify if exist a value of aggregatefield_by_partition_partitionvalue
-                        for (x = 0; x < partitions.length; x++) {
+                        for (var x = 0; x < partitions.length; x++) {
                             var partitionName = partitions[x];
                             var partitionValue = v[partitions[x]];
                             var aggregatedField = aggregatedFields[i];
@@ -260,7 +262,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
                 var tmp = {count:0};
 
-                for (j = 0; j < aggregationFunctions.length; j++) {
+                for (var j = 0; j < aggregationFunctions.length; j++) {
                     tmp[aggregationFunctions[j]] = {};
 
                     recline.Data.Aggregations.initFunctions[aggregationFunctions[j]](tmp, aggregatedFields, partitions);
@@ -298,15 +300,15 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
         },
 
-        updateStore:function (results, originalFields, dimensions, aggregationFunctions, aggregatedFields, partitions) {
+        updateStore:function (results, originalFields, dimensions, aggregationFunctions, aggregatedFields, partitions, derivedFields) {
             var self = this;
 
             var reducedResult = results.reducedResult;
             var partitionFields = results.partitionFields;
             this.partitionFields = partitionFields;
 
-            var fields = self.buildFields(reducedResult, originalFields, partitionFields, dimensions, aggregationFunctions);
-            var result = self.buildResult(reducedResult, originalFields, partitionFields, dimensions, aggregationFunctions, aggregatedFields, partitions);
+            var fields = self.buildFields(reducedResult, originalFields, partitionFields, dimensions, aggregationFunctions, derivedFields);
+            var result = self.buildResult(reducedResult, originalFields, partitionFields, dimensions, aggregationFunctions, aggregatedFields, partitions, derivedFields);
 
             self.vModel.resetFields(fields);
             self.vModel.resetRecords(result);
@@ -384,12 +386,16 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
                 options = { renderer: self.attributes.renderer};
 
             if(filtered) {
-                if(this.totals == null) { this.totals = {records: new my.RecordList(), fields: new my.FieldList() }}
+                if(this.totals == null) { 
+                    this.totals = {records: new my.RecordList(), fields: new my.FieldList() };
+                }
 
-                    this.totals.fields.reset(fields, options) ;
-                    this.totals.records.reset(result);
+                this.totals.fields.reset(fields, options) ;
+                this.totals.records.reset(result);
             }   else   {
-                if(this.totals_unfiltered == null) { this.totals_unfiltered = {records: new my.RecordList(), fields: new my.FieldList() }}
+                if(this.totals_unfiltered == null) {
+                    this.totals_unfiltered = {records: new my.RecordList(), fields: new my.FieldList() };
+                }
 
                     this.totals_unfiltered.fields.reset(fields, options) ;
                     this.totals_unfiltered.records.reset(result);
@@ -399,13 +405,13 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
         },
 
         needsTableCalculation: function() {
-            if(recline.Data.Aggregations.checkTableCalculation(self.attributes.aggregation.aggregationFunctions, self.attributes.totals).length > 0)
+            if(recline.Data.Aggregations.checkTableCalculation(this.attributes.aggregation.aggregationFunctions, this.attributes.totals).length > 0)
                 return true;
             else
                 return false;
         },
 
-        buildResult:function (reducedResult, originalFields, partitionFields, dimensions, aggregationFunctions, aggregatedFields, partitions) {
+        buildResult:function (reducedResult, originalFields, partitionFields, dimensions, aggregationFunctions, aggregatedFields, partitions, derivedFields) {
 
             var partitioning = false;
 
@@ -426,9 +432,10 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
             }
 
             var result = [];
+            var i,j;
 
             // set  results of dataset
-            for (var i = 0; i < reducedResult.length; i++) {
+            for (i = 0; i < reducedResult.length; i++) {
 
                 var currentField;
                 var currentResult = reducedResult[i];
@@ -440,7 +447,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
                     tmp = {dimension:currentResult.key, count:currentResult.value.count};
 
-                    for (var j = 0; j < keyField.length; j++) {
+                    for (j = 0; j < keyField.length; j++) {
                         var field = dimensions[j];
                         var originalFieldAttributes = originalFields.get(field).attributes;
                         var type = originalFieldAttributes.type;
@@ -459,7 +466,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
                 }
 
                 // add records foreach aggregation function
-                for (var j = 0; j < aggregationFunctions.length; j++) {
+                for (j = 0; j < aggregationFunctions.length; j++) {
 
                     // apply finalization function, was not applied since now
                     // todo verify if can be moved above
@@ -497,13 +504,12 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
                     // adding partition records
                     if (partitioning) {
-                        var tempValue;
                         if (typeof currentField.partitions[aggregationFunctions[j]] == 'function')
                             tempValue = currentField.partitions[aggregationFunctions[j]]();
                         else
                             tempValue = currentField.partitions[aggregationFunctions[j]];
 
-                        for (var x in tempValue) {
+                        for (x in tempValue) {
                             var tempValue2;
                             if (typeof currentField.partitions[aggregationFunctions[j]] == 'function')
                                 tempValue2 = currentField.partitions[aggregationFunctions[j]]();
@@ -523,14 +529,21 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
                 // count is always calculated for each partition
                 if (partitioning) {
-                    for (var x in tmpField.partitions["count"]) {
-                        if (currentResult.value.partitions["count"][x] == null)
-                            tmp[x + "_count"] = 0;
+                    for (var c in tmpField.partitions["count"]) {
+                        if (currentResult.value.partitions["count"][c] == null)
+                            tmp[c + "_count"] = 0;
                         else
-                            tmp[x + "_count"] = currentResult.value.partitions["count"][x].value;
+                            tmp[c + "_count"] = currentResult.value.partitions["count"][c].value;
                     }
                 }
 
+                if (derivedFields) {
+                    _.each(derivedFields, function(currDerivedField) {
+                        if (currDerivedField.id && currDerivedField.deriver) {
+                            tmp[currDerivedField.id] = currDerivedField.deriver(tmp);
+                        }
+                    });
+                }
 
                 result.push(tmp);
             }
@@ -538,7 +551,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
             return result;
         },
 
-        buildFields:function (reducedResult, originalFields, partitionFields, dimensions, aggregationFunctions) {
+        buildFields:function (reducedResult, originalFields, partitionFields, dimensions, aggregationFunctions, derivedFields) {
             var self = this;
 
             var fields = [];
@@ -637,8 +650,22 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
                                 label:partitionedFieldLabel
                             }
                         );
-                    })
+                    });
                 });
+
+                if (derivedFields) {
+                    _.each(derivedFields, function(currDerivedField) {
+                        if (currDerivedField.deriver) {
+                            fields.push({
+                                id: currDerivedField.id,
+                                type:currDerivedField.type,
+                                is_partitioned:false,
+                                label: currDerivedField.label,
+                                is_derived: true
+                            });
+                        }
+                    });
+                }
 
             }
 
@@ -649,6 +676,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
                     var field = originalFields.get(dimensions[i]);
                     if(!field)
                         throw "VirtualModel.js: unable to find field [" + dimensions[i] + "] in model";
+                    
                     var originalFieldAttributes = field.attributes;
                     fields.push({
                         id:dimensions[i],
@@ -744,22 +772,15 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
 
         // Retrieve the list of partitioned field for the specified aggregated field
         getPartitionedFields:function (partitionedField, measureField) {
-            //var field = this.fields.get(fieldName);
-
             var fields = _.filter(this.fields.models, function (d) {
-                return (
-                    d.attributes.partitionField == partitionedField
-                        && d.attributes.originalField == measureField
-                    );
+                return d.attributes.partitionField == partitionedField && d.attributes.originalField == measureField;
             });
 
             if (fields == null)
-                field = [];
+                fields = [];
 
-            //fields.push(field);
 
             return fields;
-
         },
 
         isFieldPartitioned:function (fieldName, type) {
@@ -767,8 +788,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd', 'crossfilter', 'REM/recl
             if(!field)
                 throw("Virtualmodel.js: isFieldPartitioned: unable to find field [" + fieldName + "] in virtualmodel [" + this.id +"]");
 
-            return  field.attributes.aggregationFunction
-                && this.attributes.aggregation.partitions;
+            return  field.attributes.aggregationFunction && this.attributes.aggregation.partitions;
         },
 
         getPartitionedFieldsForAggregationFunction:function (aggregationFunction, aggregatedFieldName) {
