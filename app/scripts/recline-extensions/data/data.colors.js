@@ -1,4 +1,5 @@
-define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min'], function(recline, chroma) {
+/* global define */
+define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min'], function(_, recline, chroma) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};
@@ -13,25 +14,22 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
 
         // ### initialize
         initialize: function () {
-            var self = this;
-
-
             if (this.attributes.data) {
                 var data = this.attributes.data;
-                self._generateLimits(data);
+                this._generateLimits(data);
             } else if (this.attributes.dataset) {
                 this.bindToDataset();
             } else if (this.attributes.fields) {
                 var data = this.attributes.fields;
                 this.attributes.type = "scaleWithDistinctData";
-                self._generateLimits(data);
+                this._generateLimits(data);
             }
 
 
             if (this.attributes.twoDimensionalVariation) {
                 if (this.attributes.twoDimensionalVariation.data) {
                     var data = this.attributes.twoDimensionalVariation.data;
-                    self._generateVariationLimits(data);
+                    this._generateVariationLimits(data);
                 } else if (this.attributes.twoDimensionalVariation.dataset) {
                     this.bindToVariationDataset();
                 }
@@ -41,29 +39,29 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
         // generate limits from dataset values
         bindToDataset: function () {
             var self = this;
-            self.attributes.dataset.dataset.records.bind('reset', function () {
+            this.attributes.dataset.dataset.records.bind('reset', function () {
                 //  console.log("record reset Generate color for dataset " + self.attributes.dataset.id + " field " + self.attributes.dataset.field);
                 self._generateFromDataset();
             });
-            self.attributes.dataset.dataset.fields.bind('reset', function () {
+            this.attributes.dataset.dataset.fields.bind('reset', function () {
                 self.attributes.dataset.dataset.setColorSchema(self.attributes.dataset.type);
             });
-            self.attributes.dataset.dataset.fields.bind('add', function () {
+            this.attributes.dataset.dataset.fields.bind('add', function () {
                 self.attributes.dataset.dataset.setColorSchema(self.attributes.dataset.type);
             });
-            if (self.attributes.dataset.dataset.records.models.length > 0) {
-                self._generateFromDataset();
+            if (this.attributes.dataset.dataset.records.models.length > 0) {
+                this._generateFromDataset();
             }
         },
 
         bindToVariationDataset: function () {
             var self = this;
-            self.attributes.twoDimensionalVariation.dataset.dataset.records.bind('reset', function () {
+            this.attributes.twoDimensionalVariation.dataset.dataset.records.bind('reset', function () {
                 self._generateFromVariationDataset();
             });
 
 
-            if (self.attributes.twoDimensionalVariation.dataset.dataset.records.models.length > 0) {
+            if (this.attributes.twoDimensionalVariation.dataset.dataset.records.models.length > 0) {
                 self._generateFromVariationDataset();
             }
         },
@@ -76,70 +74,63 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
                 ds.attributes["colorSchema"] = [];
 
             // if I'm bounded to a fields name I don't need to refresh upon model update and I don't need to calculate limits on data
-            if (self.attributes.fields) {
-                _.each(self.attributes.fields, function (s) {
+            if (this.attributes.fields) {
+                _.each(this.attributes.fields, function (s) {
                     ds.attributes["colorSchema"].push({schema: self, field: s});
                 });
             } else {
-                self.attributes.dataset = {dataset: ds, field: field, type: type};
-
+                this.attributes.dataset = {dataset: ds, field: field, type: type};
 
                 ds.attributes["colorSchema"].push({schema: self, field: field});
-                self.bindToDataset();
+                this.bindToDataset();
             }
 
             ds.setColorSchema(type);
-
-
         },
 
         setVariationDataset: function (ds, field) {
-            var self = this;
-            self.attributes["twoDimensionalVariation"] = {dataset: {dataset: ds, field: field} };
+            this.attributes["twoDimensionalVariation"] = {dataset: {dataset: ds, field: field} };
 
-            self.bindToVariationDataset();
+            this.bindToVariationDataset();
         },
         
         generateFromExternalDataset: function(ds) {
 //        	console.log('color generateFromExternalDataset');
-        	 var self = this;
              var data = this.getRecordsArray(ds);
-             self._generateLimits(data);	
+             this._generateLimits(data);	
         },
 
         _generateFromDataset: function () {
 //        	console.log('color generateFromDataset');
-            var self = this;
-            var data = this.getRecordsArray(self.attributes.dataset);
-            self._generateLimits(data);
+            var data = this.getRecordsArray(this.attributes.dataset);
+            this._generateLimits(data);
 
         },
 
         _generateFromVariationDataset: function () {
-            var self = this;
-            var data = this.getRecordsArray(self.attributes.twoDimensionalVariation.dataset);
-            self._generateVariationLimits(data);
+            var data = this.getRecordsArray(this.attributes.twoDimensionalVariation.dataset);
+            this._generateVariationLimits(data);
         },
 
         _generateLimits: function (data) {
-            var self = this;
+            var uniqueData = _.uniq(data);
             switch (this.attributes.type) {
                 case "scaleWithDataMinMax":
-                    self.schema = new chroma.ColorScale({
+                    this.schema = new chroma.ColorScale({
                         colors: this.attributes.colors,
-                        limits: this.limits["minMax"](data)
+                        limits: this.limits["minMax"](uniqueData)
                     });
                     break;
                 case "scaleWithDistinctData":
-                	self.schema = new chroma.ColorScale({
+                	this.schema = new chroma.ColorScale({
                         colors: this.attributes.colors,
                         limits: [0, 1]
                     });
-                    self.limitsMapping = this.limits["distinct"](data, self.oldLimitData);
-                    self.oldLimitData =  data;
+                    this.limitsMapping = this.limits["distinct"](uniqueData, this.oldLimitData);
+                    this.oldLimitData =  uniqueData;
                     break;
                 case "fixedLimits":
-                    self.schema = new chroma.ColorScale({
+                    this.schema = new chroma.ColorScale({
                         colors: this.attributes.colors,
                         limits: this.attributes.limits
                     });
@@ -158,33 +149,29 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
         },
 
         _generateVariationLimits: function (data) {
-            var self = this;
-            self.variationLimits = this.limits["minMax"](data);
+            this.variationLimits = this.limits["minMax"](data);
         },
 
         getColorFor: function (fieldValue) {
-            var self = this;
-            if (this.schema == null && !self.attributes.defaultColor)
+            if (this.schema == null && !this.attributes.defaultColor)
                 throw "data.colors.js: colorschema not yet initialized, datasource not fetched?"
 
             //var hashed = recline.Data.Transform.getFieldHash(fieldValue);
 
-            if (self.limitsMapping) {
-                if (self.limitsMapping[fieldValue] != null) {
-                    return this.schema.getColor(self.limitsMapping[fieldValue]);
+            if (this.limitsMapping) {
+                if (this.limitsMapping[fieldValue] != null) {
+                    return this.schema.getColor(this.limitsMapping[fieldValue]);
                 } else {
-                    return chroma.hex(self.attributes.defaultColor);
+                    return chroma.hex(this.attributes.defaultColor);
                 }
             }
             else {
-                if (self.schema) {
+                if (this.schema) {
                     return this.schema.getColor(fieldValue);
                 } else {
-                    return chroma.hex(self.attributes.defaultColor);
+                    return chroma.hex(this.attributes.defaultColor);
                 }
             }
-
-
 
         },
 
@@ -199,17 +186,13 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
             if (this.attributes.twoDimensionalVariation.type == "toLight")
                 endColor = '#ffffff';
 
-
-            var self = this;
-
             var tempSchema = new chroma.ColorScale({
-                colors: [self.getColorFor(startingvalue), endColor],
-                limits: self.variationLimits,
+                colors: [this.getColorFor(startingvalue), endColor],
+                limits: this.variationLimits,
                 mode: 'hsl'
             });
 
             return tempSchema.getColor(variation);
-
         },
 
         getRecordsArray: function (dataset) {
@@ -219,9 +202,10 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
                 return;
 
             var ret = [];
+            var fields;
 
             if (dataset.dataset.isFieldPartitioned && dataset.dataset.isFieldPartitioned(dataset.field)) {
-                var fields = dataset.dataset.getPartitionedFields(dataset.field);
+                fields = dataset.dataset.getPartitionedFields(dataset.field);
                 _.each(dataset.dataset.getRecords(dataset.type), function (d) {
                     _.each(fields, function (field) {
                     	ret.push(d.getFieldValueUnrendered(field)); 
@@ -230,7 +214,7 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
                 });
             }
             else {
-                var fields = [dataset.field];
+                fields = [dataset.field];
 
                 _.each(dataset.dataset.getRecords(dataset.type), function (d) {
                     _.each(fields, function (field) {
@@ -240,7 +224,6 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
                     });
                 });
             }
-
 
             return ret;
         },
@@ -459,7 +442,7 @@ define(['REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min']
                 _.each(colorSchema, function (d) {
                     if (d.field === field)
                         t.color = d.schema.getColorFor(t.term);
-                })
+                });
             }
         });
     };

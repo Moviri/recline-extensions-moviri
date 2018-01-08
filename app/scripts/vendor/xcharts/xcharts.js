@@ -15,9 +15,10 @@ var xChart,
   }).value().join(', ');
 }
 
-function colorClass(el, i) {
+function colorClass(el, i, graphIdx) {
   var c = el.getAttribute('class');
-  return ((c !== null) ? c.replace(/color\d+/g, '') : '') + ' color' + i;
+  var prefix = (graphIdx !== undefined ? graphIdx+'-' : '');
+  return ((c !== null) ? c.replace(/color\d+-*\d*/g, '') : '') + ' color' + prefix + i;
 }
 
 _visutils = {
@@ -186,7 +187,7 @@ var _scales = {
       .style('opacity', 0)
       .attr('class', function (d, i) {
         var cl = _.uniq((className + d.className).split('.')).join(' ');
-        return cl + ' bar ' + _visutils.colorClass(this, i);
+        return cl + ' bar ' + _visutils.colorClass(this, i, self._options.graphIdx);
       })
       .attr('transform', function (d, i) {
         return 'translate(' + self.xScale2(i) + ',0)';
@@ -225,7 +226,7 @@ var _scales = {
 
     storage.barGroups
       .attr('class', function (d, i) {
-        return _visutils.colorClass(this, i);
+        return _visutils.colorClass(this, i, self._options.graphIdx);
       })
       .transition().duration(timing)
       .style('opacity', 1)
@@ -315,7 +316,7 @@ var _scales = {
       .attr('data-index', zIndex)
       .attr('class', function (d, i) {
         var cl = _.uniq((className + d.className).split('.')).join(' ');
-        return cl + ' line ' + _visutils.colorClass(this, i);
+        return cl + ' line ' + _visutils.colorClass(this, i, self._options.graphIdx);
       });
 
     fills = container.selectAll('path.fill')
@@ -346,7 +347,7 @@ var _scales = {
   function update(self, storage, timing) {
     storage.lineContainers
       .attr('class', function (d, i) {
-        return _visutils.colorClass(this, i);
+        return _visutils.colorClass(this, i, self._options.graphIdx);
       });
 
     storage.lineFills.transition().duration(timing)
