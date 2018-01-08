@@ -198,9 +198,10 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                         // facet has no renderer, so we need to retrieve the first record that matches the value and use its renderer
                         // This is needed to solve the notorious "All"/"_ALL_" issue
                         var term_rendered;
-                        if (t.term)
+                        var termValue = t.term;
+                        if (termValue)
                     	{
-                        	var validRec = _.find(self.model.getRecords(), function(rec) { return rec.attributes[self.options.groupBy] == t.term; });
+                        	var validRec = _.find(self.model.getRecords(), function(rec) { return rec.attributes[self.options.groupBy] == termValue; });
                             if (validRec)
                             	term_rendered = validRec.getFieldValue(field);
                     	}
@@ -208,10 +209,13 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                         var term_desc;
                         if (self.options.rowTitle)
                             term_desc = self.options.rowTitle(t);
+                        else if (self.options.dictionary && termValue && self.options.dictionary[termValue]) {
+                            term_desc = self.options.dictionary[termValue];
+                        }
                         else
-                            term_desc = term_rendered || t.term;
+                            term_desc = term_rendered || termValue;
 
-                        var dim = {term: t.term, term_desc: term_desc, id_dimension: uid, shape: t.shape};
+                        var dim = {term: termValue, term_desc: term_desc, id_dimension: uid, shape: t.shape};
 
                         dim["getDimensionIDbyMeasureID"] = function () {
                             return function (measureID) {
