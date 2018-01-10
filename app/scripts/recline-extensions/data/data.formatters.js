@@ -1,5 +1,5 @@
 /* global define */
-define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3'], function(recline, _, accounting, d3) {
+define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3', 'numeraljs'], function(recline, _, accounting, d3, numeral) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};
@@ -12,8 +12,7 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3'],
         if (small) {
             currencySymbol = "<small class='muted'>"+symbol+"</small>";
         }
-        // replace Giga with Billions. T for Tera is ok also for Trillions and M for Mega is ok also for Millions
-        return d3.format(",.4s")(value).replace("G", "B") + currencySymbol; 
+        return numeral(value).format('0.00a').toUpperCase();
     }
 
     // formatters define how data is rapresented in internal dataset
