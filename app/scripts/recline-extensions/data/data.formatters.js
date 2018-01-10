@@ -12,7 +12,7 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3', 
         if (small) {
             currencySymbol = "<small class='muted'>"+symbol+"</small>";
         }
-        return numeral(value).format('0.00a').toUpperCase();
+        return numeral(value).format('0.00a').toUpperCase() + currencySymbol;
     }
 
     // formatters define how data is rapresented in internal dataset
