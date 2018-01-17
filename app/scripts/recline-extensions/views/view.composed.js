@@ -212,6 +212,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                         else if (self.options.dictionary && termValue && self.options.dictionary[termValue]) {
                             term_desc = self.options.dictionary[termValue];
                         }
+                        else if (self.options.titlePrefix) {
+                            term_desc = self.options.titlePrefix + termValue;
+                        }
                         else
                             term_desc = term_rendered || termValue;
 
@@ -299,6 +302,10 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
             var out = Mustache.render(tmpl, self);
             this.el.html(out);
+
+            if (this.options.thinTotalsLine) {
+                this.el.find("div.c_row.c_totals").removeClass("c_totals");
+            }
 
             this.attachViews();
 

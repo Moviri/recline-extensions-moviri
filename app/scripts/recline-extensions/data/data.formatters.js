@@ -216,6 +216,12 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3', 
                 } catch(err) {
                     return "-";
                 }
+            }  else if(format === "seconds") {
+                try {
+                    return accounting.formatNumber(val, 2, ",", ".")+'<small class="muted">s</small>';
+                } catch(err) {
+                    return "-";
+                }
             }
 
             try {

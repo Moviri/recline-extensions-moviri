@@ -160,7 +160,13 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
 
             if (this.limitsMapping) {
                 if (this.limitsMapping[fieldValue] != null) {
-                    return this.schema.getColor(this.limitsMapping[fieldValue]);
+                    var computedColor = this.schema.getColor(this.limitsMapping[fieldValue]);
+                    var computerColorHSL = computedColor.hsl();
+                    if (computerColorHSL && computerColorHSL.length > 2 && computerColorHSL[2] > 0.8) {
+                        // if too bright return a darker version of same color
+                        return chroma.interpolate(computedColor, '#000', 0.5, 'hsv'); 
+                    }
+                    return computedColor;
                 } else {
                     return chroma.hex(this.attributes.defaultColor);
                 }
