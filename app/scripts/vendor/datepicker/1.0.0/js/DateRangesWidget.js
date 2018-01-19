@@ -355,7 +355,7 @@
 					onChange: function(dates, el, options) {
 						// user clicked on datepicker
 						internal.setDaterangePreset('custom');
-                        console.log("onchange datepicker");
+                        //console.log("onchange datepicker");
 					}
 				});
 				
