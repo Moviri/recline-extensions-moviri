@@ -222,6 +222,25 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3', 
                 } catch(err) {
                     return "-";
                 }
+            }  else if(format === "hms") {
+                var secs = val % 60;
+                var rounded_secs = Math.round(secs);
+                var mins = Math.floor(val / 60) % 60;
+                var hrs = Math.floor(val / 3600);
+                var res = "";
+                if (hrs > 0) {
+                    res += hrs+'<small class="muted">h</small>';
+                }
+                if (mins > 0) {
+                    res += numeral(mins).format('00')+'<small class="muted">m</small>';
+                }
+                if (res === "" ) {
+                    res = numeral(secs).format('0.00')+'<small class="muted">s</small>';
+                }
+                else {
+                    res += numeral(rounded_secs).format('0')+'<small class="muted">s</small>';
+                }
+                return res;
             }
 
             try {
