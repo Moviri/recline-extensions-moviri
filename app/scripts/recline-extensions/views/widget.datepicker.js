@@ -50,7 +50,6 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         },
 
         onChange:function (view) {
-            var self = this;
             //console.log("on change")
             var exec = function (data, widget) {
                 var value = [];
@@ -58,7 +57,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 if (actions.length > 0) {
                     //reference
                     var startDate_reference = new Date(parseInt(data.dr1from_millis, 10));
-                    var endDate_reference = self.getFixedDate(parseInt(data.dr1to_millis, 10));
+                    var endDate_reference = view.getFixedDate(parseInt(data.dr1to_millis, 10));
                     var rangetype_reference = view.daterange[data.daterangePreset];
 
                     value = [
@@ -73,7 +72,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     if (data.comparisonEnabled) {
                         view.trigger("compare_disabled", false);
                         var startDate_compare = new Date(parseInt(data.dr2from_millis, 10));
-                        var endDate_compare = self.getFixedDate(parseInt(data.dr2to_millis, 10));
+                        var endDate_compare = view.getFixedDate(parseInt(data.dr2to_millis, 10));
                         if (startDate_compare != null && endDate_compare != null) {
                             value.push({field:"date_compare", value:[startDate_compare.toString(), endDate_compare.toString()]});
                             value.push({field:"rangetype_compare", value:[rangetype_compare]});
@@ -82,6 +81,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     else
                 	{
                         view.trigger("compare_disabled", true);
+                        value.push({field:"date_compare", value:[null, null]}); // the nulls will force a remove filter when inside doAction
+
 //                    	// clear values for comparison dates or a redraw event may inadvertently restore them 
 //                        $('.dr2.from', view.datepicker).val("");
 //                        $('.dr2.to', view.datepicker).val("");
@@ -362,6 +363,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     if (f && f.type == "range") {
                         period[2] = new Date(f.start);
                         period[3] = new Date(f.stop);
+                    }
+                    else {
+                        period.splice(2,2); // remove compare periods
                     }
                     f = self.model.queryState.getFilterByFieldName(self.options.fields.type);
                     if (f && f.type == "term") {

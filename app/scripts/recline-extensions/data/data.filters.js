@@ -1,4 +1,5 @@
-define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
+/* global define */
+define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd'], function ($, _, recline) {
     recline.Data = recline.Data || {};
 
     var my = recline.Data;
@@ -44,106 +45,102 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 }
             });
         });
-
-
     },
 
 
-        my.Filters._getDataParser = function (filter, fields) {
+    my.Filters._getDataParser = function (filter, fields) {
 
-            var keyedFields = {};
-            var tmpFields;
-            if (fields.models)
-                tmpFields = fields.models;
-            else
-                tmpFields = fields;
+        var keyedFields = {};
+        var tmpFields;
+        if (fields.models)
+            tmpFields = fields.models;
+        else
+            tmpFields = fields;
 
-            _.each(tmpFields, function (field) {
-                keyedFields[field.id] = field;
-            });
+        _.each(tmpFields, function (field) {
+            keyedFields[field.id] = field;
+        });
 
 
-            var field = keyedFields[filter.field];
-            var fieldType = 'string';
+        var field = keyedFields[filter.field];
+        var fieldType = 'string';
 
-            if (field == null) {
-                throw "data.filters.js: Warning could not find field " + filter.field + " for dataset ";
-            }
-            else {
-                if (field.attributes)
-                    fieldType = field.attributes.type;
-                else if (field.type)
-                    fieldType = field.type;
-            }
-            return recline.Data.Filters._dataParsers[fieldType];
+        if (field == null) {
+            console.log("data.filters.js: Warning could not find field " + filter.field + " for dataset ");
+        }
+        else {
+            if (field.attributes)
+                fieldType = field.attributes.type;
+            else if (field.type)
+                fieldType = field.type;
+        }
+        return recline.Data.Filters._dataParsers[fieldType];
+    },
+
+    my.Filters._isNullFilter = {
+        term: function (filter) {
+            return filter["term"] == null;
         },
 
-        my.Filters._isNullFilter = {
-            term: function (filter) {
-                return filter["term"] == null;
-            },
+        range: function (filter) {
+            return (filter["start"] == null || filter["stop"] == null);
 
-            range: function (filter) {
-                return (filter["start"] == null || filter["stop"] == null);
-
-            },
-
-            list: function (filter) {
-                return filter["list"] == null;
-
-            },
-            termAdvanced: function (filter) {
-                return filter["term"] == null;
-            }
         },
 
-        // in place filtering
-        this._applyFilters = function (results, queryObj) {
-            var filters = queryObj.filters;
-            // register filters
-            var filterFunctions = {
-                term: term,
-                range: range,
-                geo_distance: geo_distance
-            };
-            var dataParsers = {
-                integer: function (e) {
-                    return parseFloat(e, 10);
-                },
-                'float': function (e) {
-                    return parseFloat(e, 10);
-                },
-                string: function (e) {
-                    return e.toString()
-                },
-                date: function (e) {
-                    return new Date(e).valueOf()
-                },
-                datetime: function (e) {
-                    return new Date(e).valueOf()
-                }
-            };
-            var keyedFields = {};
-            _.each(self.fields, function (field) {
-                keyedFields[field.id] = field;
-            });
-            function getDataParser(filter) {
-                var fieldType = keyedFields[filter.field].type || 'string';
-                return dataParsers[fieldType];
-            }
+        list: function (filter) {
+            return filter["list"] == null;
 
-            // filter records
-            return _.filter(results, function (record) {
-                var passes = _.map(filters, function (filter) {
-                    return filterFunctions[filter.type](record, filter);
-                });
+        },
+        termAdvanced: function (filter) {
+            return filter["term"] == null;
+        }
+    },
 
-                // return only these records that pass all filters
-                return _.all(passes, _.identity);
-            });
-
-
+    // in place filtering
+    this._applyFilters = function (results, queryObj) {
+        var filters = queryObj.filters;
+        // register filters
+        var filterFunctions = {
+            term: term,
+            range: range,
+            geo_distance: geo_distance
         };
+        var dataParsers = {
+            integer: function (e) {
+                return parseFloat(e, 10);
+            },
+            'float': function (e) {
+                return parseFloat(e, 10);
+            },
+            string: function (e) {
+                return e.toString();
+            },
+            date: function (e) {
+                return new Date(e).valueOf();
+            },
+            datetime: function (e) {
+                return new Date(e).valueOf();
+            }
+        };
+        var keyedFields = {};
+        _.each(this.fields, function (field) {
+            keyedFields[field.id] = field;
+        });
+        function getDataParser(filter) {
+            var fieldType = keyedFields[filter.field].type || 'string';
+            return dataParsers[fieldType];
+        }
+
+        // filter records
+        return _.filter(results, function (record) {
+            var passes = _.map(filters, function (filter) {
+                return filterFunctions[filter.type](record, filter);
+            });
+
+            // return only these records that pass all filters
+            return _.all(passes, _.identity);
+        });
+    },
 
     my.Filters._filterFunctions = {
         term: function (record, filter, fields) {
@@ -192,34 +189,34 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
             var operation = {
                 ne: function (value, term) {
-                    return value !== term
+                    return value !== term;
                 },
                 eq: function (value, term) {
-                    return value === term
+                    return value === term;
                 },
                 lt: function (value, term) {
-                    return value < term
+                    return value < term;
                 },
                 lte: function (value, term) {
-                    return value <= term
+                    return value <= term;
                 },
                 gt: function (value, term) {
-                    return value > term
+                    return value > term;
                 },
                 gte: function (value, term) {
-                    return value >= term
+                    return value >= term;
                 },
                 bw: function (value, term) {
-                    return _.contains(term, value)
+                    return _.contains(term, value);
                 },
                 like: function (value, term) {
-                    return value.indexOf(term) >= 0
+                    return value.indexOf(term) >= 0;
                 },
                 rlike: function (value, term) {
-                    return value.indexOf(term) == 0
+                    return value.indexOf(term) == 0;
                 },
                 llike: function (value, term) {
-                    return value.indexOf(term) > 0
+                    return value.indexOf(term) > 0;
                 }
             };
 
@@ -227,26 +224,26 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
         }
     },
 
-        my.Filters._dataParsers = {
-            integer: function (e) {
-                return parseFloat(e, 10);
-            },
-            float: function (e) {
-                return parseFloat(e, 10);
-            },
-            string: function (e) {
-                if (!e) return null; else return e.toString();
-            },
-            date: function (e) {
-                return new Date(e).valueOf()
-            },
-            datetime: function (e) {
-                return new Date(e).valueOf()
-            },
-            number: function (e) {
-                return parseFloat(e, 10);
-            }
-        };
+    my.Filters._dataParsers = {
+        integer: function (e) {
+            return parseFloat(e, 10);
+        },
+        float: function (e) {
+            return parseFloat(e, 10);
+        },
+        string: function (e) {
+            if (!e) return null; else return e.toString();
+        },
+        date: function (e) {
+            return new Date(e).valueOf();
+        },
+        datetime: function (e) {
+            return new Date(e).valueOf();
+        },
+        number: function (e) {
+            return parseFloat(e, 10);
+        }
+    };
 
     return my.Filters;
 });
