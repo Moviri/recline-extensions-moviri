@@ -308,6 +308,7 @@
         cal.find('td>table tbody').remove();
         for(var i = 0; i < options.calendars; i++) {
           date = new Date(options.current);
+          date.setHours(0,0,0,0);
           date.addMonths(-currentCal + i);
           tblCal = cal.find('table').eq(i+1);
           

@@ -50,6 +50,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         },
 
         onChange:function (view) {
+            var self = this;
             //console.log("on change")
             var exec = function (data, widget) {
                 var value = [];
@@ -57,7 +58,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 if (actions.length > 0) {
                     //reference
                     var startDate_reference = new Date(parseInt(data.dr1from_millis, 10));
-                    var endDate_reference = new Date(parseInt(data.dr1to_millis, 10));
+                    var endDate_reference = self.getFixedDate(parseInt(data.dr1to_millis, 10));
                     var rangetype_reference = view.daterange[data.daterangePreset];
 
                     value = [
@@ -72,7 +73,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     if (data.comparisonEnabled) {
                         view.trigger("compare_disabled", false);
                         var startDate_compare = new Date(parseInt(data.dr2from_millis, 10));
-                        var endDate_compare = new Date(parseInt(data.dr2to_millis, 10));
+                        var endDate_compare = self.getFixedDate(parseInt(data.dr2to_millis, 10));
                         if (startDate_compare != null && endDate_compare != null) {
                             value.push({field:"date_compare", value:[startDate_compare.toString(), endDate_compare.toString()]});
                             value.push({field:"rangetype_compare", value:[rangetype_compare]});
@@ -181,6 +182,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var self = this;
             var dates = $('.date-ranges-picker').DatePickerGetDate();
             if (dates) {
+                if (dates.length >= 2) {
+                    dates[1] = this.getFixedDate(dates[1]);
+                }
+
                 var period = dates[0];
 
                 var f = self.model.queryState.getFilterByFieldName(self.options.fields.date);
@@ -295,12 +300,35 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 }
             }
         },
+        getFixedDate: function(date, returnMsecs) {
+            // return same day at 23:59:59
+            var currDate;
+            if (_.isNumber(date)) {
+                currDate = new Date(Math.floor(date));
+            }
+            else if (_.isDate(date)) {
+                currDate = date;
+            }
+            else {
+                return date;
+            }
+            currDate.setHours(23, 59, 59);
+            //var newMsecs = ((Math.floor(currMsecs/1000/60/60/24) + 1 ) * 1000*60*60*24) - 1000;
+            if (returnMsecs) {
+                return currDate.getTime();
+            }
+            return currDate; 
+        },
         redrawCompare:function () {
             //console.log("Widget.datepicker: redrawcompare");
             var self = this;
 
             var dates = $('.date-ranges-picker').DatePickerGetDate();
             if (dates) {
+                if (dates.length >= 4) {
+                    dates[3] = this.getFixedDate(dates[3]);
+                }
+
                 var period = dates[0];
                 var values = {};
                 if (self.datepicker.data("DateRangesWidget") && self.datepicker.data("DateRangesWidget").options) {
@@ -518,7 +546,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     values.dr1to = currVal;
                     values.dr1to_millis = d.getTime();
                     $('.dr1.to_millis').val(d.getTime());
-                    datepickerOptions.date[1] = d.getTime();
+                    datepickerOptions.date[1] = this.getFixedDate(d.getTime(), true);
                 }
                 if (datepickerOptions.mode == 'tworanges')
                     datepickerOptions.lastSel = 2;
@@ -534,7 +562,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     values.dr2to = currVal;
                     values.dr2to_millis = d.getTime();
                     $('.dr2.to_millis').val(d.getTime());
-                    datepickerOptions.date[3] = d.getTime();
+                    datepickerOptions.date[3] = this.getFixedDate(d.getTime(), true);
                 }
                 if (datepickerOptions.mode == 'tworanges')
                     datepickerOptions.lastSel = 0;

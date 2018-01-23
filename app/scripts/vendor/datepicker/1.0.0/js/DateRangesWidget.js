@@ -95,6 +95,7 @@
 					var dates = [];
 					
 					var today = new Date().clearTime();
+					today.setHours(0,0,0,0);
 					dates[0] = new Date(today).setDate(today.getDate() - days).valueOf();
 					dates[1] = new Date(today);
 					dates[1].setDate(today.getDate() - 1);
@@ -115,6 +116,7 @@
 					
 					var monday = internal.getMonday(new Date());
 					monday.setDate(monday.getDate() - (7 * weeks));
+					monday.setHours(0,0,0,0);
 					dates[0] = monday.valueOf();
 					var sunday = new Date(monday);
 					sunday.setDate(sunday.getDate()+6 + (7 * (weeks - 1)));
@@ -138,6 +140,8 @@
 					var firstOfMonth = new Date(lastOfMonth);
 					firstOfMonth.setDate(1);
 					firstOfMonth.setMonth(firstOfMonth.getMonth() - months + 1);
+					firstOfMonth.setHours(0,0,0,0);
+					lastOfMonth.setHours(23,59,59,0);
 					dates[0] = firstOfMonth.valueOf();
 					dates[1] = lastOfMonth.valueOf();
 					
@@ -159,6 +163,8 @@
 					var firstOfMonth = new Date(lastOfMonth);
 					firstOfMonth.setDate(1);
 					firstOfMonth.setMonth(firstOfMonth.getMonth() - months + 1);
+					firstOfMonth.setHours(0,0,0,0);
+					lastOfMonth.setHours(23,59,59,0);
 					dates[0] = firstOfMonth.valueOf();
 					dates[1] = lastOfMonth.valueOf();
 					
@@ -182,6 +188,8 @@
 					var firstOfYear = new Date(lastOfYear);
 					firstOfYear.setDate(1);
 					firstOfYear.setMonth(-12*(years - 1));
+					firstOfYear.setHours(0,0,0,0);
+					lastOfYear.setHours(23,59,59,0);
 					dates[0] = firstOfYear.valueOf();
 					dates[1] = lastOfYear.valueOf();
 					
@@ -645,7 +653,11 @@
 		},
 		
 		getParameter1 : function() {
-			return parseInt($parameter1.val());
+			var val = $parameter1.val();
+			if (val == "") {
+				val = 1;
+			}
+			return parseInt(val);
 		},
 		
 		setParameter1 : function(value) {
