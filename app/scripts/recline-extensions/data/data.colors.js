@@ -1,5 +1,5 @@
 /* global define */
-define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min'], function(_, recline, chroma) {
+define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.js/chroma.min', 'REM/vendor/randomColor/randomColor'], function(_, recline, chroma, randomColor) {
 
     recline.Data = recline.Data || {};
     recline.Data.Format = recline.Format || {};
@@ -7,12 +7,15 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
 
     var my = recline.Data;
 
+//    var variationMappingArray = [0, 0.75, 0.25, 0.5];
+    var variationMappingArray = [0, 0.33, 0.67];
+
     my.ColorSchema = Backbone.Model.extend({
+        oldLimitsMapping: {},
         constructor: function ColorSchema() {
             Backbone.Model.prototype.constructor.apply(this, arguments);
         },
 
-        // ### initialize
         initialize: function () {
             if (this.attributes.data) {
                 var data = this.attributes.data;
@@ -24,7 +27,15 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                 this.attributes.type = "scaleWithDistinctData";
                 this._generateLimits(data);
             }
-
+            if (this.attributes.gradientElementsBeforeVariation && this.attributes.gradientElementsBeforeVariation > 0 && this.attributes.gradientElementsBeforeVariation < 10) {
+                variationMappingArray = [];
+                for(var i = 0; i < this.attributes.gradientElementsBeforeVariation; i++) {
+                    variationMappingArray.push(i/this.attributes.gradientElementsBeforeVariation);
+                }
+            }
+            else if (this.attributes.variationMappingArray && this.attributes.variationMappingArray.length > 0) {
+                variationMappingArray = this.attributes.variationMappingArray;
+            }
 
             if (this.attributes.twoDimensionalVariation) {
                 if (this.attributes.twoDimensionalVariation.data) {
@@ -93,15 +104,67 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
 
             this.bindToVariationDataset();
         },
+
+        darkenColor: function(color, factor, minLightnessConstraint) {
+            if (color && color.hsl) {
+                var colorHSL = color.hsl();
+                if (colorHSL && colorHSL.length > 2) {
+                    if (minLightnessConstraint === undefined || colorHSL[2] > minLightnessConstraint) {
+                        return chroma.interpolate(color, '#000', factor, 'hsl'); 
+                    }
+                }
+            }
+            return color;
+        },
+        brightenColor: function(color, factor, maxLightnessConstraint) {
+            if (color && color.hsl) {
+                var colorHSL = color.hsl();
+                if (colorHSL && colorHSL.length > 2) {
+                    if (maxLightnessConstraint === undefined || colorHSL[2] < maxLightnessConstraint) {
+                        return chroma.interpolate(color, '#fff', factor, 'hsl'); 
+                    }
+                }
+            }
+            return color;
+        },
+
+        createDarkenedArray: function(colorList, factor) {
+            var self = this;
+            var res = [];
+            _.each(colorList, function(col) {
+                res.push(self.darkenColor(col, factor));
+            });
+            return res;
+        },
+
+        createBrightenedArray: function(colorList, factor) {
+            var self = this;
+            var res = [];
+            _.each(colorList, function(col) {
+                res.push(self.brightenColor(col, factor));
+            });
+            return res;
+        },
+
+        createRandomColorArray: function(count, seedArray) {
+            var res = [];
+            for (var i = 0; i < count ; i++) {
+                if (i < seedArray.length) {
+                    res.push(randomColor({seed: seedArray[i]}));
+                }
+                else {
+                    res.push(randomColor());   
+                }
+            }
+            return res;
+        },
         
         generateFromExternalDataset: function(ds) {
-//        	console.log('color generateFromExternalDataset');
              var data = this.getRecordsArray(ds);
              this._generateLimits(data);	
         },
 
         _generateFromDataset: function () {
-//        	console.log('color generateFromDataset');
             var data = this.getRecordsArray(this.attributes.dataset);
             this._generateLimits(data);
 
@@ -122,13 +185,36 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                     });
                     break;
                 case "scaleWithDistinctData":
-                	this.schema = new chroma.ColorScale({
-                        colors: this.attributes.colors,
-                        limits: [0, 1]
-                    });
-                    this.limitsMapping = this.limits["distinct"](uniqueData, this.oldLimitData);
-                    this.oldLimitData =  uniqueData;
+                    if (this.schema === undefined || uniqueData.length) {
+                    	this.schema = new chroma.ColorScale({
+                            colors: this.attributes.colors,
+                            limits: [0, 1]
+                        });
+                        this.limitsMapping = this.limits["distinct"](uniqueData, this.oldLimitData);
+                        this.oldLimitData =  uniqueData;
+                    }
                     break;
+                case "scaleWithDistinctDataVariation":
+                    if (this.schema === undefined || uniqueData.length) {
+                        var maxLimit = Math.ceil(uniqueData.length/variationMappingArray.length);
+                        var colorList = _.clone(this.attributes.colors);
+                        if (colorList.length <= maxLimit) {
+                            var totRandomColors = maxLimit + 1 - colorList.length;
+                            colorList = colorList.concat(this.createRandomColorArray(totRandomColors, uniqueData.slice(totRandomColors)));
+                        }
+                        else {
+                            colorList = colorList.slice(0, maxLimit+1);
+                        }
+                        this.schema = new chroma.ColorScale({
+                            colors: colorList,
+                            limits: [0, maxLimit]
+                        });
+                        this.oldLimitsMapping = this.cachedJoin(this.oldLimitsMapping, this.limitsMapping);
+                        this.limitsMapping = this.limits["distinctVariation"](uniqueData, this.oldLimitsMapping);
+                        this.oldLimitData =  uniqueData;
+                    }
+                    break;
+
                 case "fixedLimits":
                     this.schema = new chroma.ColorScale({
                         colors: this.attributes.colors,
@@ -139,7 +225,22 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                     throw "data.colors.js: unknown or not defined properties type [" + this.attributes.type + "] possible values are [scaleWithDataMinMax,scaleWithDistinctData,fixedLimits]";
             }
         },
-
+        cachedJoin: function(oldMapping, newMapping) {
+            if (newMapping) {
+                // return a mapping that contains all new values plus old values that haven't been reused
+                var res = _.clone(newMapping);
+                var newValues = _.values(newMapping);
+                _.each(oldMapping, function(value, name) {
+                    if (newValues.indexOf(value) < 0 && res[name] === undefined) {
+                        res[name] = value;
+                    }
+                });
+                return _.omit(res, '_ALL_', 'All', 'All - All', '_ALL_ - _ALL_', '_EMPTY_VALUE_ - _EMPTY_VALUE_');
+            }
+            else {
+                return _.omit(oldMapping, '_ALL_', 'All', 'All - All', '_ALL_ - _ALL_', '_EMPTY_VALUE_ - _EMPTY_VALUE_');
+            }
+        },
         getScaleType: function () {
             return this.attributes.type;
         },
@@ -154,7 +255,7 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
 
         getColorFor: function (fieldValue) {
             if (this.schema == null && !this.attributes.defaultColor)
-                throw "data.colors.js: colorschema not yet initialized, datasource not fetched?"
+                throw "data.colors.js: colorschema not yet initialized, datasource not fetched?";
 
             //var hashed = recline.Data.Transform.getFieldHash(fieldValue);
 
@@ -162,14 +263,8 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                 if (this.limitsMapping[fieldValue] != null) {
                     var computedColor = this.schema.getColor(this.limitsMapping[fieldValue]);
                     if (computedColor) {
-                        if (computedColor.hsl) {
-                            var computerColorHSL = computedColor.hsl();
-                            if (computerColorHSL && computerColorHSL.length > 2 && computerColorHSL[2] > 0.8) {
-                                // if too bright return a darker version of same color
-                                return chroma.interpolate(computedColor, '#000', 0.5, 'hsv'); 
-                            }
-                        }
-                        return computedColor;
+                        // if too bright return a darker version of same color, otherwise keep same color
+                        return this.darkenColor(computedColor, 0.5, 0.8);
                     }
                 }
                 return chroma.hex(this.attributes.defaultColor);
@@ -257,8 +352,6 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                 return limit;
             },
             distinct: function () {
-
-
                 var arrayHash = function (data) {
                     var hash = 0,
                         i, j, _char;
@@ -331,10 +424,6 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                     if (uniq_old[0] == null){
                     	uniq_old = [];
                     }
-//                    console.log('unique');
-//                    console.log(uniq);
-//                    console.log('unique_old');
-//                    console.log(uniq_old);
                     var closeUO = sizeCache[arrayHash(uniq_old)] || closestSize(uniq_old.length);                    
                     var closeU = Math.max(closestSize(uniq.length), closeUO);
                     
@@ -438,7 +527,41 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                     sizeCache[arrayHash(uniq)] = closeU;
                     return obj;
                 };
-            }()
+            }(),
+            distinctVariation: function (data, mapping_old) {
+                var mapping = {};
+
+                if (data) {
+                    data.sort(function (a, b) {
+                        if (a > b) return 1;
+                        if (b > a) return -1;
+                        return 0;
+                    });
+                }
+                else {
+                    data = [];
+                }
+
+                // construct an array of optimal values based on variationMappingArray and of desired size
+                // e.g.: if variationMappingArray = [0, 0.75, 0.25, 0.5] and desiredSize = 10 we return [0, 0.75, 0.25, 0.5, 1, 1.75, 1.25, 1.5, 2, 2.75]
+                var desiredSize = data.length + 1;
+                var validValues = _.clone(variationMappingArray);
+                for (var i = 1; validValues.length < desiredSize && i < 50 /* for safety */; i++) {
+                    validValues = validValues.concat(_.map(variationMappingArray, function(n) {return n+i;}));
+                }
+                validValues.splice(desiredSize);
+                validValues = _.difference(validValues, _.values(mapping_old));
+
+                _.each(data, function(currData, i) {
+                    if (mapping_old && mapping_old[currData] !== undefined) {
+                        mapping[currData] = mapping_old[currData];
+                    }
+                    else {
+                        mapping[currData] = validValues.splice(0, 1)[0];
+                    }
+                });
+                return mapping;
+            }
         }
 
     });

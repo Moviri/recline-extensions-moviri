@@ -627,7 +627,7 @@
 					{
 						tmp.setDate(1);
 						var year = tmp.getFullYear();
-						var month = tmp.getMonth() + 1
+						var month = tmp.getMonth() + 1;
 						if (month == 12)
 						{
 							year++;
@@ -656,22 +656,21 @@
 	                    if (current == first) {
 	                        // first click: set to the start of the day
 	                        options.date[first] = (tmp.setHours(0,0,0,0)).valueOf();
-	                      }
-	                      // get the very end of the day clicked
-	                      val = (tmp.setHours(23,59,59,0)).valueOf();
-	                      
-// DO NOT CHANGE THE OTHER DATES!! Only change the one currently selected by the user
-//	                      if (val < options.date[other].valueOf()) {
-//	                        // second range click < first
-//	                        options.date[1] = options.date[0].valueOf() + 86399000;  // starting date + 1 day
-//	                        options.date[0] = val - 86399000;  // minus 1 day
-//
-//	                        options.date[second] = options.date[first].valueOf() + 86399000;  // starting date + 1 day
-//	                        options.date[first] = val - 86399000;  // minus 1 day
-//	                      } else {
-	                        // initial range click, or final range click >= first
-	  					  options.date[second] = val;  
-//	                      }
+	                    }
+                        // get the very end of the day clicked
+                        val = (tmp.setHours(23,59,59,0)).valueOf();
+                        options.date[second] = val;
+                        if (current == second) {
+                            // swap dates if necessary
+                            var d1 = new Date(options.date[first]);
+                            var d2 = new Date(options.date[second]);
+                            if (d2 < d1) {
+                                var tmpSwap = (d2.setHours(0,0,0,0)).valueOf();
+                                options.date[second] = (d1.setHours(0,0,0,0)).valueOf();
+                                options.date[first] = tmpSwap;
+                            }
+                        }
+
                         options.lastSel = !options.lastSel;
 	                    changedRange = !options.lastSel;
 	  	                var modulo = options.mode == 'range' ? 2 : 4;
