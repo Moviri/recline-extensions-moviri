@@ -10,7 +10,7 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
         template:'<figure style="clear:both; width: {{width}}px; height: {{height}}px;" id="{{uid}}"></figure><div class="xCharts-title-x" style="width:{{width}}px;text-align:center;margin-left:50px">{{xAxisTitle}}</div>',
         initialize:function (options) {
             this.el = $(this.el);
-            _.bindAll(this, 'render', 'redraw', 'displayNoDataMsg');
+            _.bindAll(this, 'render', 'redraw', 'displayNoDataMsg', 'deleteOldGraph');
 
             this.model.bind('change', this.render);
             this.model.fields.bind('reset', this.render);
@@ -47,83 +47,18 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
             self.trigger("chart:startDrawing");
 
             var graphid = "#" + this.uid;
-            if (false/*self.graph*/)
-            {
-                self.updateGraph();
-//                jQuery(graphid).empty();
-//                delete self.graph;
-//                console.log("View.xCharts: Deleted old graph");
-            }
-            else
-            {
-                var out = Mustache.render(this.template, this);
-                this.el.html(out);
-            }
+
+            var out = Mustache.render(this.template, this);
+            this.el.html(out);
+
             self.trigger("chart:endDrawing");
         },
 
         redraw:function () {
        //   console.log("View.xCharts: redraw");
-            
-            var self = this;
-            self.trigger("chart:startDrawing");
-
-       //     console.log(self.model.records.toJSON());
-
-            if (false /*self.graph*/)
-                self.updateGraph();
-            else
-                self.renderGraph();
-
-            self.trigger("chart:endDrawing");
-        },
-
-        updateGraph:function () {
-     //       console.log("View.xCharts: updateGraph");
-            var self = this;
-            if (this.model.recordCount)
-            {
-                self.updateSeries();
-                
-                if (self.series.main && self.series.main.length && self.series.main[0].data && self.series.main[0].data.length)
-                {
-                    this.el.find('figure div.noData').remove();
-                    
-                    this.el.find('div.xCharts-title-x').html(self.options.state.xAxisTitle);
-                    var state =  self.options.state;
-                    self.updateState(state);
-                    self.graph._options = state.opts;
-    
-                    self.graph.setData(self.series);
-                    self.updateOptions();
-    
-                    self.graph.setType(state.type);
-    
-                    if(state.legend) {
-                        self.createLegend();
-                    }
-    
-                }
-                else
-                {
-                    // display NO DATA MSG
-                    
-                    //self.graph.setData(self.series);
-                    var graphid = "#" + this.uid;
-                    if (self.graph)
-                    {
-                        // removes resize event or last chart will popup again!
-                        d3.select(window).on('resize.for.' + graphid, null);
-                        $(graphid).off();
-                        $(graphid).empty();
-                        delete self.graph;
-                    }
-                    this.el.find('figure').html("");
-                    this.el.find('figure').append(new recline.View.NoDataMsg().create());
-                    this.el.find('div.xCharts-title-x').html("");
-                    self.graph = null;
-                }
-            }
+            this.trigger("chart:startDrawing");
+            this.renderGraph();
+            this.trigger("chart:endDrawing");
         },
 
         updateState: function(state) {
@@ -195,19 +130,17 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
             
         renderGraph:function () {
             //console.log("View.xCharts: renderGraph");
-
-            var self = this;
-            var state = self.options.state;
+            var state = this.options.state;
             if (this.model.recordCount)
             {
-                self.updateSeries();
+                this.updateSeries();
                 
-                if (self.series.main && self.series.main.length && self.series.main[0].data && self.series.main[0].data.length)
+                if (this.series.main && this.series.main.length && this.series.main[0].data && this.series.main[0].data.length)
                 {
-                    self.el.find('figure div.noData').remove(); // remove no data msg (if any) 
-                    self.el.find('figure svg g').remove(); // remove previous graph (if any)
+                    this.el.find('figure div.noData').remove(); // remove no data msg (if any) 
+                    this.el.find('figure svg g').remove(); // remove previous graph (if any)
                         
-                    self.updateState(state);
+                    this.updateState(state);
 
                     if (state.interpolation)
                         state.opts.interpolation = state.interpolation;
@@ -221,16 +154,21 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
                         state.opts.graphIdx = graphIdx;
                     }
 
-                    self.graph = new xChart(state.type, self.series, '#' + self.uid, state.opts);
-                    $('#' + self.uid+' svg').attr("id", "svgxchart"+graphIdx);
+                    // delete old chart before every redraw
+                    if (this.graph) {
+                        this.deleteOldGraph();
+                    }
+
+                    this.graph = new xChart(state.type, this.series, '#' + this.uid, state.opts);
+                    $('#' + this.uid+' svg').attr("id", "svgxchart"+graphIdx);
 
                     if(state.legend && state.legend.length)
-                        self.createLegend();
+                        this.createLegend();
 
                     if (state.timing != null && typeof state.timing != "undefined")
-                        self.graph._options.timing = state.timing;
+                        this.graph._options.timing = state.timing;
 
-                    self.updateOptions();
+                    this.updateOptions();
 
                 }
                 else this.displayNoDataMsg();
@@ -239,20 +177,26 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
         },
         displayNoDataMsg: function() 
         {
+            this.deleteOldGraph();
             // display NO DATA MSG
+            this.el.find('figure').append(new recline.View.NoDataMsg().create());
+        },
+        deleteOldGraph: function() {
             var graphid = "#" + this.uid;
             if (this.graph)
             {
                 // removes resize event or last chart will popup again!
                 d3.select(window).on('resize.for.' + graphid, null);
+                this.el.find('figure svg g').remove(); // remove previous graph (if any)
+                d3.selectAll(graphid+' svg').remove();
                 $(graphid).off();
                 $(graphid).empty();
                 delete this.graph;
             }
             this.el.find('figure').html("");
-            this.el.find('figure').append(new recline.View.NoDataMsg().create());
             this.el.find('div.xCharts-title-x').html("");
-        },
+            this.graph = null;
+        },        
 
         createLegend: function() {
             var self=this;

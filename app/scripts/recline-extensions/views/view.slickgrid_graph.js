@@ -1,9 +1,10 @@
-define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
+ /* global define, Slick */
+define(['backbone', 'underscore', 'REM/recline-extensions/recline-extensions-amd',
     'jquery-ui/sortable',  'REM/vendor/jquery.event.drag-2.2', 'REM/vendor/jquery-migrate-1.2.1.min',
     'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/slick.formatters',
     'slickgrid/slick.cellrangeselector', 'slickgrid/slick.cellselectionmodel', 'slickgrid/slick.rowselectionmodel',
      ],
-     function(Backbone, recline) {
+     function(Backbone, _, recline) {
 // ## SlickGrid Dataset View
 //
 // Provides a tabular view on a Dataset, based on SlickGrid.
@@ -25,6 +26,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
             _.bindAll(this, 'render');
             _.bindAll(this, 'onSelectionChanged');
             _.bindAll(this, 'handleRequestOfRowSelection');
+            _.bindAll(this, 'deleteOldGrid');
 
             this.resultType = 'filtered';
             if (this.options.resultType !== null) {
@@ -96,7 +98,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                 } else {
                     return value;
                 }
-            }
+            };
             var myRecords = self.model.getRecords(self.resultType);
             if (options.showLineNumbers == true && myRecords.length > 0) {
                 var column = {
@@ -123,7 +125,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                     }
 
                     return undefined;
-                }
+                };
                 if (getObjectClass(self.model) != "VirtualDataset")
                     throw "Slickgrid exception: showPartitionedData option can only be used on a partitioned virtualmodel! Exiting";
 
@@ -136,13 +138,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
 
                 validFields = self.model.attributes.aggregation.dimensions.concat([options.showPartitionedData.partition]).concat(
                     _.map(options.showPartitionedData.measures, function (m) {
-                        return m.field + "_" + m.aggregation
+                        return m.field + "_" + m.aggregation;
                     })
                 );
                 // slightly different version of list above. Using fake name instead of real name of column
                 var validFieldsForOrdering = self.model.attributes.aggregation.dimensions.concat([fakePartitionFieldname]).concat(
                     _.map(options.showPartitionedData.measures, function (m) {
-                        return m.field + "_" + m.aggregation
+                        return m.field + "_" + m.aggregation;
                     })
                 );
                 var columnsOrder = this.state.get('columnsOrder');
@@ -159,10 +161,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                     formatter:formatter
                 };
                 var widthInfo = _.find(self.state.get('columnsWidth'), function (c) {
-                    return c.column == field.id
+                    return c.column == columnPart.id;
                 });
                 if (widthInfo) {
-                    column['width'] = widthInfo.width;
+                    columnPart['width'] = widthInfo.width;
                 }
                 columns.push(columnPart);
             }
@@ -173,7 +175,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                 {
                     var customFieldFormatInfo = _.find(options.customHtmlFormatters, function(customField) { return customField.id == field.id; });
                     if (customFieldFormatInfo)
-                        currFormatter = (customFieldFormatInfo.formula ? Slick.Formatters.HtmlExtFormatter : Slick.Formatters.HtmlFormatter)
+                        currFormatter = (customFieldFormatInfo.formula ? Slick.Formatters.HtmlExtFormatter : Slick.Formatters.HtmlFormatter);
                 }
                 var cssClass = "";
                 if (options.fieldFormatters){
@@ -197,7 +199,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                     });
                 }
                 var widthInfo = _.find(self.state.get('columnsWidth'), function (c) {
-                    return c.column == field.id
+                    return c.column == field.id;
                 });
                 if (widthInfo) {
                     column['width'] = widthInfo.width;
@@ -222,7 +224,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                     minWidth:150,
                     // if single series, use percent bar formatter, else twinbar formatter
                     formatter:(innerChartSerie1Name && innerChartSerie2Name ? Slick.Formatters.TwinBarFormatter : Slick.Formatters.PercentCompleteBar)
-                })
+                });
             }
             if (self.state.get('fieldLabels') && self.state.get('fieldLabels').length > 0) {
                 _.each(self.state.get('fieldLabels'), function (newIdAndLabel) {
@@ -260,10 +262,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                     // innerChart must always be last
                     // lineNumberField must always be first
                     else if (a.id == 'innerChart'  || b.id == 'lineNumberField') 
-                        return 1
+                        return 1;
                     else if (b.id == 'innerChart' || a.id == 'lineNumberField' )
-                        return -1
-                    else return (posA < posB ? 1 : -1)
+                        return -1;
+                    else return (posA < posB ? 1 : -1);
                 });
                 columns = columns.sort(function (a, b) {
                     return _.indexOf(columnsOrderToUse, a.id) > _.indexOf(columnsOrderToUse, b.id) ? 1 : -1;
@@ -291,10 +293,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                     var firstChar = parseInt(valStr.charAt(0));
                     var secondChar = parseInt(valStr.charAt(1));
                     if (secondChar < 5)
-                        return (firstChar + 0.5) * Math.pow(10, totDigits - 1)
-                    else return (firstChar + 1) * Math.pow(10, totDigits - 1)
+                        return (firstChar + 0.5) * Math.pow(10, totDigits - 1);
+                    else return (firstChar + 1) * Math.pow(10, totDigits - 1);
                 }
-            }
+            };
 
             if (self.state.get('useInnerChart') == true && innerChartSerie1Name && myRecords.length > 0) {
                 _.each(myRecords, function (doc) {
@@ -319,10 +321,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
             var jj = 0;
 
             if (options.showPartitionedData) {
-                var partitionFieldname = options.showPartitionedData.partition;
+                var partitionFieldName = options.showPartitionedData.partition;
                 var dimensionFieldnames = self.model.attributes.aggregation.dimensions;
                 var records = myRecords;
-                var dimensionValues = []
+                var dimensionValues = [];
                 for (var d in dimensionFieldnames) {
                     var dimensionFieldname = dimensionFieldnames[d];
                     var currDimensionValues = _.map(records, function (record) {
@@ -330,9 +332,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                     });
                     dimensionValues[d] = _.uniq(currDimensionValues); // should be already sorted
                 }
-                var firstMeasureFieldname = options.showPartitionedData.measures[0].field;
-                var modelAggregatFields = self.model.getPartitionedFields(partitionFieldname, firstMeasureFieldname);
-                var allPartitionValues = _.map(modelAggregatFields, function (f) {
+                var firstMeasureFieldName = options.showPartitionedData.measures[0].field;
+                var modelAggregateFields = self.model.getPartitionedFields(partitionFieldName, firstMeasureFieldName);
+                var allPartitionValues = _.map(modelAggregateFields, function (f) {
                     return f.attributes.partitionValue;
                 });
                 var partitionValues = _.uniq(allPartitionValues); // should be already sorted
@@ -341,10 +343,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                 var useSingleDimension = false;
                 if (dimensionFieldnames.length == 1) {
                     useSingleDimension = true;
-                    dimensionValues[1] = [""]
+                    dimensionValues[1] = [""];
                     dimensionFieldnames[1] = "___fake____";
                 }
 
+                var measureFieldName, modelField, formattedValue;
                 for (var i0 in dimensionValues[0]) {
                     row = {};
                     var dimensionFieldname0 = dimensionFieldnames[0];
@@ -362,25 +365,24 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                             if (i2 == 0)
                                 row[dimensionFieldname1] = dimensionValues[1][i1];
 
-                            row[partitionFieldname] = partitionValues[i2];
+                            row[partitionFieldName] = partitionValues[i2];
 
-                            for (var m in options.showPartitionedData.measures) {
-                                var measureField = options.showPartitionedData.measures[m];
-                                var measureFieldName = measureField.field
+                            _.each(options.showPartitionedData.measures, function(measureField) {
+                                measureFieldName = measureField.field;
                                 var modelAggregationFields = self.model.getPartitionedFields(partitionFieldname, measureFieldName);
-                                var modelField = _.find(modelAggregationFields, function (f) {
-                                    return f.attributes.partitionValue == partitionValues[i2]
+                                modelField = _.find(modelAggregationFields, function (f) {
+                                    return f.attributes.partitionValue == partitionValues[i2];
                                 });
                                 if (modelField) {
                                     if (rec) {
-                                        var formattedValue = rec.getFieldValueUnrendered(modelField);
+                                        formattedValue = rec.getFieldValueUnrendered(modelField);
                                         if (formattedValue)
                                             row[measureFieldName + "_" + measureField.aggregation] = rec.getFieldValueUnrendered(modelField);
                                         else row[measureFieldName + "_" + measureField.aggregation] = 0;
                                     }
                                     else row[measureFieldName + "_" + measureField.aggregation] = 0;
                                 }
-                            }
+                            });
 
                             if (options.showLineNumbers == true)
                                 row['lineNumberField'] = jj;
@@ -392,22 +394,21 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                         }
                         if (options.showPartitionedData.showSubTotals) {
                             row = {};
-                            row[partitionFieldname] = "<b>Total(s)</b>";
-                            for (var m in options.showPartitionedData.measures) {
-                                var measureField = options.showPartitionedData.measures[m];
-                                var measureFieldName = measureField.field + "_" + measureField.aggregation
-                                var modelField = _.find(self.model.getFields(self.resultType).models, function (f) {
-                                    return f.attributes.id == measureFieldName
+                            row[partitionFieldName] = "<b>Total(s)</b>";
+                            _.each(options.showPartitionedData.measures, function(measureField) {
+                                measureFieldName = measureField.field + "_" + measureField.aggregation;
+                                modelField = _.find(self.model.getFields(self.resultType).models, function (f) {
+                                    return f.attributes.id == measureFieldName;
                                 });
                                 if (modelField && rec) {
-                                    var formattedValue = rec.getFieldValueUnrendered(modelField);
+                                    formattedValue = rec.getFieldValueUnrendered(modelField);
                                     if (formattedValue)
                                         row[measureFieldName] = "<b>" + rec.getFieldValueUnrendered(modelField) + "</b>";
                                     else row[measureFieldName] = "<b>" + 0 + "</b>";
                                 }
                                 else row[measureFieldName] = "<b>" + 0 + "</b>";
-                            }
-                            unselectableRowIds.push(data.length)
+                            });
+                            unselectableRowIds.push(data.length);
                             data.push(row);
                         }
                     }
@@ -456,37 +457,38 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
 
             if (options.showTotals && myRecords.length > 0) {
                 options.totals = {};
+                var f, currTotal, fieldObj;
                 if (self.model.getField_byAggregationFunction) // virtual model
                 {
                     var totalsRecord = self.model.getRecords("totals");
-                    for (var f in options.showTotals) {
-                        var currTotal = options.showTotals[f];
-                        var fieldObj = self.model.getField_byAggregationFunction("totals" + (currTotal.filtered ? "_filtered" : ""), currTotal.field, currTotal.aggregation);
+                    for (f in options.showTotals) {
+                        currTotal = options.showTotals[f];
+                        fieldObj = self.model.getField_byAggregationFunction("totals" + (currTotal.filtered ? "_filtered" : ""), currTotal.field, currTotal.aggregation);
                         if (typeof fieldObj != "undefined")
                             options.totals[currTotal.field] = totalsRecord[0].getFieldValueUnrendered(fieldObj);
                     }
                 }
                 else
                 {
-                    for (var f in options.showTotals) {
-                        var currTotal = options.showTotals[f];
+                    for (f in options.showTotals) {
+                        currTotal = options.showTotals[f];
                         var currSum = 0;
-                        for (var jj in myRecords)
+                        for (jj in myRecords)
                             currSum += myRecords[jj].attributes[currTotal.field];
                         
-                        var fieldObj = self.model.fields.get(currTotal.field)
-                        var origValue = myRecords[0].attributes[currTotal.field]
+                        fieldObj = self.model.fields.get(currTotal.field);
+                        var origValue = myRecords[0].attributes[currTotal.field];
                         
                         if (currTotal.aggregation == "sum")
-                            myRecords[0].attributes[currTotal.field] = currSum
+                            myRecords[0].attributes[currTotal.field] = currSum;
                         else if (currTotal.aggregation == "avg")
-                            myRecords[0].attributes[currTotal.field] = currSum/myRecords.length
+                            myRecords[0].attributes[currTotal.field] = currSum/myRecords.length;
                         
-                        options.totals[currTotal.field] = myRecords[0].getFieldValue(fieldObj)
+                        options.totals[currTotal.field] = myRecords[0].getFieldValue(fieldObj);
                         if (currTotal.align)
-                            options.totals[currTotal.field] = "<div style='text-align:"+currTotal.align+"'>"+options.totals[currTotal.field]+"</div>"
+                            options.totals[currTotal.field] = "<div style='text-align:"+currTotal.align+"'>"+options.totals[currTotal.field]+"</div>";
                             
-                        myRecords[0].attributes[currTotal.field] = origValue 
+                        myRecords[0].attributes[currTotal.field] = origValue;
                     }
                 }
             }
@@ -499,18 +501,21 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
             }
             data.getItemMetadata = function (row) {
                 if (_.contains(unselectableRowIds, row))
-                    return { "selectable":false }
-            }
+                    return { "selectable":false };
+            };
+
+            // cleanup memory before creating a new slickgrid
+            this.deleteOldGrid();
 
             this.grid = new Slick.Grid(this.el, data, visibleColumns, options);
 
             var classesToAdd = ["s-table"];
             if (options.useHoverStyle)
-                classesToAdd.push("s-table-hover")
+                classesToAdd.push("s-table-hover");
             if (options.useCondensedStyle)
-                classesToAdd.push("s-table-condensed")
+                classesToAdd.push("s-table-condensed");
             if (options.useStripedStyle)
-                classesToAdd.push("s-table-striped")
+                classesToAdd.push("s-table-striped");
 
             this.grid.addClassesToGrid(classesToAdd);
             this.grid.removeClassesFromGrid(["ui-widget"]);
@@ -518,17 +523,17 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
             this.grid.setSelectionModel(new Slick.RowSelectionModel());
             //this.grid.getSelectionModel().setSelectedRows(rowsToSelect);
 
-            var sortedColumns = []
+            var sortedColumns = [];
             _.each(self.model.queryState.attributes.sort, function (sortCondition) {
-                sortedColumns.push({ columnId:sortCondition.field, sortAsc:sortCondition.order == "asc" })
+                sortedColumns.push({ columnId:sortCondition.field, sortAsc:sortCondition.order == "asc" });
             });
             this.grid.setSortColumns(sortedColumns);
 
             this.grid.onSelectedRowsChanged.subscribe(function (e, args) {
                 if (!self.discardSelectionEvents)
-                    self.onSelectionChanged(args.rows)
+                    self.onSelectionChanged(args.rows);
 
-                self.discardSelectionEvents = false
+                self.discardSelectionEvents = false;
             });
             
             // Column sorting
@@ -545,9 +550,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                 if (args.sortCol.sorted) {
                     // already ordered! switch ordering
                     if (args.sortCol.sorted == "asc")
-                        order = "desc"
+                        order = "desc";
                     if (args.sortCol.sorted == "desc")
-                        order = "asc"
+                        order = "asc";
                 }
                 var sort = [
                     {
@@ -588,21 +593,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
             var columnpicker = new Slick.Controls.ColumnPicker(columns, this.grid,
                 _.extend(options, {state:this.state}));
 
-            if (self.visible) {
-                self.grid.init();
-                self.rendered = true;
-                resizeSlickGrid();
-            } else {
-                // Defer rendering until the view is visible
-                self.rendered = false;
-            }
-
             function resizeSlickGrid() {
                 if (self.model.getRecords(self.resultType).length > 0 && self.el.is(":visible")) {
                     var container = self.el.parent();
                     if (typeof container != "undefined" && container != null &&
-                        ((container[0].style && container[0].style.height && container[0].style.height.indexOf("%") > 0)
-                            || container.hasClass("h100") )) {
+                        ((container[0].style && container[0].style.height && container[0].style.height.indexOf("%") > 0) || container.hasClass("h100") )) {
                         //console.log("Resizing container height from "+self.el.height()+" to "+self.el.parent()[0].offsetHeight)
 
                         // force container height to element height
@@ -614,6 +609,16 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
                 }
             }
 
+            if (self.visible) {
+                self.grid.init();
+                self.rendered = true;
+                resizeSlickGrid();
+            } else {
+                // Defer rendering until the view is visible
+                self.rendered = false;
+            }
+
+
             //nv.utils.windowResize(resizeSlickGrid);
             this.handleRequestOfRowSelection();
 
@@ -621,20 +626,30 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd',
             
             return this;
         },
+        deleteOldGrid: function() {
+            if (this.grid) {
+                this.grid.invalidateAllRows();
+                this.grid.getData().length = 0; // empty old rows
+                this.grid.getColumns().length = 0; // empty old columns
+                this.el.off();
+                this.el.empty();
+                delete this.grid;
+            }
+        },
         handleRequestOfRowSelection:function () {
             //console.log("handleRequestOfRowSelection")
             this.discardSelectionEvents = true;
             var rowsToSelect = [];
             var myRecords = this.model.getRecords(this.resultType);
             var selRow = null;
-            for (row in myRecords)
+            for (var row in myRecords) {
                 if (myRecords[row].is_selected) {
-                    rowsToSelect.push(row)
+                    rowsToSelect.push(row);
                     if (!selRow || row < selRow)
-                        selRow = row
+                        selRow = row;
                 }
-
-            this.grid.getSelectionModel().setSelectedRows(rowsToSelect)
+            }
+            this.grid.getSelectionModel().setSelectedRows(rowsToSelect);
             if (selRow && this.options.state && this.options.state.selectedCellFocus)
                 this.grid.scrollRowToTop(selRow);
         },
