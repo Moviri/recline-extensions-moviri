@@ -3,6 +3,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
     recline.View = recline.View || {};
     var my = recline.View;
 
+    /*jshint multistr: true */
+
     my.GenericFilter = Backbone.View.extend({
         className: 'recline-filter-editor well',
         template: '<div class="filters" {{#backgroundColor}}style="background-color:{{backgroundColor}}"{{/backgroundColor}}> \
@@ -494,7 +496,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             'click .grouped-button': 'onButtonsetClicked',
         },
 
-        activeFilters: new Array(),
+        activeFilters: [],
         _sourceDataset: null,
         _selectedClassName: "info", // use bootstrap ready-for-use classes to highlight list item selection (avail classes are success, warning, info & error)
 
@@ -545,7 +547,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
                 this.backgroundColor = args.state.backgroundColor;
             }
-            this.activeFilters = new Array();
+            this.activeFilters = [];
 
             this._actions = args.actions;
 
@@ -585,11 +587,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             _.each(this._sourceDataset.queryState.get('selections'), function (filter) {
                 for (var j in self.activeFilters) {
                     if (self.activeFilters[j].field == filter.field) {
-                        self.activeFilters[j].list = filter.list
-                        self.activeFilters[j].term = filter.term
-                        self.activeFilters[j].start = filter.start
-                        self.activeFilters[j].stop = filter.stop
-                        self.fixHierarchicRadiobuttonsSelections(self.activeFilters[j])
+                        self.activeFilters[j].list = filter.list;
+                        self.activeFilters[j].term = filter.term;
+                        self.activeFilters[j].start = filter.start;
+                        self.activeFilters[j].stop = filter.stop;
+                        self.fixHierarchicRadiobuttonsSelections(self.activeFilters[j]);
                     }
                 }
             });
@@ -607,7 +609,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 var currActiveFilter = null;
                 for (var j in self.activeFilters) {
                     if (self.activeFilters[j].ctrlId == flt.id) {
-                        currActiveFilter = self.activeFilters[j]
+                        currActiveFilter = self.activeFilters[j];
                         break;
                     }
                 }
@@ -672,9 +674,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var out = this.createSingleFilter(currActiveFilter);
             filterContainer.parent().html(out);
             if (currActiveFilter.controlType == "month_week_calendar" && currActiveFilter.period == "Weeks") {
-                var $scroller = $("#" + currActiveFilter.ctrlId).find(".month_week_scroller")
-                var $tableRow = $scroller.first("table tr")
-                $scroller.scrollTop((currActiveFilter.term - 1) * parseInt($tableRow.css("line-height")))
+                var $scroller = $("#" + currActiveFilter.ctrlId).find(".month_week_scroller");
+                var $tableRow = $scroller.first("table tr");
+                $scroller.scrollTop((currActiveFilter.term - 1) * parseInt($tableRow.css("line-height")));
             }
         },
 
@@ -716,7 +718,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             var buttons = filterCtrl.find("button.grouped-button");
             _.each(buttons, function (btn) {
-                $(btn).removeClass("btn-primary")
+                $(btn).removeClass("btn-primary");
             });
             if (valueList != null && typeof valuelist != "undefined") {
                 if (valueList.length == 1) {
@@ -781,7 +783,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var classToUse = currActiveFilter.selectedClassName || "btn-info";
             var buttons = filterCtrl.find("button.grouped-button");
             _.each(buttons, function (btn) {
-                $(btn).removeClass(classToUse)
+                $(btn).removeClass(classToUse);
             });
 
             // from now on, do not use each or other jquery/underscore methods since they don't work well here
@@ -811,12 +813,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             if (filterTemplate.needFacetedField) {
                 if (!self._sourceDataset.getRecords().length)
-                    return
+                    return;
 
                 currActiveFilter.facet = self._sourceDataset.getFacetByFieldId(currActiveFilter.field);
 
                 if (currActiveFilter.facet == null || typeof currActiveFilter.facet == "undefined")
-                    throw "GenericFilter: no facet present for field [" + currActiveFilter.field + "]. Define a facet before filter render"
+                    throw "GenericFilter: no facet present for field [" + currActiveFilter.field + "]. Define a facet before filter render";
 
                 if (currActiveFilter.fieldType == "integer" || currActiveFilter.fieldType == "number") // sort if numeric (Chrome issue)
                     currActiveFilter.facet.attributes.terms = _.sortBy(currActiveFilter.facet.attributes.terms, function (currObj) {
@@ -843,7 +845,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             if (currActiveFilter.labelPosition == 'inside')
                 currActiveFilter.innerLabel = currActiveFilter.label;
 
-            currActiveFilter.values = new Array();
+            currActiveFilter.values = [];
 
             // add value list to selected filter or templating of record values will not work
             if (currActiveFilter.controlType.indexOf('calendar') >= 0) {
@@ -887,10 +889,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         label: "" + (w + 1) + " [" + d3.time.format("%x")(new Date(weekStartTime)) + " -> " + d3.time.format("%x")(new Date(weekEndTime - 1000)) + "]",
                         startDate: new Date(weekStartTime),
                         stopDate: new Date(weekEndTime)
-                    }
+                    };
                     if (currActiveFilter.term == w + 1 ||
-                        (currActiveFilter.start && currActiveFilter.start.getTime() == weekStartTime
-                            && currActiveFilter.stop && currActiveFilter.stop.getTime() == weekEndTime)) {
+                        (currActiveFilter.start && currActiveFilter.start.getTime() == weekStartTime &&
+                          currActiveFilter.stop && currActiveFilter.stop.getTime() == weekEndTime)) {
                         currWeekValues.selected = self._selectedClassName;
                         currActiveFilter.term = w + 1;
                         if (currActiveFilter.period == "")
@@ -900,8 +902,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 }
 
                 currActiveFilter.monthValues = [];
+                var endYear;
                 for (m = 1; m <= 12; m++) {
-                    var endYear = currYear;
+                    endYear = currYear;
                     var endMonth = m;
                     if (m == 12) {
                         endYear = currYear + 1;
@@ -912,10 +915,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         label: d3.time.format("%B")(new Date(m + "/01/2012")) + " " + currYear,
                         startDate: new Date(currYear, m - 1, 1, 0, 0, 0, 0),
                         stopDate: new Date(endYear, endMonth, 1, 0, 0, 0, 0),
-                    }
+                    };
                     if (currActiveFilter.term == m ||
-                        (currActiveFilter.start && currActiveFilter.start.getTime() == currMonthValues.startDate.getTime()
-                            && currActiveFilter.stop && currActiveFilter.stop.getTime() == currMonthValues.stopDate.getTime())) {
+                        (currActiveFilter.start && currActiveFilter.start.getTime() == currMonthValues.startDate.getTime() &&
+                          currActiveFilter.stop && currActiveFilter.stop.getTime() == currMonthValues.stopDate.getTime())) {
                         currMonthValues.selected = self._selectedClassName;
                         if (currActiveFilter.period == "")
                             currActiveFilter.period = "Months";
@@ -925,7 +928,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 currActiveFilter.periodValues = [
                     {val: "Months", selected: (currActiveFilter.period == "Months" ? "selected" : "")},
                     {val: "Weeks", selected: (currActiveFilter.period == "Weeks" ? "selected" : "")}
-                ]
+                ];
                 if (currActiveFilter.period == "Months")
                     currActiveFilter.values = currActiveFilter.monthValues;
                 else if (currActiveFilter.period == "Weeks")
@@ -933,7 +936,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
                 currActiveFilter.yearValues = [];
                 var startYear = 2010;
-                var endYear = parseInt(d3.time.format("%Y")(new Date()))
+                endYear = parseInt(d3.time.format("%Y")(new Date()));
                 for (var y = startYear; y <= endYear; y++)
                     currActiveFilter.yearValues.push({val: y, selected: (currActiveFilter.year == y ? "selected" : "")});
             }
@@ -954,7 +957,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     { label: 'Last 30 days', start: "-29", stop: "t +1 d"},
                     { label: 'Last 90 days', start: "-89", stop: "t +1 d"},
                     { label: 'Last 365 days', start: "-1 y", stop: "t +1 d"},
-                ]
+                ];
                 var fullDateFilters = defaultDateFilters;
                 if (currActiveFilter.skipDefaultFilters)
                     fullDateFilters = [];
@@ -1010,8 +1013,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 for (var i in currActiveFilter.tmpValues) {
                     var v = currActiveFilter.tmpValues[i];
                     var notSelected = "";
-                    if ((currActiveFilter.fieldType != "date" && legendSelection.indexOf(v) < 0)
-                        || (currActiveFilter.fieldType == "date" && legendSelection.indexOf(v) < 0 && legendSelection.indexOf(new Date(v).valueOf()) < 0))
+                    if ((currActiveFilter.fieldType != "date" && legendSelection.indexOf(v) < 0) ||
+                      (currActiveFilter.fieldType == "date" && legendSelection.indexOf(v) < 0 && legendSelection.indexOf(new Date(v).valueOf()) < 0))
                         notSelected = "not-selected";
 
                     currActiveFilter.values.push({val: v, notSelected: notSelected, color: currActiveFilter.facet.attributes.terms[i].color, count: currActiveFilter.facet.attributes.terms[i].count});
@@ -1040,16 +1043,16 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
                     if (currActiveFilter.fieldType == "float" || currActiveFilter.fieldType == "number" || currActiveFilter.fieldType == "integer")
                         for (var jj in currActiveFilter.tmpValues)
-                            currActiveFilter.tmpValues[jj] = Math.floor(currActiveFilter.tmpValues[jj])
+                            currActiveFilter.tmpValues[jj] = Math.floor(currActiveFilter.tmpValues[jj]);
 
-                    currActiveFilter.tmpValues = _.uniq(currActiveFilter.tmpValues)
+                    currActiveFilter.tmpValues = _.uniq(currActiveFilter.tmpValues);
 
                     var pixelW = 0;
                     // calculate needed pixel width for every string
                     for (var i in currActiveFilter.tmpValues) {
                         var v = currActiveFilter.tmpValues[i];
                         ruler.innerHTML = v;
-                        var w = ruler.offsetWidth
+                        var w = ruler.offsetWidth;
                         if (w > pixelW)
                             pixelW = w;
                     }
@@ -1060,7 +1063,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     var totRighe = Math.ceil(currActiveFilter.tmpValues.length / maxColsPerRow);
                     var colsPerRow = Math.ceil(currActiveFilter.tmpValues.length / totRighe);
                     currActiveFilter.totWidth = colsPerRow * pixelW;
-                    currActiveFilter.totWidth2 = currActiveFilter.totWidth + (currActiveFilter.labelPosition == 'left' ? currActiveFilter.label.length * 10 : 10)
+                    currActiveFilter.totWidth2 = currActiveFilter.totWidth + (currActiveFilter.labelPosition == 'left' ? currActiveFilter.label.length * 10 : 10);
                     currActiveFilter.totHeight = totRighe * currActiveFilter.lineHeight;
                     currActiveFilter.totHeight2 = currActiveFilter.totHeight + currActiveFilter.lineHeight;
 
@@ -1084,15 +1087,15 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     currActiveFilter.colorValues2 = [];
                     currActiveFilter.lineHeight = 20;
 
-                    currActiveFilter.minValue = currActiveFilter.tmpValues[0]
-                    currActiveFilter.maxValue = currActiveFilter.tmpValues[currActiveFilter.tmpValues.length - 1]
+                    currActiveFilter.minValue = currActiveFilter.tmpValues[0];
+                    currActiveFilter.maxValue = currActiveFilter.tmpValues[currActiveFilter.tmpValues.length - 1];
 
-                    var maxWidth = self.el.width() || 250
-                    var colsPerRow = currActiveFilter.tmpValues.length
-                    var pixelW = Math.floor(maxWidth / colsPerRow)
+                    var maxWidth = self.el.width() || 250;
+                    var colsPerRow = currActiveFilter.tmpValues.length;
+                    var pixelW = Math.floor(maxWidth / colsPerRow);
 
                     currActiveFilter.totWidth = colsPerRow * pixelW;
-                    currActiveFilter.totWidth2 = currActiveFilter.totWidth + (currActiveFilter.labelPosition == 'left' ? currActiveFilter.label.length * 10 : 10)
+                    currActiveFilter.totWidth2 = currActiveFilter.totWidth + (currActiveFilter.labelPosition == 'left' ? currActiveFilter.label.length * 10 : 10);
                     currActiveFilter.totHeight = currActiveFilter.lineHeight;
                     currActiveFilter.totHeight2 = currActiveFilter.totHeight + currActiveFilter.lineHeight;
                     for (var i in currActiveFilter.tmpValues) {
@@ -1104,7 +1107,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                                 v = v.toFixed(2);
                             }
                             ruler.innerHTML = v;
-                            var w = ruler.offsetWidth
+                            var w = ruler.offsetWidth;
                             currActiveFilter.colorValues2.push({width: w, color: color, val: v, x: (i == 0 ? 2 : currActiveFilter.totWidth - w - 2), y: 0, yplus30: 15, textColor: self.complementColor(color)});
                         }
                         currActiveFilter.colorValues.push({width: pixelW, color: color, val: "", x: pixelW * i, y: 0, yplus30: 15 });
@@ -1112,19 +1115,18 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 }
             }
             else if (currActiveFilter.controlType == "hierarchic_radiobuttons") {
-                var lev1Values = []
-                var fullLevelValues = []
+                var lev1Values = [];
+                var fullLevelValues = [];
                 var totLevels = 1;
                 var userSelection = null;
                 currActiveFilter.all1Selected = "btn-primary";
                 if (currActiveFilter.term)
-                    userSelection = currActiveFilter.term
+                    userSelection = currActiveFilter.term;
                 else if (typeof currActiveFilter.list != "undefined" && currActiveFilter.list && currActiveFilter.list.length == 1)
                     userSelection = currActiveFilter.list[0];
 
                 if (currActiveFilter.term || (currActiveFilter.list && currActiveFilter.list.length < self._sourceDataset.getRecords()))
-                    currActiveFilter.all1Selected = ""
-
+                    currActiveFilter.all1Selected = "";
 
                 var storedValues = []; // to avoid dulicates
                 _.each(self._sourceDataset.getRecords(), function (record) {
@@ -1143,15 +1145,15 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                             lev1Values.push({value: v, valueUnrendered: vUnrendered, record: record, shape: shape});
                         else {
                             var valueSet = v.split(currActiveFilter.separator);
-                            var lev1Val = valueSet[0]
+                            var lev1Val = valueSet[0];
                             if (_.find(lev1Values, function (currVal) {
-                                return currVal.value == lev1Val
+                                return currVal.value == lev1Val;
                             })) { /* skip already present */
                             }
                             else {
                                 lev1Values.push({value: lev1Val, valueUnrendered: lev1Val, record: null, shape: shape});
                                 if (valueSet.length > totLevels)
-                                    totLevels = valueSet.length
+                                    totLevels = valueSet.length;
                             }
                         }
                     }
@@ -1174,36 +1176,36 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     var record = lev1Val.record;
 
                     if (userSelection && userSelection != "" && self.areValuesEqual(userSelection.split(currActiveFilter.separator)[0], vUnrendered))
-                        selected = 'btn-primary'
+                        selected = 'btn-primary';
 
                     if (currActiveFilter.useShapeOnly == true) {
                         var shape = lev1Val.shape;
                         if (shape && shape.indexOf("undefined") < 0) {
-                            tooltip = "rel=tooltip title=" + v
-                            v = "<div class='shape'>" + shape + "</div>"
+                            tooltip = "rel=tooltip title=" + v;
+                            v = "<div class='shape'>" + shape + "</div>";
                         }
-                        else v = "<div class='shapeH'>" + v + "</div>"
+                        else v = "<div class='shapeH'>" + v + "</div>";
                     }
                     currActiveFilter.values.push({value: vUnrendered, val: v, record: record, selected: selected, valCount: v, tooltip: tooltip });
                 });
                 // handle user selection
                 if (userSelection && userSelection != "") {
-                    currActiveFilter.valuesLev2 = []
-                    var userSelectionParts = userSelection.split(currActiveFilter.separator)
+                    currActiveFilter.valuesLev2 = [];
+                    var userSelectionParts = userSelection.split(currActiveFilter.separator);
                     var subValues = _.filter(fullLevelValues, function (currVal) {
-                        return currVal.indexOf(userSelectionParts[0] + currActiveFilter.separator) == 0
-                    })
+                        return currVal.indexOf(userSelectionParts[0] + currActiveFilter.separator) == 0;
+                    });
                     if (subValues && subValues.length) {
                         // 2 or more levels
                         // populate level 2
                         currActiveFilter.showLevel2 = "block";
                         _.each(subValues, function (subValue) {
                             var selected = "";
-                            var subValueParts = subValue.split(currActiveFilter.separator)
+                            var subValueParts = subValue.split(currActiveFilter.separator);
                             var v = subValueParts[1];
                             var val = v;
                             if (_.find(currActiveFilter.valuesLev2, function (valueLev2) {
-                                return valueLev2.value == v
+                                return valueLev2.value == v;
                             })) {
                                 // do nothing. Item already present
                             }
@@ -1217,34 +1219,34 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                                     });
                                 }
                                 if (self.areValuesEqual(userSelectionParts[0], subValueParts[0]) && self.areValuesEqual(userSelectionParts[1], subValueParts[1])) {
-                                    selected = 'btn-primary'
-                                    currActiveFilter.all2Selected = ""
+                                    selected = 'btn-primary';
+                                    currActiveFilter.all2Selected = "";
                                 }
                                 if (currActiveFilter.useShapeOnly == true) {
                                     var shape = record.getFieldShape(field, false, false);
                                     if (shape && shape.indexOf("undefined") < 0) {
-                                        tooltip = "rel=tooltip title=" + v
-                                        v = "<div class='shape'>" + shape + "</div>"
+                                        tooltip = "rel=tooltip title=" + v;
+                                        v = "<div class='shape'>" + shape + "</div>";
                                     }
-                                    else v = "<div class='shapeH'>" + v + "</div>"
+                                    else v = "<div class='shapeH'>" + v + "</div>";
                                 }
                                 currActiveFilter.valuesLev2.push({value: val, val: v, selected: selected, valCount: v, tooltip: tooltip, record: record });
                                 // check if 3 levels must be shown
                                 if (subValueParts.length >= 2 && userSelectionParts.length >= 2) {
                                     var subSubValues = _.filter(fullLevelValues, function (currVal) {
-                                        return currVal.indexOf(userSelectionParts[0] + currActiveFilter.separator + userSelectionParts[1]) == 0
-                                    })
+                                        return currVal.indexOf(userSelectionParts[0] + currActiveFilter.separator + userSelectionParts[1]) == 0;
+                                    });
                                     if (subSubValues && subSubValues.length) {
                                         // populate level 3
                                         currActiveFilter.showLevel3 = "block";
-                                        currActiveFilter.valuesLev3 = []
+                                        currActiveFilter.valuesLev3 = [];
                                         _.each(subSubValues, function (subSubValue) {
                                             var selected = "";
-                                            var subValueParts = subSubValue.split(currActiveFilter.separator)
+                                            var subValueParts = subSubValue.split(currActiveFilter.separator);
                                             var v = subValueParts[2];
                                             var val = v;
                                             if (_.find(currActiveFilter.valuesLev3, function (valueLev3) {
-                                                return valueLev3.value == v
+                                                return valueLev3.value == v;
                                             })) {
                                                 // do nothing. Item already present
                                             }
@@ -1258,24 +1260,24 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                                                     });
                                                 }
                                                 if (self.areValuesEqual(userSelection, subSubValue)) {
-                                                    selected = 'btn-primary'
-                                                    currActiveFilter.all2Selected = ""
+                                                    selected = 'btn-primary';
+                                                    currActiveFilter.all2Selected = "";
                                                 }
                                                 if (currActiveFilter.useShapeOnly == true) {
                                                     var shape = record.getFieldShape(field, false, false);
                                                     if (shape && shape.indexOf("undefined") < 0) {
-                                                        tooltip = "rel=tooltip title=" + v
-                                                        v = "<div class='shape'>" + shape + "</div>"
+                                                        tooltip = "rel=tooltip title=" + v;
+                                                        v = "<div class='shape'>" + shape + "</div>";
                                                     }
-                                                    else v = "<div class='shapeH'>" + v + "</div>"
+                                                    else v = "<div class='shapeH'>" + v + "</div>";
                                                 }
                                                 currActiveFilter.valuesLev3.push({value: val, val: v, selected: selected, valCount: v, tooltip: tooltip, record: record });
                                             }
-                                        })
+                                        });
                                     }
                                 }
                             }
-                        })
+                        });
                     }
                 }
             }
@@ -1293,62 +1295,62 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         // This is needed to solve the notorious "All"/"_ALL_" issue
                         if (facetTerms[i].term) {
                             var validRec = _.find(self._sourceDataset.getRecords(), function (rec) {
-                                return rec.attributes[currActiveFilter.field] == facetTerms[i].term
-                            })
+                                return rec.attributes[currActiveFilter.field] == facetTerms[i].term;
+                            });
                             if (validRec) {
-                                var validRecField = validRec.fields.get(currActiveFilter.field)
+                                var validRecField = validRec.fields.get(currActiveFilter.field);
                                 if (validRecField)
-                                    v = validRec.getFieldValue(validRecField)
+                                    v = validRec.getFieldValue(validRecField);
                             }
                         }
                         var vUnrendered = facetTerms[i].term;
                         var val = v;
-                        var count = facetTerms[i].count
+                        var count = facetTerms[i].count;
                         if (currActiveFilter.controlType == "list") {
                             if (count > 0)
                                 selected = self._selectedClassName;
                         }
                         else if (currActiveFilter.controlType == "radiobuttons") {
-                            var classToUse = currActiveFilter.selectedClassName || "btn-primary"
+                            var classToUse = currActiveFilter.selectedClassName || "btn-primary";
 
                             if (self.areValuesEqual(currActiveFilter.term, vUnrendered) || (typeof currActiveFilter.list != "undefined" && currActiveFilter.list && currActiveFilter.list.length == 1 && self.areValuesEqual(currActiveFilter.list[0], vUnrendered)))
-                                selected = classToUse
+                                selected = classToUse;
 
                             if (currActiveFilter.useShapeOnly == true)
                                 if (facetTerms[i].shape && facetTerms[i].shape.indexOf("undefined") < 0) {
-                                    tooltip = "rel=tooltip title=" + v
-                                    v = "<div class='shape'>" + facetTerms[i].shape + "</div>"
+                                    tooltip = "rel=tooltip title=" + v;
+                                    v = "<div class='shape'>" + facetTerms[i].shape + "</div>";
                                 }
-                                else v = "<div class='shapeH'>" + v + "</div>"
+                                else v = "<div class='shapeH'>" + v + "</div>";
                         }
                         else if (currActiveFilter.controlType == "multibutton") {
-                            var classToUse = currActiveFilter.selectedClassName || "btn-info"
+                            var classToUse = currActiveFilter.selectedClassName || "btn-info";
 
                             if (self.areValuesEqual(currActiveFilter.term, vUnrendered))
-                                selected = classToUse
+                                selected = classToUse;
                             else if (typeof currActiveFilter.list != "undefined" && currActiveFilter.list != null) {
                                 for (var j in currActiveFilter.list)
                                     if (self.areValuesEqual(currActiveFilter.list[j], vUnrendered))
-                                        selected = classToUse
+                                        selected = classToUse;
                             }
                             if (currActiveFilter.useShapeOnly == true)
                                 if (facetTerms[i].shape && facetTerms[i].shape.indexOf("undefined") < 0) {
-                                    tooltip = "rel=tooltip title=" + v
-                                    v = "<div class='shape'>" + facetTerms[i].shape + "</div>"
+                                    tooltip = "rel=tooltip title=" + v;
+                                    v = "<div class='shape'>" + facetTerms[i].shape + "</div>";
                                 }
-                                else v = "<div class='shapeH'>" + v + "</div>"
+                                else v = "<div class='shapeH'>" + v + "</div>";
                         }
                         else if (currActiveFilter.controlType == "dropdown" || currActiveFilter.controlType == "dropdown_styled") {
                             if (self.areValuesEqual(currActiveFilter.term, vUnrendered) || (typeof currActiveFilter.list != "undefined" && currActiveFilter.list && currActiveFilter.list.length == 1 && self.areValuesEqual(currActiveFilter.list[0], vUnrendered)))
-                                selected = "selected"
+                                selected = "selected";
                         }
                         else if (currActiveFilter.controlType == "listbox" || currActiveFilter.controlType == "listbox_styled") {
                             if (self.areValuesEqual(currActiveFilter.term, vUnrendered))
-                                selected = "selected"
+                                selected = "selected";
                             else if (typeof currActiveFilter.list != "undefined" && currActiveFilter.list != null) {
                                 for (var j in currActiveFilter.list)
                                     if (self.areValuesEqual(currActiveFilter.list[j], vUnrendered))
-                                        selected = "selected"
+                                        selected = "selected";
                             }
                         }
                         if (currActiveFilter.showCount)
@@ -1384,48 +1386,48 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         var vUnrendered = record.getFieldValueUnrendered(field);
                         var val = v;
                         if (currActiveFilter.controlType == "radiobuttons") {
-                            var classToUse = currActiveFilter.selectedClassName || "btn-primary"
+                            var classToUse = currActiveFilter.selectedClassName || "btn-primary";
                             if (self.areValuesEqual(currActiveFilter.term, vUnrendered) || (typeof currActiveFilter.list != "undefined" && currActiveFilter.list && currActiveFilter.list.length == 1 && self.areValuesEqual(currActiveFilter.list[0], vUnrendered)))
-                                selected = classToUse
+                                selected = classToUse;
 
                             if (currActiveFilter.useShapeOnly == true) {
                                 var shape = record.getFieldShape(field, false, false);
                                 if (shape && shape.indexOf("undefined") < 0) {
-                                    tooltip = "rel=tooltip title=" + v
-                                    v = "<div class='shape'>" + shape + "</div>"
+                                    tooltip = "rel=tooltip title=" + v;
+                                    v = "<div class='shape'>" + shape + "</div>";
                                 }
-                                else v = "<div class='shapeH'>" + v + "</div>"
+                                else v = "<div class='shapeH'>" + v + "</div>";
                             }
                         }
                         else if (currActiveFilter.controlType == "multibutton") {
-                            var classToUse = currActiveFilter.selectedClassName || "btn-info"
+                            var classToUse = currActiveFilter.selectedClassName || "btn-info";
                             if (self.areValuesEqual(currActiveFilter.term, vUnrendered))
-                                selected = classToUse
+                                selected = classToUse;
                             else if (typeof currActiveFilter.list != "undefined" && currActiveFilter.list != null) {
                                 for (var j in currActiveFilter.list)
                                     if (self.areValuesEqual(currActiveFilter.list[j], vUnrendered))
-                                        selected = classToUse
+                                        selected = classToUse;
                             }
                             if (currActiveFilter.useShapeOnly == true) {
                                 var shape = record.getFieldShape(field, false, false);
                                 if (shape && shape.indexOf("undefined") < 0) {
-                                    tooltip = "rel=tooltip title=" + v
-                                    v = "<div class='shape'>" + shape + "</div>"
+                                    tooltip = "rel=tooltip title=" + v;
+                                    v = "<div class='shape'>" + shape + "</div>";
                                 }
-                                else v = "<div class='shapeH'>" + v + "</div>"
+                                else v = "<div class='shapeH'>" + v + "</div>";
                             }
                         }
                         else if (currActiveFilter.controlType == "dropdown" || currActiveFilter.controlType == "dropdown_styled") {
                             if (self.areValuesEqual(currActiveFilter.term, vUnrendered) || (typeof currActiveFilter.list != "undefined" && currActiveFilter.list && currActiveFilter.list.length == 1 && self.areValuesEqual(currActiveFilter.list[0], vUnrendered)))
-                                selected = "selected"
+                                selected = "selected";
                         }
                         else if (currActiveFilter.controlType == "listbox" || currActiveFilter.controlType == "listbox_styled") {
                             if (self.areValuesEqual(currActiveFilter.term, vUnrendered))
-                                selected = "selected"
+                                selected = "selected";
                             else if (typeof currActiveFilter.list != "undefined" && currActiveFilter.list != null) {
                                 for (var j in currActiveFilter.list)
                                     if (self.areValuesEqual(currActiveFilter.list[j], vUnrendered))
-                                        selected = "selected"
+                                        selected = "selected";
                             }
                         }
                         currActiveFilter.values.push({value: vUnrendered, val: v, record: record, selected: selected, valCount: v, tooltip: tooltip });
@@ -1446,9 +1448,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         }
                         lastV = v;
 
-                    })
+                    });
                 } else {
-                    throw "widget.genericfilter: nor facet or dataset present to build filter"
+                    throw "widget.genericfilter: nor facet or dataset present to build filter";
                 }
 
                 if (currActiveFilter.controlType.indexOf('slider') >= 0) {
@@ -1463,18 +1465,18 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
                     if (currActiveFilter.controlType.indexOf('styled') > 0) {
                         if (currActiveFilter.min % 2 == 0 && currActiveFilter.max % 2 == 0) {
-                            currActiveFilter.step1 = (currActiveFilter.max - currActiveFilter.min) / 4 + currActiveFilter.min
-                            currActiveFilter.mean = (currActiveFilter.max - currActiveFilter.min) / 2
-                            currActiveFilter.step2 = (currActiveFilter.max - currActiveFilter.min) * 3 / 4 + currActiveFilter.min
+                            currActiveFilter.step1 = (currActiveFilter.max - currActiveFilter.min) / 4 + currActiveFilter.min;
+                            currActiveFilter.mean = (currActiveFilter.max - currActiveFilter.min) / 2;
+                            currActiveFilter.step2 = (currActiveFilter.max - currActiveFilter.min) * 3 / 4 + currActiveFilter.min;
                             if (currActiveFilter.step1 != Math.floor(currActiveFilter.step1) || currActiveFilter.step2 != Math.floor(currActiveFilter.step2)) {
-                                currActiveFilter.step1 = "|"
-                                currActiveFilter.step2 = "|"
+                                currActiveFilter.step1 = "|";
+                                currActiveFilter.step2 = "|";
                             }
                         }
                         else {
-                            currActiveFilter.step1 = "|"
-                            currActiveFilter.mean = "|"
-                            currActiveFilter.step2 = "|"
+                            currActiveFilter.step1 = "|";
+                            currActiveFilter.mean = "|";
+                            currActiveFilter.step2 = "|";
                         }
                     }
                 }
@@ -1487,16 +1489,16 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         fixHierarchicRadiobuttonsSelections: function (filter) {
             var self = this;
             // ensures previous hierarchic_radiobutton selections are retained, if any (coming from the session cookie) [PART 1]
-            if (filter.controlType == "hierarchic_radiobuttons" && filter.type == "list"
-                && filter.list && filter.list.length > 1) {
-                var valueParts = filter.list[0].split(filter.separator)
+            if (filter.controlType == "hierarchic_radiobuttons" && filter.type == "list" &&
+              filter.list && filter.list.length > 1) {
+                var valueParts = filter.list[0].split(filter.separator);
                 if (valueParts.length > 1) {
-                    var commonSelection = valueParts.splice(0, valueParts.length - 1).join(filter.separator)
-                    var lung = commonSelection.length
-                    var allRecordsFound = true
-                    var allRecords = self._sourceDataset.getRecords()
+                    var commonSelection = valueParts.splice(0, valueParts.length - 1).join(filter.separator);
+                    var lung = commonSelection.length;
+                    var allRecordsFound = true;
+                    var allRecords = self._sourceDataset.getRecords();
                     for (var r in allRecords) {
-                        var record = allRecords[r]
+                        var record = allRecords[r];
                         var field = self._sourceDataset.fields.get(filter.field);
                         var currV = record.getFieldValue(field);
                         if (currV.substring(0, lung) === commonSelection) {
@@ -1507,7 +1509,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         }
                     }
                     if (allRecordsFound)
-                        filter.term = commonSelection
+                        filter.term = commonSelection;
                 }
             }
 
@@ -1516,7 +1518,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
         render: function () {
             var self = this;
-            console.log("Render " + this._sourceDataset.id + " [" + this._sourceDataset.getRecords().length + "]")
+            //console.log("Render " + this._sourceDataset.id + " [" + this._sourceDataset.getRecords().length + "]")
             var tmplData = {filters: this.activeFilters};
             _.each(tmplData.filters, function (flt) {
                 flt.hrVisible = 'block';
@@ -1528,11 +1530,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 _.each(self._sourceDataset.queryState.get('selections'), function (filter) {
                     for (var j in tmplData.filters) {
                         if (tmplData.filters[j].field == filter.field) {
-                            tmplData.filters[j].list = filter.list
-                            tmplData.filters[j].term = filter.term
-                            tmplData.filters[j].start = filter.start
-                            tmplData.filters[j].stop = filter.stop
-                            self.fixHierarchicRadiobuttonsSelections(tmplData.filters[j])
+                            tmplData.filters[j].list = filter.list;
+                            tmplData.filters[j].term = filter.term;
+                            tmplData.filters[j].start = filter.start;
+                            tmplData.filters[j].stop = filter.stop;
+                            self.fixHierarchicRadiobuttonsSelections(tmplData.filters[j]);
                         }
                     }
                 });
@@ -1542,7 +1544,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             }
 
             if (tmplData.filters.length > 0)
-                tmplData.filters[tmplData.filters.length - 1].hrVisible = 'none'
+                tmplData.filters[tmplData.filters.length - 1].hrVisible = 'none';
 
             var resultType = "filtered";
             if (self.options.resultType !== null)
@@ -1557,10 +1559,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             tmplData.filterRender = self.filterRender;
             var currTemplate = this.template;
             if (this.useHorizontalLayout)
-                currTemplate = this.templateHoriz
+                currTemplate = this.templateHoriz;
 
             if (self.showBackground == false) {
-                self.className = self.className.replace("well", "")
+                self.className = self.className.replace("well", "");
                 $(self).removeClass("well");
                 $(self.el).removeClass("well");
             }
@@ -1596,8 +1598,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             // ensures previous hierarchic_radiobutton selections are retained, if any (coming from the session cookie) [PART 2]
             _.each(tmplData.filters, function (currActiveFilter) {
-                if (currActiveFilter.controlType == "hierarchic_radiobuttons" && currActiveFilter.type == "list"
-                    && currActiveFilter.list && currActiveFilter.list.length > 1) {
+                if (currActiveFilter.controlType == "hierarchic_radiobuttons" && currActiveFilter.type == "list" &&
+                  currActiveFilter.list && currActiveFilter.list.length > 1) {
                     var flt;
                     if (currActiveFilter.ctrlId)
                         flt = self.el.find("#" + currActiveFilter.ctrlId);
@@ -1635,13 +1637,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             if (controlType == "hierarchic_radiobuttons") {
                 var currActiveFilter = this.findActiveFilterByField(fieldId, controlType);
                 // ensure one and only one selection is performed
-                var classToUse = currActiveFilter.selectedClassName || "btn-primary"
+                var classToUse = currActiveFilter.selectedClassName || "btn-primary";
                 $target.parent().find('button.' + classToUse).each(function () {
                     $(this).removeClass(classToUse);
                 });
                 $target.addClass(classToUse);
-                var currLevel = $target.parent().attr("level")
-                var prefix = ""
+                var currLevel = $target.parent().attr("level");
+                var prefix = "";
                 if (currLevel >= 2) {
                     var lev1Selection = $fieldSet.find('div.data-control-id button.' + classToUse);
                     prefix = lev1Selection.attr('val').valueOf() + currActiveFilter.separator;
@@ -1654,7 +1656,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 if ($target.attr('val') && $target.attr('val').length)
                     listaValori.push(prefix + $target.attr('val').valueOf());
                 else if (prefix.length)
-                    listaValori.push(prefix.substring(0, prefix.length - 1))
+                    listaValori.push(prefix.substring(0, prefix.length - 1));
 
                 currActiveFilter.userChanged = true;
 
@@ -1674,32 +1676,32 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     var currActiveFilterValue = null;
                     if (currLevel == 1)
                         currActiveFilterValue = _.find(currActiveFilter.values, function (currVal) {
-                            return currVal.value == currSelectedValue
-                        })
+                            return currVal.value == currSelectedValue;
+                        });
                     else if (currLevel == 2)
                         currActiveFilterValue = _.find(currActiveFilter.valuesLev2, function (currVal) {
-                            return currVal.value == currSelectedValue
-                        })
+                            return currVal.value == currSelectedValue;
+                        });
                     else if (currLevel == 3)
                         currActiveFilterValue = _.find(currActiveFilter.valuesLev3, function (currVal) {
-                            return currVal.value == currSelectedValue
-                        })
+                            return currVal.value == currSelectedValue;
+                        });
 
                     if (currActiveFilterValue && currActiveFilterValue.record) {
                         currActiveFilter.term = prefix + currSelectedValue;
                         if (currLevel == 1) {
-                            var divLev2 = $fieldSet.find('div.level2')
+                            var divLev2 = $fieldSet.find('div.level2');
                             if (divLev2.length > 0) {
-                                divLev2[0].style.display = "none"
-                                var divLev3 = $fieldSet.find('div.level3')
+                                divLev2[0].style.display = "none";
+                                var divLev3 = $fieldSet.find('div.level3');
                                 if (divLev3.length)
-                                    divLev3[0].style.display = "none"
+                                    divLev3[0].style.display = "none";
                             }
                         }
                         else if (currLevel == 2) {
-                            var divLev3 = $fieldSet.find('div.level3')
+                            var divLev3 = $fieldSet.find('div.level3');
                             if (divLev3.length > 0)
-                                divLev3[0].style.display = "none"
+                                divLev3[0].style.display = "none";
                         }
                         // must also send currSelectedValue to all models!!!!
                         this.doAction("onButtonsetClicked", fieldId, listaValori, "add", currActiveFilter);
@@ -1707,7 +1709,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     else {
                         currActiveFilter.term = prefix + currSelectedValue;
                         if (currActiveFilter.term.length && currActiveFilter.term[currActiveFilter.term.length - 1] == currActiveFilter.separator)
-                            currActiveFilter.term = currActiveFilter.term.substring(0, currActiveFilter.term.length - 1)
+                            currActiveFilter.term = currActiveFilter.term.substring(0, currActiveFilter.term.length - 1);
 
                         // redraw the filter!!!
                         var flt;
@@ -1729,7 +1731,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                                 searchString = prefix;
 
                             if (currV.indexOf(searchString) == 0 && !_.contains(listaValori, currV))
-                                listaValori.push(currV)
+                                listaValori.push(currV);
                         });
                         // must also send currSelectedValue to all models!!!!
                         this.doAction("onButtonsetClicked", fieldId, listaValori, "add", currActiveFilter);
@@ -1743,7 +1745,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 var fieldId = $fieldSet.attr('data-filter-field');
                 var controlType = $fieldSet.attr('data-control-type');
                 var currActiveFilter = this.findActiveFilterByField(fieldId, controlType);
-                var classToUse = currActiveFilter.selectedClassName || "btn-info"
+                var classToUse = currActiveFilter.selectedClassName || "btn-info";
                 if (controlType == "multibutton") {
                     $target.toggleClass(classToUse);
                     if (currActiveFilter.nullSelectionNotAllowed) {
@@ -1756,14 +1758,14 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     }
                 }
                 else if (controlType == "radiobuttons") {
-                    classToUse = currActiveFilter.selectedClassName || "btn-primary"
+                    classToUse = currActiveFilter.selectedClassName || "btn-primary";
                     if (currActiveFilter.allowDeselection) {
-                        var wasSelected = $target.hasClass(classToUse)
+                        var wasSelected = $target.hasClass(classToUse);
                         $fieldSet.find('div.btn-group button.' + classToUse).each(function () {
                             $(this).removeClass(classToUse);
                         });
                         if (!wasSelected)
-                            $target.addClass(classToUse)
+                            $target.addClass(classToUse);
                     }
                     else {
                         // ensure one and only one selection is performed
@@ -1784,8 +1786,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 if (controlType == "multibutton")
                     currActiveFilter.list = listaValori;
                 else if (controlType == "radiobuttons") {
-                    if (listaValori.length == 1 && listaValori[0] == "All" && !currActiveFilter.noAllButton
-                        || listaValori.length == 0 && currActiveFilter.allowDeselection) {
+                    if (listaValori.length == 1 && listaValori[0] == "All" && !currActiveFilter.noAllButton || listaValori.length == 0 && currActiveFilter.allowDeselection) {
                         listaValori = [];
                         currActiveFilter.term = "";
                     }
@@ -1803,7 +1804,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var $target = $(e.currentTarget);
             // switch to checkbox if user pressed on label
             if ($target.is("label"))
-                $target = $target.parent().prev().children('.legend-item')
+                $target = $target.parent().prev().children('.legend-item');
 
             var $fieldSet = $target.parent().parent().parent().parent().parent();
             var type = $fieldSet.attr('data-filter-type');
@@ -1819,7 +1820,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             // make sure at least one value is selected
             if (listaValori.length > 0) {
-                var currActiveFilter = this.findActiveFilterByField(fieldId, controlType)
+                var currActiveFilter = this.findActiveFilterByField(fieldId, controlType);
                 currActiveFilter.userChanged = true;
                 currActiveFilter.legend = listaValori;
 
@@ -1914,11 +1915,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
                 if (currFilter.values && currFilter.values.length) {
                     // make sure you use all values, even 2nd or 3rd level if present (hierarchic radiobuttons only)
-                    var allValues = currFilter.values
+                    var allValues = currFilter.values;
                     if (currFilter.valuesLev3)
-                        allValues = currFilter.values.concat(currFilter.valuesLev2, currFilter.valuesLev3)
+                        allValues = currFilter.values.concat(currFilter.valuesLev2, currFilter.valuesLev3);
                     else if (currFilter.valuesLev2)
-                        allValues = currFilter.values.concat(currFilter.valuesLev2)
+                        allValues = currFilter.values.concat(currFilter.valuesLev2);
 
                     // TODO it is not efficient, record must be indexed by term
                     _.each(allValues, function (v) {
@@ -2029,7 +2030,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 this.doAction("onFilterValueChanged", fieldId, activeFilter.list, op, activeFilter);
             }
             else if (fieldType == "list") {
-                var list = new Array();
+                var list = [];
                 var listObj = $target.find('.data-control-id')[0]; //return a plain HTML select obj
                 for (var i in listObj.options)
                     if (listObj.options[i].selected)
@@ -2112,8 +2113,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         },
         getFieldType: function (field) {
             var fieldFound = this._sourceDataset.fields.find(function (e) {
-                return e.get('id') === field
-            })
+                return e.get('id') === field;
+            });
             if (typeof fieldFound != "undefined" && fieldFound != null)
                 return fieldFound.get('type');
 
@@ -2130,22 +2131,22 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         },
         addNewFilterControl: function (newFilter) {
             if (typeof newFilter.type == 'undefined')
-                newFilter.type = this.getFilterTypeFromControlType(newFilter.controlType)
+                newFilter.type = this.getFilterTypeFromControlType(newFilter.controlType);
 
             if (typeof newFilter.fieldType == 'undefined')
-                newFilter.fieldType = this.getFieldType(newFilter.field)
+                newFilter.fieldType = this.getFieldType(newFilter.field);
 
             if (newFilter.controlType == "radiobuttons" || newFilter.controlType == "hierarchic_radiobuttons") {
                 if (newFilter.noAllButton && newFilter.noAllButton == true)
-                    newFilter.useAllButton = false
-                else newFilter.useAllButton = true
+                    newFilter.useAllButton = false;
+                else newFilter.useAllButton = true;
             }
             if (newFilter.controlType == "radiobuttons" || newFilter.controlType == "multibutton")
-                newFilter.useShapeOnly = (newFilter.useShapeOnly && newFilter.useShapeOnly == true)
+                newFilter.useShapeOnly = (newFilter.useShapeOnly && newFilter.useShapeOnly == true);
 
             if (newFilter.controlType == "month_week_calendar") {
                 if (typeof newFilter.period == "undefined")
-                    newFilter.period = "Months"
+                    newFilter.period = "Months";
 
                 if (typeof newFilter.year == "undefined")
                     newFilter.year = new Date().getFullYear();
@@ -2171,11 +2172,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 if (this.activeFilters[j].field == fieldId && this.activeFilters[j].controlType == controlType)
                     return this.activeFilters[j];
             }
-            return new Object(); // to avoid "undefined" errors
+            return {}; // to avoid "undefined" errors
         },
         changeFilterField: function (idx, fieldId) {
             if (this.activeFilters[idx])
-                this.activeFilters[idx].field = fieldId
+                this.activeFilters[idx].field = fieldId;
         },
         onRemoveFilter: function (e) {
             e.preventDefault();
@@ -2188,7 +2189,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             currFilter.userChanged = undefined;
 
             if (currFilter.controlType == "list" || currFilter.controlType == "month_week_calendar") {
-                $table = $target.parent().parent().find(".table")
+                $table = $target.parent().parent().find(".table");
                 if (typeof $table != "undefined") {
                     $table.find('tr').each(function () {
                         $(this).removeClass(this._selectedClassName);
@@ -2196,7 +2197,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 }
             }
             else if (currFilter.controlType == "slider_styled") {
-                var filterCtrl = $target.parent().parent().find(".slider-styled")
+                var filterCtrl = $target.parent().parent().find(".slider-styled");
                 filterCtrl.jslider("value", filterCtrl.jslider().settings.from);
             }
 
