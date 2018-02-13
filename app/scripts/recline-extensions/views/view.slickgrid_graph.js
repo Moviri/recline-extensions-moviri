@@ -506,8 +506,8 @@ define(['backbone', 'underscore', 'REM/recline-extensions/recline-extensions-amd
 
             // cleanup memory before creating a new slickgrid
             this.deleteOldGrid();
-
             this.grid = new Slick.Grid(this.el, data, visibleColumns, options);
+            //console.log("Created new slickgrid");
 
             var classesToAdd = ["s-table"];
             if (options.useHoverStyle)
@@ -626,7 +626,7 @@ define(['backbone', 'underscore', 'REM/recline-extensions/recline-extensions-amd
             
             return this;
         },
-        deleteOldGrid: function() {
+        deleteOldGrid: function(deleteModel) {
             if (this.grid) {
                 this.grid.invalidateAllRows();
                 this.grid.getData().length = 0; // empty old rows
@@ -634,6 +634,19 @@ define(['backbone', 'underscore', 'REM/recline-extensions/recline-extensions-amd
                 this.el.off();
                 this.el.empty();
                 delete this.grid;
+                if (deleteModel && this.model) {
+                    this.model.off();
+                    if (this.model.records) {
+                        this.model.records.off();
+                        if (this.model.records.reset) {
+                            this.model.records.reset();
+                        }
+                    }
+                    if (this.model.queryState) {
+                        this.model.queryState.off();
+                    }
+                }
+                //console.log("Deleted old slickgrid");
             }
         },
         handleRequestOfRowSelection:function () {

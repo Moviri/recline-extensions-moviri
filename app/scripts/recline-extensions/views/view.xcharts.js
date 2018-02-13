@@ -1,5 +1,6 @@
 /* global define */
-define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'd3v2', 'REM/vendor/xcharts/xcharts', 'REM/recline-extensions/views/view.no_data'], function (_, Backbone, recline, Mustache, d3, xChart) {
+define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'd3v2', 'REM/vendor/xcharts/xcharts', 'REM/recline-extensions/views/view.no_data'], 
+    function (_, Backbone, recline, Mustache, d3, xChart) {
 
     "use strict";
 
@@ -130,6 +131,7 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
             
         renderGraph:function () {
             //console.log("View.xCharts: renderGraph");
+            var self = this;
             var state = this.options.state;
             if (this.model.recordCount)
             {
@@ -160,6 +162,7 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
                     }
 
                     this.graph = new xChart(state.type, this.series, '#' + this.uid, state.opts);
+                    //console.log("Created new xCharts");
                     $('#' + this.uid+' svg').attr("id", "svgxchart"+graphIdx);
 
                     if(state.legend && state.legend.length)
@@ -181,7 +184,7 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
             // display NO DATA MSG
             this.el.find('figure').append(new recline.View.NoDataMsg().create());
         },
-        deleteOldGraph: function() {
+        deleteOldGraph: function(deleteModel) {
             var graphid = "#" + this.uid;
             if (this.graph)
             {
@@ -192,6 +195,22 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
                 $(graphid).off();
                 $(graphid).empty();
                 delete this.graph;
+                if (deleteModel && this.model) {
+                    this.model.off();
+                    if (this.model.records) {
+                        this.model.records.off();
+                        if (this.model.records.reset) {
+                            this.model.records.reset();
+                        }
+                    }
+                    if (this.model.fields) {
+                        this.model.fields.off();
+                    }
+                    if (this.model.queryState) {
+                        this.model.queryState.off();
+                    }
+                }
+                //console.log("Deleted old xCharts");
             }
             this.el.find('figure').html("");
             this.el.find('div.xCharts-title-x').html("");
