@@ -20,6 +20,7 @@ require.config({
     'slickgrid/slick.rowselectionmodel': '../bower_components/slickgrid-moviri/plugins/slick.rowselectionmodel',
     'slickgrid/slick.cellrangeselector': '../bower_components/slickgrid-moviri/plugins/slick.cellrangeselector',
     'slickgrid/slick.cellselectionmodel': '../bower_components/slickgrid-moviri/plugins/slick.cellselectionmodel',
+    'slickgrid/slick.autotooltips': '../bower_components/slickgrid-moviri/plugins/slick.autotooltips',
 
     'crossfilter' : '../bower_components/crossfilter/crossfilter.min',
     'rickshaw' : '../bower_components/rickshaw/rickshaw',

@@ -2,7 +2,7 @@
 define(['backbone', 'underscore', 'REM/recline-extensions/recline-extensions-amd',
     'jquery-ui/sortable',  'REM/vendor/jquery.event.drag-2.2', 'REM/vendor/jquery-migrate-1.2.1.min',
     'slickgrid/slick.core', 'slickgrid/slick.grid', 'slickgrid/slick.formatters',
-    'slickgrid/slick.cellrangeselector', 'slickgrid/slick.cellselectionmodel', 'slickgrid/slick.rowselectionmodel',
+    'slickgrid/slick.cellrangeselector', 'slickgrid/slick.cellselectionmodel', 'slickgrid/slick.rowselectionmodel', 'slickgrid/slick.autotooltips'
      ],
      function(Backbone, _, recline) {
 // ## SlickGrid Dataset View
@@ -508,6 +508,8 @@ define(['backbone', 'underscore', 'REM/recline-extensions/recline-extensions-amd
             this.deleteOldGrid();
             this.grid = new Slick.Grid(this.el, data, visibleColumns, options);
             //console.log("Created new slickgrid");
+
+            this.grid.registerPlugin(new Slick.AutoTooltips());
 
             var classesToAdd = ["s-table"];
             if (options.useHoverStyle)
