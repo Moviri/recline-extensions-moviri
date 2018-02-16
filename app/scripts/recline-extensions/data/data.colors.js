@@ -9,6 +9,7 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
 
 //    var variationMappingArray = [0, 0.75, 0.25, 0.5];
     var variationMappingArray = [0, 0.33, 0.67];
+    var specialZeroValues = ['_ALL_', 'All', 'All - All', '_ALL_ - _ALL_']; // these values must always return zero with distinctVariation
 
     my.ColorSchema = Backbone.Model.extend({
         oldLimitsMapping: {},
@@ -235,10 +236,10 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                         res[name] = value;
                     }
                 });
-                return _.omit(res, '_ALL_', 'All', 'All - All', '_ALL_ - _ALL_', '_EMPTY_VALUE_ - _EMPTY_VALUE_');
+                return _.omit(res, specialZeroValues);
             }
             else {
-                return _.omit(oldMapping, '_ALL_', 'All', 'All - All', '_ALL_ - _ALL_', '_EMPTY_VALUE_ - _EMPTY_VALUE_');
+                return _.omit(oldMapping, specialZeroValues);
             }
         },
         getScaleType: function () {
@@ -557,7 +558,12 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                         mapping[currData] = mapping_old[currData];
                     }
                     else {
-                        mapping[currData] = validValues.splice(0, 1)[0];
+                        if (specialZeroValues.indexOf(currData) >= 0) {
+                            mapping[currData] = 0;
+                        }
+                        else {
+                            mapping[currData] = validValues.splice(0, 1)[0];
+                        }
                     }
                 });
                 return mapping;
