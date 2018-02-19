@@ -7,7 +7,7 @@ function DateRange(date) {
 	
 	var referenceDate = date;
 	var from = null;
-	var to = null
+	var to = null;
 	var firstDayOfWeek = 1;
 	
 	/**
@@ -28,14 +28,14 @@ function DateRange(date) {
 		this.adjustUTCHours();
 		
 		return this;
-	}
+	};
 	
 	this.lastDaysInclCurrent = function(days) {
 		referenceDate.setUTCDate(referenceDate.getUTCDate() + 1);
 		this.lastDays(days);
 		
 		return this;
-	}
+	};
 	
 	/**
 	 * lastWeeks
@@ -50,20 +50,20 @@ function DateRange(date) {
 		this.adjustUTCHours();
 
 		return this;
-	}
+	};
 	
 	this.lastWeeksInclCurrent = function(weeks) {
 		referenceDate.setUTCDate(referenceDate.getUTCDate() + 7);
 		this.lastWeeks(weeks);
 		
 		return this;
-	}
+	};
 	
 	this.lastWeeksWTY = function(weeks) {
 		this.lastWeeks(weeks);
 		this.setToYesterday();
 		return this;
-	}
+	};
 	
 	/**
 	 * lastMonths
@@ -79,7 +79,7 @@ function DateRange(date) {
 		this.adjustUTCHours();
 
 		return this;
-	}
+	};
 	
 	this.lastMonthsInclCurrent = function(months) {
 		referenceDate.setUTCDate(1);
@@ -87,13 +87,13 @@ function DateRange(date) {
 		this.lastMonths(months);
 		
 		return this;
-	}
+	};
 	
 	this.lastMonthsMTY = function(months) {
 		this.lastMonths(months);
 		this.setToYesterday();
 		return this;
-	}
+	};
 	
 	/**
 	 * lastQuarters
@@ -110,13 +110,13 @@ function DateRange(date) {
 		from.setUTCMonth(from_mth);
 		from.setUTCDate(1);
 		
-		to.setUTCMonth(to_mth + 1)
+		to.setUTCMonth(to_mth + 1);
 		to.setUTCDate(0);
 		
 		this.adjustUTCHours();
 
 		return this;
-	}
+	};
 	
 	this.lastQuartersInclCurrent = function(quarters) {
 		this.lastQuarters(quarters);
@@ -126,13 +126,13 @@ function DateRange(date) {
 		to.setUTCDate(0);
 		
 		return this;
-	}
+	};
 	
 	this.lastQuartersQTY = function(quarters) {
 		this.lastQuarters(quarters);
 		this.setToYesterday();
 		return this;
-	}
+	};
 	
 	/**
 	 * lastYears
@@ -152,20 +152,20 @@ function DateRange(date) {
 		this.adjustUTCHours();
 		
 		return this;
-	}
+	};
 	
 	this.lastYearsInclCurrent = function(years) {
 		referenceDate.setUTCFullYear(referenceDate.getUTCFullYear() + 1);
 		this.lastYears(years);
 		
 		return this;
-	}
+	};
 	
 	this.lastYearsYTY = function(years) {
 		this.lastYears(years);
 		this.setToYesterday();
 		return this;
-	}
+	};
 	
 	/**
 	 * Adjusts UTC time:
@@ -175,13 +175,13 @@ function DateRange(date) {
 	this.adjustUTCHours = function() {
 		from.setUTCHours(0, 0, 0, 0);
 		to.setUTCHours(23, 59, 59, 0);
-	}
+	};
 	
 	this.setToYesterday = function() {
 		to = new Date(referenceDate);
 		to.setUTCDate(to.getUTCDate() - 1);
 		to.setUTCHours(23, 59, 59, 0);
-	}
+	};
 	
 	/**
 	 * Returns Date which is in the beginning of the week (according to
@@ -204,7 +204,7 @@ function DateRange(date) {
 		ref.setUTCDate(ref.getUTCDate() - diff);
 		ref.setUTCHours(0, 0, 0, 0);
 		return ref;
-	}
+	};
 	
 	/**
 	 * Getters and setters
@@ -215,14 +215,14 @@ function DateRange(date) {
 	 */
 	this.getFrom = function() {
 		return from;
-	}
+	};
 	
 	/**
 	 * Return "date to" of DateRange.
 	 */
 	this.getTo = function() {
 		return to;
-	}
+	};
 	
 	/**
 	 * Gets firstDayOfWeek which is used for week presets.
@@ -231,7 +231,7 @@ function DateRange(date) {
 	 */
 	this.getFirstDayOfWeek = function() {
 		return firstDayOfWeek;
-	}
+	};
 	
 	/**
 	 * Sets firstDayOfWeek which is used for week presets.
@@ -241,6 +241,6 @@ function DateRange(date) {
 	this.setFirstDayOfWeek = function(day) {
 		firstDayOfWeek = day;
 		return this;
-	}
+	};
 	
 }

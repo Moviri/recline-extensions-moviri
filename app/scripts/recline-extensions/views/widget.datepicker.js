@@ -79,11 +79,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         }
                     }
                     else
-                	{
+                    {
                         view.trigger("compare_disabled", true);
                         value.push({field:"date_compare", value:[null, null]}); // the nulls will force a remove filter when inside doAction
 
-//                    	// clear values for comparison dates or a redraw event may inadvertently restore them 
+//                      // clear values for comparison dates or a redraw event may inadvertently restore them 
 //                        $('.dr2.from', view.datepicker).val("");
 //                        $('.dr2.to', view.datepicker).val("");
 //                        $('.dr2.from_millis', view.datepicker).val("");
@@ -96,7 +96,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 //                        var datepickerOptions = $(".datepicker.selectableRange").data('datepicker')
 //                        datepickerOptions.date = datepickerOptions.date.slice(0, 2) 
 //                        $(".datepicker.selectableRange").data('datepicker', datepickerOptions)
-                	}
+                    }
                     view.doActions(actions, value);
                 }
 
@@ -131,9 +131,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             self.redrawCompare();
 
             var weeklyMode = (self.options.weeklyMode ? true : false);
+            var multiweekMode = (self.options.multiweekMode ? true : false);
             var monthlyMode = (self.options.monthlyMode ? true : false);
             var persistentCompare = (self.options.persistentCompare ? true : false);
-            if (weeklyMode || monthlyMode) {
+            if (weeklyMode || multiweekMode || monthlyMode) {
                 $('#datepicker-dropdown .daterange-preset').attr("disabled", "disabled");
                 $('#datepicker-dropdown .comparison-preset').attr("disabled", "disabled");
             }
@@ -145,11 +146,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var options = $(".datepicker.selectableRange").data('datepicker');
             if (options) {
                 options.weeklyMode = weeklyMode;
+                options.multiweekMode = multiweekMode;
                 options.monthlyMode = monthlyMode;
                 options.persistentCompare = persistentCompare;
             }
             else {
                 $(".datepicker.selectableRange").data('datepicker', 'weeklyMode', weeklyMode);
+                $(".datepicker.selectableRange").data('datepicker', 'multiweekMode', multiweekMode);
                 $(".datepicker.selectableRange").data('datepicker', 'monthlyMode', monthlyMode);
                 $(".datepicker.selectableRange").data('datepicker', 'persistentCompare', persistentCompare);
             }
@@ -173,7 +176,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             if (!this.model || this.model == "undefined")
                 return;
 
-            if (this.options.weeklyMode || this.options.monthlyMode) {
+            if (this.options.weeklyMode || this.options.multiweekMode || this.options.monthlyMode) {
                 $('#datepicker-dropdown .daterange-preset').attr("disabled", "disabled");
             }
             else {
@@ -184,7 +187,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var dates = $('.date-ranges-picker').DatePickerGetDate();
             if (dates) {
                 if (dates.length >= 2) {
-                    dates[1] = this.getFixedDate(dates[1]);
+                    if (!_.isArray(dates[0])) { // don't know if this case ever happens
+                        dates[1] = this.getFixedDate(dates[1]);
+                    }
+                    else if (dates[0].length >= 2) { // this, instead, happens for sure 
+                        dates[0][1] = this.getFixedDate(dates[0][1]);
+                    }
                 }
 
                 var period = dates[0];
@@ -240,7 +248,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     });
                     $('.dr1.from').bind("blur", function (e) {
                         if (self.maindateFromChanged) {
-                            if (self.options.weeklyMode) {
+                            if (self.options.multiweekMode) {
+                                var monday = self.calculateMonday($(this).val());
+                                var mondayDateStr = self.retrieveDateStr(monday);
+                                $('.dr1.from').val(mondayDateStr);
+                                self.applyTextInputDateChange(monday, mondayDateStr, self, true, true);
+                            }
+                            else if (self.options.weeklyMode) {
                                 var monday = self.calculateMonday($(this).val());
                                 var sunday = self.calculateSundayFromMonday(monday);
                                 var mondayDateStr = self.retrieveDateStr(monday);
@@ -261,16 +275,23 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                                 self.applyTextInputDateChange(lastDay, lastDayDateStr, self, true, false);
                             }
                             else
-                        	{
-                            	var d = self.retrieveDMYDate($(this).val());
-                            	self.applyTextInputDateChange(d, $(this).val(), self, true, true);
-                        	}
+                            {
+                                var d = self.retrieveDMYDate($(this).val());
+                                self.applyTextInputDateChange(d, $(this).val(), self, true, true);
+                            }
                             self.maindateFromChanged = false;
                         }
                     });
                     $('.dr1.to').bind("blur", function (e) {
                         if (self.maindateToChanged) {
-                            if (self.options.weeklyMode) {
+                            if (self.options.multiweekMode) {
+                                var monday = self.calculateMonday($(this).val());
+                                var sunday = self.calculateSundayFromMonday(monday);
+                                var sundayDateStr = self.retrieveDateStr(sunday);
+                                $('.dr1.to').val(sundayDateStr);
+                                self.applyTextInputDateChange(sunday, sundayDateStr, self, true, false);
+                            }
+                            else if (self.options.weeklyMode) {
                                 var monday = self.calculateMonday($(this).val());
                                 var sunday = self.calculateSundayFromMonday(monday);
                                 var mondayDateStr = self.retrieveDateStr(monday);
@@ -291,10 +312,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                                 self.applyTextInputDateChange(lastDay, lastDayDateStr, self, true, false);
                             }
                             else
-                        	{
-                            	var d = self.retrieveDMYDate($(this).val()).getTime() + 24 * 3600000 - 1;
-                            	self.applyTextInputDateChange(new Date(d), $(this).val(), self, true, false);
-                        	}
+                            {
+                                var d = self.retrieveDMYDate($(this).val()).getTime() + 24 * 3600000 - 1;
+                                self.applyTextInputDateChange(new Date(d), $(this).val(), self, true, false);
+                            }
                             self.maindateToChanged = false;
                         }
                     });
@@ -326,8 +347,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
 
             var dates = $('.date-ranges-picker').DatePickerGetDate();
             if (dates) {
-                if (dates.length >= 4) {
+                if (dates.length >= 4) { // don't know if this case ever happens
                     dates[3] = this.getFixedDate(dates[3]);
+                }
+                else if (dates.length > 0 && dates[0].length >= 4) { // this, instead, happens for sure
+                    dates[0][3] = this.getFixedDate(dates[0][3]);
                 }
 
                 var period = dates[0];
@@ -337,10 +361,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 }
                 if (this.options.compareModel) 
                 {
-                	// If the datepicker is already initialized and a redraw event is issued, 
-                	// we must not recreate the compare dates if they already were disabled
-                	if (self.fullyInitialized && !values.comparisonEnabled)
-            			return;
+                    // If the datepicker is already initialized and a redraw event is issued, 
+                    // we must not recreate the compare dates if they already were disabled
+                    if (self.fullyInitialized && !values.comparisonEnabled)
+                        return;
 
                     $('.enable-comparison').parent().show();
 
@@ -352,7 +376,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         $('.enable-comparison').removeAttr("disabled");
                     }   
 
-                    if (this.options.weeklyMode || this.options.monthlyMode) {
+                    if (this.options.weeklyMode || this.options.multiweekMode || this.options.monthlyMode) {
                         $('#datepicker-dropdown .comparison-preset').attr("disabled", "disabled");
                     }
                     else {
@@ -418,7 +442,13 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         });
                         $('.dr2.from').bind("blur", function (e) {
                             if (self.comparedateFromChanged) {
-                                if (self.options.weeklyMode) {
+                                if (self.options.multiweekMode) {
+                                    var monday = self.calculateMonday($(this).val());
+                                    var mondayDateStr = self.retrieveDateStr(monday);
+                                    $('.dr2.from').val(mondayDateStr);
+                                    self.applyTextInputDateChange(monday, mondayDateStr, self, false, true);
+                                }
+                                else if (self.options.weeklyMode) {
                                     var monday = self.calculateMonday($(this).val());
                                     var sunday = self.calculateSundayFromMonday(monday);
                                     var mondayDateStr = self.retrieveDateStr(monday);
@@ -439,16 +469,23 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                                     self.applyTextInputDateChange(lastDay, lastDayDateStr, self, false, false);
                                 }
                                 else
-                            	{
-                                	var d = self.retrieveDMYDate($(this).val());
-                                	self.applyTextInputDateChange(d, $(this).val(), self, false, true);
-                            	}
+                                {
+                                    var d = self.retrieveDMYDate($(this).val());
+                                    self.applyTextInputDateChange(d, $(this).val(), self, false, true);
+                                }
                                 self.comparedateFromChanged = false;
                             }
                         });
                         $('.dr2.to').bind("blur", function (e) {
                             if (self.comparedateToChanged) {
-                                if (self.options.weeklyMode) {
+                                if (self.options.multiweekMode) {
+                                    var monday = self.calculateMonday($(this).val());
+                                    var sunday = self.calculateSundayFromMonday(monday);
+                                    var sundayDateStr = self.retrieveDateStr(sunday);
+                                    $('.dr2.to').val(sundayDateStr);
+                                    self.applyTextInputDateChange(sunday, sundayDateStr, self, false, false);
+                                }
+                                else if (self.options.weeklyMode) {
                                     var monday = self.calculateMonday($(this).val());
                                     var sunday = self.calculateSundayFromMonday(monday);
                                     var mondayDateStr = self.retrieveDateStr(monday);
@@ -469,10 +506,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                                     self.applyTextInputDateChange(lastDay, lastDayDateStr, self, false, false);
                                 } 
                                 else
-                            	{
-                                	var d = self.retrieveDMYDate($(this).val()).getTime() + 24 * 3600000 - 1;
-                                	self.applyTextInputDateChange(new Date(d), $(this).val(), self, false, false);
-                            	}
+                                {
+                                    var d = self.retrieveDMYDate($(this).val()).getTime() + 24 * 3600000 - 1;
+                                    self.applyTextInputDateChange(new Date(d), $(this).val(), self, false, false);
+                                }
                                 self.comparedateToChanged = false;
                             }
                         });
@@ -480,7 +517,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     }
                 }
                 else {
-                	// disable and hide all comparison controls
+                    // disable and hide all comparison controls
                     values.comparisonEnabled = false;
                     values.comparisonPreset = "previousperiod";
                     $('.comparison-preset').val("previousperiod");
@@ -512,10 +549,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             d.setDate(1);
             var month = d.getMonth() + 1;
             if (month == 12)
-        	{
-            	d.setMonth(0);
-            	d.setFullYear(d.getFullYear()+1);
-        	}
+            {
+                d.setMonth(0);
+                d.setFullYear(d.getFullYear()+1);
+            }
             else d.setMonth(month);
             return new Date(d.getTime() - 1);
         },

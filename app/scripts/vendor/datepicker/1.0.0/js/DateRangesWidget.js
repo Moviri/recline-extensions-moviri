@@ -18,11 +18,11 @@
 	var default_options = {
 		
 		aggregations : ['-', 'daily', 'weekly', 'monthly', 'yearly'],
-        values : {}
+		values : {}
 
 	};
 
-    var default_aggregation = 'daily';
+	var default_aggregation = 'daily';
 
 	var db = {
 		
@@ -206,8 +206,8 @@
 			return this.each(function() {
 				var $this = $(this);
 				var data = $this.data('DateRangesWidget');
-                $this.data('test', internal);
-         
+				$this.data('test', internal);
+		 
 				// initialize data in dom element
 				if (!data) {
 					
@@ -271,14 +271,14 @@
 
 			}
 
-            $('.dr1.from_millis', $dropdown).val(dates[0].getTime());
-            $('.dr1.to_millis', $dropdown).val(dates[1].getTime());
+			$('.dr1.from_millis', $dropdown).val(dates[0].getTime());
+			$('.dr1.to_millis', $dropdown).val(dates[1].getTime());
 			
 			$('.dr2.from', $dropdown).val(dates[2].getDate() + '/' + (dates[2].getMonth()+1) + '/' + dates[2].getFullYear());
 			$('.dr2.to', $dropdown).val(dates[3].getDate() + '/' + (dates[3].getMonth()+1) + '/' + dates[3].getFullYear());
 
-            $('.dr2.from_millis', $dropdown).val(dates[2].getTime());
-            $('.dr2.to_millis', $dropdown).val(dates[3].getTime());
+			$('.dr2.from_millis', $dropdown).val(dates[2].getTime());
+			$('.dr2.to_millis', $dropdown).val(dates[3].getTime());
 		},
 		
 		createElements : function($target) {
@@ -315,7 +315,7 @@
 							'</div>'+
 							'<div class="colorBox currentBox"></div>'+
 							'<input type="text" class="dr dr1 from" lastSel="0" /> - <input type="text" class="dr dr1 to" lastSel="1" />'+
-                            '<input type="hidden" class="dr dr1 from_millis" lastSel="2" /><input type="hidden" class="dr dr1 to_millis" lastSel="3" />'+
+							'<input type="hidden" class="dr dr1 from_millis" lastSel="2" /><input type="hidden" class="dr dr1 to_millis" lastSel="3" />'+
 						'</div>'+
 						'<div>'+
 							'<input type="checkbox" checked="checked" class="enable-comparison" /> Compare to:'+
@@ -328,9 +328,9 @@
 						'<div class="comparison-daterange">'+
 							'<div class="colorBox comparisonBox"></div>'+
 							'<input type="text" class="dr dr2 from" lastSel="2" /> - <input type="text" class="dr dr2 to" lastSel="3" />'+
-                            '<input type="hidden" class="dr dr2 from_millis" lastSel="2" /><input type="hidden" class="dr dr2 to_millis" lastSel="3" />'+
-           			'</div>'+
-           				'<div class="btn-group">'+
+							'<input type="hidden" class="dr dr2 from_millis" lastSel="2" /><input type="hidden" class="dr dr2 to_millis" lastSel="3" />'+
+					'</div>'+
+						'<div class="btn-group">'+
 						'<button class="btn btn-mini" id="button-ok">Apply</button>'+
 						'<button class="btn btn-mini" id="button-cancel">Cancel</button>'+
 						'</div>'+
@@ -363,7 +363,7 @@
 					onChange: function(dates, el, options) {
 						// user clicked on datepicker
 						internal.setDaterangePreset('custom');
-                        //console.log("onchange datepicker");
+						//console.log("onchange datepicker");
 					}
 				});
 				
@@ -546,9 +546,9 @@
 			$('.dr1.from', $dropdown).change();
 			$('.dr1.to', $dropdown).val(values.dr1to);
 			$('.dr1.to', $dropdown).change();
-			$('.dr2.from', $dropdown).val(values.dr2from)
+			$('.dr2.from', $dropdown).val(values.dr2from);
 			$('.dr2.from', $dropdown).change();
-			$('.dr2.to', $dropdown).val(values.dr2to)
+			$('.dr2.to', $dropdown).val(values.dr2to);
 			$('.dr2.to', $dropdown).change();
 			
 			$aggregation.val(values.aggregation);
@@ -574,24 +574,24 @@
 			var data = $target.data('DateRangesWidget');
 			var values = data.options.values;
 			values.aggregation = internal.getAggregation();
-			values.daterangePreset = internal.getDaterangePresetVal()
+			values.daterangePreset = internal.getDaterangePresetVal();
 			values.parameter1 = internal.getParameter1();
-			values.dr1from = $('.dr1.from', $dropdown).val()
-			values.dr1to = $('.dr1.to', $dropdown).val()
-            values.dr1from_millis = $('.dr1.from_millis', $dropdown).val()
-            values.dr1to_millis = $('.dr1.to_millis', $dropdown).val()
+			values.dr1from = $('.dr1.from', $dropdown).val();
+			values.dr1to = $('.dr1.to', $dropdown).val();
+			values.dr1from_millis = $('.dr1.from_millis', $dropdown).val();
+			values.dr1to_millis = $('.dr1.to_millis', $dropdown).val();
 			
 			values.comparisonEnabled = internal.getComparisonEnabled();
 			values.comparisonPreset = internal.getComparisonPreset();
-			values.dr2from = $('.dr2.from', $dropdown).val()
-			values.dr2to = $('.dr2.to', $dropdown).val()
+			values.dr2from = $('.dr2.from', $dropdown).val();
+			values.dr2to = $('.dr2.to', $dropdown).val();
 
-            values.dr2from_millis = $('.dr2.from_millis', $dropdown).val()
-            values.dr2to_millis = $('.dr2.to_millis', $dropdown).val()
+			values.dr2from_millis = $('.dr2.from_millis', $dropdown).val();
+			values.dr2to_millis = $('.dr2.to_millis', $dropdown).val();
 			$target.data('DateRangesWidget', data);
 
-            if($target.data().DateRangesWidget.options.onChange)
-                $target.data().DateRangesWidget.options.onChange(values);
+			if($target.data().DateRangesWidget.options.onChange)
+				$target.data().DateRangesWidget.options.onChange(values);
 
 		},
 
@@ -615,11 +615,11 @@
 				$('span.main', $target).text(values.dr1from + ' - ' + values.dr1to);
 				
 			} else if(values.daterangePreset) {
-                var dates = db.date_presets[values.daterangePreset].dates();
-                $('span.main', $target).text(dates[0] + ' - ' + dates[1]);
+				var dates = db.date_presets[values.daterangePreset].dates();
+				$('span.main', $target).text(dates[0] + ' - ' + dates[1]);
 
-            }
-            else {
+			}
+			else {
 				$('span.main', $target).text('N/A');
 			}
 			if (values.comparisonEnabled && values.dr2from && values.dr2to) {
@@ -678,11 +678,11 @@
 		
 		populateDateRangePresets : function() {
 			var aggregation = internal.getAggregation();
-            if(!aggregation)
-                aggregation = default_aggregation;
+			if(!aggregation)
+				aggregation = default_aggregation;
 			var main_presets_keys =  db.aggregations[aggregation].presets;
 
-            var $other_presets = $('<optgroup/>', {label : 'Other presets'})
+			var $other_presets = $('<optgroup/>', {label : 'Other presets'});
 			var valueBackup = $daterangePreset.val();
 			
 			$daterangePreset.html('');
@@ -743,19 +743,19 @@
 					left : $target.offset().left,
 					top : $target.offset().top + $target.height() - 1
 				});
-				$dropdown.css('border-radius',  '0 5px 5px 5px')
+				$dropdown.css('border-radius',  '0 5px 5px 5px');
 			} else {
 				//console.log('aligning right')
 				// align right edges
 				var fix = parseInt($dropdown.css('padding-left').replace('px', '')) +
 					parseInt($dropdown.css('padding-right').replace('px', '')) +
 					parseInt($dropdown.css('border-left-width').replace('px', '')) +
-					parseInt($dropdown.css('border-right-width').replace('px', ''))
+					parseInt($dropdown.css('border-right-width').replace('px', ''));
 				$dropdown.offset({
 					left : $target.offset().left + $target.width() - $dropdown.width() - fix,
 					top : $target.offset().top + $target.height() - 1
 				});
-				$dropdown.css('border-radius',  '5px 0 5px 5px')
+				$dropdown.css('border-radius',  '5px 0 5px 5px');
 			}
 			
 			
@@ -792,9 +792,6 @@
 	};
 	
 	$.fn.DateRangesWidget = function(method) {
-
-
-
 		if (methods[method]) {
 			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
 		} else if (typeof method === 'object' || !method) {
@@ -802,7 +799,6 @@
 		} else {
 			$.error('Method ' +  method + ' does not exist on jQuery.DateRangesWidget');
 		}
-  
 	};
 
 })( jQuery );
