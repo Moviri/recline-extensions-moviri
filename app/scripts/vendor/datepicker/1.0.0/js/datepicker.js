@@ -29,7 +29,7 @@
 				days:  'datepickerViewDays'
 			},
 			tpl = {
-				wrapper: '<div class="datepicker"><div class="datepickerBorderT" /><div class="datepickerBorderB" /><div class="datepickerBorderL" /><div class="datepickerBorderR" /><div class="datepickerBorderTL" /><div class="datepickerBorderTR" /><div class="datepickerBorderBL" /><div class="datepickerBorderBR" /><div class="datepickerContainer"><table cellspacing="0" cellpadding="0"><tbody><tr></tr></tbody></table></div></div>',
+				wrapper: '<div class="datepicker"><div class="datepickerBorderT" /><div class="datepickerBorderB" /><div class="datepickerBorderL" /><div class="datepickerBorderR" /><div class="datepickerBorderTL" /><div class="datepickerBorderTR" /><div class="datepickerBorderBL" /><div class="datepickerBorderBR" /><div class="datepickerContainer"><table cellspacing="0" cellpadding="0"><tbody><tr></tr></tbody></table><div class="selectionModeDiv"><label class="selectionModeLabel"></label></div></div></div>',
 				head: [
 					'<td class="datepickerBlock">',
 					'<table cellspacing="0" cellpadding="0">',
@@ -478,6 +478,9 @@
 			},
 
 			getStartOfWeek = function(date, setTimeAlso) {
+				if (typeof date.getDay !== 'function') {
+					date = new Date(date);
+				}
 				var day = date.getDay();
 				var diff = (day == 0 ? -6 : 1) - day;
 				var monday = new Date(date.getTime()+diff*24*3600000); // return monday of this week
@@ -490,6 +493,9 @@
 			},
 
 			getEndOfWeek = function(date, setTimeAlso) {
+				if (typeof date.getDay !== 'function') {
+					date = new Date(date);
+				}
 				var day = date.getDay();
 				var diff = (day == 0 ? 0 : 7) - day;
 				var sunday = new Date(date.getTime()+diff*24*3600000); // return sunday of this week
@@ -867,6 +873,7 @@
 						left: left + 'px'
 					});
 					options.onAfterShow.apply(this, [cal.get(0)]);
+
 					$(document).bind('mousedown', {cal: cal, trigger: this}, hide);  // global listener so clicking outside the calendar will close it
 				}
 				return false;
@@ -1161,6 +1168,20 @@
 				var options = cal.data('datepicker');
 				options.mode = mode;
 				fill(cal);
+
+				if (options.multiweekMode) {
+					cal.find(".selectionModeDiv .selectionModeLabel").text("MULTIWEEK SELECTION MODE");
+				}
+				else if (options.weeklyMode) {
+					cal.find(".selectionModeDiv .selectionModeLabel").text("WEEK SELECTION MODE");
+				}
+				else if (options.monthlyMode) {
+					cal.find(".selectionModeDiv .selectionModeLabel").text("MONTH SELECTION MODE");
+				}
+				else {
+					cal.find(".selectionModeDiv .selectionModeLabel").text("DEFAULT SELECTION MODE");
+				}
+
 			}
 		};
 	}();  // DatePicker
