@@ -1170,16 +1170,16 @@
 				fill(cal);
 
 				if (options.multiweekMode) {
-					cal.find(".selectionModeDiv .selectionModeLabel").text("MULTIWEEK SELECTION MODE");
+					cal.find(".selectionModeDiv .selectionModeLabel").text("Select one or more weeks");
 				}
 				else if (options.weeklyMode) {
-					cal.find(".selectionModeDiv .selectionModeLabel").text("WEEK SELECTION MODE");
+					cal.find(".selectionModeDiv .selectionModeLabel").text("Select a week");
 				}
 				else if (options.monthlyMode) {
-					cal.find(".selectionModeDiv .selectionModeLabel").text("MONTH SELECTION MODE");
+					cal.find(".selectionModeDiv .selectionModeLabel").text("Select a month");
 				}
 				else {
-					cal.find(".selectionModeDiv .selectionModeLabel").text("DEFAULT SELECTION MODE");
+					cal.find(".selectionModeDiv .selectionModeLabel").text("Select one or more days");
 				}
 
 			}
