@@ -4,6 +4,7 @@ define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd', 'crossfilt
     recline.Model.VirtualDataset = recline.Model.VirtualDataset || {};
 
     var my = recline.Model;
+    var DIMENSION_SEPARATOR = "#|~"; // WH-526. Custom field separator with 3 chars
 
     my.VirtualDataset = Backbone.Model.extend({
 
@@ -153,7 +154,7 @@ define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd', 'crossfilt
                     var tmp = "";
                     for (var i = 0; i < dimensions.length; i++) {
                         if (i > 0) {
-                            tmp = tmp + "#";
+                            tmp = tmp + DIMENSION_SEPARATOR;
                         }
                        if(d[dimensions[i]])
                         tmp = tmp + d[dimensions[i]].valueOf();
@@ -446,7 +447,7 @@ define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd', 'crossfilt
 
                     var keyField = reducedResult[i].key;
                     if (dimensions.length > 0) {
-                        keyField = keyField.split("#");
+                        keyField = keyField.split(DIMENSION_SEPARATOR);
                     }
 
                     tmp = {dimension:currentResult.key, count:currentResult.value.count};
