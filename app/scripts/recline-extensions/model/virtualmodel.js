@@ -443,11 +443,15 @@ define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd', 'crossfilt
 
                 // if dimensions specified add dimension' fields
                 if (dimensions != null) {
-                    var keyField = reducedResult[i].key.split("#");
+
+                    var keyField = reducedResult[i].key;
+                    if (dimensions.length > 0) {
+                        keyField = keyField.split("#");
+                    }
 
                     tmp = {dimension:currentResult.key, count:currentResult.value.count};
 
-                    for (j = 0; j < keyField.length; j++) {
+                    for (j = 0; j < keyField.length && j < dimensions.length; j++) {
                         var field = dimensions[j];
                         var originalFieldAttributes = originalFields.get(field).attributes;
                         var type = originalFieldAttributes.type;
