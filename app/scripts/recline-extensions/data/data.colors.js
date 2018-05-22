@@ -358,10 +358,12 @@ define(['underscore', 'REM/recline-extensions/recline-amd', 'REM/vendor/chroma.j
                         i, j, _char;
                     if (data.length === 0) return hash;
                     for (i = 0; i < data.length; i++) {
-                        for (j = 0; j < data[i].length; j++) {
-                            _char = data[i].charCodeAt(j);
-                            hash = ((hash << 5) - hash) + _char;
-                            hash = hash & hash; // Convert to 32bit integer
+                        if (data[i]) {
+                            for (j = 0; j < data[i].length; j++) {
+                                _char = data[i].charCodeAt(j);
+                                hash = ((hash << 5) - hash) + _char;
+                                hash = hash & hash; // Convert to 32bit integer
+                            }
                         }
                     }
                     return hash;
