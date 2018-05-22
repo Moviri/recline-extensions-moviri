@@ -1,6 +1,6 @@
 {
   "name": "recline-extensions-moviri",
-  "version": "0.9.63",
+  "version": "0.9.65",
   "main": "main",
   "ignore": [
     "docs",
