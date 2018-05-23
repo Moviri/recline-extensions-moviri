@@ -1,4 +1,5 @@
-define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
+/* global define, Backbone */
+define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd'], function ($, _, recline) {
 
     var my = recline;
 
@@ -10,7 +11,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
         // find all actions configured for eventType
         var targetActions = _.filter(actions, function (d) {
             var tmpFound = _.find(d["event"], function (x) {
-                return x == eventType
+                return x == eventType;
             });
             if (tmpFound != -1)
                 return true;
@@ -48,7 +49,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     var currentFilter = currentAction.action.getActiveFilters(map.filter, map.srcField);
                     if (currentFilter != null && currentFilter.length > 0)
                         activeFilters = _.union(activeFilters, currentFilter);
-                })
+                });
             });
 
             return activeFilters;
@@ -88,14 +89,14 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         var values = [];
                         facetTerms.forEach(function (obj) {
                             obj.records.forEach(function(row) {
-                                var filterFieldValue = row[filterFieldName]
+                                var filterFieldValue = row[filterFieldName];
                                 valueList.forEach(function(currSelValue) {
                                     if (currSelValue == filterFieldValue || (currSelValue && filterFieldValue && currSelValue.valueOf() == filterFieldValue.valueOf()))
                                         if (!_.contains(values, row[mapp.srcField]))
                                             values.push(row[mapp.srcField]);
-                                })
+                                });
                             });
-                        });                        
+                        });
                         params.push({
                             filter:mapp.filter,
                             value:values,
@@ -167,11 +168,16 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 // foreach type and dataset add all filters and trigger events
                 _.each(type, function (type) {
                     _.each(models, function (m) {
+                        // handle nested models too
+                        var currmodel = m.model;
+                        if (!currmodel.attributes && currmodel.dataset && currmodel.dataset.attributes) {
+                            currmodel = currmodel.dataset;
+                        }
                     	// use the same starting filter object on all datasets, to ensure setFilter works correctly on filter removal
-                    	var clonedTargetFilters = []
+                    	var clonedTargetFilters = [];
                     	_.each(targetFilters, function(targetF) {
-                    		clonedTargetFilters.push(_.clone(targetF))
-                    	}) 
+                    		clonedTargetFilters.push(_.clone(targetF));
+                    	});
                         var modified = false;
 
                         _.each(clonedTargetFilters, function (f) {
@@ -182,14 +188,14 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                             }) != null) {
                                 // if associated add the filter
 
-                                self.modelsAddFilterActions[type](m.model, f);
+                                self.modelsAddFilterActions[type](currmodel, f);
                                 modified = true;
 
                             }
                         });
 
                         if (modified) {
-                            self.modelsTriggerActions[type](m.model);
+                            self.modelsTriggerActions[type](currmodel);
                         }
                     });
                 });
@@ -197,9 +203,8 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 // so: delete all "remove" flags from internal filter list 
                 _.each(data, function (f) {
                     var currentFilter = filters[f.filter];
-                    delete currentFilter["remove"]
+                    delete currentFilter["remove"];
                 });
-
             },
 
             getActiveFilters:function (filterName, srcField) {
@@ -223,7 +228,15 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                             // search filter
                             var filter = filtersProp[f];
                             if (filter != null) {
-                                var filterOnModel = self.modelsGetFilter[type](m.model, filter.field);
+                                var filterOnModel;
+                                if (!m.model.attributes && m.model.dataset && m.model.dataset.attributes) {
+                                    // handle nested models too
+                                    filterOnModel = self.modelsGetFilter[type](m.model.dataset, filter.field);
+                                }
+                                else {
+                                    filterOnModel = self.modelsGetFilter[type](m.model, filter.field);
+                                }
+                                
                                 // substitution of fieldname with the one provided by source
                                 if (filterOnModel != null) {
                                     filterOnModel.field = srcField;
@@ -244,36 +257,36 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     return model.queryState.getFilterByFieldName(fieldName);
                 },
                 selection:function (model, fieldName) {
-                    throw "Action.js selection not implemented selection for selection"
+                    throw "Action.js selection not implemented selection for selection";
                 },
                 sort:function (model, fieldName) {
-                    throw "Action.js sort not implemented selection for sort"
+                    throw "Action.js sort not implemented selection for sort";
                 }
             },
 
             modelsAddFilterActions:{
                 filter:function (model, filter) {
-                    model.queryState.setFilter(filter)
+                    model.queryState.setFilter(filter);
                 },
                 selection:function (model, filter) {
-                    model.queryState.setSelection(filter)
+                    model.queryState.setSelection(filter);
                 },
                 sort:function (model, filter) {
                     model.queryState.clearSortCondition();
-                    model.queryState.setSortCondition(filter)
+                    model.queryState.setSortCondition(filter);
                 }
             },
 
 
             modelsTriggerActions:{
                 filter:function (model) {
-                    model.queryState.trigger("change")
+                    model.queryState.trigger("change");
                 },
                 selection:function (model) {
-                    model.queryState.trigger("selection:change")
+                    model.queryState.trigger("selection:change");
                 },
                 sort:function (model) {
-                    model.queryState.trigger("change")
+                    model.queryState.trigger("change");
                 }
             },
 
@@ -360,10 +373,6 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     return sort;
                 }
             }
-
-
-
-
         });
     
     return my.Action;
