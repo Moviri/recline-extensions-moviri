@@ -136,7 +136,7 @@
 					var months = internal.getParameter1();
 					var dates = [];
 					
-					var lastOfMonth = new Date().setDate(0);
+					var lastOfMonth = new Date(new Date().setDate(0));
 					var firstOfMonth = new Date(lastOfMonth);
 					firstOfMonth.setDate(1);
 					firstOfMonth.setMonth(firstOfMonth.getMonth() - months + 1);
@@ -273,12 +273,13 @@
 
 			$('.dr1.from_millis', $dropdown).val(dates[0].getTime());
 			$('.dr1.to_millis', $dropdown).val(dates[1].getTime());
-			
-			$('.dr2.from', $dropdown).val(dates[2].getDate() + '/' + (dates[2].getMonth()+1) + '/' + dates[2].getFullYear());
-			$('.dr2.to', $dropdown).val(dates[3].getDate() + '/' + (dates[3].getMonth()+1) + '/' + dates[3].getFullYear());
+			if (dates.length > 2) {
+				$('.dr2.from', $dropdown).val(dates[2].getDate() + '/' + (dates[2].getMonth()+1) + '/' + dates[2].getFullYear());
+				$('.dr2.to', $dropdown).val(dates[3].getDate() + '/' + (dates[3].getMonth()+1) + '/' + dates[3].getFullYear());
 
-			$('.dr2.from_millis', $dropdown).val(dates[2].getTime());
-			$('.dr2.to_millis', $dropdown).val(dates[3].getTime());
+				$('.dr2.from_millis', $dropdown).val(dates[2].getTime());
+				$('.dr2.to_millis', $dropdown).val(dates[3].getTime());
+			}
 		},
 		
 		createElements : function($target) {
@@ -321,7 +322,7 @@
 							'<input type="checkbox" checked="checked" class="enable-comparison" /> Compare to:'+
 							'<select class="comparison-preset">'+
 								'<option value="custom">Custom</option>'+
-								'<option value="previousperiod" selected="selected">Previous period</option>'+
+								'<option value="previousperiod">Previous period</option>'+
 								'<option value="previousyear">Previous year</option>'+
 							'</select>'+
 						'</div>'+
@@ -392,12 +393,12 @@
 					$('.dr1', $dropdown).prop('disabled', ($daterangePreset.val() == 'custom' ? false : true));
 					internal.recalculateDaterange();
 
-					// customization. When daterangePreset changes, comparisonPreset reverts to previous period
+					// customization. When daterangePreset changes, comparisonPreset reverts to custom period
 					// the IF condition checks if the caller is actually the daterangePreset dropdown and not
 					// some other control that bubbled the event all the way through
 					if (ev && ev.originalEvent && ev.originalEvent.currentTarget == this)
 					{
-						$comparisonPreset.val("previousperiod");
+						$comparisonPreset.val("custom");
 						$comparisonPreset.change();
 					}
 				});
@@ -501,9 +502,15 @@
 		
 		recalculateComparison : function() {
 			var dates = $datepicker.DatePickerGetDate()[0];
+			var comparisonPreset = internal.getComparisonPreset();
+			//console.log(comparisonPreset);
+			if (dates.length == 2 && comparisonPreset == "custom") {
+				// comparison must be shown but comparison dates are empty. If custom, force use of previous period dates
+				var days = parseInt((dates[1]-dates[0])/(24*3600*1000));
+				dates[2] = new Date(dates[0]).setDate(dates[0].getDate() - (days+1));
+				dates[3] = new Date(dates[1]).setDate(dates[1].getDate() - (days+1));
+			}
 			if (dates.length >= 2) {
-				var comparisonPreset = internal.getComparisonPreset();
-				//console.log(comparisonPreset);
 				switch (comparisonPreset) {
 					case 'previousperiod':
 						var days = parseInt((dates[1]-dates[0])/(24*3600*1000));

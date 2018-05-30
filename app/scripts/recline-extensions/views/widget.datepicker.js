@@ -122,7 +122,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     values:{
                         comparisonEnabled:false,
                         daterangePreset:"lastweeks",
-                        comparisonPreset:"previousperiod"
+                        comparisonPreset:"custom"
                     },
                     onChange:self.onChange(self)
                 });
@@ -408,11 +408,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     }
                     else {
                         values.comparisonEnabled = false;
-                        values.dr2from = "N/A";
-                        values.dr2from_millis = "";
-                        values.dr2to = "N/A";
-                        values.dr2to_millis = "";
-                        $('.comparison-preset').val("previousperiod");
+                        $('.comparison-preset').val("custom");
                     }
 
                     $('.date-ranges-picker').DatePickerSetDate(period, true);
@@ -519,8 +515,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 else {
                     // disable and hide all comparison controls
                     values.comparisonEnabled = false;
-                    values.comparisonPreset = "previousperiod";
-                    $('.comparison-preset').val("previousperiod");
+                    values.comparisonPreset = "custom";
+                    $('.comparison-preset').val("custom");
                     $('.comparison-preset').attr("disabled", "disabled");
                     $('.enable-comparison').removeAttr("checked");
                     $('.enable-comparison').change();

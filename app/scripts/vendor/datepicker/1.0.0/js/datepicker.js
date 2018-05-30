@@ -1167,6 +1167,13 @@
 				var cal = $('#' + $(this).data('datepickerId'));
 				var options = cal.data('datepicker');
 				options.mode = mode;
+				if (mode == "tworanges" && options.date) {
+					if (options.date.length > 3 && options.date[3]) {
+						// fix end time for last day in compare period
+						options.date[3] = new Date(options.date[3]).setHours(23,59,59,0).valueOf();
+						cal.data('datepicker', options);
+					}
+				}
 				fill(cal);
 
 				if (options.multiweekMode) {
