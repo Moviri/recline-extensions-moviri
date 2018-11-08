@@ -81,6 +81,9 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
         $.when.apply(window, backendsFetch).done(function() {
             dfd.resolve(data).fail(my.errorOnFetching);
+        })
+        .fail(function() {
+            dfd.reject(my.errorOnFetching);
         });
 
         return dfd.promise();
@@ -148,6 +151,9 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
         $.when.apply(window, backendsFetch).done(function() {
             dfd.resolve(my.prepareResults(data, dataset.backendConfiguration.result)).fail(my.errorOnFetching);
+        })
+        .fail(function() {
+            dfd.reject(my.errorOnFetching);
         });
 
         return dfd.promise();
