@@ -107,6 +107,10 @@ function _getExtents(options, data, xType, yType) {
     var axis = (i) ? 'y' : 'x',
       extended;
     extents[axis] = d3.extent(nData, function (d) { return d[axis]; });
+    // Solves ugly display bug when all y values are zeroes. Avoids line being drawn to the top of the chart (should stay at bottom)
+    if (extents[axis][0] === extents[axis][1]) {
+      extents[axis][1] = extents[axis][0] + 1;
+    }
     if (type === 'ordinal') {
       return;
     }
