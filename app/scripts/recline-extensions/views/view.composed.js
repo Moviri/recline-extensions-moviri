@@ -73,7 +73,29 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 '</div>' +                
                 '</div>' +
                 '</td></tr><tr><td>{{{noData}}}</td></tr></table>' +
+                '</div>',
+
+            horizontalScrollable: '<div id="{{uid}}">' +
+                '<div class="composedview_grid" style="grid-template-columns: max-content{{#measures}} max-content{{/measures}}">'+ //;height:100px;overflow:auto">' +
+                '<div class="c_header cell cell_empty"></div>' +
+                '{{#measures}}' +
+                    '<div class="c_header cell cell_title"><div style="white-space:nowrap;"><div class="rawhtml" style="vertical-align:middle;float:left">{{{rawhtml}}}</div><div style="float:left;vertical-align:middle"><div class="title"><a class="link_tooltip" href="#" data-toggle="tooltip" data-placement="bottom" title="{{{subtitle}}}">{{{title}}}</a></div></div><div class="shape" style="float:left;vertical-align:middle">{{shape}}</div></div></div>' +
+                '{{/measures}}' +
+                '{{#dimensions}}' +
+                    '<div class="c_row cell cell_name"><div class="title" style="float:left">{{term_desc}}</div><div class="shape" style="float:left">{{{shape}}}</div></div>' +
+                    '{{#measures}}' +
+                        '<div class="c_row cell cell_graph" id="{{viewid}}"></div>' +
+                    '{{/measures}}' +
+                '{{/dimensions}}' +
+                '{{#dimensions_totals}}' +
+                    '<div class="c_row c_totals c_footer cell cell_name"><div class="title" style="float:left">{{term_desc}}</div><div class="shape" style="float:left">{{{shape}}}</div></div>' +
+                    '{{#measures_totals}}' +
+                        '<div class="c_row c_totals c_footer cell cell_graph" id="{{viewid}}"></div>' +
+                    '{{/measures_totals}}' +
+                '{{/dimensions_totals}}' +
+                '</div>' +
                 '</div>'
+
         },
 
         // if total is present i need to wait for both redraw events
