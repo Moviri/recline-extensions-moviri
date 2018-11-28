@@ -1,6 +1,8 @@
 /* global define */
 /*jshint multistr: true */
-define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'underscore', 'REM/vendor/bootstrap-multiselect/bootstrap-multiselect'], function (Backbone, recline, Mustache, _) {
+define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache', 'underscore', 
+        'REM/vendor/bootstrap-multiselect/bootstrap-multiselect', 'REM/recline-extensions/views/view.alertMessages'],
+  function (Backbone, recline, Mustache, _) {
     
     recline.View = recline.View || {};
 
@@ -37,10 +39,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         _partlySelectedClassName:"btn-info",
         hasValueChanges: false,
         documentClickAssigned: false,
+        maxSelectionLimit: 1000000,
         initialize:function (args) {
             this.el = $(this.el);
             this.options = args;
-            _.bindAll(this, 'render', 'update', 'onButtonsetClicked', 'getDropdownSelections', 'getAllSelections', 'getRecordByValue', 'handleChangedSelections', 'onDropdownSelectAll');
+            _.bindAll(this, 'render', 'update', 'onButtonsetClicked', 'getDropdownSelections', 'getAllSelections', 'getRecordByValue', 'handleChangedSelections', 'onDropdownSelectAll', 'showSelectionLimitReachedAlert', 'removeSelectionLimitReachedAlert');
 
             this._sourceDataset = args.sourceDataset;
             this.uid = args.id || Math.floor(Math.random() * 100000); // unique id of the view containing all filters
@@ -73,7 +76,34 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             if (args.partlySelectedClassName) {
                 this._partlySelectedClassName = args.partlySelectedClassName;
             }
+            if (args.maxSelectionLimit) {
+                this.maxSelectionLimit = args.maxSelectionLimit;
+            }
+            if (args.alertMessageContainer) {
+                this.alertMessageContainer = args.alertMessageContainer;
+                this.alertMessageView = new recline.View.AlertMessageView({
+                    container: this.alertMessageContainer,
+                    allowMultiple: false,
+                    timeout: 15000
+                });
+                this.selectionLimitReachedMsg = "Unable to select more filters. Limit reached: "+ this.maxSelectionLimit;
+            }
+
             this.multiSelects = [];
+        },
+        showSelectionLimitReachedAlert: function() {
+            // cannot allow another selection. Ignore it and show error message
+            if (this.alertMessageContainer) {
+                this.alertMessageView.showMessage(this.selectionLimitReachedMsg, "info");
+            }
+            else {
+                console.log(this.selectionLimitReachedMsg);
+            }
+        },
+        removeSelectionLimitReachedAlert: function() {
+            if (this.alertMessageContainer) {
+                this.alertMessageView.removeMessageFromQueue(this.selectionLimitReachedMsg, undefined, true);
+            }
         },
         render:function () {
             var self = this;
@@ -320,9 +350,9 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     return this.mainValue+' <span style="opacity:0.5">'+ selected + '</span>';// <b class="caret"></b>';
                 }
             };
-            
+
             var onChange = function(element, checked){
-                self.hasValueChanges =  true;
+                self.hasValueChanges = true;
                 var multiselect = element.parent();
                 var multiselectObj = multiselect.data('multiselect');
                 var multiselectContainer = multiselectObj.container;
@@ -330,7 +360,26 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 var totObjs = element.parent().find("option");
                 if (totSelectedObjs.length) {
                     if (totSelectedObjs.length < totObjs.length) {
-                        $('button', multiselectContainer).addClass(self._partlySelectedClassName);  // multiselect
+                        var listaValori2 = self.getAllSelections();
+                        if (checked && listaValori2.length > self.maxSelectionLimit) {
+                            self.hasValueChanges = false;
+                            self.showSelectionLimitReachedAlert();
+                            // remove last selection if limit reached
+                            element.removeAttr("selected");
+                            var checkBoxObjs = _.filter($("input[type='checkbox']", multiselectContainer), function(obj) {return $(obj).attr("value") == element.val(); });
+                            if (checkBoxObjs && checkBoxObjs.length) {
+                                $(checkBoxObjs[0]).removeAttr("checked");
+                                // there are two levels of checkboxes and both must be disabled and GUI control will go out of sync with actual values
+                                if (checkBoxObjs.length > 0) {
+                                    $(checkBoxObjs[1]).removeAttr("checked");
+                                }
+                            }
+                            var buttonHtml2 = multiselectObj.options.buttonText($("option:selected", element.parent()));
+                            $('button.select-all-button', multiselectContainer).html(buttonHtml2);
+                        }
+                        else {
+                            $('button', multiselectContainer).addClass(self._partlySelectedClassName);  // multiselect
+                        }
                     }
                     else {
                         $('button', multiselectContainer).removeClass(self._partlySelectedClassName).addClass(self._selectedClassName);  // multiselect
@@ -343,16 +392,20 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                             // restore original selection
                             element.attr("selected", "selected");
                             var checkBoxObj = _.find($("input[type='checkbox']", multiselectContainer), function(obj) {return $(obj).attr("value") == element.val(); });
-                            if (checkBoxObj)
+                            if (checkBoxObj) {
                                 $(checkBoxObj).attr("checked", "checked");
-                                
+                            }
                             var buttonHtml = multiselectObj.options.buttonText($("option:selected", element.parent()));
                             $('button.select-all-button', multiselectContainer).html(buttonHtml);
-                                
-                            return;
                         }
                     }
                     $('button', multiselectContainer).removeClass(self._selectedClassName).removeClass(self._partlySelectedClassName); // multiselect
+                }
+                if (!checked) {
+                    var listaValori3 = self.getAllSelections();
+                    if (listaValori3.length <= self.maxSelectionLimit) {
+                        self.removeSelectionLimitReachedAlert();
+                    }
                 }
                 if (!self.documentClickAssigned)
                 {
@@ -617,9 +670,18 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     $target.parent().find("button.grouped-button[val='"+self.exclusiveButtonValue+"']").removeClass(self._selectedClassName);
                 }
             }
-            
+            if (!$target.hasClass(self._selectedClassName)) {
+                var listaValoriBefore = this.getAllSelections();
+                if (listaValoriBefore.length >= this.maxSelectionLimit) {
+                    this.showSelectionLimitReachedAlert();
+                    return;
+                }
+            }
             $target.toggleClass(self._selectedClassName);
             var listaValori = this.getAllSelections();
+            if (listaValori.length <= this.maxSelectionLimit) {
+                this.removeSelectionLimitReachedAlert();
+            }
             if (this.nullSelectionNotAllowed && !listaValori.length ) {
                 $target.addClass(self._selectedClassName);
             }
@@ -628,7 +690,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
         
         onDropdownSelectAll: function(e) {
             var self = this;
-            self.hasValueChanges =  true;
+            self.hasValueChanges = true;
             var $target = $(e.currentTarget);
             var multiselect = $target.parent().prev('select');
             var multiselectContainer = multiselect.data('multiselect').container;
@@ -636,6 +698,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             var totObjs = multiselect.find("option");
             if ((totSelectedObjs.length > 0 && totObjs.length > totSelectedObjs.length) || !$target.hasClass(self._selectedClassName)) // multiselect
             {
+                var listaValori = self.getAllSelections();
+                if (listaValori.length + (totObjs.length - totSelectedObjs.length) > this.maxSelectionLimit) {
+                    this.showSelectionLimitReachedAlert();
+                    return;
+                }
+
                 // select all
                 _.each(totObjs, function(opt) {
                     $(opt).attr("selected", "selected");
@@ -653,7 +721,11 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     $(opt).removeAttr("selected"); 
                     multiselect.data('multiselect').deselectAllLevel0Options();
                 });
-                $('button', multiselectContainer).removeClass(self._selectedClassName).removeClass(self._partlySelectedClassName); // multiselect         
+                $('button', multiselectContainer).removeClass(self._selectedClassName).removeClass(self._partlySelectedClassName); // multiselect
+                var listaValori2 = self.getAllSelections();
+                if (listaValori2.length <= this.maxSelectionLimit) {
+                    this.removeSelectionLimitReachedAlert();
+                }
             }
             multiselect.multiselect("refresh");
             self.handleChangedSelections(true);
@@ -680,7 +752,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 res.push(self.getRecordByValue(valore));
             });
 
-            self.hasValueChanges =  false;
+            self.hasValueChanges = false;
             self.sourceField.userChanged = true;
             self.sourceField.list = listaValori;
             var actions = self.options.actions;
@@ -714,7 +786,8 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             else {
                 if (listaValori.length == 1 && listaValori[0] == "All")
                     listaValori = [];
-            }          
+            }
+            //console.log("Total selections: "+listaValori.length);
             return listaValori;
         },
         getRecordByValue:function(val) {
