@@ -84,7 +84,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 this.alertMessageView = new recline.View.AlertMessageView({
                     container: this.alertMessageContainer,
                     allowMultiple: false,
-                    timeout: 15000
+                    timeout: 5000
                 });
                 this.selectionLimitReachedMsg = "Unable to select more filters. Limit reached: "+ this.maxSelectionLimit;
             }
