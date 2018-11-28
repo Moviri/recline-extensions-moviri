@@ -722,10 +722,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     multiselect.data('multiselect').deselectAllLevel0Options();
                 });
                 $('button', multiselectContainer).removeClass(self._selectedClassName).removeClass(self._partlySelectedClassName); // multiselect
-                var listaValori2 = self.getAllSelections();
-                if (listaValori2.length <= this.maxSelectionLimit) {
-                    this.removeSelectionLimitReachedAlert();
-                }
+            }
+            var listaValori2 = self.getAllSelections();
+            if (listaValori2.length <= this.maxSelectionLimit) {
+                this.removeSelectionLimitReachedAlert();
             }
             multiselect.multiselect("refresh");
             self.handleChangedSelections(true);
