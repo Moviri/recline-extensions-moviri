@@ -109,7 +109,12 @@ function _getExtents(options, data, xType, yType) {
     extents[axis] = d3.extent(nData, function (d) { return d[axis]; });
     // Solves ugly display bug when all y values are zeroes. Avoids line being drawn to the top of the chart (should stay at bottom)
     if (extents[axis][0] === extents[axis][1]) {
-      extents[axis][1] = extents[axis][0] + 100;
+      if (nData && nData.length && nData[0].y_formatted && nData[0].y_formatted.indexOf('%') > 0) {
+        extents[axis][1] = extents[axis][0] + 1; // percentual value. Will show 100,00% instead of 10.000,00%
+      }
+      else {
+        extents[axis][1] = extents[axis][0] + 100; // regular value. Will show 100
+      }
     }
     if (type === 'ordinal') {
       return;
