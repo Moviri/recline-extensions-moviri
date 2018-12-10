@@ -70,7 +70,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'underscore',
             }
             var index = new Date().getTime();
             var options = {message: msg, type: type, index: index};
-            var messageTemplate = _.template('<div class="label label-<%= type %>" data-id="<%= index %>" style="border-radius:4px;font-size:14px;padding:10px;margin-bottom:5px;color:white;width:350px;float:left;clear:both">' +
+            var messageTemplate = _.template('<div class="label label-<%= type %>" data-id="<%= index %>" style="border-radius:4px;font-size:14px;padding:10px;margin-bottom:5px;color:white;width:420px;float:left;clear:both">' +
                 '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
                 '<span class="inner-text"><%= message %></span>' +
             '</div>');

@@ -86,7 +86,12 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     allowMultiple: false,
                     timeout: 5000
                 });
-                this.selectionLimitReachedMsg = "Unable to select more filters. Limit reached: "+ this.maxSelectionLimit;
+                if (args.alertMessageFilterClass) {
+                    this.selectionLimitReachedMsg = "Unable to select more " + args.alertMessageFilterClass + " filters. Limit reached: "+ this.maxSelectionLimit;
+                }
+                else {
+                    this.selectionLimitReachedMsg = "Unable to select more filters. Limit reached: "+ this.maxSelectionLimit;
+                }
             }
 
             this.multiSelects = [];
