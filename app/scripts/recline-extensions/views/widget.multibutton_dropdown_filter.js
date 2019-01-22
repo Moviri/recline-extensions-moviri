@@ -451,9 +451,10 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                 key = currObj.__mainKey;
                 if (self.buttonsData[key] && self.buttonsData[key].options)
                 {
+                    var $currMultiselectContainer = self.$el.find('#dropdown' + self.uid + '_' + k);
+                    var maxScreenOffset = -$currMultiselectContainer.offset().left;
                     var offset = 0;
                     if (self.columnWidth && self.numColumns) {
-                        // offset is:
                         if (totButtons > 2) {
                             var max = (self.columnWidth*(self.numColumns-1));
                             offset = - self.columnWidth - (self.multiSelects.length)/totMultiselect * max;
@@ -462,16 +463,20 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                             // 0 for first dropdown
                             // (1-totCols)*columnSize for last dropdown
                             // an interpolated value for all middle dropdowns
-                            var max = (self.columnWidth*(self.numColumns))+100;
+                            var max = (self.columnWidth*(self.numColumns));
                             offset = - (self.multiSelects.length)/totMultiselect * max;
                         }
+                    }
+                    // SUP-3035. Ensure dropdow menus don't go offscreen to the left
+                    if (offset < maxScreenOffset) {
+                        offset = maxScreenOffset;
                     }
                     var mainValue = key;
                     if (self.useExtraDropdownForGenericValues && key.indexOf(self.GENERIC_GROUP_DROPDOWN_LABEL) == 0 && jj < extraDropdownLabels.length) {
                         mainValue = extraDropdownLabels[jj];
                         jj++;
                     }
-                    var multiselect = self.$el.find('#dropdown' + self.uid + '_' + k).multiselect({
+                    var multiselect = $currMultiselectContainer.multiselect({
                                                                                     mainValue: mainValue,
                                                                                     buttonClass:'btn btn-mini'+(key == lastKey ? ' btn-last' : ''),
                                                                                     buttonClassFirst:'btn btn-mini'+(key == firstKey && self.noAllButton ? ' btn-first' : ''),
