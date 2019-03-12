@@ -25,6 +25,10 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             format:'d'
         },
 
+        generateUid: function() {
+            return new Date().getTime() + "_" + Math.floor(Math.random() * 1e6);
+        },
+
         compareType:{
             self:this,
             percentage:function (kpi, compare, templates, condensed, shapeAfter) {
@@ -154,7 +158,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             this.options = options;
             this.el = $(this.el);
             _.bindAll(this, 'render', 'disableCompare', 'enableCompare');
-            this.uid = options.id || ("" + new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart
+            this.uid = options.id || this.generateUid(); // generating an unique id for the chart
 
             this.model.bind('query:done', this.render);
             if (this.options.modelCompare)

@@ -98,6 +98,10 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
         },
 
+        generateUid: function() {
+            return new Date().getTime() + "_" + Math.floor(Math.random() * 1e6);
+        },
+
         // if total is present i need to wait for both redraw events
         redrawSemaphore: function (type, self) {
 
@@ -154,14 +158,14 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
             }
 
-            this.uid = options.id || ("composed_" + new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart
+            this.uid = options.id || ("composed_" + this.generateUid()); // generating an unique id for the chart
 
             _.each(this.options.measures, function (m, index) {
-                self.options.measures[index]["measure_id"] = new Date().getTime() + Math.floor(Math.random() * 10000);
+                self.options.measures[index]["measure_id"] = self.generateUid();
             });
 
             _.each(this.options.measuresTotals, function (m, index) {
-                self.options.measuresTotals[index]["measure_id"] = new Date().getTime() + Math.floor(Math.random() * 10000);
+                self.options.measuresTotals[index]["measure_id"] = self.generateUid();
             });
 
 
@@ -215,7 +219,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
                 else _.each(facets.attributes.terms, function (t) {
                     if (t.count > 0) {
-                        var uid = (new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart
+                        var uid = self.generateUid(); // generating an unique id for the chart
 
                         // facet has no renderer, so we need to retrieve the first record that matches the value and use its renderer
                         // This is needed to solve the notorious "All"/"_ALL_" issue
@@ -258,7 +262,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
 
             } else {
-                var uid = (new Date().getTime() + Math.floor(Math.random() * 10000)); // generating an unique id for the chart
+                var uid = this.generateUid(); // generating an unique id for the chart
                 var dim;
 
                 if (self.options.type == "groupByRecord")
@@ -278,7 +282,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
             if (self.options.modelTotals) {
                 var data = [];
-                var uid = (new Date().getTime() + Math.floor(Math.random() * 10000));
+                var uid = self.generateUid();
                 var dim = {id_dimension: uid, measures: data};
 
                 if(self.options.titleTotals) {
@@ -289,7 +293,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
                     var val = {
                         view: d.view,
-                        viewid: new Date().getTime() + Math.floor(Math.random() * 10000),
+                        viewid: self.generateUid(),
                         measure_id: d.measure_id,
                         props: d.props,
                         dataset: self.options.modelTotals,
@@ -421,7 +425,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             _.each(self.options.measures, function (d) {
                 var val = {
                     view: d.view,
-                    viewid: new Date().getTime() + Math.floor(Math.random() * 10000),
+                    viewid: self.generateUid(),
                     measure_id: d.measure_id,
                     props: d.props,
                     dataset: filtereddataset,
@@ -460,7 +464,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
                     var val = {
                         view: d.view,
-                        viewid: new Date().getTime() + Math.floor(Math.random() * 10000),
+                        viewid: self.generateUid(),
                         measure_id: d.measure_id,
                         props: d.props,
                         dataset: model,
@@ -508,7 +512,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
                 var val = {
                     view: view,
-                    viewid: new Date().getTime() + Math.floor(Math.random() * 10000),
+                    viewid: self.generateUid(),
                     measure_id: d.measure_id,
                     props: props,
                     dataset: self.model,
