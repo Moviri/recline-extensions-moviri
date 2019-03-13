@@ -58,7 +58,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 	                '<div class="c_row" style="display:table-row">' +
 	                	'<div class="cell cell_name" style="display:table-cell"><div class="title" style="float:left">{{term_desc}}</div><div class="shape" style="float:left">{{{shape}}}</div></div>' +
 	                	'{{#measures}}' +
-	                		'<div class="cell cell_graph" style="display:table-cell" id="{{viewid}}"></div>' +
+	                		'<div class="cell cell_graph c_rownum_{{rownum}} c_colnum_{{colnum}}" style="display:table-cell" id="{{viewid}}"></div>' +
 	                	'{{/measures}}' +
 	                '</div>' +
                 '{{/dimensions}}' +
@@ -66,7 +66,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 		            	'{{#dimensions_totals}}' +
 		            		'<div class="cell cell_name" style="display:table-cell"><div class="title" style="float:left">{{term_desc}}</div><div class="shape" style="float:left">{{{shape}}}</div></div>' +
 	            			'{{#measures_totals}}' +
-	            				'<div class="cell cell_graph" style="display:table-cell" id="{{viewid}}"></div>' +
+	            				'<div class="cell cell_graph c_rownum_totals c_colnum_{{colnum}}" style="display:table-cell" id="{{viewid}}"></div>' +
 	            			'{{/measures_totals}}' +
 		            	'{{/dimensions_totals}}' +
 		            '</div>' +
@@ -90,7 +90,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 '{{#dimensions_totals}}' +
                     '<div class="c_row c_totals c_footer cell cell_name"><div class="title" style="float:left">{{term_desc}}</div><div class="shape" style="float:left">{{{shape}}}</div></div>' +
                     '{{#measures_totals}}' +
-                        '<div class="c_row c_totals c_footer cell cell_graph c_colnum_{{colnum}}"></div>' +
+                        '<div class="c_row c_totals c_footer cell cell_graph c_rownum_totals c_colnum_{{colnum}}"></div>' +
                     '{{/measures_totals}}' +
                 '{{/dimensions_totals}}' +
                 '</div>' +
@@ -309,11 +309,12 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                     dim["term_desc"] = self.options.titleTotals;
                 }
 
-                _.each(self.options.measuresTotals, function (d) {
+                _.each(self.options.measuresTotals, function (d, idx) {
 
                     var val = {
                         view: d.view,
                         viewid: self.generateUid(),
+                        colnum: idx,
                         measure_id: d.measure_id,
                         props: d.props,
                         dataset: self.options.modelTotals,
@@ -404,7 +405,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
             _.each(self.dimensions_totals, function (dim) {
                 _.each(dim.measures, function (m, meas_idx) {
-                    var $el = self.$el.find(".c_totals.c_colnum_" + meas_idx); // $('#' + m.viewid);
+                    var $el = self.$el.find(".c_rownum_totals.c_colnum_" + meas_idx); // $('#' + m.viewid);
                     m.props.el = $el;
                     m.props.model = m.dataset;
                     if (!m.props.state) {
