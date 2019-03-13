@@ -84,26 +84,41 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 '{{#dimensions}}' +
                     '<div class="c_row cell cell_name"><div class="title" style="float:left">{{term_desc}}</div><div class="shape" style="float:left">{{{shape}}}</div></div>' +
                     '{{#measures}}' +
-                        '<div class="c_row cell cell_graph" id="{{viewid}}"></div>' +
+                        '<div class="c_row cell cell_graph c_rownum_{{rownum}} c_colnum_{{colnum}}"></div>' +
                     '{{/measures}}' +
                 '{{/dimensions}}' +
                 '{{#dimensions_totals}}' +
                     '<div class="c_row c_totals c_footer cell cell_name"><div class="title" style="float:left">{{term_desc}}</div><div class="shape" style="float:left">{{{shape}}}</div></div>' +
                     '{{#measures_totals}}' +
-                        '<div class="c_row c_totals c_footer cell cell_graph" id="{{viewid}}"></div>' +
+                        '<div class="c_row c_totals c_footer cell cell_graph c_colnum_{{colnum}}"></div>' +
                     '{{/measures_totals}}' +
                 '{{/dimensions_totals}}' +
                 '</div>' +
                 '</div>'
-
         },
 
-        generateUid: function() {
+        generateUid: function(seed, col) {
+            if (seed) {
+                if (col !== undefined) {
+                    seed = seed + "_" + col;                    
+                }
+                  var hash = 0, i, chr;
+                  if (seed.length === 0) {
+                      return "composedcell_" + hash;
+                  }
+                  for (i = 0; i < seed.length; i++) {
+                    chr   = seed.charCodeAt(i);
+                    hash  = ((hash << 5) - hash) + chr;
+                    hash |= 0; // Convert to 32bit integer
+                  }
+                  return "composedcell_" + hash;
+            }
             return new Date().getTime() + "_" + Math.floor(Math.random() * 1e6);
         },
 
         // if total is present i need to wait for both redraw events
-        redrawSemaphore: function (type, self) {
+        redrawSemaphore: function (type) {
+            var self = this;
 
             if (!self.semaphore) {
                 self.semaphore = "";
@@ -134,7 +149,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             this.options = options;
             
             this.el = $(this.el);
-            _.bindAll(this, 'render', 'redraw');
+            _.bindAll(this, 'render', 'redraw', 'redrawSemaphore');
 
 
             this.model.bind('change', this.render);
@@ -142,7 +157,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             this.model.fields.bind('add', this.render);
 
             this.model.bind('query:done', function () {
-                self.redrawSemaphore("model", self);
+                self.redrawSemaphore("model");
             });
 
             if (this.options.modelTotals) {
@@ -151,11 +166,8 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 this.options.modelTotals.fields.bind('add', this.render);
 
                 this.options.modelTotals.bind('query:done', function () {
-                    self.redrawSemaphore("totals", self);
+                    self.redrawSemaphore("totals");
                 });
-
-
-
             }
 
             this.uid = options.id || ("composed_" + this.generateUid()); // generating an unique id for the chart
@@ -214,53 +226,61 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                     throw "ComposedView: no facet present for groupby field [" + self.options.groupBy + "]. Define a facet on the model before view render";
                 }
 
-                if (facets.attributes.terms.length == 0 && !self.options.modelTotals)
+                if (facets.attributes.terms.length == 0 && !self.options.modelTotals) {
                     self.noData = new recline.View.NoDataMsg().create2();
+                }
+                else {
+                    var records = self.model.getRecords();
+                    _.each(records, function(rec, idx) {
+                        rec.rownum = idx;
+                    });
+                    var termHashes = _.groupBy(records, function(rec) { return rec.attributes[self.options.groupBy]});
 
-                else _.each(facets.attributes.terms, function (t) {
-                    if (t.count > 0) {
-                        var uid = self.generateUid(); // generating an unique id for the chart
+                    _.each(facets.attributes.terms, function (t) {
+                        if (t.count > 0) {
+                            // facet has no renderer, so we need to retrieve the first record that matches the value and use its renderer
+                            // This is needed to solve the notorious "All"/"_ALL_" issue
+                            var term_rendered;
+                            var termValue = t.term;
+                            var rownum;
+                            if (termValue)
+                        	{
+                            	var validRec = termHashes[termValue];
+                                if (validRec && validRec.length) {
+                                	term_rendered = validRec[0].getFieldValue(field);
+                                    rownum = validRec[0].rownum;
+                                }
+                        	}
+                            var uid = self.generateUid(termValue); // generating an unique id for the chart
+                            	
+                            var term_desc;
+                            if (self.options.rowTitle) {
+                                term_desc = self.options.rowTitle(t);
+                            }
+                            else if (self.options.dictionary && termValue && self.options.dictionary[termValue]) {
+                                term_desc = self.options.dictionary[termValue];
+                            }
+                            else if (self.options.titlePrefix) {
+                                term_desc = self.options.titlePrefix + termValue;
+                            }
+                            else {
+                                term_desc = term_rendered || termValue;
+                            }
 
-                        // facet has no renderer, so we need to retrieve the first record that matches the value and use its renderer
-                        // This is needed to solve the notorious "All"/"_ALL_" issue
-                        var term_rendered;
-                        var termValue = t.term;
-                        if (termValue)
-                    	{
-                        	var validRec = _.find(self.model.getRecords(), function(rec) { return rec.attributes[self.options.groupBy] == termValue; });
-                            if (validRec)
-                            	term_rendered = validRec.getFieldValue(field);
-                    	}
-                        	
-                        var term_desc;
-                        if (self.options.rowTitle)
-                            term_desc = self.options.rowTitle(t);
-                        else if (self.options.dictionary && termValue && self.options.dictionary[termValue]) {
-                            term_desc = self.options.dictionary[termValue];
-                        }
-                        else if (self.options.titlePrefix) {
-                            term_desc = self.options.titlePrefix + termValue;
-                        }
-                        else
-                            term_desc = term_rendered || termValue;
+                            var dim = {term: termValue, term_desc: term_desc, id_dimension: uid, shape: t.shape, rownum: rownum};
 
-                        var dim = {term: termValue, term_desc: term_desc, id_dimension: uid, shape: t.shape};
-
-                        dim["getDimensionIDbyMeasureID"] = function () {
-                            return function (measureID) {
-                                var measure = _.find(this.measures, function (f) {
-                                    return f.measure_id == measureID;
-                                });
-                                return measure.viewid;
+                            dim["getDimensionIDbyMeasureID"] = function () {
+                                return function (measureID) {
+                                    var measure = _.find(this.measures, function (f) {
+                                        return f.measure_id == measureID;
+                                    });
+                                    return measure.viewid;
+                                };
                             };
-                        };
-
-                        self.dimensions.push(self.addFilteredMeasuresToDimension(dim, field));
-                    }
-                });
-
-
-
+                            self.dimensions.push(self.addFilteredMeasuresToDimension(dim, field, termHashes[termValue][0]));
+                        }
+                    });
+                }
             } else {
                 var uid = this.generateUid(); // generating an unique id for the chart
                 var dim;
@@ -358,9 +378,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             var self = this;
             self.views = [];
 
-            _.each(self.dimensions, function (dim) {
-                _.each(dim.measures, function (m) {
-                    var $el = $('#' + m.viewid);
+            _.each(self.dimensions, function (dim, dim_idx) {
+                _.each(dim.measures, function (m, meas_idx) {
+                    var $el = self.$el.find(".c_rownum_"+ dim_idx + ".c_colnum_" + meas_idx); // $('#' + m.viewid);
                     m.props.el = $el;
                     m.props.model = m.dataset;
                     if (!m.props.state) {
@@ -383,8 +403,8 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             });
 
             _.each(self.dimensions_totals, function (dim) {
-                _.each(dim.measures, function (m) {
-                    var $el = $('#' + m.viewid);
+                _.each(dim.measures, function (m, meas_idx) {
+                    var $el = self.$el.find(".c_totals.c_colnum_" + meas_idx); // $('#' + m.viewid);
                     m.props.el = $el;
                     m.props.model = m.dataset;
                     if (!m.props.state) {
@@ -409,40 +429,31 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         /*
          for each facet pass to the view a new model containing all rows with same facet value
          */
-        addFilteredMeasuresToDimension: function (currentRow, dimensionField) {
+        addFilteredMeasuresToDimension: function (currentRow, dimensionField, currentRecord) {
             var self = this;
 
-            // dimension["data"] = [view]
-            // a filtered dataset should be created on the original data and must be associated to the view
-            var filtereddataset = new recline.Model.FilteredDataset({dataset: self.model});
-
-            var filter = {field: dimensionField.get("id"), type: "term", term: currentRow.term, term_desc: currentRow.term, fieldType: dimensionField.get("type") };
-            filtereddataset.queryState.addFilter(filter);
-            filtereddataset.query();
-            // foreach measure we need to add a view do the dimension
+            // now creating a single row model with the requested data, instead of querying each time (slow and sometimes causing unwanted N/A cells)
+            var singleRowDataset = new recline.Model.Dataset({ records: [currentRecord.attributes], fields: currentRecord.fields.toJSON(), renderer: self.model.attributes.renderer});
 
             var data = [];
-            _.each(self.options.measures, function (d) {
+            _.each(self.options.measures, function (m, idx) {
                 var val = {
-                    view: d.view,
-                    viewid: self.generateUid(),
-                    measure_id: d.measure_id,
-                    props: d.props,
-                    dataset: filtereddataset,
-                    title: d.title,
-                    subtitle: d.subtitle,
-                    rawhtml: d.rawhtml
+                    view: m.view,
+                    rownum: currentRow.rownum,
+                    colnum: idx,
+                    viewid: self.generateUid(currentRow.term, idx),
+                    measure_id: m.measure_id,
+                    props: m.props,
+                    dataset: singleRowDataset, // filtereddataset,
+                    title: m.title,
+                    subtitle: m.subtitle,
+                    rawhtml: m.rawhtml
                 };
-
                 data.push(val);
-
-
             });
-
 
             currentRow["measures"] = data;
             return currentRow;
-
         },
 
         /*
@@ -456,7 +467,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
             _.each(self.model.records.models, function (r) {
                 var data = [];
-                _.each(self.options.measures, function (d) {
+                _.each(self.options.measures, function (d, idx) {
 
 
                     var model = new recline.Model.Dataset({ records: [r.toJSON()], fields: r.fields.toJSON(), renderer: self.model.attributes.renderer});
@@ -464,7 +475,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
                     var val = {
                         view: d.view,
-                        viewid: self.generateUid(),
+                        viewid: self.generateUid(currentRow.term, idx),
                         measure_id: d.measure_id,
                         props: d.props,
                         dataset: model,
@@ -494,7 +505,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             var data = [];
 
 
-            _.each(measures, function (d) {
+            _.each(measures, function (d, idx) {
                 var view;
                 var props;
                 if (totals) {
@@ -512,7 +523,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
                 var val = {
                     view: view,
-                    viewid: self.generateUid(),
+                    viewid: self.generateUid(currentRow.term, idx),
                     measure_id: d.measure_id,
                     props: props,
                     dataset: self.model,

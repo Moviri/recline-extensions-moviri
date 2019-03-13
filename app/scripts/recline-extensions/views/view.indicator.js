@@ -47,7 +47,15 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             },
             percentageVariation:function (kpi, compare, templates, condensed, shapeAfter) {
                 var tmpField = new recline.Model.Field({type:"number", format:"percentage"});
-                var unrenderedValue = (kpi-compare) / compare * 100;
+                var unrenderedValue;
+                // ensure that when we switch dates between reference and compare, we do not obtain a totally diffeernt percentage variation
+                // e.g.: if reference kpi is 600 and compare kpi is 300, percentage variation is +100%. But if we switch dates we should obtain -100% and not -50% as before
+                if (kpi >= compare) {
+                    unrenderedValue = (kpi-compare) / compare * 100;
+                }
+                else {
+                    unrenderedValue = (kpi-compare) / kpi * 100;
+                }
                 var data = recline.Data.Formatters.Renderers( unrenderedValue, tmpField);
                 var template = templates.templatePercentage;
                 if (condensed == true){
@@ -79,7 +87,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
    templateBase:
    '<div class="indicator"> \
       <div class="panel indicator_{{viewId}}"> \
-        <div id="indicator_{{viewId}}"> \
+        <div> \
 			<table class="indicator-table"> \
                 <tr class="titlerow"><td></td><td style="text-align: center;" class="title">{{{label}}}</td></tr>    \
                 <tr class="descriptionrow"><td></td><td style="text-align: center;" class="description"><small>{{description}}</small></td></tr>    \
@@ -96,7 +104,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
     templateCondensed:
         '<div class="indicator round-border-dark" > \
     	    <div class="panel indicator_{{viewId}}" > \
-        		<div id="indicator_{{viewId}}" class="indicator-container" > \
+        		<div class="indicator-container" > \
         			<div class="round-border" style="float:left;margin:2px 2px 0px 2px"> \
     					{{#compareShape}} \
     					<div class="compareshape" style="float:left">{{{compareShape}}}</div> \
@@ -115,7 +123,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         '<div class="indicator round-border-dark" > \
     	    <div class="panel indicator_{{viewId}}" > \
     			<div class="title">{{{label}}}</div>\
-        		<div id="indicator_{{viewId}}" class="indicator-container"> \
+        		<div class="indicator-container"> \
 			    	<div class="round-border" style="float:left;margin:2px 2px 0px 2px"> \
     				<div class="value-cell" style="float:left">{{{value}}}</div> \
 					{{#compareShape}} \
@@ -131,7 +139,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 	templatePercentage:
 	   '<div class="indicator"> \
 	      <div class="panel indicator_{{viewId}}"> \
-	        <div id="indicator_{{viewId}}"> \
+	        <div> \
 				 <div class="indicator-table"> \
 	                <div class="titlerow"><span class="title">{{{label}}}</span></div>    \
 	                <div class="descriptionrow"><span class="description"><small>{{description}}</small></span></div>    \
@@ -239,7 +247,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 	}                	
                 }	
             }
-            else tmplData["value"] = "N/A";
+            else {
+               tmplData["value"] = "N/A";
+            }
 
             var template = this.templates.templateBase;
             if (self.options.state.condensed == true)
@@ -330,8 +340,6 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
             this.el.find('div.indicator').off('comparison_disabled').on('comparison_disabled', this.disableCompare);
             this.el.find('div.indicator').off('comparison_enabled').on('comparison_enabled', this.enableCompare);
-
-            //this.$graph = this.el.find('.panel.indicator_' + tmplData["viewId"]);
 
             return this;
         }
