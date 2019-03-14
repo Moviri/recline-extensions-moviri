@@ -51,10 +51,13 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 // ensure that when we switch dates between reference and compare, we do not obtain a totally diffeernt percentage variation
                 // e.g.: if reference kpi is 600 and compare kpi is 300, percentage variation is +100%. But if we switch dates we should obtain -100% and not -50% as before
                 if (kpi >= compare) {
-                    unrenderedValue = (kpi-compare) / compare * 100;
+                    unrenderedValue = 100 * (kpi-compare) / compare;
                 }
                 else {
-                    unrenderedValue = (kpi-compare) / kpi * 100;
+                    unrenderedValue = 100 * (kpi-compare) / kpi;
+                }
+                if (!isFinite(unrenderedValue) && kpi === 0 && compare === 0) {
+                    unrenderedValue = 0;
                 }
                 var data = recline.Data.Formatters.Renderers( unrenderedValue, tmpField);
                 var template = templates.templatePercentage;

@@ -8,6 +8,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
     var view = recline.View;
 
+    var MAX_ROWS = 998;
 
     view.Composed = Backbone.View.extend({
         templates: {
@@ -237,7 +238,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                     var termHashes = _.groupBy(records, function(rec) { return rec.attributes[self.options.groupBy]});
 
                     _.each(facets.attributes.terms, function (t) {
-                        if (t.count > 0) {
+                        if (t.count > 0 && self.dimensions.length < MAX_ROWS) {
                             // facet has no renderer, so we need to retrieve the first record that matches the value and use its renderer
                             // This is needed to solve the notorious "All"/"_ALL_" issue
                             var term_rendered;
@@ -465,35 +466,30 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             var self = this;
             var ret = [];
 
-
-            _.each(self.model.records.models, function (r) {
+            _.each(self.model.records.models, function (r, rec_idx) {
                 var data = [];
-                _.each(self.options.measures, function (d, idx) {
-
-
+                _.each(self.options.measures, function (m, meas_idx) {
                     var model = new recline.Model.Dataset({ records: [r.toJSON()], fields: r.fields.toJSON(), renderer: self.model.attributes.renderer});
                     model.fields = r.fields;
 
                     var val = {
-                        view: d.view,
-                        viewid: self.generateUid(currentRow.term, idx),
-                        measure_id: d.measure_id,
-                        props: d.props,
+                        view: m.view,
+                        rownum: rec_idx,
+                        colnum: meas_idx,
+                        viewid: self.generateUid(currentRow.term, meas_idx),
+                        measure_id: m.measure_id,
+                        props: m.props,
                         dataset: model,
-                        title: d.title,
-                        subtitle: d.subtitle,
-                        rawhtml: d.rawhtml};
+                        title: m.title,
+                        subtitle: m.subtitle,
+                        rawhtml: m.rawhtml
+                    };
                     data.push(val);
-
-
                 });
                 var currentRec = {measures: data, id_dimension: currentRow.id_dimension};
                 ret.push(currentRec);
             });
-
-
             return ret;
-
         },
 
         /*
@@ -524,25 +520,21 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
                 var val = {
                     view: view,
+                    colnum: idx,
                     viewid: self.generateUid(currentRow.term, idx),
                     measure_id: d.measure_id,
                     props: props,
                     dataset: self.model,
                     title: d.title,
                     subtitle: d.subtitle,
-                    rawhtml: d.rawhtml};
+                    rawhtml: d.rawhtml
+                };
                 data.push(val);
-
-
             });
-
 
             currentRow["measures"] = data;
             return [currentRow];
-
         }
-
-
     });
 
     return view.Composed;
