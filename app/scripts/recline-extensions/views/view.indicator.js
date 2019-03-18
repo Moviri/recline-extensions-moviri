@@ -213,7 +213,10 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         		{
             		// virtual model has no valid fields since starting model has no record. Must only display N/A
         		}
-            	else throw "View.Indicator: unable to find field [" + self.options.state.kpi.field + "] on model";
+            	else {
+                    console.log("View.Indicator: unable to find field [" + self.options.state.kpi.field + "] on model");
+                    //throw "View.Indicator: unable to find field [" + self.options.state.kpi.field + "] on model";
+                }
             }     
                 
             var textField = null;
@@ -224,8 +227,10 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 else
                 	textField = self.model.getFields(self.options.state.kpi.type).get(self.options.state.kpi.textField);
 
-                if (!textField)
-                    throw "View.Indicator: unable to find field [" + self.options.state.kpi.textField + "] on model";
+                if (!textField) {
+                    console.log("View.Indicator: unable to find field [" + self.options.state.kpi.textField + "] on model");
+                    //throw "View.Indicator: unable to find field [" + self.options.state.kpi.textField + "] on model";
+                }
         	}
 
             var kpiValue;
