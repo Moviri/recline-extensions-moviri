@@ -98,6 +98,11 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 '</div>'
         },
 
+        semaphore: {
+            totals: false,
+            model: false
+        },
+
         generateUid: function(seed, col) {
             if (seed) {
                 if (col !== undefined) {
@@ -119,29 +124,17 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
         // if total is present i need to wait for both redraw events
         redrawSemaphore: function (type) {
-            var self = this;
-
-            if (!self.semaphore) {
-                self.semaphore = "";
-            }
-            if (self.options.modelTotals) {
-                if (type == "model") {
-                    if (self.semaphore == "totals") {
-                        self.semaphore = "";
-                        self.redraw();
-                    } else {
-                        self.semaphore = "model";
-                    }
-                } else {
-                    if (self.semaphore == "model") {
-                        self.semaphore = "";
-                        self.redraw();
-                    } else {
-                        self.semaphore = "totals";
-                    }
+            if (this.options.modelTotals) {
+                this.semaphore[type] = true;
+                if (this.semaphore.model && this.semaphore.totals) {
+                    this.semaphore.model =false;
+                    // always redraw for every new models that finishes the query, regardless of modelTotals. Fixes N/A bug with telefonica
+                    // in the end modelTotals is just one record and is usually faster than model (100-1000 rows)
+                    //this.semaphore.totals =false;
+                    this.redraw();
                 }
             } else {
-                self.redraw();
+                this.redraw();
             }
         },
 
@@ -181,7 +174,6 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 self.options.measuresTotals[index]["measure_id"] = self.generateUid();
             });
 
-
             //contains the array of views contained in the composed view
             this.views = [];
 
@@ -194,9 +186,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             var self = this;
             var graphid = "#" + this.uid;
 
-            if (self.graph)
+            if (self.graph){
                 jQuery(graphid).empty();
-
+            }
         },
 
         getViewFunction: function () {
@@ -210,7 +202,6 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
         redraw: function () {
             var self = this;
-
 
             self.dimensions = [ ];
             self.noData = "";
@@ -232,24 +223,19 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                 }
                 else {
                     var records = self.model.getRecords();
-                    _.each(records, function(rec, idx) {
-                        rec.rownum = idx;
-                    });
                     var termHashes = _.groupBy(records, function(rec) { return rec.attributes[self.options.groupBy]});
 
-                    _.each(facets.attributes.terms, function (t) {
+                    _.each(facets.attributes.terms, function (t, idx) {
                         if (t.count > 0 && self.dimensions.length < MAX_ROWS) {
                             // facet has no renderer, so we need to retrieve the first record that matches the value and use its renderer
                             // This is needed to solve the notorious "All"/"_ALL_" issue
                             var term_rendered;
                             var termValue = t.term;
-                            var rownum;
                             if (termValue)
                         	{
-                            	var validRec = termHashes[termValue];
-                                if (validRec && validRec.length) {
-                                	term_rendered = validRec[0].getFieldValue(field);
-                                    rownum = validRec[0].rownum;
+                            	var validRecs = termHashes[termValue];
+                                if (validRecs && validRecs.length) {
+                                	term_rendered = validRecs[0].getFieldValue(field);
                                 }
                         	}
                             var uid = self.generateUid(termValue); // generating an unique id for the chart
@@ -268,7 +254,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                                 term_desc = term_rendered || termValue;
                             }
 
-                            var dim = {term: termValue, term_desc: term_desc, id_dimension: uid, shape: t.shape, rownum: rownum};
+                            var dim = {term: termValue, term_desc: term_desc, id_dimension: uid, shape: t.shape, rownum: idx};
 
                             dim["getDimensionIDbyMeasureID"] = function () {
                                 return function (measureID) {
@@ -278,7 +264,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                                     return measure.viewid;
                                 };
                             };
-                            self.dimensions.push(self.addFilteredMeasuresToDimension(dim, field, termHashes[termValue][0]));
+                            self.dimensions.push(self.addFilteredMeasuresToDimension(dim, field, termHashes[termValue]));
                         }
                     });
                 }
@@ -369,11 +355,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
             }
             if (self.options.postRender){
             	self.options.postRender.call();
-            }            
+            }
             // force a resize to ensure that contained object have the correct amount of width/height
             this.el.trigger('resize');
-
-
         },
 
         attachViews: function () {
@@ -431,11 +415,11 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
         /*
          for each facet pass to the view a new model containing all rows with same facet value
          */
-        addFilteredMeasuresToDimension: function (currentRow, dimensionField, currentRecord) {
+        addFilteredMeasuresToDimension: function (currentRow, dimensionField, filteredRecords) {
             var self = this;
 
             // now creating a single row model with the requested data, instead of querying each time (slow and sometimes causing unwanted N/A cells)
-            var singleRowDataset = new recline.Model.Dataset({ records: [currentRecord.attributes], fields: currentRecord.fields.toJSON(), renderer: self.model.attributes.renderer});
+            var filtereddataset = new recline.Model.Dataset({ records: [filteredRecords[0].attributes], fields: filteredRecords[0].fields.toJSON(), renderer: self.model.attributes.renderer});
 
             var data = [];
             _.each(self.options.measures, function (m, idx) {
@@ -446,7 +430,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                     viewid: self.generateUid(currentRow.term, idx),
                     measure_id: m.measure_id,
                     props: m.props,
-                    dataset: singleRowDataset, // filtereddataset,
+                    dataset: filtereddataset,
                     title: m.title,
                     subtitle: m.subtitle,
                     rawhtml: m.rawhtml
