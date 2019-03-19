@@ -137,9 +137,6 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3', 
             else if(format === "currency_southkorea1K") {
                 return accounting.formatMoney(val, { symbol: "K₩",  format: "%v %s", decimal : ".", thousand: ",", precision : 0 }); // �4,999.99
             }
-            if (!isFinite(val)) {
-                return '<span style="font-size:190%">&infin;</span>';
-            }
             return accounting.formatNumber(val, 0, ",");
         },
         date: function(val, field, doc) {
@@ -166,9 +163,6 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3', 
             }
             
             if (format === 'percentage') {
-                if (!isFinite(val)) {
-                    return '<span style="font-size:190%">&infin;</span> <small class="muted">%</small>';
-                }
                 try {
                     return accounting.formatNumber(val, 2, ",", ".") + '<small class="muted">%</small>';
                 } catch(err) {
@@ -221,10 +215,6 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3', 
                 return time;
                
             }  else if(format === "integer") {
-                if (!isFinite(val)) {
-                    return '<span style="font-size:190%">&infin;</span>';
-                }
-
                 try {
                 	return accounting.formatNumber(val, 0, ",", ".");
                 } catch(err) {
@@ -256,10 +246,6 @@ define(['REM/recline-extensions/recline-amd', 'underscore', 'accounting', 'd3', 
                 }
                 return res;
             }
-            if (!isFinite(val)) {
-                return '<span style="font-size:190%">&infin;</span>';
-            }
-
             try {
             	return accounting.formatNumber(val, 2, ",", ".");
                 // return parseFloat(val.toFixed(2));

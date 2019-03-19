@@ -8,7 +8,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
 
     var view = recline.View;
 
-    var MAX_ROWS = 998;
+    // max 1000 total rows (including top header and totals footer) to avoid display:grid bug in chrome. https://github.com/rachelandrew/gridbugs/issues/28
+    // mozilla can go up to 9997 data rows (+ heading and totals = 9999 rows)
+    var MAX_ROWS = 998; 
 
     view.Composed = Backbone.View.extend({
         templates: {
@@ -225,8 +227,9 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                     var records = self.model.getRecords();
                     var termHashes = _.groupBy(records, function(rec) { return rec.attributes[self.options.groupBy]});
 
-                    _.each(facets.attributes.terms, function (t, idx) {
-                        if (t.count > 0 && self.dimensions.length < MAX_ROWS) {
+                    for (var idx = 0; idx < facets.attributes.terms.length && this.dimensions.length < MAX_ROWS; idx++) {
+                        var t = facets.attributes.terms[idx];
+                        if (t.count > 0) {
                             // facet has no renderer, so we need to retrieve the first record that matches the value and use its renderer
                             // This is needed to solve the notorious "All"/"_ALL_" issue
                             var term_rendered;
@@ -266,7 +269,41 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'd3', 'mustac
                             };
                             self.dimensions.push(self.addFilteredMeasuresToDimension(dim, field, termHashes[termValue]));
                         }
+                    }
+
+                    /* //IF YOU WANT TO LOG TO CONSOLE ALL COMPOSED VIEW ROW VALUES, ENABLE THIS CODE
+                    function calcPercVariation(kpi, compare) {
+                        return Math.round(10000* (kpi-compare) / compare) / 100;
+                    }
+                    var realResults = _.map(this.dimensions, function(m) {
+                        var user_activity = m.measures[0].dataset.records.models[0].attributes.USER_ACTIVITY;
+                        var old_user_activity = m.measures[0].dataset.records.models[0].attributes.COMPARE_USER_ACTIVITY;
+                        var effectiveness = m.measures[1].dataset.records.models[0].attributes.IMPACT;
+                        var old_effectiveness = m.measures[1].dataset.records.models[0].attributes.COMPARE_IMPACT;
+                        var delta_user_activity = "N/A";
+                        var delta_effectiveness = "N/A";
+                        if (old_user_activity) {
+                            delta_user_activity = calcPercVariation(user_activity, old_user_activity);
+                        }
+                        if (old_effectiveness) {
+                            delta_effectiveness = calcPercVariation(effectiveness, old_effectiveness);
+                        }
+
+                        return {
+                            name: m.term, 
+                            USER_ACTIVITY: user_activity, 
+                            OLD_USER_ACTIVITY: old_user_activity,
+                            DELTA_USER_ACTIVITY: delta_user_activity,
+                            EFFECTIVENESS: effectiveness,
+                            OLD_EFFECTIVENESS: old_effectiveness,
+                            DELTA_EFFECTIVENESS: delta_effectiveness
+                        }
                     });
+                    var realResultsSorted = _.sortBy(realResults, function(r) {
+                        if (r && r.USER_ACTIVITY !== undefined) return -r.USER_ACTIVITY
+                    });
+                    console.log(realResultsSorted);
+                    */
                 }
             } else {
                 var uid = this.generateUid(); // generating an unique id for the chart
