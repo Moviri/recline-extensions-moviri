@@ -47,8 +47,6 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
             var self = this;
             self.trigger("chart:startDrawing");
 
-            var graphid = "#" + this.uid;
-
             var out = Mustache.render(this.template, this);
             this.el.html(out);
 
@@ -186,31 +184,28 @@ define(['underscore', 'backbone', 'REM/recline-extensions/recline-extensions-amd
         },
         deleteOldGraph: function(deleteModel) {
             var graphid = "#" + this.uid;
-            if (this.graph)
-            {
-                // removes resize event or last chart will popup again!
-                d3.select(window).on('resize.for.' + graphid, null);
-                this.el.find('figure svg g').remove(); // remove previous graph (if any)
-                d3.selectAll(graphid+' svg').remove();
-                $(graphid).off();
-                $(graphid).empty();
-                delete this.graph;
-                if (deleteModel && this.model) {
-                    this.model.off();
-                    if (this.model.records) {
-                        this.model.records.off();
-                        if (this.model.records.reset) {
-                            this.model.records.reset();
-                        }
-                    }
-                    if (this.model.fields) {
-                        this.model.fields.off();
-                    }
-                    if (this.model.queryState) {
-                        this.model.queryState.off();
+            // removes resize event or last chart will popup again!
+            // WH-587. Delete even if this.graph is null. The chart is probably still waiting to be drawn (probably waiting for model)
+            d3.select(window).on('resize.for.' + graphid, null);
+            this.el.find('figure svg g').remove(); // remove previous graph (if any)
+            d3.selectAll(graphid+' svg').remove();
+            $(graphid).off();
+            $(graphid).empty();
+            delete this.graph;
+            if (deleteModel && this.model) {
+                this.model.off();
+                if (this.model.records) {
+                    this.model.records.off();
+                    if (this.model.records.reset) {
+                        this.model.records.reset();
                     }
                 }
-                //console.log("Deleted old xCharts");
+                if (this.model.fields) {
+                    this.model.fields.off();
+                }
+                if (this.model.queryState) {
+                    this.model.queryState.off();
+                }
             }
             this.el.find('figure').html("");
             this.el.find('div.xCharts-title-x').html("");
