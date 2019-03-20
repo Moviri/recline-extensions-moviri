@@ -3,6 +3,7 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache'], 
     recline.View = recline.View || {};
 
     var view = recline.View;
+    var debugLoader = ($.cookie("debug_mode") === "DEBUG_LOADER" || $.cookie("debug_mode") === "DEBUG");
 
     "use strict";
 
@@ -47,22 +48,35 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache'], 
         	this.bindCharts(this.charts);
         },
 
-    	incLoaderCount : function() {
+    	incLoaderCount : function(obj) {
             var self = this;
     		this.loaderCount++;
-    		//console.log("Start task - loaderCount = "+this.loaderCount)
+            if (debugLoader) {
+                if (obj.constructor.name === "Dataset") {
+            		console.log("Start task - loaderCount = "+this.loaderCount + " for Dataset "+obj.id + " cid " + obj.cid);
+                }
+                else {
+                    console.log("Start task - loaderCount = "+this.loaderCount + " for Chart "+obj.cid + " $el "+ obj.$el.attr("id") + " using model "+ obj.model.cid);   
+                }
+            }
 			setTimeout(function() {
 				self.divOver.show();
 				$("#__loadingImage__").show();
 			}, 0);
     	},
-    	decLoaderCount : function() { 
+    	decLoaderCount : function(obj) { 
     		var self = this;
     		this.loaderCount--;
-    		//console.log("End task - loaderCount = "+this.loaderCount)
+            if (debugLoader) {
+                if (obj.constructor.name === "Dataset") {
+        		    console.log("End task - loaderCount = "+this.loaderCount + " for Dataset "+obj.id + " cid " + obj.cid);
+                }
+                else {
+                    console.log("End task - loaderCount = "+this.loaderCount + " for Chart "+obj.cid + " $el "+ obj.$el.attr("id") +" using model "+ obj.model.cid);    
+                }
+            }
     		if (this.loaderCount <= 0) {
     			// setTimeout ensure task run async so that it can display even during blocking operations
-        		
     			setTimeout(function() {
     				$("#__loadingImage__").hide();
     				self.divOver.hide();
@@ -73,25 +87,27 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache'], 
     	bindDatasets: function(datasets) {
     		var self = this;
     		_.each(datasets, function (dataset) {
-    			dataset.bind('query:start', self.incLoaderCount);
-    			dataset.bind('query:done query:fail', self.decLoaderCount);
+    			dataset.bind('query:start', function() {self.incLoaderCount(dataset);});
+    			dataset.bind('query:done query:fail', function() {self.decLoaderCount(dataset)});
     		});
     	},
     	
     	bindDataset: function(dataset) {
-    		dataset.bind('query:start', this.incLoaderCount);
-    		dataset.bind('query:done query:fail', this.decLoaderCount);
+            var self = this;
+    		dataset.bind('query:start', function() {self.incLoaderCount(dataset)});
+    		dataset.bind('query:done query:fail', function() {self.decLoaderCount(dataset)});
     	},
     	bindCharts:function(charts) {
     		var self = this;
     		_.each(charts, function (chart) {
-    			chart.bind('chart:startDrawing', self.incLoaderCount);
-    			chart.bind('chart:endDrawing', self.decLoaderCount);
+    			chart.bind('chart:startDrawing', function() {self.incLoaderCount(chart)});
+    			chart.bind('chart:endDrawing', function() {self.decLoaderCount(chart)});
     		});
     	},
     	bindChart:function(chart) {
-    		chart.bind('chart:startDrawing', this.incLoaderCount);
-    		chart.bind('chart:endDrawing', this.decLoaderCount);
+            var self = this;
+    		chart.bind('chart:startDrawing', function() {self.incLoaderCount(chart)});
+    		chart.bind('chart:endDrawing', function() {self.decLoaderCount(chart)});
     	}    
     });
 
