@@ -143,7 +143,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 if (origObj.get(seriesAttr.seriesField) == shiftedObj[seriesAttr.seriesField] &&
                     origObj.get(seriesAttr.valuesField) == shiftedObj["ORIG_VALUE"] &&
                     origObj.get(groupField) == shiftedObj[groupField]) {
-                    return false;
+                    return true;
                 }
                 return false;
             }
