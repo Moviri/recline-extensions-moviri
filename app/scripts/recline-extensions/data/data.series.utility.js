@@ -80,6 +80,73 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 throw "data.series.utility.CreateSeries: unable to find field [" + seriesAttr.seriesField + "] in model [" + model.id + "]";
             }
 
+            var shiftedSeriesData;
+            if (model.timeShift && groupField !== "DAYHOUR") {
+
+                /*
+                    WE NEED TO CALCULATE TIMESHIFT! Only fields revelant are:
+                    seriesAttr.seriesField (e.g.: CALLERNAME) Field used as a top level separator for separate lines (series)
+                    seriesAttr.valuesField (e.g.: USER_ACTIVITY) Name of KPI to show on chart. We must interpolate the values of this field only
+                    groupField (e.g.: PERIODDATE, DAYHOUR or WEEKDAY) field used for time measures. We should keep DAYHOUR as is, and interpolate the remaining modes
+
+                */
+
+                var percCurrDay = (24 - Math.abs(model.timeShift)) / 24;
+                var percPrevDay = (model.timeShift < 0 ? Math.abs(model.timeShift) / 24 : 0);
+                var percNextDay = (model.timeShift > 0 ? model.timeShift / 24 : 0);
+
+                var collectedSeriesData = _.map(records, function(rec, index) {
+                    var obj = {};
+                    obj[seriesAttr.seriesField] = rec.getFieldValueUnrendered(seriesNameField);
+                    obj[seriesAttr.valuesField] = rec.getFieldValueUnrendered(fieldValue);
+                    obj[groupField] = rec.getFieldValueUnrendered(xfield);
+                    obj.DATE_TEXT = new Date(obj[groupField]).toString("dd-MM-yy hh:mm:ss");
+                    obj["ORIG_VALUE"] = obj[seriesAttr.valuesField];
+                    obj.ORIG_INDEX = index;
+                    return obj;
+                });
+                var collectedSeriesDataSorted = _.sortBy(collectedSeriesData, groupField);
+                //console.log(collectedSeriesDataSorted);
+                var groupedSeriesData = _.groupBy(collectedSeriesDataSorted, seriesAttr.seriesField);
+                //console.log(groupedSeriesData);
+
+                shiftedSeriesData = [];
+                _.each(groupedSeriesData, function(objArray, seriesKey) {
+                    if (model.timeShift > 0) {
+                        for (var i = 0; i < objArray.length; i++) {
+                            var obj = objArray[i];
+                            obj[seriesAttr.valuesField] *= percCurrDay;
+                            if (i < objArray.length -1) {
+                                var nextObj = objArray[i+1];
+                                obj[seriesAttr.valuesField] += nextObj[seriesAttr.valuesField] * percNextDay;
+                            }
+                            shiftedSeriesData.push(obj);
+                        }
+                    }
+                    else {
+                        for (var i = objArray.length - 1; i >= 0; i--) {
+                            var obj = objArray[i];
+                            obj[seriesAttr.valuesField] *= percCurrDay;
+                            if (i > 0) {
+                                var prevObj = objArray[i-1];
+                                obj[seriesAttr.valuesField] += prevObj[seriesAttr.valuesField] * percPrevDay;
+                            }
+                            shiftedSeriesData.unshift(obj); // ensure ascending time order is retained in final array, because we're processing source array backwards in time
+                        }
+                    }
+                });
+                shiftedSeriesData = _.sortBy(shiftedSeriesData, "ORIG_INDEX"); // enforce identical sort order as original records
+                //console.log(shiftedSeriesData);
+            }
+
+            function isSameObj(origObj, shiftedObj) {
+                if (origObj.get(seriesAttr.seriesField) == shiftedObj[seriesAttr.seriesField] &&
+                    origObj.get(seriesAttr.valuesField) == shiftedObj["ORIG_VALUE"] &&
+                    origObj.get(groupField) == shiftedObj[groupField]) {
+                    return false;
+                }
+                return false;
+            }
 
             _.each(records, function (doc, index) {
 
@@ -97,19 +164,55 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
                     var color = doc.getFieldColor(seriesNameField);
 
-
-                    if (color != null)
+                    if (color != null) {
                         tmpS["color"] = color;
-
-
+                    }
                 }
                 var shape = doc.getFieldShapeName(seriesNameField);
 
                 var x = doc.getFieldValueUnrendered(xfield);
                 var x_formatted = doc.getFieldValue(xfield);
+                var y, y_formatted;
+                if (model.timeShift) {
+                    if (groupField === "DAYHOUR") {
+                        x = (x + model.timeShift + 24) % 24;
+                        x_formatted = x;
+                        y = doc.getFieldValueUnrendered(fieldValue);
+                        y_formatted = doc.getFieldValue(fieldValue);
+                    }
+                    else {
+                        if (shiftedSeriesData && index < shiftedSeriesData.length) {
+                            if (isSameObj(doc, shiftedSeriesData[index])) {
+                                y = shiftedSeriesData[index][seriesAttr.valuesField];
+                            }
+                            else {
+                                // fallback code that looks for matching object. Should NEVER go into here. Can only happen if _.each() and _.map() doesn't follow the same order
+                                var orig_y = doc.getFieldValueUnrendered(fieldValue);
+                                var shifterObj = _.find(shiftedSeriesData, function(shiftedObj) {
+                                    return orig_y == shiftedObj["ORIG_VALUE"] && 
+                                    key == shiftedObj[seriesAttr.seriesField] && 
+                                    x == shiftedObj[groupField]});
+                                if (shifterObj) {
+                                    y = shifterObj[seriesAttr.valuesField];
+                                }
+                                else {
+                                    y = orig_y;
+                                }
+                            }
+                            if (fieldValue.renderer) {
+                                y_formatted = fieldValue.renderer(y, fieldValue, doc.toJSON());
+                            }
+                            else {
+                                y_formatted = y;    
+                            }
+                        }
+                    }
+                }
+                else {
+                    y = doc.getFieldValueUnrendered(fieldValue);
+                    y_formatted = doc.getFieldValue(fieldValue);
+                }
 
-                var y = doc.getFieldValueUnrendered(fieldValue);
-                var y_formatted = doc.getFieldValue(fieldValue);
                 
                 if (y == null || typeof y == "undefined" && fillEmptyValuesWith != null)
             	{

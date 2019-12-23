@@ -522,7 +522,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     $('.enable-comparison').change();
                     $('.comparison-daterange').hide();
                     $('.enable-comparison').parent().hide();
-                    $('#datepicker-dropdown').css('min-height', "140px");
+                    $('#datepicker-dropdown').css('min-height', "150px");
                 }
             }
         },
