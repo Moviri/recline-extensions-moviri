@@ -1,4 +1,4 @@
-define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
+define(['jquery', 'underscore', 'REM/recline-extensions/recline-amd'], function ($, _, recline) {
     recline.Data = recline.Data || {};
 
     var my = recline.Data;
@@ -151,12 +151,15 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
     // setter that can be called statically to set raw value to cookie/localStorage
     my.StateManagement.setState = function (name, value) {
-        var res, resObj;
+        var valueStr = value;
+        if (_.isObject(value)) {
+            valueStr = JSON.stringify(value);
+        }
         if (supports_html5_storage()) {
-            localStorage.setItem("recline.extensions.statemanagement." + name, value);
+            localStorage.setItem("recline.extensions.statemanagement." + name, valueStr);
         }
         else {
-            $.cookie("recline.extensions.statemanagement." + name, value);
+            $.cookie("recline.extensions.statemanagement." + name, valueStr);
         }
     }    
 
