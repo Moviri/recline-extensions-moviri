@@ -149,4 +149,15 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
         return resObj;
     }
 
+    // setter that can be called statically to set raw value to cookie/localStorage
+    my.StateManagement.setState = function (name, value) {
+        var res, resObj;
+        if (supports_html5_storage()) {
+            localStorage.setItem("recline.extensions.statemanagement." + name, value);
+        }
+        else {
+            $.cookie("recline.extensions.statemanagement." + name, value);
+        }
+    }    
+
 });
