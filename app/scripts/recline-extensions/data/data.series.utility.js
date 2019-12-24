@@ -100,7 +100,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     obj[seriesAttr.seriesField] = rec.getFieldValueUnrendered(seriesNameField);
                     obj[seriesAttr.valuesField] = rec.getFieldValueUnrendered(fieldValue);
                     obj[groupField] = rec.getFieldValueUnrendered(xfield);
-                    obj.DATE_TEXT = new Date(obj[groupField]).toString("dd-MM-yy hh:mm:ss");
+                    //obj.DATE_TEXT = new Date(obj[groupField]).toString("dd-MM-yy hh:mm:ss");
                     obj["ORIG_VALUE"] = obj[seriesAttr.valuesField];
                     obj.ORIG_INDEX = index;
                     return obj;
@@ -173,46 +173,43 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 var x = doc.getFieldValueUnrendered(xfield);
                 var x_formatted = doc.getFieldValue(xfield);
                 var y, y_formatted;
-                if (model.timeShift) {
-                    if (groupField === "DAYHOUR") {
-                        x = (x + model.timeShift + 24) % 24;
-                        x_formatted = x;
-                        y = doc.getFieldValueUnrendered(fieldValue);
-                        y_formatted = doc.getFieldValue(fieldValue);
-                    }
-                    else {
-                        if (shiftedSeriesData && index < shiftedSeriesData.length) {
-                            if (isSameObj(doc, shiftedSeriesData[index])) {
-                                y = shiftedSeriesData[index][seriesAttr.valuesField];
-                            }
-                            else {
-                                // fallback code that looks for matching object. Should NEVER go into here. Can only happen if _.each() and _.map() doesn't follow the same order
-                                var orig_y = doc.getFieldValueUnrendered(fieldValue);
-                                var shifterObj = _.find(shiftedSeriesData, function(shiftedObj) {
-                                    return orig_y == shiftedObj["ORIG_VALUE"] && 
-                                    key == shiftedObj[seriesAttr.seriesField] && 
-                                    x == shiftedObj[groupField]});
-                                if (shifterObj) {
-                                    y = shifterObj[seriesAttr.valuesField];
-                                }
-                                else {
-                                    y = orig_y;
-                                }
-                            }
-                            if (fieldValue.renderer) {
-                                y_formatted = fieldValue.renderer(y, fieldValue, doc.toJSON());
-                            }
-                            else {
-                                y_formatted = y;    
-                            }
-                        }
-                    }
-                }
-                else {
+                if (model.timeShift && groupField === "DAYHOUR") {
+                    x = (x + model.timeShift + 24) % 24;
+                    x_formatted = x;
                     y = doc.getFieldValueUnrendered(fieldValue);
                     y_formatted = doc.getFieldValue(fieldValue);
                 }
-
+                else {
+                    if (shiftedSeriesData && index < shiftedSeriesData.length) {
+                        if (isSameObj(doc, shiftedSeriesData[index])) {
+                            y = shiftedSeriesData[index][seriesAttr.valuesField];
+                        }
+                        else {
+                            // fallback code that looks for matching object. Should NEVER go into here. Can only happen if _.each() and _.map() doesn't follow the same order
+                            var orig_y = doc.getFieldValueUnrendered(fieldValue);
+                            var shifterObj = _.find(shiftedSeriesData, function(shiftedObj) {
+                                return orig_y == shiftedObj["ORIG_VALUE"] && 
+                                key == shiftedObj[seriesAttr.seriesField] && 
+                                x == shiftedObj[groupField]});
+                            if (shifterObj) {
+                                y = shifterObj[seriesAttr.valuesField];
+                            }
+                            else {
+                                y = orig_y;
+                            }
+                        }
+                        if (fieldValue.renderer) {
+                            y_formatted = fieldValue.renderer(y, fieldValue, doc.toJSON());
+                        }
+                        else {
+                            y_formatted = y;    
+                        }
+                    }
+                    else {
+                        y = doc.getFieldValueUnrendered(fieldValue);
+                        y_formatted = doc.getFieldValue(fieldValue);
+                    }
+                }
                 
                 if (y == null || typeof y == "undefined" && fillEmptyValuesWith != null)
             	{
