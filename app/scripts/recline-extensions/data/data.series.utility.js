@@ -48,10 +48,18 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
 
         var xfield = model.fields.get(groupField);
 
-	    if (!xfield)
+	    if (!xfield) {
 	        throw "data.series.utility.CreateSeries: unable to find field [" + groupField + "] in model [" + model.id + "]";
-	
-	
+        }
+
+        var groupFieldName;
+        if (_.isArray(groupField)) {
+            groupFieldName = groupField[0];
+        }
+        else {
+            groupFieldName = groupField;
+        }
+		
 	    var uniqueX = [];
 	    if (requiredXValues) {
 	    	uniqueX = requiredXValues;
@@ -81,13 +89,14 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
             }
 
             var shiftedSeriesData;
-            if (model.timeShift && groupField !== "DAYHOUR") {
+            var useInterpolation = false;
+            if (useInterpolation && model.timeShift && groupFieldName !== "DAYHOUR") {
 
                 /*
-                    WE NEED TO CALCULATE TIMESHIFT! Only fields revelant are:
+                    WE NEED TO INTERPOLATE ACCORDING TO TIMESHIFT! Only fields revelant are:
                     seriesAttr.seriesField (e.g.: CALLERNAME) Field used as a top level separator for separate lines (series)
                     seriesAttr.valuesField (e.g.: USER_ACTIVITY) Name of KPI to show on chart. We must interpolate the values of this field only
-                    groupField (e.g.: PERIODDATE, DAYHOUR or WEEKDAY) field used for time measures. We should keep DAYHOUR as is, and interpolate the remaining modes
+                    groupFieldName (e.g.: PERIODDATE, DAYHOUR or WEEKDAY) field used for time measures. We should keep DAYHOUR as is, and interpolate the remaining modes
 
                 */
 
@@ -99,13 +108,13 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     var obj = {};
                     obj[seriesAttr.seriesField] = rec.getFieldValueUnrendered(seriesNameField);
                     obj[seriesAttr.valuesField] = rec.getFieldValueUnrendered(fieldValue);
-                    obj[groupField] = rec.getFieldValueUnrendered(xfield);
-                    //obj.DATE_TEXT = new Date(obj[groupField]).toString("dd-MM-yy hh:mm:ss");
+                    obj[groupFieldName] = rec.getFieldValueUnrendered(xfield);
+                    //obj.DATE_TEXT = new Date(obj[groupFieldName]).toString("dd-MM-yy hh:mm:ss");
                     obj["ORIG_VALUE"] = obj[seriesAttr.valuesField];
                     obj.ORIG_INDEX = index;
                     return obj;
                 });
-                var collectedSeriesDataSorted = _.sortBy(collectedSeriesData, groupField);
+                var collectedSeriesDataSorted = _.sortBy(collectedSeriesData, groupFieldName);
                 //console.log(collectedSeriesDataSorted);
                 var groupedSeriesData = _.groupBy(collectedSeriesDataSorted, seriesAttr.seriesField);
                 //console.log(groupedSeriesData);
@@ -142,7 +151,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
             function isSameObj(origObj, shiftedObj) {
                 if (origObj.get(seriesAttr.seriesField) == shiftedObj[seriesAttr.seriesField] &&
                     origObj.get(seriesAttr.valuesField) == shiftedObj["ORIG_VALUE"] &&
-                    origObj.get(groupField) == shiftedObj[groupField]) {
+                    origObj.get(groupFieldName) == shiftedObj[groupFieldName]) {
                     return true;
                 }
                 return false;
@@ -170,44 +179,77 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                 }
                 var shape = doc.getFieldShapeName(seriesNameField);
 
-                var x = doc.getFieldValueUnrendered(xfield);
-                var x_formatted = doc.getFieldValue(xfield);
-                var y, y_formatted;
-                if (model.timeShift && groupField === "DAYHOUR") {
-                    x = (x + model.timeShift + 24) % 24;
-                    x_formatted = x;
-                    y = doc.getFieldValueUnrendered(fieldValue);
-                    y_formatted = doc.getFieldValue(fieldValue);
-                }
-                else {
-                    if (shiftedSeriesData && index < shiftedSeriesData.length) {
-                        if (isSameObj(doc, shiftedSeriesData[index])) {
-                            y = shiftedSeriesData[index][seriesAttr.valuesField];
-                        }
-                        else {
-                            // fallback code that looks for matching object. Should NEVER go into here. Can only happen if _.each() and _.map() doesn't follow the same order
-                            var orig_y = doc.getFieldValueUnrendered(fieldValue);
-                            var shifterObj = _.find(shiftedSeriesData, function(shiftedObj) {
-                                return orig_y == shiftedObj["ORIG_VALUE"] && 
-                                key == shiftedObj[seriesAttr.seriesField] && 
-                                x == shiftedObj[groupField]});
-                            if (shifterObj) {
-                                y = shifterObj[seriesAttr.valuesField];
-                            }
-                            else {
-                                y = orig_y;
-                            }
-                        }
-                        if (fieldValue.renderer) {
-                            y_formatted = fieldValue.renderer(y, fieldValue, doc.toJSON());
-                        }
-                        else {
-                            y_formatted = y;    
-                        }
-                    }
-                    else {
+                var x, y, x_formatted, y_formatted;
+
+                if (!useInterpolation) {
+                    if (model.timeShift && groupFieldName === "DAYHOUR") {
+                        x = doc.getFieldValueUnrendered(xfield);
+                        x = (x + model.timeShift + 24) % 24;
+                        x_formatted = x;
                         y = doc.getFieldValueUnrendered(fieldValue);
                         y_formatted = doc.getFieldValue(fieldValue);
+                    }
+                    else if (model.timeShift && groupFieldName === "PERIODDATE") {
+                        x = doc.getFieldValueUnrendered(xfield);
+                        var H = (x / 3600000) % 24;
+                        var deltaH = (H + model.timeShift + 24) % 24;
+                        x = x + (deltaH - H) * 3600000;
+                        if (xfield && !_.isUndefined(xfield.renderer)) {
+                            x_formatted = xfield.renderer(x, xfield, doc.toJSON());
+                        }
+                        else {
+                            x_formatted = x;
+                        }
+                        y = doc.getFieldValueUnrendered(fieldValue);
+                        y_formatted = doc.getFieldValue(fieldValue);
+                    }
+                    else {
+                        x = doc.getFieldValueUnrendered(xfield);
+                        x_formatted = doc.getFieldValue(xfield);
+                        y = doc.getFieldValueUnrendered(fieldValue);
+                        y_formatted = doc.getFieldValue(fieldValue);
+                    }
+                }
+                else {
+                    x = doc.getFieldValueUnrendered(xfield);
+                    x_formatted = doc.getFieldValue(xfield);
+                    // THIS CODE IS NO MORE USED
+                    if (model.timeShift && groupFieldName === "DAYHOUR") {
+                        x = (x + model.timeShift + 24) % 24;
+                        x_formatted = x;
+                        y = doc.getFieldValueUnrendered(fieldValue);
+                        y_formatted = doc.getFieldValue(fieldValue);
+                    }
+                    else {
+                        if (shiftedSeriesData && index < shiftedSeriesData.length) {
+                            if (isSameObj(doc, shiftedSeriesData[index])) {
+                                y = shiftedSeriesData[index][seriesAttr.valuesField];
+                            }
+                            else {
+                                // fallback code that looks for matching object. Should NEVER go into here. Can only happen if _.each() and _.map() doesn't follow the same order
+                                var orig_y = doc.getFieldValueUnrendered(fieldValue);
+                                var shifterObj = _.find(shiftedSeriesData, function(shiftedObj) {
+                                    return orig_y == shiftedObj["ORIG_VALUE"] && 
+                                    key == shiftedObj[seriesAttr.seriesField] && 
+                                    x == shiftedObj[groupFieldName]});
+                                if (shifterObj) {
+                                    y = shifterObj[seriesAttr.valuesField];
+                                }
+                                else {
+                                    y = orig_y;
+                                }
+                            }
+                            if (fieldValue.renderer) {
+                                y_formatted = fieldValue.renderer(y, fieldValue, doc.toJSON());
+                            }
+                            else {
+                                y_formatted = y;    
+                            }
+                        }
+                        else {
+                            y = doc.getFieldValueUnrendered(fieldValue);
+                            y_formatted = doc.getFieldValue(fieldValue);
+                        }
                     }
                 }
                 
