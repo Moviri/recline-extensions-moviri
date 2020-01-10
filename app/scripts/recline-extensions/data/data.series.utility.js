@@ -191,9 +191,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                     }
                     else if (model.timeShift && groupFieldName === "PERIODDATE") {
                         x = doc.getFieldValueUnrendered(xfield);
-                        var H = (x / 3600000) % 24;
-                        var deltaH = (H + model.timeShift + 24) % 24;
-                        x = x + (deltaH - H) * 3600000;
+                        x = x + model.timeShift * 3600000;
                         if (xfield && !_.isUndefined(xfield.renderer)) {
                             x_formatted = xfield.renderer(x, xfield, doc.toJSON());
                         }
