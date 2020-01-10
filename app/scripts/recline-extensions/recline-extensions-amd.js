@@ -11,6 +11,7 @@ define([
             'REM/recline-extensions/data/data.shapes',
             'REM/recline-extensions/data/template.shapes'
             ], function(recline) {
+                  recline.CONSTANTS = {"DATA_SERIES_TIMESHIFT_SUFFIX" : "__TIMESHIFTED__"};
                   return recline;
 });
 

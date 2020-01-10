@@ -64,12 +64,20 @@ define(['jquery', 'REM/recline-extensions/recline-extensions-amd', 'mustache', '
 			res.push(header);
 			_.each(this.model.records.models, function(record) {
 				var r = [];
-				_.each(self.options.visibleColumns, function(attribute) {
+				_.each(self.options.visibleColumns, function(attribute, colIndex) {
+					var value;
+					if (self.model.timeShift && colIndex == 1) {
+						// get timeshifted value saved in model
+						value = record.get(attribute+recline.CONSTANTS.DATA_SERIES_TIMESHIFT_SUFFIX);
+					}
+					else {
+						value = record.getFieldValueUnrendered(record.fields.get(attribute));
+					}
 					if (formatters && formatters[attribute]){
 						var formatter = formatters[attribute];
-						r.push(formatter(record.getFieldValueUnrendered(record.fields.get(attribute)))); 
+						r.push(formatter(value)); 
 					} else {
-						r.push(record.getFieldValueUnrendered(record.fields.get(attribute))); // str.replace(str.match('<[^>]*>'),'').replace(str.match('</[^>]*>'),'')	
+						r.push(value); // str.replace(str.match('<[^>]*>'),'').replace(str.match('</[^>]*>'),'')	
 					}
 					
 				});

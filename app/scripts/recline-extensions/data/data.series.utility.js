@@ -188,6 +188,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         x_formatted = x;
                         y = doc.getFieldValueUnrendered(fieldValue);
                         y_formatted = doc.getFieldValue(fieldValue);
+                        doc.set(groupFieldName+recline.CONSTANTS.DATA_SERIES_TIMESHIFT_SUFFIX, x);
                     }
                     else if (model.timeShift && groupFieldName === "PERIODDATE") {
                         x = doc.getFieldValueUnrendered(xfield);
@@ -200,6 +201,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         }
                         y = doc.getFieldValueUnrendered(fieldValue);
                         y_formatted = doc.getFieldValue(fieldValue);
+                        doc.set(groupFieldName+recline.CONSTANTS.DATA_SERIES_TIMESHIFT_SUFFIX, x);
                     }
                     else {
                         x = doc.getFieldValueUnrendered(xfield);
@@ -217,6 +219,7 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         x_formatted = x;
                         y = doc.getFieldValueUnrendered(fieldValue);
                         y_formatted = doc.getFieldValue(fieldValue);
+                        doc.set(groupFieldName+recline.CONSTANTS.DATA_SERIES_TIMESHIFT_SUFFIX, x);
                     }
                     else {
                         if (shiftedSeriesData && index < shiftedSeriesData.length) {
@@ -229,7 +232,8 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                                 var shifterObj = _.find(shiftedSeriesData, function(shiftedObj) {
                                     return orig_y == shiftedObj["ORIG_VALUE"] && 
                                     key == shiftedObj[seriesAttr.seriesField] && 
-                                    x == shiftedObj[groupFieldName]});
+                                    x == shiftedObj[groupFieldName]
+                                });
                                 if (shifterObj) {
                                     y = shifterObj[seriesAttr.valuesField];
                                 }
