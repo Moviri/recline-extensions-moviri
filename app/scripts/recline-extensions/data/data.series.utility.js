@@ -188,7 +188,6 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         x_formatted = x;
                         y = doc.getFieldValueUnrendered(fieldValue);
                         y_formatted = doc.getFieldValue(fieldValue);
-                        doc.set(groupFieldName+recline.CONSTANTS.DATA_SERIES_TIMESHIFT_SUFFIX, x);
                     }
                     else if (model.timeShift && groupFieldName === "PERIODDATE") {
                         x = doc.getFieldValueUnrendered(xfield);
@@ -201,7 +200,6 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         }
                         y = doc.getFieldValueUnrendered(fieldValue);
                         y_formatted = doc.getFieldValue(fieldValue);
-                        doc.set(groupFieldName+recline.CONSTANTS.DATA_SERIES_TIMESHIFT_SUFFIX, x);
                     }
                     else {
                         x = doc.getFieldValueUnrendered(xfield);
@@ -219,7 +217,6 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         x_formatted = x;
                         y = doc.getFieldValueUnrendered(fieldValue);
                         y_formatted = doc.getFieldValue(fieldValue);
-                        doc.set(groupFieldName+recline.CONSTANTS.DATA_SERIES_TIMESHIFT_SUFFIX, x);
                     }
                     else {
                         if (shiftedSeriesData && index < shiftedSeriesData.length) {
@@ -254,7 +251,10 @@ define(['jquery', 'REM/recline-extensions/recline-amd'], function ($, recline) {
                         }
                     }
                 }
-                
+                if (model.timeShift) {
+                    doc.set(groupFieldName+recline.CONSTANTS.DATA_SERIES_TIMESHIFT_SUFFIX, x);
+                }
+
                 if (y == null || typeof y == "undefined" && fillEmptyValuesWith != null)
             	{
                 	y = fillEmptyValuesWith;
