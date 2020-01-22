@@ -1189,8 +1189,14 @@
 				else {
 					newTextMessage = "Select one or more days ";
 				}
-				// replace ONLY the text (this makes sure that the tooltip link next to text label is not removed)
-				cal.find(".selectionModeDiv .selectionModeLabel").contents().filter(function(){ return this.nodeType == 3; }).first().replaceWith(newTextMessage);
+				if (cal.find(".selectionModeDiv .selectionModeLabel .link_tooltip").length == 0) {
+					// no tooltip link. Just set the text
+					cal.find(".selectionModeDiv .selectionModeLabel").text(newTextMessage);
+				}
+				else {
+					// replace ONLY the text (this makes sure that the tooltip link next to text label is not removed)
+					cal.find(".selectionModeDiv .selectionModeLabel").contents().filter(function(){ return this.nodeType == 3; }).first().replaceWith(newTextMessage);
+				}
 			}
 		};
 	}();  // DatePicker
