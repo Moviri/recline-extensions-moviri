@@ -828,7 +828,7 @@
 					if(options.onBeforeShow.apply(this, [calEl]) == false) {
 						return;
 					}
-					
+				
 					fill(calEl);
 					var pos = $(this).offset();
 					var viewPort = getViewport();
@@ -1176,19 +1176,21 @@
 				}
 				fill(cal);
 
+				var newTextMessage = "Please select ";
 				if (options.multiweekMode) {
-					cal.find(".selectionModeDiv .selectionModeLabel").text("Select one or more weeks");
+					newTextMessage = "Select one or more weeks ";
 				}
 				else if (options.weeklyMode) {
-					cal.find(".selectionModeDiv .selectionModeLabel").text("Select a week");
+					newTextMessage = "Select a week ";
 				}
 				else if (options.monthlyMode) {
-					cal.find(".selectionModeDiv .selectionModeLabel").text("Select a month");
+					newTextMessage = "Select a month ";
 				}
 				else {
-					cal.find(".selectionModeDiv .selectionModeLabel").text("Select one or more days");
+					newTextMessage = "Select one or more days ";
 				}
-
+				// replace ONLY the text (this makes sure that the tooltip link next to text label is not removed)
+				cal.find(".selectionModeDiv .selectionModeLabel").contents().filter(function(){ return this.nodeType == 3; }).first().replaceWith(newTextMessage);
 			}
 		};
 	}();  // DatePicker

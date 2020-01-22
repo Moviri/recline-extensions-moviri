@@ -168,6 +168,15 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                     $("#datepicker-dropdown .btn-group").css("margin-top", "30px");
                 }
             });
+            if (self.options.useTimezone) {
+                $("#datepicker-dropdown .selectionModeDiv").css("color", "inherit");
+                $('#datepicker-dropdown .selectionModeDiv .selectionModeLabel').html('Please select <a class="link_tooltip" href="#" data-toggle="tooltip" data-placement="bottom" title=""><i class="icon-info-sign"></i></a>');
+                $('#datepicker-dropdown .selectionModeDiv .selectionModeLabel .link_tooltip').attr("title", "Please keep in mind that all dates selected here will all start from midnight UTC, even if a different timezone is selected in chart timelines");
+                $('#datepicker-dropdown .link_tooltip').tooltip({
+                    html: true,
+                    container: "body"
+                });                
+            }
         },
 
         redraw:function () {
