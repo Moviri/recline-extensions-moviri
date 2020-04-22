@@ -66,6 +66,7 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
             this.tooltipButtonDescriptionField = args.tooltipButtonDescriptionField;
             this.maxButtonsThreshold = args.maxButtonsThreshold || -1;
             this.maxItemsInExtraDropDown = args.maxItemsInExtraDropDown || 1000000;
+            this.hideExtraButtonDropdown = args.hideExtraButtonDropdown || false;
             if (this._sourceDataset) {
                 this._sourceDataset.bind('query:done', this.render);
                 this._sourceDataset.queryState.bind('selection:done', this.update);
@@ -236,21 +237,23 @@ define(['backbone', 'REM/recline-extensions/recline-extensions-amd', 'mustache',
                         }
                     }
                     else if (self.useExtraDropdownForGenericValues && valueUnrendered != self.exclusiveButtonValue) {
-                        // Must create dropdown "Others" or "Others 2" or "Others 3" (and so on) to ensure each extraDropdown has at most maxItemsInExtraDropDown items
-                        var currDropdownKey = self.GENERIC_GROUP_DROPDOWN_LABEL;
-                        var extraDropdownIndex = 1 + Math.floor(totItemsInExtraDropdown / self.maxItemsInExtraDropDown);
-                        if (extraDropdownIndex > 1) {
-                            currDropdownKey = currDropdownKey + " " + extraDropdownIndex;
+                        if (!self.hideExtraButtonDropdown) { // proceed only if extra button must be visible (MPP customization SUP-3346)
+                            // Must create dropdown "Others" or "Others 2" or "Others 3" (and so on) to ensure each extraDropdown has at most maxItemsInExtraDropDown items
+                            var currDropdownKey = self.GENERIC_GROUP_DROPDOWN_LABEL;
+                            var extraDropdownIndex = 1 + Math.floor(totItemsInExtraDropdown / self.maxItemsInExtraDropDown);
+                            if (extraDropdownIndex > 1) {
+                                currDropdownKey = currDropdownKey + " " + extraDropdownIndex;
+                            }
+                            if (self.buttonsData[currDropdownKey] && self.buttonsData[currDropdownKey].options) {
+                                self.buttonsData[currDropdownKey].options.push({fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
+                            }
+                            else {
+                                self.buttonsData[currDropdownKey] = { self: self, genericExtraGroup: extraDropdownIndex, options: [{fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
+                            }
+                            // contruct a button label like "Others A-Z", depending on contained items
+                            self.buttonsData[currDropdownKey]._buttonLabel = self.GENERIC_GROUP_DROPDOWN_LABEL + " " + self.buttonsData[currDropdownKey].options[0].fullValue[0] + "-" + self.buttonsData[currDropdownKey].options[totItemsInExtraDropdown % self.maxItemsInExtraDropDown].fullValue[0];
+                            totItemsInExtraDropdown++;
                         }
-                        if (self.buttonsData[currDropdownKey] && self.buttonsData[currDropdownKey].options) {
-                            self.buttonsData[currDropdownKey].options.push({fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel});
-                        }
-                        else {
-                            self.buttonsData[currDropdownKey] = { self: self, genericExtraGroup: extraDropdownIndex, options: [{fullValue: fullLevelValue, value: fullLevelValue, record: record, selected: !allButtonSelected && _.contains(self.sourceField.list, fullLevelValue), index: indexLabel, descLabel: descLabel}]};
-                        }
-                        // contruct a button label like "Others A-Z", depending on contained items
-                        self.buttonsData[currDropdownKey]._buttonLabel = self.GENERIC_GROUP_DROPDOWN_LABEL + " " + self.buttonsData[currDropdownKey].options[0].fullValue[0] + "-" + self.buttonsData[currDropdownKey].options[totItemsInExtraDropdown % self.maxItemsInExtraDropDown].fullValue[0];
-                        totItemsInExtraDropdown++;
                     }
                     else
                     {
